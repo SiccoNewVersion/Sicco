@@ -16,5 +16,9 @@
     <string name="confirm_exit">Bạn có thật sự muốn thoát khỏi ứng dụng?</string>
     <string name="search">Tìm kiếm</string>
     <string name="approval">Phê</string>
+    <string name="login">Đăng nhập</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
 	<!-- End TuNT -->
 </resources>
