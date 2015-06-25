@@ -18,10 +18,13 @@ public class DispatchAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Dispatch> data;
 
-	public DispatchAdapter(Context context) {
+	public DispatchAdapter(Context context, ArrayList<Dispatch> data) {
 		this.context = context;
-		Dispatch dispatch = new Dispatch(context);
-		this.data = dispatch.getData();
+		this.data = data;
+	}
+
+	public void setData(ArrayList<Dispatch> data) {
+		this.data = data;
 	}
 
 	@Override

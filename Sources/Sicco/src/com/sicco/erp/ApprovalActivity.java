@@ -2,14 +2,11 @@ package com.sicco.erp;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.adapter.DispatchAdapter;
-import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.util.Keyboard;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,14 +14,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+
+import com.sicco.erp.adapter.DispatchAdapter;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.util.Keyboard;
 
 public class ApprovalActivity extends Activity implements OnClickListener {
 	private LinearLayout searchView;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
 	private ListView listDispatch;
+	private ProgressBar loading;
 	private DispatchAdapter dispatchAdapter;
 	private ArrayList<Dispatch> arrDispatch;
+	private Dispatch dispatch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,14 +47,31 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 		empty = (ImageView) searchView.findViewById(R.id.empty);
 		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
 		listDispatch = (ListView) findViewById(R.id.listDispatch);
-		//click
+		loading = (ProgressBar) findViewById(R.id.loading);
+		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
 		close.setOnClickListener(this);
 		empty.setOnClickListener(this);
-		//set adapter
-		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this);
-		listDispatch.setAdapter(dispatchAdapter);
+		// set adapter
+		dispatch = new Dispatch(ApprovalActivity.this);
+		arrDispatch = dispatch.getData("http://myapp.freezoy.com/",
+				new OnLoadListener() {
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+					}
+
+					@Override
+					public void onFinish() {
+						loading.setVisibility(View.GONE);
+						listDispatch.setAdapter(dispatchAdapter);
+					}
+				});
+		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
+				arrDispatch);
+		Log.d("TuNT", "size" + dispatchAdapter.getCount());
 	}
 
 	@Override
@@ -69,32 +92,48 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	private void showSearchView(){
+
+	@Override
+	public void onBackPressed() {
+		if (searchView.getVisibility() == View.VISIBLE) {
+			searchView.setVisibility(View.GONE);
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	private void showSearchView() {
 		searchView.setVisibility(View.VISIBLE);
 		searchView.requestFocus();
 		Keyboard.showKeyboard(ApprovalActivity.this, editSearch);
 		editSearch.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				if(arg0.toString().trim().length()>0){
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				if (arg0.toString().trim().length() > 0) {
 					empty.setVisibility(View.VISIBLE);
-				}else{
+				} else {
 					empty.setVisibility(View.GONE);
 				}
+				ArrayList<Dispatch> searchData = dispatch.search(arg0
+						.toString().trim());
+				dispatchAdapter.setData(searchData);
+				dispatchAdapter.notifyDataSetChanged();
 			}
-			
+
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable arg0) {
 			}
 		});
 	}
-	private void closeSearchView(){
+
+	private void closeSearchView() {
 		Keyboard.hideKeyboard(ApprovalActivity.this, editSearch);
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");

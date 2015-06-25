@@ -2,7 +2,17 @@ package com.sicco.erp.model;
 
 import java.util.ArrayList;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class Dispatch {
 	private Context context;
@@ -11,7 +21,8 @@ public class Dispatch {
 	private ArrayList<String> image_url;
 	private String time;
 	private int status;
-	
+	private ArrayList<Dispatch> data;
+
 	public Dispatch(Context context) {
 		this.context = context;
 	}
@@ -82,18 +93,99 @@ public class Dispatch {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public ArrayList<Dispatch> getData(){
-		ArrayList<Dispatch> data = new ArrayList<Dispatch>();
 
-		ArrayList<String> url = new ArrayList<String>();
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
-		data.add(new Dispatch(1, "title", "description", "content", url, "time", 1));
+	public void setData(ArrayList<Dispatch> data) {
+		this.data = data;
+	}
+
+	public ArrayList<Dispatch> getData(String url, OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		data = new ArrayList<Dispatch>();
+		final ArrayList<String> imageUrl = new ArrayList<String>();
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, null,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						onLoadListener.onFinish();
+						String jsonRead = response.toString();
+
+						Log.d("TuNT", "json: " + jsonRead);
+						if (!jsonRead.isEmpty()) {
+							try {
+								JSONObject object = new JSONObject(jsonRead);
+								JSONArray array = object.getJSONArray("row");
+								for (int i = 0; i < array.length(); i++) {
+									JSONObject rows = array.getJSONObject(i);
+									String title = rows.getString("title");
+									String description = rows
+											.getString("description");
+									data.add(new Dispatch(1, title,
+											description, "content", imageUrl,
+											"time", 1));
+								}
+
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+						super.onSuccess(statusCode, headers, response);
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						onLoadListener.onFinish();
+						Log.d("TuNT", "json: false");
+					}
+				});
 		return data;
 	}
+
+	public ArrayList<Dispatch> search(String k, OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		this.onLoadListener.onStart();
+		ArrayList<Dispatch> result = new ArrayList<Dispatch>();
+		if (!data.isEmpty()) {
+			if (k.length() <= 0) {
+				return data;
+			} else {
+				for (Dispatch dispatch : data) {
+					if (dispatch.getTitle().contains(k)) {
+						result.add(dispatch);
+					}
+				}
+			}
+		}
+		this.onLoadListener.onFinish();
+		return result;
+	}
+
+	public ArrayList<Dispatch> search(String k) {
+		ArrayList<Dispatch> result = new ArrayList<Dispatch>();
+		if (!data.isEmpty()) {
+			if (k.length() <= 0) {
+				return data;
+			} else {
+				for (Dispatch dispatch : data) {
+					if (dispatch.getTitle().contains(k)) {
+						result.add(dispatch);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	public interface OnLoadListener {
+		void onStart();
+
+		void onFinish();
+	}
+
+	private OnLoadListener onLoadListener;
 }
