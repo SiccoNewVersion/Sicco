@@ -3,4 +3,12 @@
     <color name="item_menu_pressed">#7ccae6</color>
     <color name="item_menu_selected">#7ccae6</color>
     <color name="category_text_color">#aaaaaa</color>
+    <color name="white">#ffffff</color>
+    <color name="text_color">#676767</color>
+    <color name="option_color">#3c5c95</color>
+    <color name="option_select_color">#6d8bbf</color>
+    <color name="exit_color">#358cd1</color>
+    <color name="exit_select_color">#76b5e7</color>
+    <color name="home_item_select_color">#d1d1d1</color>
+    <color name="empty">#00ffffff</color>
 </resources>

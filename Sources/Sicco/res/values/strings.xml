@@ -4,5 +4,13 @@
     <string name="app_name">SiccoNewVersion</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <!-- TuNT -->
+    <string name="can_phe">Cần phê</string>
+    <string name="xu_ly">Xử lý</string>
+    <string name="cac_loai">Các loại</string>
+    <string name="option">Thiết lập</string>
+    <string name="exit">Thoát</string>
+    <string name="cancel">Hủy</string>
+    <string name="confirm_exit">Bạn có thật sự muốn thoát khỏi ứng dụng?</string>
+	<!-- End TuNT -->
 </resources>
