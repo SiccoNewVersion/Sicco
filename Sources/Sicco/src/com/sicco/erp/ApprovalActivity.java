@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,11 +23,12 @@ import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.Keyboard;
 
 public class ApprovalActivity extends Activity implements OnClickListener {
-	private LinearLayout searchView;
+	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
 	private ListView listDispatch;
 	private ProgressBar loading;
+	private Button retry;
 	private DispatchAdapter dispatchAdapter;
 	private ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
@@ -48,11 +50,14 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
 		listDispatch = (ListView) findViewById(R.id.listDispatch);
 		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
 		close.setOnClickListener(this);
 		empty.setOnClickListener(this);
+		retry.setOnClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData("http://myapp.freezoy.com/",
@@ -61,17 +66,24 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 					@Override
 					public void onStart() {
 						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
 					}
 
 					@Override
-					public void onFinish() {
+					public void onSuccess() {
 						loading.setVisibility(View.GONE);
-						listDispatch.setAdapter(dispatchAdapter);
+						dispatchAdapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
 					}
 				});
 		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
 				arrDispatch);
-		Log.d("TuNT", "size" + dispatchAdapter.getCount());
+		listDispatch.setAdapter(dispatchAdapter);
 	}
 
 	@Override
@@ -89,6 +101,30 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.empty:
 			editSearch.setText("");
+			break;
+		case R.id.retry:
+			dispatchAdapter.setData(dispatch.getData("http://myapp.freezoy.com/",
+					new OnLoadListener() {
+
+						@Override
+						public void onStart() {
+							loading.setVisibility(View.VISIBLE);
+							connectError.setVisibility(View.GONE);
+						}
+
+						@Override
+						public void onSuccess() {
+							loading.setVisibility(View.GONE);
+							// listDispatch.setAdapter(dispatchAdapter);
+							dispatchAdapter.notifyDataSetChanged();
+						}
+
+						@Override
+						public void onFalse() {
+							loading.setVisibility(View.GONE);
+							connectError.setVisibility(View.VISIBLE);
+						}
+					}));
 			break;
 		}
 	}

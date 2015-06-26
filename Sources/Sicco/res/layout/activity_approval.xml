@@ -105,7 +105,7 @@
             android:layout_height="match_parent"
             android:background="@color/white" >
         </ListView>
-		
+
         <ProgressBar
             android:id="@+id/loading"
             android:layout_width="wrap_content"
@@ -113,6 +113,46 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
+        <LinearLayout
+            android:id="@+id/connect_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="@string/connect_error"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="@string/internet_false"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/retry"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_login_selector"
+                android:text="@string/retry"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

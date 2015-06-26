@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -109,7 +108,7 @@ public class Dispatch {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						onLoadListener.onFinish();
+						onLoadListener.onSuccess();
 						String jsonRead = response.toString();
 
 						Log.d("TuNT", "json: " + jsonRead);
@@ -139,7 +138,7 @@ public class Dispatch {
 							Throwable throwable, JSONObject errorResponse) {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
-						onLoadListener.onFinish();
+						onLoadListener.onFalse();
 						Log.d("TuNT", "json: false");
 					}
 				});
@@ -161,7 +160,7 @@ public class Dispatch {
 				}
 			}
 		}
-		this.onLoadListener.onFinish();
+		this.onLoadListener.onSuccess();
 		return result;
 	}
 
@@ -184,7 +183,9 @@ public class Dispatch {
 	public interface OnLoadListener {
 		void onStart();
 
-		void onFinish();
+		void onSuccess();
+		
+		void onFalse();
 	}
 
 	private OnLoadListener onLoadListener;
