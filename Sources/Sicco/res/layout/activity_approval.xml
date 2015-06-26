@@ -52,11 +52,20 @@
             android:orientation="horizontal"
             android:visibility="gone" >
 
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/actionbar_size"
+                android:layout_height="@dimen/actionbar_size"
+                android:background="@drawable/drawer_selector"
+                android:clickable="true"
+                android:padding="16dp"
+                android:src="@drawable/ic_arrow_back_white_48dp" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1" >
 
@@ -83,15 +92,6 @@
                     android:src="@drawable/ic_close_grey600_48dp"
                     android:visibility="gone" />
             </FrameLayout>
-
-            <ImageView
-                android:id="@+id/close"
-                android:layout_width="@dimen/actionbar_size"
-                android:layout_height="@dimen/actionbar_size"
-                android:background="@drawable/drawer_selector"
-                android:clickable="true"
-                android:padding="16dp"
-                android:src="@drawable/ic_arrow_forward_white_48dp" />
         </LinearLayout>
     </FrameLayout>
 
