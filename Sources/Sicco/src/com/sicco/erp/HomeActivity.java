@@ -65,6 +65,10 @@ public class HomeActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
+	@Override
+	public void onBackPressed() {
+		showDialogConfirmExit();
+	}
 	private void startActivity(Class c){
 		Toast.makeText(HomeActivity.this, "1", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(HomeActivity.this, c);
