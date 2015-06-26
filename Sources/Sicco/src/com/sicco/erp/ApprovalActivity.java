@@ -3,26 +3,30 @@ package com.sicco.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.Keyboard;
 
-public class ApprovalActivity extends Activity implements OnClickListener {
+public class ApprovalActivity extends Activity implements OnClickListener,
+		OnItemClickListener {
 	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
@@ -58,6 +62,7 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 		close.setOnClickListener(this);
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
+		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData("http://myapp.freezoy.com/",
@@ -103,8 +108,8 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			dispatchAdapter.setData(dispatch.getData("http://myapp.freezoy.com/",
-					new OnLoadListener() {
+			dispatchAdapter.setData(dispatch.getData(
+					"http://myapp.freezoy.com/", new OnLoadListener() {
 
 						@Override
 						public void onStart() {
@@ -127,6 +132,13 @@ public class ApprovalActivity extends Activity implements OnClickListener {
 					}));
 			break;
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		Intent intent = new Intent(ApprovalActivity.this,
+				ViewDispatchActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
