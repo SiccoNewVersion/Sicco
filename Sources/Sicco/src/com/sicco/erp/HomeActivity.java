@@ -34,13 +34,13 @@ public class HomeActivity extends Activity implements OnClickListener {
 		canphe = (LinearLayout) findViewById(R.id.canphe);
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
-		option = (FrameLayout) findViewById(R.id.option);
+//		option = (FrameLayout) findViewById(R.id.option);
 		exit = (FrameLayout) findViewById(R.id.exit);
 		//click
 		canphe.setOnClickListener(this);
 		xuly.setOnClickListener(this);
 		cacloai.setOnClickListener(this);
-		option.setOnClickListener(this);
+//		option.setOnClickListener(this);
 		exit.setOnClickListener(this);
 	}
 
@@ -57,9 +57,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 		case R.id.cacloai:
 			startActivity(OtherActivity.class);
 			break;
-		case R.id.option:
-			startActivity(OptionActivity.class);
-			break;
+//		case R.id.option:
+//			startActivity(OptionActivity.class);
+//			break;
 		case R.id.exit:
 			showDialogConfirmExit();
 			break;

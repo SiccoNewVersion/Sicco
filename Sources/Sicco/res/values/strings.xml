@@ -31,10 +31,9 @@
     <string name="cv_cac_loai">Công văn các loại</string>
     <string name="task">Tác vụ</string>
     <!--menu_task-->
-    <string name="handle">Gửi xử lý</string>
-    <string name="steer">Chỉ đạo</string>
+    <string name="handle">Gửi xử lý/chuyển tiếp</string>
+    <string name="steer_report">Chỉ đạo/Báo cáo</string>
     <string name="change_status">Thay đổi trạng thái</string>
-    <string name="report">Báo cáo</string>
-    <string name="job_transfer">chuyển công việc</string>
+    <string name="job_transfer">Chuyển công việc</string>
 
 </resources>

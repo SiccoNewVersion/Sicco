@@ -25,6 +25,15 @@
                 android:padding="16dp"
                 android:src="@drawable/ic_arrow_back_white_48dp" />
 
+            <TextView
+                android:id="@+id/title_actionbar"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/actionbar_size"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/steer_report"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
             
         </LinearLayout>
     </FrameLayout>

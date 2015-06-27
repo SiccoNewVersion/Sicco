@@ -87,11 +87,6 @@ public class TaskAdapter extends BaseAdapter {
 							intent.putExtra("id", "" + dispatch.getId());
 							context.startActivity(intent);
 							break;
-						case R.id.action_report:
-							intent.setClass(context, SteerReportActivity.class);
-							intent.putExtra("id", dispatch.getId());
-							context.startActivity(intent);
-							break;
 						case R.id.action_change_status:
 							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
 							break;
