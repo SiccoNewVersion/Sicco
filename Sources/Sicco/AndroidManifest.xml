@@ -38,6 +38,8 @@
         </activity>
         <activity android:name=".SendApprovalActivity" >
         </activity>
+        <activity android:name=".SteerReportActivity" >
+        </activity>
     </application>
 
 </manifest>
