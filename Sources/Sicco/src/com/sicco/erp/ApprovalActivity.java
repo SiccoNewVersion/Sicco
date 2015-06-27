@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.DispatchAdapter;
@@ -36,6 +37,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private DispatchAdapter dispatchAdapter;
 	private ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
+	private TextView title_actionbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		title_actionbar = (TextView)  findViewById(R.id.title_actionbar);
+		title_actionbar.setText(getResources().getString(R.string.cv_can_phe));
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
