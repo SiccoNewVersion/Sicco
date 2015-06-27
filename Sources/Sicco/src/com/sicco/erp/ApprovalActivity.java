@@ -136,8 +136,11 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent intent = new Intent(ApprovalActivity.this,
-				ViewDispatchActivity.class);
+		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
+		Intent intent = new Intent(ApprovalActivity.this, ViewDispatchActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("dispatch", dispatch);
+		intent.putExtra("bundle", bundle);
 		startActivity(intent);
 	}
 
