@@ -26,6 +26,7 @@
                 android:src="@drawable/ic_arrow_back_white_48dp" />
 
             <TextView
+                android:id="@+id/title_actionbar"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_weight="1"
