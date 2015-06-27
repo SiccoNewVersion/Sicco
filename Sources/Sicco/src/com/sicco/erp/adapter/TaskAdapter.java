@@ -3,9 +3,12 @@ package com.sicco.erp.adapter;
 import java.util.ArrayList;
 
 import com.sicco.erp.R;
+import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.model.Dispatch;
 
 import android.content.Context;
+import android.content.Intent;
+import android.sax.StartElementListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +51,7 @@ public class TaskAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View view, ViewGroup viewGroup) {
 		final ViewHolder holder;
-		Dispatch dispatch = getItem(position);
+		final Dispatch dispatch = getItem(position);
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.item_dispatch,
 					viewGroup, false);
@@ -74,15 +77,20 @@ public class TaskAdapter extends BaseAdapter {
 					
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
+						Intent intent = new Intent();
 						switch (item.getItemId()) {
 						case R.id.action_handle:
 							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
 							break;
 						case R.id.action_steer:
-							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
+							intent.setClass(context, SteerReportActivity.class);
+							intent.putExtra("id", "" + dispatch.getId());
+							context.startActivity(intent);
 							break;
 						case R.id.action_report:
-							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
+							intent.setClass(context, SteerReportActivity.class);
+							intent.putExtra("id", dispatch.getId());
+							context.startActivity(intent);
 							break;
 						case R.id.action_change_status:
 							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
