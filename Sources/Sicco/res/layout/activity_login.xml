@@ -55,6 +55,7 @@
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
                     android:singleLine="true"
+                    android:text="admin"
                     android:textColor="#555555"
                     android:textColorHint="#C7C7C9" />
 

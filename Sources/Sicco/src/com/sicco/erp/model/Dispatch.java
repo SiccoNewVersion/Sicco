@@ -1,5 +1,6 @@
 package com.sicco.erp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.apache.http.Header;
@@ -13,7 +14,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class Dispatch {
+public class Dispatch implements Serializable {
 	private Context context;
 	private long id;
 	private String title, description, content;
@@ -101,47 +102,48 @@ public class Dispatch {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
-		final ArrayList<String> imageUrl = new ArrayList<String>();
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(url, null,
-				new JsonHttpResponseHandler() {
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							JSONObject response) {
-						onLoadListener.onSuccess();
-						String jsonRead = response.toString();
+		client.post(url, null, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				onLoadListener.onSuccess();
+				String jsonRead = response.toString();
 
-						Log.d("TuNT", "json: " + jsonRead);
-						if (!jsonRead.isEmpty()) {
-							try {
-								JSONObject object = new JSONObject(jsonRead);
-								JSONArray array = object.getJSONArray("row");
-								for (int i = 0; i < array.length(); i++) {
-									JSONObject rows = array.getJSONObject(i);
-									String title = rows.getString("title");
-									String description = rows
-											.getString("description");
-									data.add(new Dispatch(1, title,
-											description, "content", imageUrl,
-											"time", 1));
-								}
-
-							} catch (JSONException e) {
-								e.printStackTrace();
+				Log.d("TuNT", "json: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						JSONArray rows = object.getJSONArray("row");
+						for (int i = 0; i < rows.length(); i++) {
+							JSONObject row = rows.getJSONObject(i);
+							String title = row.getString("title");
+							String description = row.getString("description");
+							JSONArray images = row.getJSONArray("image_url");
+							ArrayList<String> imageUrl = new ArrayList<String>();
+							for (int j = 0; j < images.length(); j++) {
+								JSONObject image = images.getJSONObject(j);
+								imageUrl.add(image.getString("url"));
 							}
+							data.add(new Dispatch(1, title, description,
+									"content", imageUrl, "time", 1));
 						}
-						super.onSuccess(statusCode, headers, response);
-					}
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							Throwable throwable, JSONObject errorResponse) {
-						super.onFailure(statusCode, headers, throwable,
-								errorResponse);
-						onLoadListener.onFalse();
-						Log.d("TuNT", "json: false");
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onLoadListener.onFalse();
+				Log.d("TuNT", "json: false");
+			}
+		});
 		return data;
 	}
 
@@ -184,7 +186,7 @@ public class Dispatch {
 		void onStart();
 
 		void onSuccess();
-		
+
 		void onFalse();
 	}
 
