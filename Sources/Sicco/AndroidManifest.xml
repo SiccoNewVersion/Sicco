@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".ViewDispatchActivity" >
         </activity>
+        <activity android:name=".SendApprovalActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -23,6 +23,8 @@
     <string name="connect_error">Lỗi kết nối</string>
     <string name="internet_false">Không kết nối được tới server do server đang bảo trì hoặc điện thoại của bạn không bật kết nối gprs/3g/wifi.</string>
     <string name="retry">Thử lại</string>
+    <string name="send">Gửi</string>
+    <string name="insert_text">Nhập văn bản</string>
     <!-- End TuNT -->
     
     <!-- LuanDT -->
