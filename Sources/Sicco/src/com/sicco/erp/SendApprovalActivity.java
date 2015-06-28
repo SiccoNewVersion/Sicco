@@ -1,12 +1,9 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseUser;
@@ -55,13 +53,10 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		department = new Department();
 		user = new User(SendApprovalActivity.this);
 
-		listDep = new ArrayList<Department>();
-		allUser = new ArrayList<User>();
 		listChecked = new ArrayList<User>();
 
-		listDep = department
-				.getData("http://office.sicco.vn/api/departments.php");
-		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
+		listDep = HomeActivity.listDep;
+		allUser = HomeActivity.allUser;
 	}
 
 	@Override
@@ -72,6 +67,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btnChoseHandler:
+			TaskAdapter.flag = "";
 			new DialogChoseUser(SendApprovalActivity.this, listDep, allUser,
 					listChecked);
 			break;

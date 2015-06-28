@@ -32,6 +32,9 @@ public class User {
 		this.department = department;
 	}
 
+	public User() {
+	}
+	
 	public User(Context context) {
 		this.context = context;
 	}

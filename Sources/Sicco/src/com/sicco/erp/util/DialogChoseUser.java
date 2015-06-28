@@ -19,11 +19,13 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
+import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
 
@@ -44,7 +46,7 @@ public class DialogChoseUser {
 		this.listDep = listDep;
 		this.allUser = allUser;
 		this.listChecked = listChecked;
-		
+
 		listUser = getData(listDep, allUser);
 		showDialog();
 	}
@@ -53,42 +55,51 @@ public class DialogChoseUser {
 		Rect rect = new Rect();
 		Window window = ((Activity) context).getWindow();
 		window.getDecorView().getWindowVisibleDisplayFrame(rect);
-		
+
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View layout = inflater.inflate(R.layout.dialog_chose_user, null);
 		layout.setMinimumWidth((int) (rect.width() * 0.99f));
 		layout.setMinimumHeight((int) (rect.height() * 0.99f));
-	
-		final ExpandableListView listView = (ExpandableListView) layout.findViewById(R.id.listUser);
-		adapter = new ExpandableListUserAdapter(context, listDep, listUser, listChecked);
+
+		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
+		if (TaskAdapter.flag.equals("")) {
+			title.setText(context.getResources().getString(R.string.chose_user));
+		} else if (TaskAdapter.flag.equals("handle")) {
+			title.setText(context.getResources().getString(
+					R.string.choose_handle));
+		}
+		final ExpandableListView listView = (ExpandableListView) layout
+				.findViewById(R.id.listUser);
+		adapter = new ExpandableListUserAdapter(context, listDep, listUser,
+				listChecked);
 		listView.setAdapter(adapter);
-		
-		//click child
+
+		// click child
 		listView.setOnChildClickListener(new OnChildClickListener() {
-			
+
 			@Override
-			public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
-					int arg3, long arg4) {
-				
+			public boolean onChildClick(ExpandableListView arg0, View arg1,
+					int arg2, int arg3, long arg4) {
+
 				return true;
 			}
 		});
-		
-		//click group
+
+		// click group
 		listView.setOnGroupClickListener(new OnGroupClickListener() {
-			
+
 			@Override
-			public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2,
-					long arg3) {
+			public boolean onGroupClick(ExpandableListView arg0, View arg1,
+					int arg2, long arg3) {
 				int count = adapter.getGroupCount();
-				for(int i = 0; i < count; i++){
-					if(i != arg2){
+				for (int i = 0; i < count; i++) {
+					if (i != arg2) {
 						listView.collapseGroup(i);
 					}
 				}
-				
-				if(mCurrentExpandedGroup >= 0 && mCurrentExpandedGroup < count){
-					if(mCurrentExpandedGroup == arg2){
+
+				if (mCurrentExpandedGroup >= 0 && mCurrentExpandedGroup < count) {
+					if (mCurrentExpandedGroup == arg2) {
 						listView.collapseGroup(arg2);
 						mCurrentExpandedGroup = -1;
 					} else {
@@ -100,59 +111,75 @@ public class DialogChoseUser {
 				return true;
 			}
 		});
-		
-		//Expand
+
+		// Expand
 		listView.setOnGroupExpandListener(new OnGroupExpandListener() {
-			
+
 			@Override
 			public void onGroupExpand(int arg0) {
 				mCurrentExpandedGroup = arg0;
 				listView.setSelectedGroup(arg0);
-				
+
 			}
 		});
-		
-		//Collapse
+
+		// Collapse
 		listView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-			
+
 			@Override
 			public void onGroupCollapse(int groupPosition) {
-				View view = adapter.getGroupView(groupPosition, true, null, null);
+				View view = adapter.getGroupView(groupPosition, true, null,
+						null);
 				view.invalidate();
-				
+
 			}
 		});
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(layout);
 		builder.setCancelable(true);
-		
+
 		final AlertDialog alertDialog = builder.show();
 		ImageView imgBack = (ImageView) layout.findViewById(R.id.back);
 		imgBack.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				alertDialog.dismiss();
-				
+
 			}
 		});
-		
+
 		Button btnDone = (Button) layout.findViewById(R.id.done);
 		btnDone.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
-				handler = context.getResources().getString(R.string.handler);
+				handler = context.getResources()
+						.getString(R.string.handler);
 				for (int i = 0; i < listChecked.size(); i++) {
 					handler += listChecked.get(i).getUsername() + "; ";
 				}
-				SendApprovalActivity.txtHandler.setText(handler);
-				alertDialog.dismiss();
+				
+				if (TaskAdapter.flag.equals("handle")) {
+					if(listChecked.isEmpty()){
+						Toast.makeText(context, context.getResources()
+								.getString(R.string.empty_handle), Toast.LENGTH_SHORT).show();
+					}else {
+						alertDialog.dismiss();
+						Toast.makeText(context, context.getResources()
+								.getString(R.string.success), Toast.LENGTH_SHORT)
+								.show();
+					}
+					
+				} else if (TaskAdapter.flag.equals("")) {
+					SendApprovalActivity.txtHandler.setText(handler);
+					alertDialog.dismiss();
+				}
 			}
 		});
 	}
-	
+
 	public HashMap<String, ArrayList<User>> getData(
 			ArrayList<Department> listDep, final ArrayList<User> users) {
 		listUser = new HashMap<String, ArrayList<User>>();

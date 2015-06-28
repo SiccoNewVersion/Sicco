@@ -1,6 +1,10 @@
 package com.sicco.erp;
 
+import java.util.ArrayList;
+
 import com.sicco.erp.R;
+import com.sicco.erp.model.Department;
+import com.sicco.erp.model.User;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +24,10 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai;
 	private FrameLayout option, exit;
 	private AlertDialog alertDialog;
+	private Department department;
+	private User user;
+	public static ArrayList<Department> listDep;
+	public static ArrayList<User> allUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,15 @@ public class HomeActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_home);
 		init();
+		
+		//init data
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department
+				.getData("http://office.sicco.vn/api/departments.php");
+		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
 	}
 
 	private void init() {

@@ -2,9 +2,14 @@ package com.sicco.erp.adapter;
 
 import java.util.ArrayList;
 
+import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
+import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.SteerReportActivity;
+import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.User;
+import com.sicco.erp.util.DialogChoseUser;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +28,19 @@ import android.widget.Toast;
 public class TaskAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Dispatch> data;
+	private ArrayList<Department> listDep;
+	private ArrayList<User> allUser;
+	private ArrayList<User> listChecked;
+	public static String flag = "";
 
 	public TaskAdapter(Context context, ArrayList<Dispatch> data) {
 		this.context = context;
 		this.data = data;
+		
+		listChecked = new ArrayList<User>();
+		
+		listDep = HomeActivity.listDep;
+		allUser = HomeActivity.allUser;
 	}
 
 	public void setData(ArrayList<Dispatch> data) {
@@ -80,7 +94,8 @@ public class TaskAdapter extends BaseAdapter {
 						Intent intent = new Intent();
 						switch (item.getItemId()) {
 						case R.id.action_handle:
-							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
+							flag = "handle";
+							new DialogChoseUser(context, listDep, allUser, listChecked);
 							break;
 						case R.id.action_steer:
 							intent.setClass(context, SteerReportActivity.class);
