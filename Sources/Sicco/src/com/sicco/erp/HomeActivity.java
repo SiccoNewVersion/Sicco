@@ -78,13 +78,16 @@ public class HomeActivity extends Activity implements OnClickListener {
 //			startActivity(OptionActivity.class);
 //			break;
 		case R.id.exit:
-			showDialogConfirmExit();
+//			showDialogConfirmExit();
+			Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+			startActivity(intent);
+//			finish();
 			break;
 		}
 	}
 	@Override
 	public void onBackPressed() {
-		showDialogConfirmExit();
+//		showDialogConfirmExit();
 	}
 	private void startActivity(Class c){
 		Intent intent = new Intent(HomeActivity.this, c);
