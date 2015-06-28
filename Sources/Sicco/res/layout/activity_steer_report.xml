@@ -42,12 +42,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@+id/listReport"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white" >
-        </ListView>
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/listReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_weight="1" >
+            </ListView>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+				
+                <EditText
+                    android:id="@+id/edtReportOrSteer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="@string/hint_input_report_steer"
+                    android:background="@drawable/bg_edt_report_steer">
+                </EditText>
+
+                <ImageView
+                    android:id="@+id/imgSendReportSteer"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bg_ic_send_selector" 
+                    android:src="@drawable/ic_send"
+                    android:padding="20dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/loading"

@@ -12,10 +12,13 @@
     <color name="home_item_select_color">#d1d1d1</color>
     <color name="empty">#00ffffff</color>
     <!--358cd1-->
-    <color name="actionbar_color">#004b97</color>
+    <color name="actionbar_color">#358cd1</color>
     <color name="pressed">#4DFFFFFF</color>
     <color name="item_title_color">#323232</color>
     <color name="item_desc_color">#a7a7a7</color>
     <color name="approval_color">#5e7af8</color>
     <color name="approval_select_color">#96a8fb</color>
+    
+    <!-- NgaDV -->
+    <color name="bg_pressed">#30000000</color>
 </resources>
