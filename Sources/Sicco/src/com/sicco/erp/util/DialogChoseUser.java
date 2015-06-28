@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
@@ -35,6 +36,7 @@ public class DialogChoseUser {
 	private ArrayList<User> listChecked = new ArrayList<User>();
 	private ExpandableListUserAdapter adapter;
 	private int mCurrentExpandedGroup = -1;
+	private String handler;
 
 	public DialogChoseUser(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
@@ -141,8 +143,11 @@ public class DialogChoseUser {
 			
 			@Override
 			public void onClick(View arg0) {
-				Log.d("LuanDT", "listChecked.size(): " + listChecked.size());
-				Toast.makeText(context, "listChecked.size(): " + listChecked.size(), Toast.LENGTH_SHORT).show();
+				handler = context.getResources().getString(R.string.handler);
+				for (int i = 0; i < listChecked.size(); i++) {
+					handler += listChecked.get(i).getUsername() + "; ";
+				}
+				SendApprovalActivity.txtHandler.setText(handler);
 				alertDialog.dismiss();
 			}
 		});

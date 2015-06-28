@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
@@ -20,11 +22,14 @@ import com.sicco.erp.util.DialogChoseUser;
 public class SendApprovalActivity extends Activity implements OnClickListener {
 	private ImageView back, send;
 	private EditText document;
+	private Button btnChoseHandler, btnApproval;
+	public static TextView txtHandler;
 	private Department department;
 	private User user;
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
+	private String idHandler = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,16 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 
 	private void init() {
 		back = (ImageView) findViewById(R.id.back);
-		send = (ImageView) findViewById(R.id.send);
+		// send = (ImageView) findViewById(R.id.send);
+		btnChoseHandler = (Button) findViewById(R.id.btnChoseHandler);
+		btnApproval = (Button) findViewById(R.id.btnApproval);
+		txtHandler = (TextView) findViewById(R.id.txt_handler);
 		document = (EditText) findViewById(R.id.document);
 		// click
 		back.setOnClickListener(this);
-		send.setOnClickListener(this);
+//		send.setOnClickListener(this);
+		btnApproval.setOnClickListener(this);
+		btnChoseHandler.setOnClickListener(this);
 
 		department = new Department();
 		user = new User(SendApprovalActivity.this);
@@ -49,7 +59,8 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		allUser = new ArrayList<User>();
 		listChecked = new ArrayList<User>();
 
-		listDep = department.getData("http://office.sicco.vn/api/departments.php");
+		listDep = department
+				.getData("http://office.sicco.vn/api/departments.php");
 		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
 	}
 
@@ -60,10 +71,19 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		case R.id.back:
 			finish();
 			break;
-		case R.id.send:
+		case R.id.btnChoseHandler:
 			new DialogChoseUser(SendApprovalActivity.this, listDep, allUser,
 					listChecked);
 			break;
+		case R.id.btnApproval:
+			for (int i = 0; i < listChecked.size(); i++) {
+				idHandler += listChecked.get(i).getId() + ";";
+			}
+			break;
+			
+		default:
+			break;
 		}
 	}
+
 }
