@@ -27,6 +27,13 @@
     <string name="insert_text">Nhập văn bản</string>
     <!-- End TuNT -->
     
+    <!-- NgaDV -->
+    <string name="hint_input_report_steer">Nhập chỉ đạo/báo cáo...</string>
+    <string name="handler">Người xử lý: "</string>
+    <string name="time">Thời gian: "</string>
+    <string name="report">Báo cáo: "</string>
+    <string name="sep">" / "</string>
+    
     <!-- LuanDT -->
     <string name="cv_cac_loai">Công văn các loại</string>
     <string name="task">Tác vụ</string>
