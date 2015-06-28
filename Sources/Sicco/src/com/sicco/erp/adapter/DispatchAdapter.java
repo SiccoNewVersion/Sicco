@@ -3,6 +3,7 @@ package com.sicco.erp.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.model.Dispatch;
 
 public class DispatchAdapter extends BaseAdapter {
@@ -63,7 +65,8 @@ public class DispatchAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(context, SendApprovalActivity.class);
+				context.startActivity(intent);
 			}
 		});
 		return view;
