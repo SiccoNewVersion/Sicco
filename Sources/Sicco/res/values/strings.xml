@@ -11,7 +11,7 @@
     <string name="cv_xu_ly">Công văn xử lý</string>
     <string name="cac_loai">Các loại</string>
     <string name="option">Thiết lập</string>
-    <string name="exit">Thoát</string>
+    <string name="exit">Đăng xuất</string>
     <string name="cancel">Hủy</string>
     <string name="confirm_exit">Bạn có thật sự muốn thoát khỏi ứng dụng?</string>
     <string name="search">Tìm kiếm</string>
@@ -35,5 +35,7 @@
     <string name="steer_report">Chỉ đạo/Báo cáo</string>
     <string name="change_status">Thay đổi trạng thái</string>
     <string name="job_transfer">Chuyển công việc</string>
-
+    
+    <string name="done">Xong</string>
+	<string name="chose_user">Chọn người xử lý</string>
 </resources>
