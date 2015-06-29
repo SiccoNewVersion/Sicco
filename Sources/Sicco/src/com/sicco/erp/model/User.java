@@ -1,7 +1,6 @@
 package com.sicco.erp.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -17,6 +16,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class User {
 	public static int LOGIN_FALSE = 0;
 	public static int LOGIN_SUCCESS = 1;
+	public static boolean getJsonUser = false;
 
 	private Context context;
 	private String username;
@@ -130,17 +130,71 @@ public class User {
 						e.printStackTrace();
 					}
 				}
+				getJsonUser = true;
 				super.onSuccess(statusCode, headers, response);
 			}
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
-				getData(url);
+//				getData(url);
+				getJsonUser = false;
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				Log.d("LuanDT", "json: false");
 			}
 		});
 		return listUser	;
 	}
+	
+	public ArrayList<User> getData(final String url, OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		listUser = new ArrayList<User>();
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, null, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						JSONArray rows = object.getJSONArray("row");
+						for (int i = 0; i < rows.length(); i++) {
+							JSONObject row = rows.getJSONObject(i);
+							
+							String id = row.getString("id");
+							String username = row.getString("username");
+							String department = row.getString("phong_ban");
+							listUser.add(new User(id, username, department));
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				onLoadListener.onSuccess();
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				Log.d("LuanDT", "json: false");
+			}
+		});
+		return listUser	;
+	}
+	
+	public interface OnLoadListener {
+		void onStart();
+
+		void onSuccess();
+
+		void onFalse();
+	}
+
+	private OnLoadListener onLoadListener;
 }

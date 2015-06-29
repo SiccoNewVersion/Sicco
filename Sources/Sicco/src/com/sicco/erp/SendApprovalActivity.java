@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
@@ -46,7 +47,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		document = (EditText) findViewById(R.id.document);
 		// click
 		back.setOnClickListener(this);
-//		send.setOnClickListener(this);
+		// send.setOnClickListener(this);
 		btnApproval.setOnClickListener(this);
 		btnChoseHandler.setOnClickListener(this);
 
@@ -75,8 +76,12 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			for (int i = 0; i < listChecked.size(); i++) {
 				idHandler += listChecked.get(i).getId() + ";";
 			}
+			Toast.makeText(SendApprovalActivity.this,
+					getResources().getString(R.string.success),
+					Toast.LENGTH_SHORT).show();
+			finish();
 			break;
-			
+
 		default:
 			break;
 		}

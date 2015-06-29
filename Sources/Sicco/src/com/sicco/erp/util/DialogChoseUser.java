@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +18,8 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
+import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.User;
 
 public class DialogChoseUser {
@@ -40,12 +42,23 @@ public class DialogChoseUser {
 	private int mCurrentExpandedGroup = -1;
 	private String handler;
 
+	private ExpandableListView listView;
+	private ProgressBar loading;
+	private Button retry, btnDone;
+	private LinearLayout connectError;
+
+	private Department department;
+	private User user;
+
 	public DialogChoseUser(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
 		this.listDep = listDep;
 		this.allUser = allUser;
 		this.listChecked = listChecked;
+
+		department = new Department();
+		user = new User();
 
 		listUser = getData(listDep, allUser);
 		showDialog();
@@ -68,8 +81,20 @@ public class DialogChoseUser {
 			title.setText(context.getResources().getString(
 					R.string.choose_handle));
 		}
-		final ExpandableListView listView = (ExpandableListView) layout
+
+		listView = (ExpandableListView) layout
 				.findViewById(R.id.listUser);
+		btnDone = (Button) layout.findViewById(R.id.done);
+
+		// ------------
+		loading = (ProgressBar) layout.findViewById(R.id.loading);
+		retry = (Button) layout.findViewById(R.id.retry);
+		connectError = (LinearLayout) layout.findViewById(R.id.connect_error);
+		if (!Department.getJsonDep && !User.getJsonUser) {
+			btnDone.setVisibility(View.GONE);
+			getData();
+		}
+
 		adapter = new ExpandableListUserAdapter(context, listDep, listUser,
 				listChecked);
 		listView.setAdapter(adapter);
@@ -150,34 +175,40 @@ public class DialogChoseUser {
 			}
 		});
 
-		Button btnDone = (Button) layout.findViewById(R.id.done);
 		btnDone.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				handler = context.getResources()
-						.getString(R.string.handler);
+				handler = context.getResources().getString(R.string.handler);
 				for (int i = 0; i < listChecked.size(); i++) {
 					handler += listChecked.get(i).getUsername() + "; ";
 				}
-				
+
 				if (TaskAdapter.flag.equals("handle")) {
-					if(listChecked.isEmpty()){
-						Toast.makeText(context, context.getResources()
-								.getString(R.string.empty_handle), Toast.LENGTH_SHORT).show();
-					}else {
+					if (listChecked.isEmpty()) {
+						Toast.makeText(
+								context,
+								context.getResources().getString(
+										R.string.empty_handle),
+								Toast.LENGTH_SHORT).show();
+					} else {
 						alertDialog.dismiss();
-//						Toast.makeText(context, context.getResources()
-//								.getString(R.string.success), Toast.LENGTH_SHORT)
-//								.show();
 						new DialogShowHandler(context, listChecked);
-						
+
 					}
-					
+
 				} else if (TaskAdapter.flag.equals("")) {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
 				}
+			}
+		});
+		// click retry
+		retry.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getData();
 			}
 		});
 	}
@@ -198,5 +229,58 @@ public class DialogChoseUser {
 			listUser.put(listDep.get(i).getDepartmentName(), data);
 		}
 		return listUser;
+	}
+	
+	public void getData(){
+		listDep = department.getData(
+				"http://office.sicco.vn/api/departments.php",
+				new OnLoadListener() {
+
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						//get all user
+						allUser = user.getData("http://office.sicco.vn/api/list_users.php", new User.OnLoadListener() {
+							
+							@Override
+							public void onSuccess() {
+								listUser = getData(listDep, allUser);
+								
+								adapter.setListDep(listDep);
+								adapter.setListUser(listUser);
+								loading.setVisibility(View.GONE);
+								listView.setVisibility(View.VISIBLE);
+								btnDone.setVisibility(View.VISIBLE);
+								adapter.notifyDataSetChanged();
+							}
+
+							@Override
+							public void onStart() {
+								loading.setVisibility(View.VISIBLE);
+								connectError.setVisibility(View.GONE);
+
+							}
+
+							@Override
+							public void onFalse() {
+								loading.setVisibility(View.GONE);
+								connectError.setVisibility(View.VISIBLE);
+							}
+						});
+					}
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				});
 	}
 }

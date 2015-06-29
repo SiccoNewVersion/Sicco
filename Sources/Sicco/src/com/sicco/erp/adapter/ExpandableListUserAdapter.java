@@ -33,6 +33,14 @@ public class ExpandableListUserAdapter extends BaseExpandableListAdapter {
 		this.listChecked = listChecked;
 	}
 
+	public void setListDep(ArrayList<Department> listDep) {
+		this.listDep = listDep;
+	}
+
+	public void setListUser(HashMap<String, ArrayList<User>> listUser) {
+		this.listUser = listUser;
+	}
+
 	@Override
 	public int getGroupCount() {
 		return listDep.size();
