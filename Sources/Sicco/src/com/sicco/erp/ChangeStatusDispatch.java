@@ -25,10 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChangeStatusDispatch extends Activity implements OnClickListener {
-//	private ListView listSteer;
-//	private Spinner spnStatusDispatch;
-//	private EditText edtContent;
-//	private ImageView imgSendContent;
 	
 	private Spinner spnStatusDispatch;
 	private LinearLayout connectError;
@@ -43,11 +39,11 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private EditText edtContent;
 	private TextView txtStatusDispatch;
 	private String arr[] = {
-			 "Chọn trạng thái",
-			 "Cần phê",
-			 "Cần xử lý",
-			 "Tạm dừng xử lý",
-			 "Kết thúc xử lý"};
+			 "Chá»�n tráº¡ng thĂ¡i",
+			 "Cáº§n phĂª",
+			 "Cáº§n xá»­ lĂ½",
+			 "Táº¡m dá»«ng xá»­ lĂ½",
+			 "Káº¿t thĂºc xá»­ lĂ½"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +71,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			// click
 			back.setOnClickListener(this);
 			retry.setOnClickListener(this);
-			// set adapter
-			
-			//Tạo một mảng dữ liệu giả
 			 
 
 		}
@@ -85,18 +78,13 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private void setSpinnerStatus(){
 		 
 		 ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,arr);
-		 //phải gọi lệnh này để hiển thị danh sách cho Spinner
 		 adapter.setDropDownViewResource
 		 (android.R.layout.simple_dropdown_item_1line);
-		 //Thiết lập adapter cho Spinner
 		 spnStatusDispatch.setAdapter(adapter);
-		 //thiết lập sự kiện chọn phần tử cho Spinner
 		 
 	}
-
 		private void sendReportSteer() {
 			imgSendReportSteer.setOnClickListener(new OnClickListener() {
-				
 				@Override
 				public void onClick(View v) {
 					
@@ -105,9 +93,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 					if (!content.equals("")) {
 						edtContent.setText("");//reset edtContent
 						arrReportSteers.add(new ReportSteer(1,content,new Date().toString(),content));
-						
 						reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(), arrReportSteers);
-						
 						listReport.setAdapter(reportSteerAdapter);
 						reportSteerAdapter.notifyDataSetChanged();
 						listReport.setSelection(arrReportSteers.size()-1);
@@ -134,7 +120,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 
 			arrReportSteers = reportSteer.getData(
 					"http://myapp.freezoy.com/reportsteer.php",
-					new OnLoadListener() {
+					new ReportSteer.OnLoadListener() {
 
 						@Override
 						public void onSuccess() {
@@ -154,8 +140,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 							connectError.setVisibility(View.VISIBLE);
 						}
 					});
-
-			Log.d("NgaDV", "arrReportSteers.size() = " + arrReportSteers.size());
 			reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(),
 					arrReportSteers);
 
@@ -172,7 +156,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			case R.id.retry:
 				arrReportSteers = reportSteer.getData(
 						"http://myapp.freezoy.com/reportsteer.php",
-						new OnLoadListener() {
+						new ReportSteer.OnLoadListener() {
 
 							@Override
 							public void onSuccess() {
@@ -192,6 +176,11 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 								connectError.setVisibility(View.VISIBLE);
 							}
 						});
+
+				reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(),
+						arrReportSteers);
+
+				listReport.setAdapter(reportSteerAdapter);
 				break;
 			}
 

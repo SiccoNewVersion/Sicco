@@ -11,37 +11,31 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.sicco.erp.model.Dispatch.OnLoadListener;
 
 public class ReportSteer {
 	private Context context;
-	private String handler,date,content;
+	private String handler, date, content;
 	private ArrayList<ReportSteer> data;
 	private long id;
-	private OnLoadListener onLoadListener;
-	
+
 	public ReportSteer(Context context) {
 		this.context = context;
 	}
 
-
-	public ReportSteer(long id,String handler, String date, String content) {
+	public ReportSteer(long id, String handler, String date, String content) {
 		this.id = id;
 		this.handler = handler;
 		this.date = date;
 		this.content = content;
 	}
 
-
 	public long getId() {
 		return id;
 	}
 
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
 
 	public String getHandler() {
 		return handler;
@@ -74,37 +68,35 @@ public class ReportSteer {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	public ArrayList<ReportSteer> getData(String url,final OnLoadListener onLoadListener){
-		this.onLoadListener = onLoadListener;
+
+	public ArrayList<ReportSteer> getData(String url,
+			OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<ReportSteer>();
-		
-		AsyncHttpClient  client = new AsyncHttpClient();
-		client.post(url, null,new JsonHttpResponseHandler(){
 
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, null, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
-				
-				Log.d("NgaDV", jsonRead);
-				if(!jsonRead.isEmpty()){
+
+				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject jsonObject = new JSONObject(jsonRead);
-						JSONArray  jsonArray = jsonObject.getJSONArray("row");
-						
+						JSONArray jsonArray = jsonObject.getJSONArray("row");
+
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject row = jsonArray.getJSONObject(i);
-							
+
 							String handler = row.getString("handler");
 							String date = row.getString("date");
 							String content = row.getString("content");
-						
-							data.add(new ReportSteer(i,handler, date, content));
-							
-							Log.d("NgaDV", data.get(i).getContent());
+
+							data.add(new ReportSteer(i, handler, date, content));
+
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -112,15 +104,25 @@ public class ReportSteer {
 				}
 				super.onSuccess(statusCode, headers, response);
 			}
+
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
-					String responseString, Throwable throwable) {
-				// TODO Auto-generated method stub
-				super.onFailure(statusCode, headers, responseString, throwable);
+					Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
 				onLoadListener.onFalse();
 			}
-			
+
 		});
 		return data;
 	}
+
+	public interface OnLoadListener {
+		void onStart();
+
+		void onSuccess();
+
+		void onFalse();
+	}
+
+	private OnLoadListener onLoadListener;
 }

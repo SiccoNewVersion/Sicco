@@ -3,19 +3,12 @@ package com.sicco.erp;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sicco.erp.adapter.DispatchAdapter;
-import com.sicco.erp.adapter.ReportSteerAdapter;
-import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.model.Dispatch.OnLoadListener;
-import com.sicco.erp.model.ReportSteer;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.sicco.erp.adapter.ReportSteerAdapter;
+import com.sicco.erp.model.ReportSteer;
+import com.sicco.erp.model.ReportSteer.OnLoadListener;
 
 public class SteerReportActivity extends Activity implements OnClickListener {
 
@@ -37,7 +34,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	private ArrayList<ReportSteer> arrReportSteers;
 	private ReportSteer reportSteer;
 	private EditText edtContent;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +49,15 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	}
 
 	private void init() {
-	back 					= 	(ImageView)		findViewById(R.id.back);
-		loading 			= 	(ProgressBar) 	findViewById(R.id.loading);
-		retry 				= 	(Button) 		findViewById(R.id.retry);
-		connectError 		= 	(LinearLayout) 	findViewById(R.id.connect_error);
-		imgSendReportSteer 	= 	(ImageView)		findViewById(R.id.imgSendReportSteer);
-		listReport 			= 	(ListView) 		findViewById(R.id.listReport);
-		imgSendReportSteer 	= 	(ImageView) 	findViewById(R.id.imgSendReportSteer);
-		reportSteer 		= 	new ReportSteer(getApplicationContext());
-		edtContent 			= 	(EditText)		findViewById(R.id.edtReportOrSteer);
+		back = (ImageView) findViewById(R.id.back);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
+		listReport = (ListView) findViewById(R.id.listReport);
+		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
+		reportSteer = new ReportSteer(SteerReportActivity.this);
+		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
 
 		// click
 		back.setOnClickListener(this);
@@ -72,27 +68,34 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 	private void sendReportSteer() {
 		imgSendReportSteer.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				String content = edtContent.getText().toString().trim();
-				
+
 				if (!content.equals("")) {
-					edtContent.setText("");//reset edtContent
-					arrReportSteers.add(new ReportSteer(1,content,new Date().toString(),content));
-					
-					reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(), arrReportSteers);
-					
+					edtContent.setText("");// reset edtContent
+					arrReportSteers.add(new ReportSteer(1, content, new Date()
+							.toString(), content));
+
+					reportSteerAdapter = new ReportSteerAdapter(
+							getApplicationContext(), arrReportSteers);
+
 					listReport.setAdapter(reportSteerAdapter);
 					reportSteerAdapter.notifyDataSetChanged();
-					listReport.setSelection(arrReportSteers.size()-1);
-					
-				}else {
-					Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_content_report), Toast.LENGTH_SHORT).show();
-					edtContent.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+					listReport.setSelection(arrReportSteers.size() - 1);
+
+				} else {
+					Toast.makeText(
+							getApplicationContext(),
+							getResources().getString(
+									R.string.empty_content_report),
+							Toast.LENGTH_SHORT).show();
+					edtContent.startAnimation(AnimationUtils.loadAnimation(
+							getApplicationContext(), R.anim.shake));
 				}
-				
+
 			}
 		});
 	}
@@ -131,7 +134,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 					}
 				});
 
-		Log.d("NgaDV", "arrReportSteers.size() = " + arrReportSteers.size());
 		reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(),
 				arrReportSteers);
 
@@ -168,6 +170,11 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 							connectError.setVisibility(View.VISIBLE);
 						}
 					});
+			reportSteerAdapter = new ReportSteerAdapter(
+					getApplicationContext(), arrReportSteers);
+
+			listReport.setAdapter(reportSteerAdapter);
+			reportSteerAdapter.notifyDataSetChanged();
 			break;
 		}
 
