@@ -33,6 +33,7 @@
     <string name="time">Thời gian: "</string>
     <string name="report">Báo cáo: "</string>
     <string name="sep">" / "</string>
+    <string name="empty_content_report">Bạn chưa nhập nội dung</string>
     
     <!-- LuanDT -->
     <string name="cv_cac_loai">Công văn các loại</string>
