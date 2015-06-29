@@ -146,7 +146,28 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.retry:
+			arrReportSteers = reportSteer.getData(
+					"http://myapp.freezoy.com/reportsteer.php",
+					new OnLoadListener() {
 
+						@Override
+						public void onSuccess() {
+							loading.setVisibility(View.GONE);
+							reportSteerAdapter.notifyDataSetChanged();
+						}
+
+						@Override
+						public void onStart() {
+							loading.setVisibility(View.VISIBLE);
+							connectError.setVisibility(View.GONE);
+						}
+
+						@Override
+						public void onFalse() {
+							loading.setVisibility(View.GONE);
+							connectError.setVisibility(View.VISIBLE);
+						}
+					});
 			break;
 		}
 

@@ -31,7 +31,7 @@
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/steer_report"
+                android:text="@string/change_status"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
             <ImageView
@@ -60,6 +60,17 @@
                 android:background="@color/white"
                 android:layout_weight="1" >
             </ListView>
+			
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color" />
+            
+            <Spinner
+                android:id="@+id/spnStatusDispatch"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/drawer_selector" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -69,7 +80,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="60dp">
 				
                 <EditText
                     android:id="@+id/edtReportOrSteer"
