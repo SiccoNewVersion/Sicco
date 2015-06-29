@@ -25,6 +25,7 @@ import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.ViewDispatch;
 
 public class OtherActivity extends Activity implements OnClickListener, OnItemClickListener{
 	
@@ -38,6 +39,7 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 	private ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private TextView title_actionbar;
+	private ViewDispatch viewDispatch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +143,12 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		Intent intent = new Intent(OtherActivity.this, ViewDispatchActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("dispatch", dispatch);
-		intent.putExtra("bundle", bundle);
-		startActivity(intent);
+		viewDispatch = new ViewDispatch(OtherActivity.this, "http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+//		Intent intent = new Intent(OtherActivity.this, ViewDispatchActivity.class);
+//		Bundle bundle = new Bundle();
+//		bundle.putSerializable("dispatch", dispatch);
+//		intent.putExtra("bundle", bundle);
+//		startActivity(intent);
 	}
 
 	@Override

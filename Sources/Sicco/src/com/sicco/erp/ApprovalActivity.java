@@ -37,6 +37,7 @@ import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.DownloadFile;
 import com.sicco.erp.util.DownloadFile.OnDownloadListener;
 import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.ViewDispatch;
 
 public class ApprovalActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
@@ -53,6 +54,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private AlertDialog aDialog;
 	private ProgressDialog dialog;
 	private DownloadFile downloadFile;
+	private ViewDispatch viewDispatch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,9 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		startDownload();
+		
+		viewDispatch = new ViewDispatch(ApprovalActivity.this, "http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+		
 		// Intent intent = new Intent(ApprovalActivity.this,
 		// ViewDispatchActivity.class);
 		// Bundle bundle = new Bundle();
@@ -212,153 +216,4 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		editSearch.setText("");
 	}
 
-	private void startDownload() {
-		dialog = new ProgressDialog(ApprovalActivity.this);
-		downloadFile = new DownloadFile("http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
-		dialog.setMessage("Dang tai: " + downloadFile.getFileName());
-		dialog.setCancelable(false);
-		dialog.setCanceledOnTouchOutside(false);
-		if (downloadFile.isZero()) {
-			Log.d("TuNT", "isZero");
-			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			dialog.setIndeterminate(true);
-		} else {
-			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			dialog.setMax(100);
-		}
-		dialog.setOnKeyListener(new OnKeyListener() {
-
-			@Override
-			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
-				if (arg1 == KeyEvent.KEYCODE_BACK) {
-					showDialogConfirmCancel();
-				}
-				return false;
-			}
-		});
-		dialog.show();
-
-		downloadFile.setOnDownloadListener(new OnDownloadListener() {
-
-			@Override
-			public void onSuccess(String p) {
-				if (dialog.isShowing())
-					dialog.dismiss();
-				if (aDialog != null) {
-					if (aDialog.isShowing())
-						aDialog.dismiss();
-				}
-				downloadFile = null;
-				File pdfFile = new File(p);
-				try {
-					if (pdfFile.exists()) {
-						Uri path = Uri.fromFile(pdfFile);
-						Intent objIntent = new Intent(Intent.ACTION_VIEW);
-						objIntent.setDataAndType(path, "application/pdf");
-						objIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(objIntent);
-					} else {
-						Toast.makeText(ApprovalActivity.this, "File NotFound",
-								Toast.LENGTH_SHORT).show();
-					}
-				} catch (ActivityNotFoundException e) {
-					Intent intent = new Intent(ApprovalActivity.this,
-							ViewDispatchActivity.class);
-					intent.putExtra(PdfViewerActivity.EXTRA_PDFFILENAME, p);
-					startActivity(intent);
-					Toast.makeText(ApprovalActivity.this,
-							"No Viewer Application Found", Toast.LENGTH_SHORT)
-							.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.d("TuNT", "onSuccess: " + p);
-			}
-
-			@Override
-			public void onFalse() {
-				if (dialog.isShowing())
-					dialog.dismiss();
-				if (aDialog != null) {
-					if (aDialog.isShowing())
-						aDialog.dismiss();
-				}
-				Log.d("TuNT", "onFalse");
-			}
-
-			@Override
-			public void onDownload(int progress) {
-				Log.d("TuNT", "onDownload: " + progress);
-				dialog.setProgress(progress);
-			}
-
-			@Override
-			public void onCancel() {
-				if (dialog.isShowing())
-					dialog.dismiss();
-				if (aDialog != null) {
-					if (aDialog.isShowing())
-						aDialog.dismiss();
-				}
-			}
-		});
-	}
-
-	private void showDialogConfirmCancel() {
-		if (aDialog == null) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					ApprovalActivity.this);
-			builder.setMessage("Ban muon huy???");
-			builder.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					downloadFile.cancel();
-					if (ApprovalActivity.this.dialog.isShowing()) {
-						ApprovalActivity.this.dialog.dismiss();
-					}
-					aDialog.dismiss();
-				}
-			});
-			builder.setNegativeButton("Tro ve",
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							aDialog.dismiss();
-						}
-					});
-			aDialog = builder.create();
-			aDialog.show();
-		} else {
-			if (!aDialog.isShowing()) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						ApprovalActivity.this);
-				builder.setMessage("Ban muon huy???");
-				builder.setPositiveButton("Ok",
-						new AlertDialog.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								downloadFile.cancel();
-								if (ApprovalActivity.this.dialog.isShowing()) {
-									ApprovalActivity.this.dialog.dismiss();
-								}
-								aDialog.dismiss();
-							}
-						});
-				builder.setNegativeButton("Tro ve",
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								aDialog.dismiss();
-							}
-						});
-				aDialog = builder.create();
-				aDialog.show();
-			}
-		}
-	}
 }

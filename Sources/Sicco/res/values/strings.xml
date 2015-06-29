@@ -50,6 +50,10 @@
 	<string name="empty_handle">Bạn chưa chọn người sử lý/chuyển tiếp.</string>
 	<string name="success">Thành công</string>
 	<string name="list_handler">Danh sách người xử lý/chuyển tiếp</string>
+	<string name="downloading">Đang tải: "</string>
+	<string name="exit_download">Đang tải tệp tin, bạn có muốn hủy?</string>
+	<string name="agree">Đồng ý</string>
+	<string name="no">Không</string>
 	
 	<!-- ToanNM -->
     <string name="cong_van">Công văn cần phê</string>
