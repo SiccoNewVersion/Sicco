@@ -50,4 +50,13 @@
 	<string name="empty_handle">Bạn chưa chọn người sử lý/chuyển tiếp.</string>
 	<string name="success">Thành công</string>
 	<string name="list_handler">Danh sách người xử lý/chuyển tiếp</string>
+	
+	<!-- ToanNM -->
+    <string name="cong_van">Công văn cần phê</string>
+    <string name="cong_viec">Công văn cần xử lí</string>
+    <string name="lich_bieu">Các loại khác</string>
+    <string name="one_msg">Bạn có 1 %1$s</string>
+	<string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
+	<string name="new_noti">Cảnh báo mới</string>
+	<string name="new_noti_mess">Bạn có </string>
 </resources>

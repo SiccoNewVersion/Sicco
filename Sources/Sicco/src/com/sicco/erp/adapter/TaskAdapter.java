@@ -2,6 +2,7 @@ package com.sicco.erp.adapter;
 
 import java.util.ArrayList;
 
+import com.sicco.erp.ChangeStatusDispatch;
 import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SendApprovalActivity;
@@ -103,7 +104,9 @@ public class TaskAdapter extends BaseAdapter {
 							context.startActivity(intent);
 							break;
 						case R.id.action_change_status:
-							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();
+							intent.setClass(context, ChangeStatusDispatch.class);
+							intent.putExtra("id", "" + dispatch.getId());
+							context.startActivity(intent);
 							break;
 						case R.id.action_job_transfer:
 							Toast.makeText(context, item.getTitle().toString(),Toast.LENGTH_SHORT).show();

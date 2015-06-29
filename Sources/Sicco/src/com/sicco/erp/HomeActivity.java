@@ -2,27 +2,28 @@ package com.sicco.erp;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.R;
-import com.sicco.erp.model.Department;
-import com.sicco.erp.model.User;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.sicco.erp.model.Department;
+import com.sicco.erp.model.User;
+import com.sicco.erp.service.GetAllNotificationService;
 
 public class HomeActivity extends Activity implements OnClickListener {
-	private LinearLayout canphe, xuly, cacloai;
-	private FrameLayout option, exit;
+	private LinearLayout canphe, xuly, cacloai, exit;
+	private FrameLayout option;
 	private AlertDialog alertDialog;
 	private Department department;
 	private User user;
@@ -33,10 +34,17 @@ public class HomeActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
+		// ToanNM
+		Intent intent = new Intent(this, GetAllNotificationService.class);
+		startService(intent);
+		Log.d("ToanNM", "Service has been started from Home Activity");
 		setContentView(R.layout.activity_home);
+		setCount();
+		// === End of ToanNM ===
 		init();
-		
-		//init data
+		init();
+
+		// init data
 		department = new Department();
 		user = new User();
 		listDep = new ArrayList<Department>();
@@ -46,18 +54,42 @@ public class HomeActivity extends Activity implements OnClickListener {
 		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
 	}
 
+	void setCount() {
+		// ToanNM
+		int delay = 1000;
+		final TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
+		final TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
+		final TextView notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+
+				notify_cvcp.setText(""
+						+ GetAllNotificationService.getCongViecCanPheCount());
+				notify_cvxl.setText(""
+						+ GetAllNotificationService.getCongViecCanXuLyCount());
+				notify_cl.setText(""
+						+ GetAllNotificationService.getCacLoaiCount());
+			}
+		}, delay);
+
+		// === End of ToanNM ===
+	}
+
 	private void init() {
-		//view
+		// view
 		canphe = (LinearLayout) findViewById(R.id.canphe);
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
-//		option = (FrameLayout) findViewById(R.id.option);
-		exit = (FrameLayout) findViewById(R.id.exit);
-		//click
+		// option = (FrameLayout) findViewById(R.id.option);
+		exit = (LinearLayout) findViewById(R.id.exit);
+		// click
 		canphe.setOnClickListener(this);
 		xuly.setOnClickListener(this);
 		cacloai.setOnClickListener(this);
-//		option.setOnClickListener(this);
+		// option.setOnClickListener(this);
 		exit.setOnClickListener(this);
 	}
 
@@ -74,29 +106,33 @@ public class HomeActivity extends Activity implements OnClickListener {
 		case R.id.cacloai:
 			startActivity(OtherActivity.class);
 			break;
-//		case R.id.option:
-//			startActivity(OptionActivity.class);
-//			break;
+		// case R.id.option:
+		// startActivity(OptionActivity.class);
+		// break;
 		case R.id.exit:
-//			showDialogConfirmExit();
+			// showDialogConfirmExit();
 			Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
 			startActivity(intent);
 			finish();
 			break;
 		}
 	}
+
 	@Override
 	public void onBackPressed() {
-//		showDialogConfirmExit();
+		// showDialogConfirmExit();
 	}
-	private void startActivity(Class c){
+
+	private void startActivity(Class c) {
 		Intent intent = new Intent(HomeActivity.this, c);
 		startActivity(intent);
 	}
-	private void exit(){
+
+	private void exit() {
 		System.exit(0);
 	}
-	private void showDialogConfirmExit(){
+
+	private void showDialogConfirmExit() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				new ContextThemeWrapper(HomeActivity.this,
 						android.R.style.Theme_Holo_Light));

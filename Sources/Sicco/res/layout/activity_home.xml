@@ -8,12 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -32,7 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" >
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal" >
+
+                <!-- Item 1 -->
 
                 <LinearLayout
                     android:id="@+id/canphe"
@@ -42,26 +45,55 @@
                     android:background="@drawable/home_item_selector"
                     android:clickable="true"
                     android:orientation="vertical"
-                    android:padding="8dp" >
+                    android:padding="5dp" >
 
-                    <ImageView
-                        android:id="@+id/image1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_canduyet" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <ImageView
+                            android:id="@+id/image1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:adjustViewBounds="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_canduyet" />
+
+                        <TextView
+                            android:id="@+id/activity_home_notify_canphe"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="top|right"
+                            android:layout_marginBottom="-10dp"
+                            android:layout_marginLeft="-10dp"
+                            android:background="@xml/bg_notify"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="-5dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/can_phe"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                </FrameLayout>
+                <!-- Item 2 -->
 
                 <LinearLayout
                     android:id="@+id/xuly"
@@ -71,26 +103,49 @@
                     android:background="@drawable/home_item_selector"
                     android:clickable="true"
                     android:orientation="vertical"
-                    android:padding="8dp" >
+                    android:padding="5dp" >
 
-                    <ImageView
-                        android:id="@+id/image2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_xuly" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:adjustViewBounds="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_xuly" />
+
+                        <TextView
+                            android:id="@+id/activity_home_notify_xuly"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="top|right"
+                            android:layout_marginBottom="-10dp"
+                            android:layout_marginLeft="-10dp"
+                            android:background="@xml/bg_notify"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="-5dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/xu_ly"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
                 </LinearLayout>
+                <!-- Item 3 -->
 
                 <LinearLayout
                     android:id="@+id/cacloai"
@@ -102,78 +157,81 @@
                     android:orientation="vertical"
                     android:padding="8dp" >
 
-                    <ImageView
-                        android:id="@+id/image3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_cacloai" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <ImageView
+                            android:id="@+id/image3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:adjustViewBounds="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_cacloai" />
+
+                        <TextView
+                            android:id="@+id/activity_home_notify_cacloai"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="top|right"
+                            android:layout_marginBottom="-10dp"
+                            android:layout_marginLeft="-10dp"
+                            android:background="@xml/bg_notify"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="-5dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/cac_loai"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
                 </LinearLayout>
+                <!-- MainItemLayout -->
+
             </LinearLayout>
+            <!-- Main -->
+            <!-- Bottom -->
+
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/exit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/exit_selector"
+            android:clickable="true"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
 
-            <!--<FrameLayout
-                android:id="@+id/option"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_exit" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/option_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_option" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/option"
-                    android:textColor="@color/white"
-                    android:textSize="18dp" />
-            </FrameLayout>-->
-
-            <FrameLayout
-                android:id="@+id/exit"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/exit_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_exit" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/exit"
-                    android:textColor="@color/white"
-                    android:textSize="18dp" />
-            </FrameLayout>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/exit"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
         </LinearLayout>
+        <!-- End of Bottom -->
+
     </LinearLayout>
 
 </ScrollView>
