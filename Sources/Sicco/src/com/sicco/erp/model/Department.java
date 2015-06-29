@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -42,7 +43,7 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 	
-	public ArrayList<Department> getData(String url) {
+	public ArrayList<Department> getData( final String url) {
 		listDep = new ArrayList<Department>();
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, null, new JsonHttpResponseHandler() {
@@ -74,6 +75,7 @@ public class Department {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
+				getData(url);
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				Log.d("LuanDT", "json: false");
 			}

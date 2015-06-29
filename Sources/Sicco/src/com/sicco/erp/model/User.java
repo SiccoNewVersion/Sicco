@@ -103,7 +103,7 @@ public class User {
 	}
 	
 	//get all user
-	public ArrayList<User> getData(String url) {
+	public ArrayList<User> getData(final String url) {
 		listUser = new ArrayList<User>();
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, null, new JsonHttpResponseHandler() {
@@ -136,6 +136,7 @@ public class User {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
+				getData(url);
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				Log.d("LuanDT", "json: false");
 			}

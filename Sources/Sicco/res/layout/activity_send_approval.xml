@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -39,14 +39,13 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <!-- <ImageView
+            <ImageView
                 android:id="@+id/send"
                 android:layout_width="@dimen/actionbar_size"
                 android:layout_height="@dimen/actionbar_size"
                 android:background="@drawable/drawer_selector"
-                android:clickable="true"
-                android:padding="16dp"
-                android:src="@drawable/ic_send_white_48dp" /> -->
+                android:clickable="false"
+                android:padding="16dp" />
         </LinearLayout>
     </FrameLayout>
 

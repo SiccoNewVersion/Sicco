@@ -214,7 +214,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 
 	private void startDownload() {
 		dialog = new ProgressDialog(ApprovalActivity.this);
-		downloadFile = new DownloadFile("http://myapp.freezoy.com/HDPV.pdf");
+		downloadFile = new DownloadFile("http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
 		dialog.setMessage("Dang tai: " + downloadFile.getFileName());
 		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(false);

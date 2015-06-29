@@ -81,7 +81,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 //			showDialogConfirmExit();
 			Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
 			startActivity(intent);
-//			finish();
+			finish();
 			break;
 		}
 	}
