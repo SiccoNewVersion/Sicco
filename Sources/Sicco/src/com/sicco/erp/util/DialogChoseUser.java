@@ -35,7 +35,7 @@ public class DialogChoseUser {
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
 	private HashMap<String, ArrayList<User>> listUser;
-	private ArrayList<User> listChecked = new ArrayList<User>();
+	private ArrayList<User> listChecked;
 	private ExpandableListUserAdapter adapter;
 	private int mCurrentExpandedGroup = -1;
 	private String handler;
@@ -58,8 +58,8 @@ public class DialogChoseUser {
 
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View layout = inflater.inflate(R.layout.dialog_chose_user, null);
-		layout.setMinimumWidth((int) (rect.width() * 0.99f));
-		layout.setMinimumHeight((int) (rect.height() * 0.99f));
+		layout.setMinimumWidth((int) (rect.width() * 1f));
+		layout.setMinimumHeight((int) (rect.height() * 1f));
 
 		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
 		if (TaskAdapter.flag.equals("")) {
@@ -167,9 +167,11 @@ public class DialogChoseUser {
 								.getString(R.string.empty_handle), Toast.LENGTH_SHORT).show();
 					}else {
 						alertDialog.dismiss();
-						Toast.makeText(context, context.getResources()
-								.getString(R.string.success), Toast.LENGTH_SHORT)
-								.show();
+//						Toast.makeText(context, context.getResources()
+//								.getString(R.string.success), Toast.LENGTH_SHORT)
+//								.show();
+						new DialogShowHandler(context, listChecked);
+						
 					}
 					
 				} else if (TaskAdapter.flag.equals("")) {
