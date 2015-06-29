@@ -1,47 +1,29 @@
 package com.sicco.erp;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
+import net.sf.andpdf.pdfviewer.PdfViewerActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sicco.erp.adapter.TouchImageAdapter;
-import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.view.ExtendedViewPager;
-
-public class ViewDispatchActivity extends Activity implements OnClickListener {
+public class ViewDispatchActivity extends PdfViewerActivity implements
+		OnClickListener {
 	private ImageView back;
 	private TextView title;
-	private ExtendedViewPager viewPager;
-	private Dispatch dispatch;
-	private ArrayList<String> arrayImage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_dispatch);
-		Bundle bundle = getIntent().getBundleExtra("bundle");
-		dispatch = (Dispatch) bundle.getSerializable("dispatch");
-		if(dispatch==null){
-			finish();
-		}
-		init();
+//		setContentView(R.layout.activity_view_dispatch);
+//		init();
 	}
 
 	private void init() {
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
-		viewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
 		//
 		back.setOnClickListener(this);
-		title.setText(dispatch.getTitle());
-		arrayImage = dispatch.getImage_url();
-		TouchImageAdapter adapter = new TouchImageAdapter(ViewDispatchActivity.this, arrayImage);
-		viewPager.setAdapter(adapter);
 	}
 
 	@Override
@@ -54,4 +36,43 @@ public class ViewDispatchActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	public int getPreviousPageImageResource() {
+		return R.drawable.left_arrow;
+	}
+
+	public int getNextPageImageResource() {
+		return R.drawable.right_arrow;
+	}
+
+	public int getZoomInImageResource() {
+		return R.drawable.zoom_in;
+	}
+
+	public int getZoomOutImageResource() {
+		return R.drawable.zoom_out;
+	}
+
+	public int getPdfPasswordLayoutResource() {
+		return R.layout.pdf_file_password;
+	}
+
+	public int getPdfPageNumberResource() {
+		return R.layout.dialog_pagenumber;
+	}
+
+	public int getPdfPasswordEditField() {
+		return R.id.etPassword;
+	}
+
+	public int getPdfPasswordOkButton() {
+		return R.id.btOK;
+	}
+
+	public int getPdfPasswordExitButton() {
+		return R.id.btExit;
+	}
+
+	public int getPdfPageNumberEditField() {
+		return R.id.pagenum_edit;
+	}
 }
