@@ -49,6 +49,8 @@
         <activity android:name=".ChangeStatusDispatch" 
          	android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".ConvertDispatchActivity" >
+        </activity>
         <service android:name="com.sicco.erp.service.GetAllNotificationService" >
         </service>
     </application>
