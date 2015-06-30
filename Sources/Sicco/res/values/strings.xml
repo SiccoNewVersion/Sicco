@@ -53,6 +53,7 @@
     <string name="begin_progress">0%</string>
     
     <!-- LuanDT -->
+    <string name="enter_title">Nhập tiêu đề</string>
     <string name="cv_cac_loai">Công văn các loại</string>
     <string name="task">Tác vụ</string>
     <!--menu_task-->
