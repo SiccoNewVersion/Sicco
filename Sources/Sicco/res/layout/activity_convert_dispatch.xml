@@ -33,7 +33,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/cv_can_phe"
+                android:text="@string/job_transfer"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -85,7 +85,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             
             <LinearLayout
 			    android:id="@+id/lnJobType "
@@ -118,7 +120,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             
             <LinearLayout
 			    android:id="@+id/lnFromDate"
@@ -151,7 +155,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnToDate"
                 android:layout_width="match_parent"
@@ -183,7 +189,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnStatus"
                 android:layout_width="match_parent"
@@ -215,7 +223,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnProgress"
                 android:layout_width="match_parent"
@@ -247,7 +257,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnLevel"
                 android:layout_width="match_parent"
@@ -268,7 +280,7 @@
                     android:id="@+id/txtLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/level"
+                    android:text="@string/normal"
                     
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
@@ -279,7 +291,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnHandler"
                 android:layout_width="match_parent"
@@ -291,7 +305,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/handler"
+                    android:text="@string/handler1"
                     
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
@@ -300,7 +314,7 @@
                     android:id="@+id/txtHandler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/handler"
+                    android:text="@string/handler1"
                     
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
@@ -311,7 +325,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnViewer"
                 android:layout_width="match_parent"
@@ -343,7 +359,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
 			    android:id="@+id/lnDepartment"
                 android:layout_width="match_parent"
@@ -377,7 +395,9 @@
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/actionbar_color"/>
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <Button
                 android:id="@+id/button1"

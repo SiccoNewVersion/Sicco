@@ -42,6 +42,7 @@ public class DialogChoseUser {
 	private ExpandableListUserAdapter adapter;
 	private int mCurrentExpandedGroup = -1;
 	private String handler;
+	private String strUsers = "";
 
 	private ExpandableListView listView;
 	private ProgressBar loading;
@@ -184,6 +185,10 @@ public class DialogChoseUser {
 				for (int i = 0; i < listChecked.size(); i++) {
 					handler += listChecked.get(i).getUsername() + "; ";
 				}
+				
+				for (int i = 0; i < listChecked.size(); i++) {
+					strUsers += listChecked.get(i).getUsername() + "; ";
+				}
 
 				if (TaskAdapter.flag.equals("handle")) {
 					if (listChecked.isEmpty()) {
@@ -201,13 +206,21 @@ public class DialogChoseUser {
 				} else if (TaskAdapter.flag.equals("")) {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
+					listChecked.clear();
 				}else if (TaskAdapter.flag.equals("chooseHandler")) {
-					ConvertDispatchActivity.txtHandler.setText(handler);
+					if (!strUsers.equals("")) {
+						ConvertDispatchActivity.txtHandler.setText(strUsers);
+					}
 					alertDialog.dismiss();
+					listChecked.clear();
 				}else if (TaskAdapter.flag.equals("chooseViewer")) {
-					ConvertDispatchActivity.txtViewer.setText(handler);
+					if (!strUsers.equals("")) {
+						ConvertDispatchActivity.txtViewer.setText(strUsers);
+					}
 					alertDialog.dismiss();
+					listChecked.clear();
 				}
+				
 			}
 		});
 		// click retry
