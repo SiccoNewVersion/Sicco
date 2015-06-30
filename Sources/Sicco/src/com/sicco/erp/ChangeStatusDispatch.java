@@ -3,13 +3,8 @@ package com.sicco.erp;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sicco.erp.adapter.ReportSteerAdapter;
-import com.sicco.erp.model.ReportSteer;
-import com.sicco.erp.model.Dispatch.OnLoadListener;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -23,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sicco.erp.adapter.ReportSteerAdapter;
+import com.sicco.erp.model.ReportSteer;
 
 public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	

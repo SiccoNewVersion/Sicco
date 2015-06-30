@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.SendApprovalActivity;

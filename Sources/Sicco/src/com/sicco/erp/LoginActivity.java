@@ -93,20 +93,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	private void login() {
-		// String u = username.getText().toString().trim().toLowerCase();
-		// String p = password.getText().toString().trim().toLowerCase();
-		// User user = new User(LoginActivity.this);
-		// user.setUsername(u);
-		// user.setPassword(p);
-		// int login = user.login();
-		// if (login == User.LOGIN_SUCCESS) {
-		// finish();
-		// Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-		// startActivity(intent);
-		// } else {
-		// Toast.makeText(LoginActivity.this, "sai tai khoan hoac mat khau",
-		// Toast.LENGTH_SHORT).show();
-		// }
 
 		u = username.getText().toString().trim().toLowerCase();
 		p = password.getText().toString().trim().toLowerCase();

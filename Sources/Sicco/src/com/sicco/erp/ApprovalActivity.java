@@ -1,22 +1,13 @@
 package com.sicco.erp;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import net.sf.andpdf.pdfviewer.PdfViewerActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -29,13 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.DownloadFile;
-import com.sicco.erp.util.DownloadFile.OnDownloadListener;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 

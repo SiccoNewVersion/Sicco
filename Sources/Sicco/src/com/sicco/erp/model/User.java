@@ -92,16 +92,6 @@ public class User {
 		return "id = " + id + "; username = " + username + "; department = " + department;
 	}
 
-	//login
-	public int login() {
-		if (username.equals("admin")) {
-			return LOGIN_SUCCESS;
-		} else {
-			return LOGIN_FALSE;
-		}
-
-	}
-	
 	//get all user
 	public ArrayList<User> getData(final String url) {
 		listUser = new ArrayList<User>();

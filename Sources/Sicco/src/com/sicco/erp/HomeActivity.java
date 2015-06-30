@@ -133,9 +133,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		// startActivity(OptionActivity.class);
 		// break;
 		case R.id.exit:
-			// showDialogConfirmExit();
-			Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-			startActivity(intent);
+			session.logoutUser();
+			ServiceStart.stopAllService(getApplicationContext());
 			finish();
 			break;
 		}

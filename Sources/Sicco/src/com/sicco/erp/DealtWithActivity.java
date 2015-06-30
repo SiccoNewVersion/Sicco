@@ -2,21 +2,15 @@ package com.sicco.erp;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.adapter.TaskAdapter;
-import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.model.Dispatch.OnLoadListener;
-import com.sicco.erp.util.Keyboard;
-import com.sicco.erp.util.ViewDispatch;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.ViewDispatch;
 
 public class DealtWithActivity extends Activity implements OnClickListener, OnItemClickListener{
 	
