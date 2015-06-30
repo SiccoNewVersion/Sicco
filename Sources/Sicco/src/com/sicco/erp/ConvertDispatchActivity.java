@@ -1,5 +1,12 @@
 package com.sicco.erp;
 
+import java.util.ArrayList;
+
+import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.model.Department;
+import com.sicco.erp.model.User;
+import com.sicco.erp.util.DialogChoseUser;
+
 import android.app.Activity;
 import android.media.Image;
 import android.os.Bundle;
@@ -17,8 +24,14 @@ public class ConvertDispatchActivity extends Activity implements
 		OnClickListener {
 	private ImageView back;
 	private LinearLayout lnTitle,lnJobType,lnFromDate,lnStatus,lnProgress,lnLevel,lnHandler,lnViewer,lnDepartment,lnToDate;
-	private TextView txtNumSignDispatch,txtJobType,txtFromDate,txtStatus,txtProgress,txtLevel,txtHandler,txtViewer,txtDepartment,txtToDate;
+	private TextView txtNumSignDispatch,txtJobType,txtFromDate,txtStatus,txtProgress,txtLevel,txtDepartment,txtToDate;
 	private EditText edtTitleJob;
+	
+	public static TextView txtHandler,txtViewer;
+	
+	private ArrayList<Department> listDep;
+	private ArrayList<User> allUser;
+	private ArrayList<User> listChecked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,6 @@ public class ConvertDispatchActivity extends Activity implements
 		lnDepartment = (LinearLayout)findViewById(R.id.lnDepartment);
 		lnToDate = (LinearLayout)findViewById(R.id.lnToDate);
 		
-		txtNumSignDispatch = (TextView)findViewById(R.id.txtNumberSignDispatch);
 		txtJobType = (TextView)findViewById(R.id.txtJobType);
 		txtFromDate = (TextView)findViewById(R.id.txtFromDate);
 		txtStatus = (TextView)findViewById(R.id.txtStatus);
@@ -67,6 +79,11 @@ public class ConvertDispatchActivity extends Activity implements
 		lnViewer.setOnClickListener(this);
 		lnDepartment.setOnClickListener(this);
 		lnToDate.setOnClickListener(this);
+		
+		listChecked = new ArrayList<User>();
+
+		listDep = HomeActivity.listDep;
+		allUser = HomeActivity.allUser;
 	}
 
 	@Override
@@ -95,10 +112,18 @@ public class ConvertDispatchActivity extends Activity implements
 			Toast.makeText(getApplicationContext(), "lnLevel", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lnHandler:
-			Toast.makeText(getApplicationContext(), "lnHandler", Toast.LENGTH_SHORT).show();
+
+			TaskAdapter.flag = "chooseHandler";
+			new DialogChoseUser(ConvertDispatchActivity.this, listDep, allUser,
+					listChecked);
+
 			break;
 		case R.id.lnViewer:
-			Toast.makeText(getApplicationContext(), "lnViewer", Toast.LENGTH_SHORT).show();
+
+			TaskAdapter.flag = "chooseViewer";
+			new DialogChoseUser(ConvertDispatchActivity.this, listDep, allUser,
+					listChecked);
+			
 			break;
 		case R.id.lnDepartment:
 			Toast.makeText(getApplicationContext(), "lnDepartment", Toast.LENGTH_SHORT).show();

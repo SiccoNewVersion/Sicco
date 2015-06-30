@@ -34,6 +34,21 @@
     <string name="report">Báo cáo: "</string>
     <string name="sep">" / "</string>
     <string name="empty_content_report">Bạn chưa nhập nội dung</string>
+    <string name="job_type">Loại công việc</string>
+    <string name="from_date">Từ ngày</string>
+    <string name="to_date">Đến ngày</string>
+    <string name="status">Trạng thái</string>
+    <string name="progress">Tiến độ</string>
+    <string name="level">Mức độ</string>
+    <string name="viewer">Người xem</string>
+    <string name="department">Phòng ban</string>
+    <string name="title">Tiêu đề</string>
+    <string name="covert">Chuyển</string>
+    
+    <string name="everyday">Hàng ngày</string>
+    <string name="execute">Thực hiện</string>
+    <string name="normal">Bình thường</string>
+    <string name="begin_progress">0%</string>
     
     <!-- LuanDT -->
     <string name="cv_cac_loai">Công văn các loại</string>

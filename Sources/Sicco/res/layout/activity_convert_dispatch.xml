@@ -55,75 +55,329 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/c_title"
+			<LinearLayout
+			    android:id="@+id/lnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Title"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@drawable/item_convert_job_selector" >
 
-            <TextView
-                android:id="@+id/c_job_type"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/edtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+					android:hint="Nhap tieu de"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            
+            <LinearLayout
+			    android:id="@+id/lnJobType "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_job_type"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@drawable/item_convert_job_selector" >
 
-            <TextView
-                android:id="@+id/c_receive_date"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/job_type"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtJobType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/everyday"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            
+            <LinearLayout
+			    android:id="@+id/lnFromDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_receive_date"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
 
-            <TextView
-                android:id="@+id/c_to_date"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/from_date"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtFromDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" 
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnToDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_to_date"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
 
-            <TextView
-                android:id="@+id/c_progress"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to_date"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtToDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" 
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="progress"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
 
-            <Spinner
-                android:id="@+id/c_department"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/execute"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/c_lever"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_lever"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@drawable/item_convert_job_selector" >
 
-            <TextView
-                android:id="@+id/c_handler"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/progress"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/begin_progress"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnLevel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_handler"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
 
-            <TextView
-                android:id="@+id/c_viewer"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/level"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/level"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnHandler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="c_viewer"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/handler"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtHandler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/handler"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnViewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewer"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtViewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewer"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
+            <LinearLayout
+			    android:id="@+id/lnDepartment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/department"
+                    
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtDepartment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/department"
+                    
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+            
+            
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/actionbar_color"/>
 
             <Button
                 android:id="@+id/button1"
@@ -134,10 +388,12 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/bg_btn_login_selector"
-                android:text="@string/login"
+                android:text="@string/covert"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                
+                android:layout_marginBottom="30dp" />
         </LinearLayout>
     </ScrollView>
 

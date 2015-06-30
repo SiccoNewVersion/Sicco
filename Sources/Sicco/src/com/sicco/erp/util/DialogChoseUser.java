@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
@@ -199,6 +200,12 @@ public class DialogChoseUser {
 
 				} else if (TaskAdapter.flag.equals("")) {
 					SendApprovalActivity.txtHandler.setText(handler);
+					alertDialog.dismiss();
+				}else if (TaskAdapter.flag.equals("chooseHandler")) {
+					ConvertDispatchActivity.txtHandler.setText(handler);
+					alertDialog.dismiss();
+				}else if (TaskAdapter.flag.equals("chooseViewer")) {
+					ConvertDispatchActivity.txtViewer.setText(handler);
 					alertDialog.dismiss();
 				}
 			}
