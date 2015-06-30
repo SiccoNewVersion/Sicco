@@ -2,6 +2,7 @@ package com.sicco.erp.service;
 
 import java.util.ArrayList;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,12 +10,12 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.sicco.erp.database.NotificationDBController;
-import com.sicco.erp.http.HTTPHandler;
 import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.util.Utils;
@@ -60,92 +61,108 @@ public class GetAllNotificationService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// start Service
 		Log.d("ToanNM", "onstart()");
-		new getAllNotification().execute(url_get_notification);
+		MyAsync();
 
 		return START_STICKY;
 	}
 
-	class getAllNotification extends AsyncTask<String, Void, String> {
+	void MyAsync() {
+		AsyncHttpClient handler = new AsyncHttpClient();
 
-		@Override
-		protected String doInBackground(String... arg0) {
-			HTTPHandler handler = new HTTPHandler();
-			String ret = "";
-			try {
-				ret = handler.makeHTTPRequest(url_get_notification,
-						HTTPHandler.POST);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return ret;
-		}
+		handler.post(getApplicationContext(), url_get_notification, null,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						String st = response.toString();
+						Log.d("ToanNM", "json:" + st);
 
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			if (result != null) {
-				try {
-					JSONObject json = new JSONObject(result);
-					JSONArray rows = json.getJSONArray("row");
-					for (int i = 0; i < rows.length(); i++) {
-						json = rows.getJSONObject(i);
-						// get all data
-						id = json.getString("id");
-						notification_type = json.getString("notification_type");
-						msg_type = json.getString("message_type");
-						ten = json.getString("ten");
-						content = json.getString("noi_dung");
-						url = json.getString("url");
+						try {
+							JSONObject json = new JSONObject(st);
+							JSONArray rows = json.getJSONArray("row");
+							for (int i = 0; i < rows.length(); i++) {
+								json = rows.getJSONObject(i);
+								// get all data
+								id = json.getString("id");
+								notification_type = json
+										.getString("notification_type");
+								msg_type = json.getString("message_type");
+								ten = json.getString("ten");
+								content = json.getString("noi_dung");
+								url = json.getString("url");
 
-						// add to db
-						db = NotificationDBController
-								.getInstance(getApplicationContext());
-						String sql = "Select * from "
-								+ NotificationDBController.TABLE_NAME
-								+ " where " + NotificationDBController.ID_COL
-								+ " = " + id;
-						cursor = db.rawQuery(sql, null);
+								// add to db
+								db = NotificationDBController
+										.getInstance(getApplicationContext());
+								String sql = "Select * from "
+										+ NotificationDBController.TABLE_NAME
+										+ " where "
+										+ NotificationDBController.ID_COL
+										+ " = " + id;
+								cursor = db.rawQuery(sql, null);
 
-						if (cursor != null && cursor.getCount() > 0) {
+								if (cursor != null && cursor.getCount() > 0) {
 
-						} else {
-							ContentValues values = new ContentValues();
-							values.put(NotificationDBController.ID_COL, id);
-							// values.put(NotificationDBController.USERNAME_COL,
-							// msg_type_id);
-							values.put(NotificationDBController.ID_NOTYFI_COL,
-									id);
-							values.put(NotificationDBController.CONTENT_COL,
-									content);
-							values.put(
-									NotificationDBController.NOTIFI_TYPE_COL,
-									notification_type);
-							values.put(NotificationDBController.MSG_TYPE_COL,
-									msg_type);
-							values.put(NotificationDBController.NAME_COL, ten);
-							values.put(NotificationDBController.CONTENT_COL,
-									content);
-							values.put(NotificationDBController.URL_COL, url);
-							values.put(
-									NotificationDBController.STATE_COL,
-									NotificationDBController.NOTIFICATION_STATE_NEW);
+								} else {
+									ContentValues values = new ContentValues();
+									values.put(NotificationDBController.ID_COL,
+											id);
+									// values.put(NotificationDBController.USERNAME_COL,
+									// msg_type_id);
+									values.put(
+											NotificationDBController.ID_NOTYFI_COL,
+											id);
+									values.put(
+											NotificationDBController.CONTENT_COL,
+											content);
+									values.put(
+											NotificationDBController.NOTIFI_TYPE_COL,
+											notification_type);
+									values.put(
+											NotificationDBController.MSG_TYPE_COL,
+											msg_type);
+									values.put(
+											NotificationDBController.NAME_COL,
+											ten);
+									values.put(
+											NotificationDBController.CONTENT_COL,
+											content);
+									values.put(
+											NotificationDBController.URL_COL,
+											url);
+									values.put(
+											NotificationDBController.STATE_COL,
+											NotificationDBController.NOTIFICATION_STATE_NEW);
 
-							long rowInserted = db.insert(
-									NotificationDBController.TABLE_NAME, null,
-									values);
-							Log.d("ToanNM", "rowInserted is : " + rowInserted);
+									long rowInserted = db
+											.insert(NotificationDBController.TABLE_NAME,
+													null, values);
+									Log.d("ToanNM", "rowInserted is : "
+											+ rowInserted);
+								}
+							}
+							if (cursor != null && cursor.getCount() > 0) {
+							} else {
+								initMessageData();
+								origanizeNoti();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+
+						super.onSuccess(statusCode, headers, response);
 					}
-					if (cursor != null && cursor.getCount() > 0) {
-					} else {
-						initMessageData();
-						origanizeNoti();
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+
+				});
+
 	}
 
 	void initMessageData() {

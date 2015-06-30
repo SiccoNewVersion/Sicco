@@ -1,17 +1,12 @@
 package com.sicco.erp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.Header;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +14,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sicco.erp.http.HTTPHandler;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.sicco.erp.manager.AlertDialogManager;
 import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.service.ServiceStart;
@@ -32,13 +30,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private Button login;
 	private TextView forgotPW;
 
+	private static String url = "http://office.sicco.vn/api/get_one_user.php";
+	String login_file;
 	// Session Manager Class
 	SessionManager session;
 	String p = "";
 	String u;
 	String mToken, mUser_id, mId_phonng_ban;
 
-	ProgressDialog mLoginDialog;
+	ProgressBar mLoginDialog;
 
 	// Alert Dialog Manager
 	AlertDialogManager alert = new AlertDialogManager();
@@ -61,9 +61,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 		forgotPW.setOnClickListener(this);
 
 		// progress
-		mLoginDialog = new ProgressDialog(this);
-		mLoginDialog.setTitle("");
-		mLoginDialog.setMessage(getString(R.string.progress_msg));
+		// mLoginDialog = new ProgressDialog(this);
+		mLoginDialog = (ProgressBar) findViewById(R.id.login_progress);
+		mLoginDialog.setVisibility(View.GONE);
 
 		// session
 		session = SessionManager.getInstance(getApplicationContext());
@@ -73,7 +73,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		p = hashMap.get(SessionManager.KEY_PASSWORD);
 		Log.d("ToanNM", "u : " + u + ", p : ");
 		if (!u.equals("") && !p.equals("")) {
-			new MyAsync().execute(u, p);
+			MyAsync();
 		}
 
 	}
@@ -98,7 +98,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		p = password.getText().toString().trim().toLowerCase();
 
 		if (u.trim().length() > 0 && p.trim().length() > 0) {
-			new MyAsync().execute(u, p);
+			MyAsync();
 		} else {
 			String t = getApplicationContext().getResources().getString(
 					R.string.error_title);
@@ -108,64 +108,82 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public class MyAsync extends AsyncTask<String, Void, String> {
+	void MyAsync() {
+		AsyncHttpClient handler = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.add("username", u);
+		params.add("password", p);
+		mLoginDialog.setVisibility(View.VISIBLE);
+		// String login = getApplicationContext().getResources().getString(
+		// R.string.progress_msg);
+		// mLoginDialog.setTitle(login);
+		// mLoginDialog.setMessage(getString(R.string.progress_msg));
+		// mLoginDialog.show();
+		login.setEnabled(false);
 
-		@Override
-		protected void onPreExecute() {
-			mLoginDialog.show();
-			super.onPreExecute();
-		}
+		handler.post(getApplicationContext(), url, params,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						int error_code = -1;
+						String st = response.toString();
+						Log.d("ToanNM", "json:" + st);
+						// mLoginDialog.dismiss();
+						mLoginDialog.setVisibility(View.GONE);
+						login.setEnabled(true);
+						try {
+							JSONObject json = new JSONObject(st);
+							error_code = Integer.valueOf(json
+									.getString("error"));
+							u = json.getString("username");
+							mToken = json.getString("token");
+							mUser_id = json.getString("id");
+							mId_phonng_ban = json.getString("phongban");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						if (error_code == 0) {
+							session.createLoginSession(u, p, mToken, mUser_id,
+									mId_phonng_ban, true);
 
-		@Override
-		protected String doInBackground(String... arg0) {
-			mLoginDialog.dismiss();
-			HTTPHandler handler = new HTTPHandler();
-			List<NameValuePair> nameValue = new ArrayList<NameValuePair>();
-			nameValue.add(new BasicNameValuePair("username", u));
-			nameValue.add(new BasicNameValuePair("password", p));
+							Intent i = new Intent(getApplicationContext(),
+									HomeActivity.class);
+							startActivity(i);
+							ServiceStart
+									.startGetNotificationService(getApplicationContext());
+							finish();
+						} else if (error_code != 0) {
+							Log.d("ToanNM", "run");
+							String t = getApplicationContext().getResources()
+									.getString(R.string.error_title);
+							String s = getApplicationContext().getResources()
+									.getString(R.string.error);
+							alert.showAlertDialog(LoginActivity.this, t, s,
+									false);
+						}
 
-			String ret = handler.makeHTTPRequest(
-					"http://office.sicco.vn/api/get_one_user.php",
-					HTTPHandler.POST, nameValue);
-			// Log.d("DungHV", "ret = " + ret);
+						super.onSuccess(statusCode, headers, response);
+					}
 
-			return ret;
-		}
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						// mLoginDialog.dismiss();
+						mLoginDialog.setVisibility(View.GONE);
+						login.setEnabled(true);
+						String s = getApplicationContext().getResources()
+								.getString(R.string.internet_false);
+						String t = getApplicationContext().getResources()
+								.getString(R.string.error_title);
+						alert.showAlertDialog(LoginActivity.this, t, s, false);
 
-		@Override
-		protected void onPostExecute(String result) {
-			int error_code = -1;
-			int a = 10;
-			try {
-				JSONObject json = new JSONObject(result);
-				error_code = Integer.valueOf(json.getString("error"));
-				u = json.getString("username");
-				mToken = json.getString("token");
-				mUser_id = json.getString("id");
-				mId_phonng_ban = json.getString("phongban");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (error_code == 0) {
-				session.createLoginSession(u, p, mToken, mUser_id,
-						mId_phonng_ban, true);
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
 
-				Intent i = new Intent(getApplicationContext(),
-						HomeActivity.class);
-				startActivity(i);
-				ServiceStart
-						.startGetNotificationService(getApplicationContext());
-				finish();
-			} else if (error_code != 0) {
-				Log.d("ToanNM", "run");
-				String t = getApplicationContext().getResources().getString(
-						R.string.error_title);
-				String s = getApplicationContext().getResources().getString(
-						R.string.error);
-				alert.showAlertDialog(LoginActivity.this, t, s, false);
-			}
+				});
 
-			super.onPostExecute(result);
-		}
 	}
+
 }

@@ -25,8 +25,8 @@ import com.sicco.erp.service.ServiceStart;
 import com.sicco.erp.util.Utils;
 
 public class HomeActivity extends Activity implements OnClickListener {
-	private LinearLayout canphe, xuly, cacloai, exit;
-	private FrameLayout option;
+	private LinearLayout canphe, xuly, cacloai;
+	private FrameLayout exit;
 	private AlertDialog alertDialog;
 	private Department department;
 	private User user;
@@ -59,8 +59,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		listDep = new ArrayList<Department>();
 		allUser = new ArrayList<User>();
 		listDep = department
-				.getData(getResources().getString(R.string.api_get_deparment));
-		allUser = user.getData(getResources().getString(R.string.api_get_all_user));
+				.getData("http://office.sicco.vn/api/departments.php");
+		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
 	}
 
 	void setCount() {
@@ -107,7 +107,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
 		// option = (FrameLayout) findViewById(R.id.option);
-		exit = (LinearLayout) findViewById(R.id.exit);
+		exit = (FrameLayout) findViewById(R.id.exit);
 		// click
 		canphe.setOnClickListener(this);
 		xuly.setOnClickListener(this);
