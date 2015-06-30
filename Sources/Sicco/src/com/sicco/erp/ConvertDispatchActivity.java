@@ -2,13 +2,7 @@ package com.sicco.erp;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.adapter.TaskAdapter;
-import com.sicco.erp.model.Department;
-import com.sicco.erp.model.User;
-import com.sicco.erp.util.DialogChoseUser;
-
 import android.app.Activity;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,9 +10,13 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.model.Department;
+import com.sicco.erp.model.User;
+import com.sicco.erp.util.DialogChoseUser;
 
 public class ConvertDispatchActivity extends Activity implements
 		OnClickListener {
