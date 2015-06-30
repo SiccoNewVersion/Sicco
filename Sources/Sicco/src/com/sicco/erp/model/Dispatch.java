@@ -107,7 +107,6 @@ public class Dispatch implements Serializable {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
-				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
 
 				Log.d("TuNT", "json: " + jsonRead);
@@ -133,6 +132,7 @@ public class Dispatch implements Serializable {
 						e.printStackTrace();
 					}
 				}
+				onLoadListener.onSuccess();
 				super.onSuccess(statusCode, headers, response);
 			}
 

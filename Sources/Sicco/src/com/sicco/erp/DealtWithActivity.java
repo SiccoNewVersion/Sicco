@@ -25,11 +25,13 @@ import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 
-public class DealtWithActivity extends Activity implements OnClickListener, OnItemClickListener{
-	
+public class DealtWithActivity extends Activity implements OnClickListener,
+		OnItemClickListener {
+
 	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
+	private TextView emptyView;
 	private ListView listDispatch;
 	private ProgressBar loading;
 	private Button retry;
@@ -54,11 +56,12 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 		close = (ImageView) searchView.findViewById(R.id.close);
 		empty = (ImageView) searchView.findViewById(R.id.empty);
 		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
 		listDispatch = (ListView) findViewById(R.id.listDispatch);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
-		title_actionbar = (TextView)  findViewById(R.id.title_actionbar);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar.setText(getResources().getString(R.string.cv_xu_ly));
 		// click
 		back.setOnClickListener(this);
@@ -69,7 +72,8 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(DealtWithActivity.this);
-		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_handle),
+		arrDispatch = dispatch.getData(
+				getResources().getString(R.string.api_get_dispatch_handle),
 				new OnLoadListener() {
 
 					@Override
@@ -82,6 +86,9 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						adapter.notifyDataSetChanged();
+						if (adapter.getCount() <= 0) {
+							listDispatch.setEmptyView(emptyView);
+						}
 					}
 
 					@Override
@@ -90,8 +97,7 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(DealtWithActivity.this,
-				arrDispatch);
+		adapter = new TaskAdapter(DealtWithActivity.this, arrDispatch);
 		listDispatch.setAdapter(adapter);
 	}
 
@@ -113,7 +119,8 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 			break;
 		case R.id.retry:
 			adapter.setData(dispatch.getData(
-					getResources().getString(R.string.api_get_dispatch_handle), new OnLoadListener() {
+					getResources().getString(R.string.api_get_dispatch_handle),
+					new OnLoadListener() {
 
 						@Override
 						public void onStart() {
@@ -141,12 +148,14 @@ public class DealtWithActivity extends Activity implements OnClickListener, OnIt
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(DealtWithActivity.this, "http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
-//		Intent intent = new Intent(DealtWithActivity.this, ViewDispatchActivity.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putSerializable("dispatch", dispatch);
-//		intent.putExtra("bundle", bundle);
-//		startActivity(intent);
+		viewDispatch = new ViewDispatch(DealtWithActivity.this,
+				"http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+		// Intent intent = new Intent(DealtWithActivity.this,
+		// ViewDispatchActivity.class);
+		// Bundle bundle = new Bundle();
+		// bundle.putSerializable("dispatch", dispatch);
+		// intent.putExtra("bundle", bundle);
+		// startActivity(intent);
 	}
 
 	@Override

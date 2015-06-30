@@ -25,6 +25,7 @@
     <string name="retry">Thử lại</string>
     <string name="send">Gửi</string>
     <string name="insert_text">Nhập văn bản</string>
+    <string name="data_empty">Không có dữ liệu.</string>
     <!-- End TuNT -->
     
     <!-- NgaDV -->

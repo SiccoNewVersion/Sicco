@@ -33,6 +33,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
+	private TextView emptyView;
 	private ListView listDispatch;
 	private ProgressBar loading;
 	private Button retry;
@@ -60,6 +61,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		close = (ImageView) searchView.findViewById(R.id.close);
 		empty = (ImageView) searchView.findViewById(R.id.empty);
 		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
 		listDispatch = (ListView) findViewById(R.id.listDispatch);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
@@ -88,6 +90,9 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						dispatchAdapter.notifyDataSetChanged();
+						if(dispatchAdapter.getCount()<=0){
+							listDispatch.setEmptyView(emptyView);
+						}
 					}
 
 					@Override
