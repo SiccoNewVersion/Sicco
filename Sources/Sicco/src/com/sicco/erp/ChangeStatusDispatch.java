@@ -36,12 +36,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private ReportSteer reportSteer;
 	private EditText edtContent;
 	private TextView txtStatusDispatch;
-	private String arr[] = {
-			 "Chá»�n tráº¡ng thĂ¡i",
-			 "Cáº§n phĂª",
-			 "Cáº§n xá»­ lĂ½",
-			 "Táº¡m dá»«ng xá»­ lĂ½",
-			 "Káº¿t thĂºc xá»­ lĂ½"};
+	private String arr[] ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +49,9 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 		setSpinnerStatus();
 	}
 	private void init() {
+		
+			arr = getResources().getStringArray(R.array.arrStatus);
+			
 			back 				= 	(ImageView)		findViewById(R.id.back);
 			loading 			= 	(ProgressBar) 	findViewById(R.id.loading);
 			retry 				= 	(Button) 		findViewById(R.id.retry);

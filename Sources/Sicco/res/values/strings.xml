@@ -52,6 +52,14 @@
     <string name="normal">Bình thường</string>
     <string name="begin_progress">0%</string>
     
+    <string-array name="arrStatus">
+        <item name="choose_status">Chọn trạng thái</item>
+        <item name="need_approval">Cần phê</item>
+        <item name="need_handle">Cần xử lý</item>
+        <item name="pause_handle">Tạm dừng xử lý</item>
+        <item name="finish_handle">Kết thúc xử lý</item>
+    </string-array>
+    
     <!-- LuanDT -->
     <string name="enter_title">Nhập tiêu đề</string>
     <string name="cv_cac_loai">Công văn các loại</string>
