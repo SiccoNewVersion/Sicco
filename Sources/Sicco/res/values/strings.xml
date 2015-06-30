@@ -55,6 +55,18 @@
 	<string name="agree">Đồng ý</string>
 	<string name="no">Không</string>
 	
+	<!-- link api -->
+	<string name="api_get_dispatch_approval">http://myapp.freezoy.com/</string>
+	<string name="api_get_dispatch_handle">http://myapp.freezoy.com/</string>
+	<string name="api_get_dispatch_other">http://myapp.freezoy.com/</string>
+	<string name="api_get_all_user">http://office.sicco.vn/api/list_users.php</string>
+	<string name="api_get_deparment">http://office.sicco.vn/api/departments.php</string>
+	<string name="api_get_steer_report">http://myapp.freezoy.com/reportsteer.php</string>
+	<string name="api_get_2"></string>
+	<string name="api_get_3"></string>
+	<string name="api_get_4"></string>
+	<string name="api_get_5"></string>
+	
 	<!-- ToanNM -->
     <string name="cong_van">Công văn cần phê</string>
     <string name="cong_viec">Công văn cần xử lí</string>

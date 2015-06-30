@@ -75,7 +75,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(ApprovalActivity.this);
-		arrDispatch = dispatch.getData("http://myapp.freezoy.com/",
+		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
 				new OnLoadListener() {
 
 					@Override
@@ -119,7 +119,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.retry:
 			dispatchAdapter.setData(dispatch.getData(
-					"http://myapp.freezoy.com/", new OnLoadListener() {
+					getResources().getString(R.string.api_get_dispatch_approval), new OnLoadListener() {
 
 						@Override
 						public void onStart() {

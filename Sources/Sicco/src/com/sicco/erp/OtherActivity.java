@@ -71,7 +71,7 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(OtherActivity.this);
-		arrDispatch = dispatch.getData("http://myapp.freezoy.com/",
+		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_other),
 				new OnLoadListener() {
 
 					@Override
@@ -115,7 +115,7 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 			break;
 		case R.id.retry:
 			adapter.setData(dispatch.getData(
-					"http://myapp.freezoy.com/", new OnLoadListener() {
+					getResources().getString(R.string.api_get_dispatch_other), new OnLoadListener() {
 
 						@Override
 						public void onStart() {

@@ -111,7 +111,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		// }
 
 		arrReportSteers = reportSteer.getData(
-				"http://myapp.freezoy.com/reportsteer.php",
+				getResources().getString(R.string.api_get_steer_report),
 				new OnLoadListener() {
 
 					@Override
@@ -148,7 +148,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.retry:
 			arrReportSteers = reportSteer.getData(
-					"http://myapp.freezoy.com/reportsteer.php",
+					getResources().getString(R.string.api_get_steer_report),
 					new OnLoadListener() {
 
 						@Override

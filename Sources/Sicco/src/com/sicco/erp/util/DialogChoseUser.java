@@ -233,14 +233,14 @@ public class DialogChoseUser {
 	
 	public void getData(){
 		listDep = department.getData(
-				"http://office.sicco.vn/api/departments.php",
+				context.getResources().getString(R.string.api_get_deparment),
 				new OnLoadListener() {
 
 					@Override
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						//get all user
-						allUser = user.getData("http://office.sicco.vn/api/list_users.php", new User.OnLoadListener() {
+						allUser = user.getData(context.getResources().getString(R.string.api_get_all_user), new User.OnLoadListener() {
 							
 							@Override
 							public void onSuccess() {
