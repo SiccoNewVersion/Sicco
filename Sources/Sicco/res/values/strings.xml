@@ -63,4 +63,9 @@
 	<string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
 	<string name="new_noti">Cảnh báo mới</string>
 	<string name="new_noti_mess">Bạn có </string>
+	<!-- Home -->
+    <string name="progress_msg">Đang đăng nhập...</string>
+    <string name="error_title">Lỗi đăng nhập</string>
+    <string name="error_null">Bạn chưa nhập tên tài khoản hoặc mật khẩu</string>
+    <string name="error">Sai tên tài khoản hoặc mật khẩu</string>
 </resources>

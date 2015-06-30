@@ -17,9 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
 import com.sicco.erp.service.GetAllNotificationService;
+import com.sicco.erp.service.ServiceStart;
+import com.sicco.erp.util.Utils;
 
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai, exit;
@@ -30,18 +33,24 @@ public class HomeActivity extends Activity implements OnClickListener {
 	public static ArrayList<Department> listDep;
 	public static ArrayList<User> allUser;
 
+	// ToanNM
+	int cvcp_count, cvxl_count, cl_count;
+	SessionManager session;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		// ToanNM
-		Intent intent = new Intent(this, GetAllNotificationService.class);
-		startService(intent);
+		ServiceStart.startGetNotificationService(getApplicationContext());
 		Log.d("ToanNM", "Service has been started from Home Activity");
 		setContentView(R.layout.activity_home);
 		setCount();
+
+		// session
+		session = SessionManager.getInstance(getApplicationContext()); // <= 145
+																		// + 146
 		// === End of ToanNM ===
-		init();
 		init();
 
 		// init data
@@ -55,7 +64,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 	}
 
 	void setCount() {
-		// ToanNM
 		int delay = 1000;
 		final TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
 		final TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
@@ -65,18 +73,33 @@ public class HomeActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void run() {
+				cvcp_count = Utils.getInt(getApplicationContext(),
+						GetAllNotificationService.CVCP_KEY);
+				cvxl_count = Utils.getInt(getApplicationContext(),
+						GetAllNotificationService.CVXL_KEY);
+				cl_count = Utils.getInt(getApplicationContext(),
+						GetAllNotificationService.CL_KEY);
 
-				notify_cvcp.setText(""
-						+ GetAllNotificationService.getCongViecCanPheCount());
-				notify_cvxl.setText(""
-						+ GetAllNotificationService.getCongViecCanXuLyCount());
-				notify_cl.setText(""
-						+ GetAllNotificationService.getCacLoaiCount());
+				// check Condition
+				checkNotifyCount(notify_cvcp, cvcp_count);
+				checkNotifyCount(notify_cvxl, cvxl_count);
+				checkNotifyCount(notify_cl, cl_count);
+				Log.d("ToanNM", "cvcp_count : " + cvcp_count
+						+ ", cvxl_count : " + cvxl_count + ", cl_count : "
+						+ cl_count);
 			}
 		}, delay);
 
-		// === End of ToanNM ===
 	}
+
+	void checkNotifyCount(TextView textView, int notifyCount) {
+		if (notifyCount != 0) {
+			textView.setVisibility(View.VISIBLE);
+			textView.setText("" + notifyCount);
+		} else if (notifyCount == 0) {
+			textView.setVisibility(View.GONE);
+		}
+	}// === End of ToanNM ===
 
 	private void init() {
 		// view
