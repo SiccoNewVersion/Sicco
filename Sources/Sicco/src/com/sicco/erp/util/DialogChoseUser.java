@@ -30,6 +30,7 @@ import com.sicco.erp.adapter.ExpandableListUserAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
+import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
 
 public class DialogChoseUser {
@@ -51,10 +52,26 @@ public class DialogChoseUser {
 
 	private Department department;
 	private User user;
+	private Dispatch dispatch;
 
 	public DialogChoseUser(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
+		this.listDep = listDep;
+		this.allUser = allUser;
+		this.listChecked = listChecked;
+
+		department = new Department();
+		user = new User();
+
+		listUser = getData(listDep, allUser);
+		showDialog();
+	}
+	
+	public DialogChoseUser(Context context, Dispatch dispatch, ArrayList<Department> listDep,
+			ArrayList<User> allUser, ArrayList<User> listChecked) {
+		this.context = context;
+		this.dispatch = dispatch;
 		this.listDep = listDep;
 		this.allUser = allUser;
 		this.listChecked = listChecked;
@@ -199,7 +216,7 @@ public class DialogChoseUser {
 								Toast.LENGTH_SHORT).show();
 					} else {
 						alertDialog.dismiss();
-						new DialogShowHandler(context, listChecked);
+						new DialogShowHandler(context, dispatch,listChecked);
 
 					}
 
