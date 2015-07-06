@@ -65,12 +65,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/actionbar_color" />
-            
-            <Spinner
-                android:id="@+id/spnStatusDispatch"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/drawer_selector" />
+                android:layout_height="60dp" >
+
+                <Spinner
+                    android:id="@+id/spnStatusDispatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/drawer_selector" />
+
+                <ImageView
+                    android:id="@+id/ImageView01"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_ic_send_selector"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_send" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView1"

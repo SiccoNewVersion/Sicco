@@ -25,6 +25,7 @@ import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
 import com.sicco.erp.model.ReportSteer.OnLoadListener;
+import com.sicco.erp.util.Utils;
 
 public class SteerReportActivity extends Activity implements OnClickListener {
 
@@ -47,7 +48,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
-		Log.d("NgaDV", "handler dispatch:"+dispatch.getHandler());
+		Log.d("NgaDV", "id_user:"+Utils.getString(SteerReportActivity.this, SessionManager.KEY_USER_ID));
 		init();
 		setListReportSteer(dispatch);
 		sendReportSteer();
@@ -82,28 +83,58 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 				if (!content.equals("")) {
 					reportSteer.sendReportSteer(getResources().getString(R.string.api_send_report), 
-							SessionManager.KEY_USER_ID, 
+							Utils.getString(SteerReportActivity.this, SessionManager.KEY_USER_ID), 
 							Long.toString(dispatch.getId()), 
 							content, 
 							new OnLoadListener() {
 						
 						@Override
 						public void onSuccess() {
-//							progressDialog.dismiss();
+							edtContent.setText("");
+							arrReportSteers = reportSteer.getData(
+									getResources().getString(R.string.api_get_steer_report),
+									SessionManager.KEY_USER_ID,
+									Long.toString(dispatch.getId()),
+									new OnLoadListener() {
+										@Override
+										public void onSuccess() {
+											loading.setVisibility(View.GONE);
+											reportSteerAdapter.notifyDataSetChanged();
+										}
+
+										@Override
+										public void onStart() {
+											loading.setVisibility(View.VISIBLE);
+											connectError.setVisibility(View.GONE);
+										}
+
+										@Override
+										public void onFalse() {
+											loading.setVisibility(View.GONE);
+											connectError.setVisibility(View.VISIBLE);
+										}
+									});
+
+							reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(),
+									arrReportSteers);
+
+							listReport.setAdapter(reportSteerAdapter);
+							progressDialog.dismiss();
 							Log.d("NgaDV", "onSuccess");
 						}
 						
 						@Override
 						public void onStart() {
-//							progressDialog.setMessage("abc");
-//							progressDialog.show();
+							
+							progressDialog.setMessage("abc");
+							progressDialog.show();
 							Log.d("NgaDV", "onStart");
 						}
 						
 						@Override
 						public void onFalse() {
 							Log.d("NgaDV", "onFalse");
-//							progressDialog.dismiss();
+							progressDialog.dismiss();
 						}
 					});
 
