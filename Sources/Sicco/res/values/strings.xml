@@ -82,9 +82,9 @@
 	<string name="no">Không</string>
 	
 	<!-- link api -->
-	<string name="api_get_dispatch_approval">http://myapp.freezoy.com/</string>
-	<string name="api_get_dispatch_handle">http://myapp.freezoy.com/</string>
-	<string name="api_get_dispatch_other">http://myapp.freezoy.com/</string>
+	<string name="api_get_dispatch_approval">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_dispatch_handle">http://office.sinco.pro.vn/api/handl_dispatch.php</string>
+	<string name="api_get_dispatch_other">http://office.sinco.pro.vn/api/other_dispatch.php</string>
 	<string name="api_get_all_user">http://office.sicco.vn/api/list_users.php</string>
 	<string name="api_get_deparment">http://office.sicco.vn/api/departments.php</string>
 	<string name="api_get_steer_report">http://myapp.freezoy.com/reportsteer.php</string>
