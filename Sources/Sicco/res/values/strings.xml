@@ -88,10 +88,12 @@
 	<string name="api_get_all_user">http://office.sicco.vn/api/list_users.php</string>
 	<string name="api_get_deparment">http://office.sicco.vn/api/departments.php</string>
 	<string name="api_get_steer_report">http://myapp.freezoy.com/reportsteer.php</string>
-	<string name="api_get_2"></string>
-	<string name="api_get_3"></string>
-	<string name="api_get_4"></string>
-	<string name="api_get_5"></string>
+	<string name="api_get_2">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_3">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_4">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_5">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_6">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_get_7">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
 	
 	<!-- ToanNM -->
     <string name="cong_van">Công văn cần phê</string>
