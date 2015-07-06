@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
 
 public class DialogShowHandler {
@@ -24,9 +27,18 @@ public class DialogShowHandler {
 	private ArrayList<User> listChecked;
 	private String handler;
 	private Button btnCancel, btnDone;
+	private Dispatch dispatch;
 
 	public DialogShowHandler(Context context, ArrayList<User> listChecked) {
 		this.context = context;
+		this.listChecked = listChecked;
+
+		showDialog();
+	}
+	
+	public DialogShowHandler(Context context,Dispatch dispatch, ArrayList<User> listChecked) {
+		this.context = context;
+		this.dispatch = dispatch;
 		this.listChecked = listChecked;
 
 		showDialog();
@@ -40,18 +52,21 @@ public class DialogShowHandler {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View layout = inflater.inflate(R.layout.dialog_show_handler, null);
 		layout.setMinimumWidth((int) (rect.width() * 1f));
-//		layout.setMinimumHeight((int) (rect.height() * 1f));
+		// layout.setMinimumHeight((int) (rect.height() * 1f));
 
 		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
-		TextView txtListHandeler = (TextView) layout.findViewById(R.id.listHandler);
-		
-		handler = context.getResources()
-				.getString(R.string.handler);
+		TextView txtListHandeler = (TextView) layout
+				.findViewById(R.id.listHandler);
+
+		handler = "";
 		for (int i = 0; i < listChecked.size(); i++) {
-			handler += listChecked.get(i).getUsername() + "; ";
+			if (i == listChecked.size() - 1)
+				handler += listChecked.get(i).getUsername();
+			else
+				handler += listChecked.get(i).getUsername() + ",";
 		}
-		txtListHandeler.setText(handler);
-		
+		txtListHandeler.setText(context.getResources().getString(R.string.handler)+handler);
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(layout);
 		builder.setCancelable(true);
@@ -63,7 +78,6 @@ public class DialogShowHandler {
 			@Override
 			public void onClick(View v) {
 				alertDialog.dismiss();
-
 			}
 		});
 
@@ -72,15 +86,11 @@ public class DialogShowHandler {
 
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(
-						context,
-						context.getResources().getString(
-								R.string.success),
-						Toast.LENGTH_SHORT).show();
 				alertDialog.dismiss();
+				guiXuLy();
 			}
 		});
-		
+
 		btnCancel = (Button) layout.findViewById(R.id.cancel);
 		btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -91,4 +101,38 @@ public class DialogShowHandler {
 		});
 	}
 
+	private void guiXuLy() {
+		final ProgressDialog dialog = new ProgressDialog(context);
+		dialog.setMessage("dang xu ly");
+		Dispatch dDispatch = new Dispatch(context);
+		dDispatch.guiXuLy("http://office.sinco.pro.vn/api/guixuly.php", Long.toString(dispatch.getId()),
+				handler, new OnRequestListener() {
+
+					@Override
+					public void onSuccess() {
+						dialog.dismiss();
+						Toast.makeText(context, "Thao tac thanh cong.",
+								Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onStart() {
+						dialog.show();
+					}
+
+					@Override
+					public void onFalse() {
+						dialog.dismiss();
+						Toast.makeText(context, "Thao tac khong thanh cong",
+								Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onFalse(String stFalse) {
+						dialog.dismiss();
+						Toast.makeText(context, "Thao tac thanh cong. "
+								+ stFalse, Toast.LENGTH_SHORT).show();
+					}
+				});
+	}
 }

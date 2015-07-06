@@ -2,30 +2,27 @@ package com.sicco.erp.adapter;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.TextView;
+
 import com.sicco.erp.ChangeStatusDispatch;
 import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
-import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseUser;
-
-import android.content.Context;
-import android.content.Intent;
-import android.sax.StartElementListener;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class TaskAdapter extends BaseAdapter {
 	private Context context;
@@ -38,9 +35,9 @@ public class TaskAdapter extends BaseAdapter {
 	public TaskAdapter(Context context, ArrayList<Dispatch> data) {
 		this.context = context;
 		this.data = data;
-		
+
 		listChecked = new ArrayList<User>();
-		
+
 		listDep = HomeActivity.listDep;
 		allUser = HomeActivity.allUser;
 	}
@@ -75,7 +72,8 @@ public class TaskAdapter extends BaseAdapter {
 			holder.title = (TextView) view.findViewById(R.id.title);
 			holder.description = (TextView) view.findViewById(R.id.description);
 			holder.approval = (TextView) view.findViewById(R.id.approval);
-			holder.approval.setText(context.getResources().getString(R.string.task));
+			holder.approval.setText(context.getResources().getString(
+					R.string.task));
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -83,44 +81,50 @@ public class TaskAdapter extends BaseAdapter {
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				PopupMenu popupMenu = new PopupMenu(context, holder.approval);
-				popupMenu.getMenuInflater().inflate(R.menu.menu_task, popupMenu.getMenu());
+				popupMenu.getMenuInflater().inflate(R.menu.menu_task,
+						popupMenu.getMenu());
 				popupMenu.show();
-				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						Intent intent = new Intent();
-						switch (item.getItemId()) {
-						case R.id.action_handle:
-							flag = "handle";
-							new DialogChoseUser(context, listDep, allUser, listChecked);
-							break;
-						case R.id.action_steer:
-							intent.setClass(context, SteerReportActivity.class);
-							intent.putExtra("dispatch", dispatch);
-							context.startActivity(intent);
-							break;
-						case R.id.action_change_status:
-							intent.setClass(context, ChangeStatusDispatch.class);
-							intent.putExtra("dispatch", "" + dispatch);
-							context.startActivity(intent);
-							break;
-						case R.id.action_job_transfer:
-							intent.setClass(context, ConvertDispatchActivity.class);
-							intent.putExtra("dispatch", "" + dispatch);
-							context.startActivity(intent);
-							break;
+				popupMenu
+						.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
-						default:
-							break;
-						}
-						return false;
-					}
-				});
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								Intent intent = new Intent();
+								switch (item.getItemId()) {
+								case R.id.action_handle:
+									flag = "handle";
+									new DialogChoseUser(context, dispatch,
+											listDep, allUser, listChecked);
+									break;
+								case R.id.action_steer:
+									intent.setClass(context,
+											SteerReportActivity.class);
+									intent.putExtra("dispatch", dispatch);
+									context.startActivity(intent);
+									break;
+								case R.id.action_change_status:
+									intent.setClass(context,
+											ChangeStatusDispatch.class);
+									intent.putExtra("dispatch", "" + dispatch);
+									context.startActivity(intent);
+									break;
+								case R.id.action_job_transfer:
+									intent.setClass(context,
+											ConvertDispatchActivity.class);
+									intent.putExtra("dispatch", "" + dispatch);
+									context.startActivity(intent);
+									break;
+
+								default:
+									break;
+								}
+								return false;
+							}
+						});
 			}
 		});
 		return view;
