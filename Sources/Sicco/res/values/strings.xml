@@ -91,8 +91,8 @@
 	<string name="api_chuyencongvan">http://office.sinco.pro.vn/api/chuyencongvan.php</string>
 	<string name="api_phecongvan">http://office.sinco.pro.vn/api/phecongvan.php</string>
 	<string name="api_send_report">http://office.sinco.pro.vn/api/send_report.php</string>
-	<string name="api_get_5">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
-	<string name="api_get_6">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+	<string name="api_send_handl_forward">http://office.sinco.pro.vn/api/guixuly.php</string>
+	<string name="api_change_status">http://office.sinco.pro.vn/api/change_status.php</string>
 	<string name="api_get_one_user">http://office.sicco.vn/api/get_one_user.php</string>
 	
 	<!-- ToanNM -->
