@@ -70,6 +70,7 @@ public class ReportSteer {
 		this.content = content;
 	}
 	
+	//sendReport
 	public void sendReportSteer(String url,String id_user,String id_dispatch,String content,OnLoadListener OnLoadListener){
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
@@ -79,13 +80,14 @@ public class ReportSteer {
 		params.add("content", content);
 		
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(context,url, params, new JsonHttpResponseHandler() {
+		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
-
+				
+				Log.d("NgaDV", "get Report Json : " + jsonRead);
 //				if (!jsonRead.isEmpty()) {
 //					try {
 //						JSONObject jsonObject = new JSONObject(jsonRead);
@@ -94,22 +96,17 @@ public class ReportSteer {
 //						for (int i = 0; i < jsonArray.length(); i++) {
 //							JSONObject row = jsonArray.getJSONObject(i);
 //
-//							String handler = row.getString("handler");
-//							String date = row.getString("date");
+//							String reporter = row.getString("reporter");
+//							String date = row.getString("date_created");
 //							String content = row.getString("content");
-//							
-////							String handler = "handler";
-////							String date = row.getString("date_created");
-////							String content = row.getString("content");
 //
-//							data.add(new ReportSteer(i, handler, date, content));
+//							data.add(new ReportSteer(i, reporter, date, content));
 //
 //						}
 //					} catch (Exception e) {
 //						e.printStackTrace();
 //					}
 //				}
-				Log.d("NgaDV", "json: "+ jsonRead);
 				super.onSuccess(statusCode, headers, response);
 			}
 
@@ -123,20 +120,26 @@ public class ReportSteer {
 		});
 	}
 
-	public ArrayList<ReportSteer> getData(String url,
+	//getData
+	public ArrayList<ReportSteer> getData(String url,String id_user,String id_dispatch,
 			OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<ReportSteer>();
-
+		
+		RequestParams params = new RequestParams();
+		params.add("id_user", id_user);
+		params.add("id_dispatch", id_dispatch);
+		
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(url, null, new JsonHttpResponseHandler() {
+		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
-
+				
+				Log.d("NgaDV", "get Report Json : " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject jsonObject = new JSONObject(jsonRead);
@@ -145,15 +148,11 @@ public class ReportSteer {
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject row = jsonArray.getJSONObject(i);
 
-							String handler = row.getString("handler");
-							String date = row.getString("date");
+							String reporter = row.getString("reporter");
+							String date = row.getString("date_created");
 							String content = row.getString("content");
-							
-//							String handler = "handler";
-//							String date = row.getString("date_created");
-//							String content = row.getString("content");
 
-							data.add(new ReportSteer(i, handler, date, content));
+							data.add(new ReportSteer(i, reporter, date, content));
 
 						}
 					} catch (Exception e) {
