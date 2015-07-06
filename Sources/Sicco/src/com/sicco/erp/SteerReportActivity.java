@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInstaller.Session;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
+import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
 import com.sicco.erp.model.ReportSteer.OnLoadListener;
 
@@ -34,6 +38,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	private ArrayList<ReportSteer> arrReportSteers;
 	private ReportSteer reportSteer;
 	private EditText edtContent;
+	private Dispatch dispatch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +46,10 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_steer_report);
 
 		Intent intent = getIntent();
-		String id = intent.getStringExtra("id");
-		Toast.makeText(SteerReportActivity.this, id, Toast.LENGTH_SHORT).show();
+		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
+		Log.d("NgaDV", "handler dispatch:"+dispatch.getHandler());
 		init();
-		setListReportSteer();
+		setListReportSteer(dispatch);
 		sendReportSteer();
 	}
 
@@ -71,25 +76,34 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-
+				final ProgressDialog progressDialog = new ProgressDialog(SteerReportActivity.this);
+				
 				String content = edtContent.getText().toString().trim();
 
 				if (!content.equals("")) {
-					reportSteer.sendReportSteer("http://office.sinco.pro.vn/api/send_report.php", "1", "1", content, new OnLoadListener() {
+					reportSteer.sendReportSteer(getResources().getString(R.string.api_send_report), 
+							SessionManager.KEY_USER_ID, 
+							Long.toString(dispatch.getId()), 
+							content, 
+							new OnLoadListener() {
 						
 						@Override
 						public void onSuccess() {
+//							progressDialog.dismiss();
 							Log.d("NgaDV", "onSuccess");
 						}
 						
 						@Override
 						public void onStart() {
+//							progressDialog.setMessage("abc");
+//							progressDialog.show();
 							Log.d("NgaDV", "onStart");
 						}
 						
 						@Override
 						public void onFalse() {
 							Log.d("NgaDV", "onFalse");
+//							progressDialog.dismiss();
 						}
 					});
 
@@ -107,21 +121,12 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		});
 	}
 
-	private void setListReportSteer() {
-
-		// arrReportSteers = new ArrayList<ReportSteer>();
-		//
-		// for (int i = 0; i < 10; i++) {
-		// arrReportSteers.add(new ReportSteer(i, "NgaDV"+i, i+"-02-201"+i,
-		// "content "+i));
-		//
-		// Log.d("NgaDV", arrReportSteers.get(i).getHandler());
-		// }
-
+	private void setListReportSteer(Dispatch dispatch) {
 		arrReportSteers = reportSteer.getData(
 				getResources().getString(R.string.api_get_steer_report),
+				SessionManager.KEY_USER_ID,
+				Long.toString(dispatch.getId()),
 				new OnLoadListener() {
-
 					@Override
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
@@ -147,6 +152,11 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		listReport.setAdapter(reportSteerAdapter);
 	}
 
+	private SessionManager SessionManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -157,6 +167,8 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		case R.id.retry:
 			arrReportSteers = reportSteer.getData(
 					getResources().getString(R.string.api_get_steer_report),
+					SessionManager.KEY_USER_ID,
+					Long.toString(dispatch.getId()),
 					new OnLoadListener() {
 
 						@Override

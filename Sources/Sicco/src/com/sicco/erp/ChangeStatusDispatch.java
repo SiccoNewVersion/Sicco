@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
+import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
 
 public class ChangeStatusDispatch extends Activity implements OnClickListener {
@@ -38,13 +41,17 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private TextView txtStatusDispatch;
 	private String arr[] ;
 	
+	Dispatch dispatch;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_status_dispatch);
+		Intent intent = getIntent();
+		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
 		init();
-		setListReportSteer();
+		setListReportSteer(dispatch);
 		sendReportSteer();
 		setSpinnerStatus();
 	}
@@ -103,7 +110,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			});
 		}
 
-		private void setListReportSteer() {
+		private void setListReportSteer(Dispatch dispatch) {
 
 			// arrReportSteers = new ArrayList<ReportSteer>();
 			//
@@ -116,6 +123,8 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 
 			arrReportSteers = reportSteer.getData(
 					getResources().getString(R.string.api_get_steer_report),
+					SessionManager.KEY_USER_ID,
+					Long.toString(dispatch.getId()),
 					new ReportSteer.OnLoadListener() {
 
 						@Override
@@ -152,6 +161,8 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			case R.id.retry:
 				arrReportSteers = reportSteer.getData(
 						getResources().getString(R.string.api_get_steer_report),
+						SessionManager.KEY_USER_ID,
+						Long.toString(dispatch.getId()),
 						new ReportSteer.OnLoadListener() {
 
 							@Override
