@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class ReportSteer {
 	private Context context;
@@ -68,6 +69,59 @@ public class ReportSteer {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public void sendReportSteer(String url,String id_user,String id_dispatch,String content,OnLoadListener OnLoadListener){
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		RequestParams params = new RequestParams();
+		params.add("id_user", id_user);
+		params.add("id_dispatch", id_dispatch);
+		params.add("content", content);
+		
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(context,url, params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				onLoadListener.onSuccess();
+				String jsonRead = response.toString();
+
+//				if (!jsonRead.isEmpty()) {
+//					try {
+//						JSONObject jsonObject = new JSONObject(jsonRead);
+//						JSONArray jsonArray = jsonObject.getJSONArray("row");
+//
+//						for (int i = 0; i < jsonArray.length(); i++) {
+//							JSONObject row = jsonArray.getJSONObject(i);
+//
+//							String handler = row.getString("handler");
+//							String date = row.getString("date");
+//							String content = row.getString("content");
+//							
+////							String handler = "handler";
+////							String date = row.getString("date_created");
+////							String content = row.getString("content");
+//
+//							data.add(new ReportSteer(i, handler, date, content));
+//
+//						}
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+				Log.d("NgaDV", "json: "+ jsonRead);
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onLoadListener.onFalse();
+			}
+
+		});
+	}
 
 	public ArrayList<ReportSteer> getData(String url,
 			OnLoadListener OnLoadListener) {
@@ -91,13 +145,13 @@ public class ReportSteer {
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject row = jsonArray.getJSONObject(i);
 
-//							String handler = row.getString("handler");
-//							String date = row.getString("date");
-//							String content = row.getString("content");
-							
-							String handler = "handler";
-							String date = row.getString("date_created");
+							String handler = row.getString("handler");
+							String date = row.getString("date");
 							String content = row.getString("content");
+							
+//							String handler = "handler";
+//							String date = row.getString("date_created");
+//							String content = row.getString("content");
 
 							data.add(new ReportSteer(i, handler, date, content));
 
