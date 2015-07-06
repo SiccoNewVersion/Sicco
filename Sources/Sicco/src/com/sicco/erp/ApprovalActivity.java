@@ -53,29 +53,9 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		setContentView(R.layout.activity_approval);
 		init();
 	}
-
-	private void init() {
-		searchView = (LinearLayout) findViewById(R.id.searchview);
-		back = (ImageView) findViewById(R.id.back);
-		search = (ImageView) findViewById(R.id.search);
-		close = (ImageView) searchView.findViewById(R.id.close);
-		empty = (ImageView) searchView.findViewById(R.id.empty);
-		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
-		emptyView = (TextView) findViewById(R.id.empty_view);
-		listDispatch = (ListView) findViewById(R.id.listDispatch);
-		loading = (ProgressBar) findViewById(R.id.loading);
-		retry = (Button) findViewById(R.id.retry);
-		connectError = (LinearLayout) findViewById(R.id.connect_error);
-		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setText(getResources().getString(R.string.cv_can_phe));
-		// click
-		back.setOnClickListener(this);
-		search.setOnClickListener(this);
-		close.setOnClickListener(this);
-		empty.setOnClickListener(this);
-		retry.setOnClickListener(this);
-		listDispatch.setOnItemClickListener(this);
-		// set adapter
+	
+	@Override
+	protected void onResume() {
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
 				new OnLoadListener() {
@@ -104,6 +84,59 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
 				arrDispatch);
 		listDispatch.setAdapter(dispatchAdapter);
+		super.onResume();
+	}
+
+	private void init() {
+		searchView = (LinearLayout) findViewById(R.id.searchview);
+		back = (ImageView) findViewById(R.id.back);
+		search = (ImageView) findViewById(R.id.search);
+		close = (ImageView) searchView.findViewById(R.id.close);
+		empty = (ImageView) searchView.findViewById(R.id.empty);
+		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
+		listDispatch = (ListView) findViewById(R.id.listDispatch);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
+		title_actionbar.setText(getResources().getString(R.string.cv_can_phe));
+		// click
+		back.setOnClickListener(this);
+		search.setOnClickListener(this);
+		close.setOnClickListener(this);
+		empty.setOnClickListener(this);
+		retry.setOnClickListener(this);
+		listDispatch.setOnItemClickListener(this);
+		// set adapter
+//		dispatch = new Dispatch(ApprovalActivity.this);
+//		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
+//				new OnLoadListener() {
+//
+//					@Override
+//					public void onStart() {
+//						loading.setVisibility(View.VISIBLE);
+//						connectError.setVisibility(View.GONE);
+//					}
+//
+//					@Override
+//					public void onSuccess() {
+//						loading.setVisibility(View.GONE);
+//						dispatchAdapter.notifyDataSetChanged();
+//						if(dispatchAdapter.getCount()<=0){
+//							listDispatch.setEmptyView(emptyView);
+//						}
+//					}
+//
+//					@Override
+//					public void onFalse() {
+//						loading.setVisibility(View.GONE);
+//						connectError.setVisibility(View.VISIBLE);
+//					}
+//				});
+//		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
+//				arrDispatch);
+//		listDispatch.setAdapter(dispatchAdapter);
 	}
 
 	@Override
