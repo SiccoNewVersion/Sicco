@@ -30,7 +30,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private Button login;
 	private TextView forgotPW;
 
-	private static String url = "http://office.sicco.vn/api/get_one_user.php";
 	String login_file;
 	// Session Manager Class
 	SessionManager session;
@@ -121,7 +120,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// mLoginDialog.show();
 		login.setEnabled(false);
 
-		handler.post(getApplicationContext(), url, params,
+		handler.post(getApplicationContext(), getResources().getString(R.string.api_get_one_user), params,
 				new JsonHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,

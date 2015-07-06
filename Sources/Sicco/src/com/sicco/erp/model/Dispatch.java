@@ -13,28 +13,32 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.util.Utils;
 
 public class Dispatch implements Serializable {
 	private Context context;
 	private long id;
-	private String title, description, content;
-	private ArrayList<String> image_url;
-	private String time;
-	private int status;
+	private String numberDispatch, description, content;
+	private String date, handler;
+	private String status;
 	private ArrayList<Dispatch> data;
+	private Utils utils;
 
 	public Dispatch(Context context) {
 		this.context = context;
 	}
 
-	public Dispatch(long id, String title, String description, String content,
-			ArrayList<String> image_url, String time, int status) {
+	public Dispatch(long id, String numberDispatch, String description,
+			String content, String date, String handler, String status) {
+		super();
 		this.id = id;
-		this.title = title;
+		this.numberDispatch = numberDispatch;
 		this.description = description;
 		this.content = content;
-		this.image_url = image_url;
-		this.time = time;
+		this.date = date;
+		this.handler = handler;
 		this.status = status;
 	}
 
@@ -42,20 +46,28 @@ public class Dispatch implements Serializable {
 		return id;
 	}
 
+	public String getHandler() {
+		return handler;
+	}
+
+	public void setHandler(String handler) {
+		this.handler = handler;
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getDescription() {
 		return description;
+	}
+
+	public String getNumberDispatch() {
+		return numberDispatch;
+	}
+
+	public void setNumberDispatch(String numberDispatch) {
+		this.numberDispatch = numberDispatch;
 	}
 
 	public void setDescription(String description) {
@@ -70,28 +82,24 @@ public class Dispatch implements Serializable {
 		this.content = content;
 	}
 
-	public ArrayList<String> getImage_url() {
-		return image_url;
-	}
-
-	public void setImage_url(ArrayList<String> image_url) {
-		this.image_url = image_url;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public ArrayList<Dispatch> getData() {
+		return data;
 	}
 
 	public void setData(ArrayList<Dispatch> data) {
@@ -103,30 +111,32 @@ public class Dispatch implements Serializable {
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(url, null, new JsonHttpResponseHandler() {
+		RequestParams params = new RequestParams();
+		params.add("username", utils.getString(context, "name"));
+		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String jsonRead = response.toString();
 
-				Log.d("TuNT", "json: " + jsonRead);
+				Log.d("LuanDT", "json: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						JSONArray rows = object.getJSONArray("row");
 						for (int i = 0; i < rows.length(); i++) {
 							JSONObject row = rows.getJSONObject(i);
-							String title = row.getString("title");
-							String description = row.getString("description");
-							JSONArray images = row.getJSONArray("image_url");
-							ArrayList<String> imageUrl = new ArrayList<String>();
-							for (int j = 0; j < images.length(); j++) {
-								JSONObject image = images.getJSONObject(j);
-								imageUrl.add(image.getString("url"));
-							}
-							data.add(new Dispatch(1, title, description,
-									"content", imageUrl, "time", 1));
+							long id = row.getInt("id");
+							String numberDispatch = row.getString("so_hieu");
+							String description = row.getString("trich_yeu");
+							String content = row.getString("content");
+							String date = row.getString("ngay_den");
+							String status = row.getString("status");
+							String handler = row.getString("handler");
+							
+							data.add(new Dispatch(id, numberDispatch, description, content, date, handler, status));
 						}
+						
 
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -156,7 +166,7 @@ public class Dispatch implements Serializable {
 				return data;
 			} else {
 				for (Dispatch dispatch : data) {
-					if (dispatch.getTitle().contains(k)) {
+					if (dispatch.getNumberDispatch().contains(k)) {
 						result.add(dispatch);
 					}
 				}
@@ -173,7 +183,7 @@ public class Dispatch implements Serializable {
 				return data;
 			} else {
 				for (Dispatch dispatch : data) {
-					if (dispatch.getTitle().contains(k)) {
+					if (dispatch.getNumberDispatch().contains(k)) {
 						result.add(dispatch);
 					}
 				}

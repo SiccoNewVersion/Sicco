@@ -148,8 +148,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(DealtWithActivity.this,
-				"http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+		viewDispatch = new ViewDispatch(DealtWithActivity.this, dispatch.getContent());
 		// Intent intent = new Intent(DealtWithActivity.this,
 		// ViewDispatchActivity.class);
 		// Bundle bundle = new Bundle();

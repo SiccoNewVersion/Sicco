@@ -148,7 +148,7 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(OtherActivity.this, "http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+		viewDispatch = new ViewDispatch(OtherActivity.this, dispatch.getContent());
 //		Intent intent = new Intent(OtherActivity.this, ViewDispatchActivity.class);
 //		Bundle bundle = new Bundle();
 //		bundle.putSerializable("dispatch", dispatch);

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/item_size"
+    android:layout_height="match_parent"
     android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:maxLines="1"
-            android:singleLine="true"
             android:text="TextView"
             android:textColor="@color/item_title_color"
             android:textSize="18sp" />
@@ -27,10 +26,9 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:lines="1"
-            android:maxLines="1"
-            android:singleLine="true"
+            android:layout_weight="1"
+            android:paddingTop="4dp"
+            android:textSize="16sp"
             android:text="TextView"
             android:textColor="@color/item_desc_color" />
     </LinearLayout>
@@ -39,6 +37,7 @@
         android:layout_width="@dimen/item_size"
         android:layout_height="@dimen/item_size"
         android:padding="8dp"
+        android:layout_gravity="top|right"
         android:layout_marginRight="8dp" >
 
         <TextView

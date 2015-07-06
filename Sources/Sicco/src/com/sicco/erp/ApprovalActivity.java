@@ -153,7 +153,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
 		
-		viewDispatch = new ViewDispatch(ApprovalActivity.this, "http://office.sinco.pro.vn/public/file/06-GTT-CT-DTN_98193.pdf");
+		viewDispatch = new ViewDispatch(ApprovalActivity.this, dispatch.getContent());
 		
 		// Intent intent = new Intent(ApprovalActivity.this,
 		// ViewDispatchActivity.class);

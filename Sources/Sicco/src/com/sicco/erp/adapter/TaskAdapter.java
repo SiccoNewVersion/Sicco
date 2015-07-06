@@ -80,7 +80,7 @@ public class TaskAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.title.setText(dispatch.getTitle());
+		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {
 			
