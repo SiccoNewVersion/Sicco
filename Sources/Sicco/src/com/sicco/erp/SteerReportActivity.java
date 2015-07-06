@@ -6,6 +6,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -74,16 +75,23 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 				String content = edtContent.getText().toString().trim();
 
 				if (!content.equals("")) {
-					edtContent.setText("");// reset edtContent
-					arrReportSteers.add(new ReportSteer(1, content, new Date()
-							.toString(), content));
-
-					reportSteerAdapter = new ReportSteerAdapter(
-							getApplicationContext(), arrReportSteers);
-
-					listReport.setAdapter(reportSteerAdapter);
-					reportSteerAdapter.notifyDataSetChanged();
-					listReport.setSelection(arrReportSteers.size() - 1);
+					reportSteer.sendReportSteer("http://office.sinco.pro.vn/api/send_report.php", "1", "1", content, new OnLoadListener() {
+						
+						@Override
+						public void onSuccess() {
+							Log.d("NgaDV", "onSuccess");
+						}
+						
+						@Override
+						public void onStart() {
+							Log.d("NgaDV", "onStart");
+						}
+						
+						@Override
+						public void onFalse() {
+							Log.d("NgaDV", "onFalse");
+						}
+					});
 
 				} else {
 					Toast.makeText(
