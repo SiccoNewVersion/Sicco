@@ -113,7 +113,7 @@ public class DialogShowHandler {
 					public void onSuccess() {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac thanh cong.",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 						listChecked.removeAll(listChecked);
 					}
 
@@ -126,7 +126,7 @@ public class DialogShowHandler {
 					public void onFalse() {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac khong thanh cong",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 						listChecked.removeAll(listChecked);
 					}
 
@@ -134,7 +134,7 @@ public class DialogShowHandler {
 					public void onFalse(String stFalse) {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac thanh cong. "
-								+ stFalse, Toast.LENGTH_SHORT).show();
+								+ stFalse, Toast.LENGTH_LONG).show();
 						listChecked.removeAll(listChecked);
 					}
 				});

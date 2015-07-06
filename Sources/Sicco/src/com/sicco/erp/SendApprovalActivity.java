@@ -20,6 +20,7 @@ import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
@@ -34,9 +35,8 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
-	private String idHandler = "", returned;
-	private Dispatch dispatch;
-	private Utils utils = new Utils();
+	private String nameHandler = "", returned;
+	private Dispatch dispat;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 
 	private void init() {
 		Intent intent = getIntent();
-		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
+		dispat = (Dispatch) intent.getSerializableExtra("dispatch");
 
 		back = (ImageView) findViewById(R.id.back);
 		// send = (ImageView) findViewById(R.id.send);
@@ -85,35 +85,32 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btnApproval:
 			for (int i = 0; i < listChecked.size(); i++) {
-				idHandler += listChecked.get(i).getId() + ",";
+				if (i == listChecked.size() - 1)
+					nameHandler += listChecked.get(i).getUsername();
+				else
+					nameHandler += listChecked.get(i).getUsername() + ",";
 			}
-			Log.d("LuanDT", "idHandler: " + idHandler);
 
 			final ProgressDialog progressDialog = new ProgressDialog(
 					SendApprovalActivity.this);
 			progressDialog.setMessage(getResources()
 					.getString(R.string.waiting));
 
-			Log.d("LuanDT",
-					"--------------------id: "
-							+ utils.getString(getApplicationContext(),
-									"name") + "---idCV: " + dispatch.getId()
-							+ "----Noidung: " + document.getText().toString()
-							+ "-----idHandler: " + idHandler);
-
 			Dispatch dispatch = new Dispatch(SendApprovalActivity.this);
 			dispatch.approvalDispatch(
 					getResources().getString(R.string.api_phecongvan),
-					utils.getString(SendApprovalActivity.this, "user_id"), ""
-							+ dispatch.getId(), document.getText().toString(),
-					idHandler, new OnLoadListener() {
+					Utils.getString(SendApprovalActivity.this, "user_id"), ""
+							+ dispat.getId(), document.getText().toString(),
+					nameHandler, new OnRequestListener() {
 
 						@Override
 						public void onSuccess() {
 							progressDialog.dismiss();
 							Toast.makeText(SendApprovalActivity.this,
-									getResources().getString(R.string.success),
-									Toast.LENGTH_LONG).show();
+									getResources().getString(R.string.success), Toast.LENGTH_LONG)
+									.show();
+							listChecked.removeAll(listChecked);
+							finish();
 
 						}
 
@@ -125,17 +122,23 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 
 						@Override
 						public void onFalse() {
+							listChecked.removeAll(listChecked);
 							progressDialog.dismiss();
-							Toast.makeText(
-									SendApprovalActivity.this,
-									getResources().getString(
-											R.string.internet_false),
+							Toast.makeText(SendApprovalActivity.this, getResources().getString(R.string.internet_false),
 									Toast.LENGTH_LONG).show();
+							listChecked.removeAll(listChecked);
+
+						}
+
+						@Override
+						public void onFalse(String stFalse) {
+							progressDialog.dismiss();
+							Toast.makeText(SendApprovalActivity.this, stFalse, Toast.LENGTH_LONG).show();
+							listChecked.removeAll(listChecked);
 
 						}
 					});
 
-			listChecked.removeAll(listChecked);
 			break;
 
 		default:

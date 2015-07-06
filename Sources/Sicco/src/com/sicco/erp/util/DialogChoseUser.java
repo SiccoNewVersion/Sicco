@@ -223,19 +223,16 @@ public class DialogChoseUser {
 				} else if (TaskAdapter.flag.equals("")) {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
-					listChecked.clear();
 				}else if (TaskAdapter.flag.equals("chooseHandler")) {
 					if (!strUsers.equals("")) {
 						ConvertDispatchActivity.txtHandler.setText(strUsers);
 					}
 					alertDialog.dismiss();
-					listChecked.clear();
 				}else if (TaskAdapter.flag.equals("chooseViewer")) {
 					if (!strUsers.equals("")) {
 						ConvertDispatchActivity.txtViewer.setText(strUsers);
 					}
 					alertDialog.dismiss();
-					listChecked.clear();
 				}
 				
 			}

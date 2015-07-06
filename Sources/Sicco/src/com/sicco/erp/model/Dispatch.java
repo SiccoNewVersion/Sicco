@@ -14,6 +14,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sicco.erp.R;
 import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
@@ -109,7 +110,6 @@ public class Dispatch implements Serializable {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
-		String usern = Utils.getString(context, "name");
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.add("username", Utils.getString(context, "name"));
@@ -235,14 +235,14 @@ public class Dispatch implements Serializable {
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				Dispatch.this.onLoadListener.onFalse();
+				Dispatch.this.onRequestListener.onFalse();
 			}
 		});
 	}
 	
-	public void approvalDispatch(String url, String userId, String cvId, String noiDung, String nguoiXuLy, OnLoadListener OnLoadListener){
-		this.onLoadListener = OnLoadListener;
-		onLoadListener.onStart();
+	public void approvalDispatch(String url, String userId, String cvId, String noiDung, String nguoiXuLy, OnRequestListener onRequestListener){
+		Dispatch.this.onRequestListener = onRequestListener;
+		Dispatch.this.onRequestListener.onStart();
 		RequestParams params = new RequestParams();
 		params.add("id", userId);
 		params.add("id_cv", cvId);
@@ -257,7 +257,7 @@ public class Dispatch implements Serializable {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
-				onLoadListener.onFalse();
+				Dispatch.this.onRequestListener.onFalse();
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				Log.d("LuanDT", "json: false");
 			}
@@ -268,16 +268,14 @@ public class Dispatch implements Serializable {
 				String json = response.toString();
 				Log.d("LuanDT", "json phe cv: " + json);
 				
-				onLoadListener.onSuccess();
-				
 				if(!json.isEmpty()){
 					try {
 						JSONObject object = new JSONObject(json);
 						int success = object.getInt("success");
 						if(success == 1){
-							
+							Dispatch.this.onRequestListener.onSuccess();
 						} else {
-							
+							Dispatch.this.onRequestListener.onFalse(context.getResources().getString(R.string.error_l));
 						}
 						
 					} catch (JSONException e) {

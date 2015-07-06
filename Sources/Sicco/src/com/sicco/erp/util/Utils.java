@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.SystemClock;
 
+import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.service.GetAllNotificationService;
 
 /**
@@ -92,16 +93,10 @@ public class Utils {
 	}
 
 	public static String getString(Context context, String key) {
-		String ret = "";
-		try {
 			SharedPreferences pref = context.getSharedPreferences(
-					SHARED_PREFERENCE_STRING, Context.MODE_PRIVATE);
-			ret = pref.getString(key, "");
-		} catch (Exception e) {
+					SessionManager.PREF_NAME, Context.MODE_PRIVATE);
 
-		}
-
-		return ret;
+		return pref.getString(key, "-1");
 	}
 
 	public static void saveInt(Context context, String key, int value) {
