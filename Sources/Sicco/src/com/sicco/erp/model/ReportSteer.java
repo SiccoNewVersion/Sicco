@@ -91,8 +91,12 @@ public class ReportSteer {
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject row = jsonArray.getJSONObject(i);
 
-							String handler = row.getString("handler");
-							String date = row.getString("date");
+//							String handler = row.getString("handler");
+//							String date = row.getString("date");
+//							String content = row.getString("content");
+							
+							String handler = "handler";
+							String date = row.getString("date_created");
 							String content = row.getString("content");
 
 							data.add(new ReportSteer(i, handler, date, content));
