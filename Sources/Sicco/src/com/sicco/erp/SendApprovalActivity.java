@@ -3,7 +3,10 @@ package com.sicco.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,8 +18,11 @@ import android.widget.Toast;
 
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.Utils;
 
 public class SendApprovalActivity extends Activity implements OnClickListener {
 	private ImageView back, send;
@@ -28,7 +34,9 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
-	private String idHandler = "";
+	private String idHandler = "", returned;
+	private Dispatch dispatch;
+	private Utils utils = new Utils();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,9 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 	}
 
 	private void init() {
+		Intent intent = getIntent();
+		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
+
 		back = (ImageView) findViewById(R.id.back);
 		// send = (ImageView) findViewById(R.id.send);
 		btnChoseHandler = (Button) findViewById(R.id.btnChoseHandler);
@@ -74,12 +85,57 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btnApproval:
 			for (int i = 0; i < listChecked.size(); i++) {
-				idHandler += listChecked.get(i).getId() + ";";
+				idHandler += listChecked.get(i).getId() + ",";
 			}
-			Toast.makeText(SendApprovalActivity.this,
-					getResources().getString(R.string.success),
-					Toast.LENGTH_SHORT).show();
-			finish();
+			Log.d("LuanDT", "idHandler: " + idHandler);
+
+			final ProgressDialog progressDialog = new ProgressDialog(
+					SendApprovalActivity.this);
+			progressDialog.setMessage(getResources()
+					.getString(R.string.waiting));
+
+			Log.d("LuanDT",
+					"--------------------id: "
+							+ utils.getString(getApplicationContext(),
+									"name") + "---idCV: " + dispatch.getId()
+							+ "----Noidung: " + document.getText().toString()
+							+ "-----idHandler: " + idHandler);
+
+			Dispatch dispatch = new Dispatch(SendApprovalActivity.this);
+			dispatch.approvalDispatch(
+					getResources().getString(R.string.api_phecongvan),
+					utils.getString(SendApprovalActivity.this, "user_id"), ""
+							+ dispatch.getId(), document.getText().toString(),
+					idHandler, new OnLoadListener() {
+
+						@Override
+						public void onSuccess() {
+							progressDialog.dismiss();
+							Toast.makeText(SendApprovalActivity.this,
+									getResources().getString(R.string.success),
+									Toast.LENGTH_LONG).show();
+
+						}
+
+						@Override
+						public void onStart() {
+							progressDialog.show();
+
+						}
+
+						@Override
+						public void onFalse() {
+							progressDialog.dismiss();
+							Toast.makeText(
+									SendApprovalActivity.this,
+									getResources().getString(
+											R.string.internet_false),
+									Toast.LENGTH_LONG).show();
+
+						}
+					});
+
+			listChecked.removeAll(listChecked);
 			break;
 
 		default:

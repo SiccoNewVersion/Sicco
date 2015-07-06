@@ -46,7 +46,7 @@ public class DispatchAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View view, ViewGroup viewGroup) {
 		ViewHolder holder;
-		Dispatch dispatch = getItem(position);
+		final Dispatch dispatch = getItem(position);
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.item_dispatch,
 					viewGroup, false);
@@ -65,6 +65,7 @@ public class DispatchAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context, SendApprovalActivity.class);
+				intent.putExtra("dispatch", dispatch);
 				context.startActivity(intent);
 			}
 		});
