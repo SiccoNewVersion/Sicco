@@ -14,7 +14,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
 public class Dispatch implements Serializable {
@@ -178,14 +178,18 @@ public class Dispatch implements Serializable {
 
 	public ArrayList<Dispatch> search(String k) {
 		ArrayList<Dispatch> result = new ArrayList<Dispatch>();
+		String vReplace = AccentRemover.getInstance(context).removeAccent(k);
 		if (!data.isEmpty()) {
 			if (k.length() <= 0) {
 				return data;
 			} else {
 				for (Dispatch dispatch : data) {
-					if (dispatch.getNumberDispatch().contains(k)) {
-						result.add(dispatch);
-					}
+					
+					String iReplace = AccentRemover.getInstance(context).removeAccent(dispatch.getNumberDispatch());
+	                String replace = AccentRemover.getInstance(context).removeAccent(dispatch.getDescription());
+	                if(iReplace.toLowerCase().contains(vReplace.toLowerCase()) || replace.toLowerCase().contains(vReplace.toLowerCase())){
+	                	result.add(dispatch);
+	                }
 				}
 			}
 		}
