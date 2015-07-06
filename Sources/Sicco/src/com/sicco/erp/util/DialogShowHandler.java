@@ -97,6 +97,7 @@ public class DialogShowHandler {
 			@Override
 			public void onClick(View arg0) {
 				alertDialog.dismiss();
+				listChecked.removeAll(listChecked);
 			}
 		});
 	}
@@ -105,7 +106,7 @@ public class DialogShowHandler {
 		final ProgressDialog dialog = new ProgressDialog(context);
 		dialog.setMessage("dang xu ly");
 		Dispatch dDispatch = new Dispatch(context);
-		dDispatch.guiXuLy("http://office.sinco.pro.vn/api/guixuly.php", Long.toString(dispatch.getId()),
+		dDispatch.guiXuLy(context.getResources().getString(R.string.api_send_handl_forward), Long.toString(dispatch.getId()),
 				handler, new OnRequestListener() {
 
 					@Override
@@ -113,6 +114,7 @@ public class DialogShowHandler {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac thanh cong.",
 								Toast.LENGTH_SHORT).show();
+						listChecked.removeAll(listChecked);
 					}
 
 					@Override
@@ -125,6 +127,7 @@ public class DialogShowHandler {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac khong thanh cong",
 								Toast.LENGTH_SHORT).show();
+						listChecked.removeAll(listChecked);
 					}
 
 					@Override
@@ -132,6 +135,7 @@ public class DialogShowHandler {
 						dialog.dismiss();
 						Toast.makeText(context, "Thao tac thanh cong. "
 								+ stFalse, Toast.LENGTH_SHORT).show();
+						listChecked.removeAll(listChecked);
 					}
 				});
 	}

@@ -24,7 +24,6 @@ public class Dispatch implements Serializable {
 	private String date, handler;
 	private String status;
 	private ArrayList<Dispatch> data;
-	private Utils utils;
 
 	public Dispatch(Context context) {
 		this.context = context;
@@ -110,9 +109,11 @@ public class Dispatch implements Serializable {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
+		String usern = Utils.getString(context, "name");
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
-		params.add("username", utils.getString(context, "name"));
+		params.add("username", Utils.getString(context, "name"));
+		Log.d("LuanDT", "params: " + params);
 		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
@@ -236,6 +237,56 @@ public class Dispatch implements Serializable {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				Dispatch.this.onLoadListener.onFalse();
 			}
+		});
+	}
+	
+	public void approvalDispatch(String url, String userId, String cvId, String noiDung, String nguoiXuLy, OnLoadListener OnLoadListener){
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		RequestParams params = new RequestParams();
+		params.add("id", userId);
+		params.add("id_cv", cvId);
+		params.add("noi_dung", noiDung);
+		params.add("nguoi_xu_ly", nguoiXuLy);
+		
+		Log.d("LuanDT", "params phe: " + params);
+		
+		AsyncHttpClient httpClient = new AsyncHttpClient();
+		httpClient.post(url, params, new JsonHttpResponseHandler(){
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				Log.d("LuanDT", "json: false");
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String json = response.toString();
+				Log.d("LuanDT", "json phe cv: " + json);
+				
+				onLoadListener.onSuccess();
+				
+				if(!json.isEmpty()){
+					try {
+						JSONObject object = new JSONObject(json);
+						int success = object.getInt("success");
+						if(success == 1){
+							
+						} else {
+							
+						}
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+			
 		});
 	}
 

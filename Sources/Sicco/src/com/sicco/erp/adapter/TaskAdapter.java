@@ -109,13 +109,13 @@ public class TaskAdapter extends BaseAdapter {
 								case R.id.action_change_status:
 									intent.setClass(context,
 											ChangeStatusDispatch.class);
-									intent.putExtra("dispatch", "" + dispatch);
+									intent.putExtra("dispatch", dispatch);
 									context.startActivity(intent);
 									break;
 								case R.id.action_job_transfer:
 									intent.setClass(context,
 											ConvertDispatchActivity.class);
-									intent.putExtra("dispatch", "" + dispatch);
+									intent.putExtra("dispatch", dispatch);
 									context.startActivity(intent);
 									break;
 
