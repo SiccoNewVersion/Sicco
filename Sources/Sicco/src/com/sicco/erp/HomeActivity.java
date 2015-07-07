@@ -59,8 +59,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		listDep = new ArrayList<Department>();
 		allUser = new ArrayList<User>();
 		listDep = department
-				.getData("http://office.sicco.vn/api/departments.php");
-		allUser = user.getData("http://office.sicco.vn/api/list_users.php");
+				.getData(getResources().getString(R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(R.string.api_get_all_user));
 	}
 
 	void setCount() {
@@ -142,7 +142,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		// showDialogConfirmExit();
+		finish();
 	}
 
 	private void startActivity(Class c) {
