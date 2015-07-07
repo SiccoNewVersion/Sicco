@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -36,8 +37,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	// ToanNM
 	private int cvcp_count, cvxl_count, cl_count;
 	private SessionManager session;
-	private Handler handler;
-	private Runnable runnable;
+	private static HomeActivity homeActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +47,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 		ServiceStart.startGetNotificationService(getApplicationContext());
 		Log.d("ToanNM", "Service has been started from Home Activity");
 		setContentView(R.layout.activity_home);
-		setCount();
-
-		// session
-		session = SessionManager.getInstance(getApplicationContext()); // <= 145
-																		// + 146
-		// === End of ToanNM ===
+		homeActivity = this;
+		session = SessionManager.getInstance(getApplicationContext());
 		init();
-
-		// init data
 		department = new Department();
 		user = new User();
 		listDep = new ArrayList<Department>();
@@ -66,45 +60,18 @@ public class HomeActivity extends Activity implements OnClickListener {
 				R.string.api_get_all_user));
 	}
 
-	public void setCount() {
-		final int delay = 5000;
-		final TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
-		final TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
-		final TextView notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
-		handler = new Handler();
-		runnable = new Runnable() {
-			@Override
-			public void run() {
-				cvcp_count = Utils.getInt(getApplicationContext(),
-						GetAllNotificationService.CVCP_KEY);
-				cvxl_count = Utils.getInt(getApplicationContext(),
-						GetAllNotificationService.CVXL_KEY);
-				cl_count = Utils.getInt(getApplicationContext(),
-						GetAllNotificationService.CL_KEY);
-
-				// check Condition
-				checkNotifyCount(notify_cvcp, cvcp_count);
-				checkNotifyCount(notify_cvxl, cvxl_count);
-				checkNotifyCount(notify_cl, cl_count);
-				Log.d("ToanNM", "cvcp_count : " + cvcp_count
-						+ ", cvxl_count : " + cvxl_count + ", cl_count : "
-						+ cl_count);
-				handler.postDelayed(runnable, delay);
-			}
-		};
-		runnable.run();
+	public static HomeActivity getInstance() {
+		return homeActivity;
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		handler.removeCallbacks(runnable);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		setCount();
 	}
 
 	void checkNotifyCount(TextView textView, int notifyCount) {
@@ -114,7 +81,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		} else if (notifyCount == 0) {
 			textView.setVisibility(View.GONE);
 		}
-	}// === End of ToanNM ===
+	}
 
 	private void init() {
 		// view
@@ -144,9 +111,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 		case R.id.cacloai:
 			startActivity(OtherActivity.class);
 			break;
-		// case R.id.option:
-		// startActivity(OptionActivity.class);
-		// break;
 		case R.id.exit:
 			session.logoutUser();
 			ServiceStart.stopAllService(getApplicationContext());
@@ -192,5 +156,29 @@ public class HomeActivity extends Activity implements OnClickListener {
 				});
 		alertDialog = builder.create();
 		alertDialog.show();
+	}
+
+	private void setCountNotify() {
+		cvcp_count = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CVCP_KEY);
+		cvxl_count = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CVXL_KEY);
+		cl_count = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CL_KEY);
+		TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
+		TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
+		TextView notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
+		checkNotifyCount(notify_cvcp, cvcp_count);
+		checkNotifyCount(notify_cvxl, cvxl_count);
+		checkNotifyCount(notify_cl, cl_count);
+	}
+
+	public static class NotifyBR extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (HomeActivity.getInstance() != null)
+				HomeActivity.getInstance().setCountNotify();
+		}
 	}
 }

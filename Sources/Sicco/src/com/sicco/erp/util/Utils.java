@@ -28,7 +28,7 @@ public class Utils {
 				.getSystemService(Context.ALARM_SERVICE);
 		pIntent = PendingIntent.getService(context, 0, intent,
 				Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time + 300 * 1000,
+		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time + 30 * 60 * 1000,
 				pIntent);
 
 		// Intent notificationOnStatusBar = new Intent(context,

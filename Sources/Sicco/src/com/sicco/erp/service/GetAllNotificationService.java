@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,6 +18,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sicco.erp.HomeActivity.NotifyBR;
 import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.MyNotificationManager;
@@ -351,7 +353,7 @@ public class GetAllNotificationService extends Service {
 		origanizeNoti(data);
 		saveInt(type, data.size());
 	}
-
+	
 	void saveInt(int type, int size) {
 		if (type == 1) {
 			Utils.saveInt(getApplicationContext(), CVCP_KEY, size);
@@ -360,10 +362,16 @@ public class GetAllNotificationService extends Service {
 		} else if (type == 3) {
 			Utils.saveInt(getApplicationContext(), CL_KEY, size);
 		}
+		
 	}
 
 	void origanizeNoti(ArrayList<NotificationModel> data) {
 		sereprateList(data);
+		NotifyBR notifyBR = new NotifyBR();
+		IntentFilter intentFilter = new IntentFilter("acb");
+		registerReceiver(notifyBR, intentFilter);
+        Intent i = new Intent("acb");
+        sendBroadcast(i);
 	}
 
 	void sereprateList(ArrayList<NotificationModel> data) {
