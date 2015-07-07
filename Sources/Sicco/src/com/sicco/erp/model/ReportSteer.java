@@ -1,6 +1,8 @@
 package com.sicco.erp.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -149,10 +151,10 @@ public class ReportSteer {
 							JSONObject row = jsonArray.getJSONObject(i);
 
 							String reporter = row.getString("reporter");
-							String date = row.getString("date_created");
+							String dateCreated = row.getString("date_created");
 							String content = row.getString("content");
 
-							data.add(new ReportSteer(i, reporter, date, content));
+							data.add(new ReportSteer(i, reporter, dateCreated, content));
 
 						}
 					} catch (Exception e) {

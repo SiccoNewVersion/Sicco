@@ -6,6 +6,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -21,13 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
+import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
+import com.sicco.erp.model.Status;
 
 public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	
 	private Spinner spnStatusDispatch;
+	private SpinnerStatusAdapter spinnerStatusAdapter;
 	private LinearLayout connectError;
 	private ImageView back;
 	private ListView listReport;
@@ -40,6 +44,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private EditText edtContent;
 	private TextView txtStatusDispatch;
 	private String arr[] ;
+	private ArrayList<Status> listStatus;
 	
 	Dispatch dispatch;
 	
@@ -58,7 +63,8 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private void init() {
 		
 			arr = getResources().getStringArray(R.array.arrStatus);
-			
+			listStatus = new ArrayList<Status>();
+//			arrStatusDispatch 	= 	new 				HashMap<Integer, String>();
 			back 				= 	(ImageView)		findViewById(R.id.back);
 			loading 			= 	(ProgressBar) 	findViewById(R.id.loading);
 			retry 				= 	(Button) 		findViewById(R.id.retry);
@@ -66,9 +72,11 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			imgSendReportSteer 	= 	(ImageView)		findViewById(R.id.imgSendReportSteer);
 			listReport 			= 	(ListView) 		findViewById(R.id.listReport);
 			imgSendReportSteer 	= 	(ImageView) 	findViewById(R.id.imgSendReportSteer);
-			reportSteer 		= 	new ReportSteer(getApplicationContext());
+			reportSteer 		= 	new 			ReportSteer(getApplicationContext());
 			edtContent 			= 	(EditText)		findViewById(R.id.edtReportOrSteer);
 			spnStatusDispatch	= 	(Spinner)		findViewById(R.id.spnStatusDispatch);
+			
+			
 			txtStatusDispatch	=	(EditText)		findViewById(R.id.txtStatusDispatch);
 
 			// click
@@ -79,11 +87,16 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 		}
 	
 	private void setSpinnerStatus(){
+		
+		for (int i = 0; i < arr.length; i++) {
+			listStatus.add(new Status(arr[i], Integer.toString(i)));
+			Log.d("NgaDV", listStatus.get(i).getStatus());
+		}
+		Log.d("NgaDV", ""+listStatus.size());
+		spinnerStatusAdapter= new SpinnerStatusAdapter(ChangeStatusDispatch.this, listStatus);
+		
 		 
-		 ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,arr);
-		 adapter.setDropDownViewResource
-		 (android.R.layout.simple_dropdown_item_1line);
-		 spnStatusDispatch.setAdapter(adapter);
+		 spnStatusDispatch.setAdapter(spinnerStatusAdapter);
 		 
 	}
 		private void sendReportSteer() {

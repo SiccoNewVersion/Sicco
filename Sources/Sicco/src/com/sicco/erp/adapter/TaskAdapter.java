@@ -21,7 +21,9 @@ import com.sicco.erp.R;
 import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.model.User;
+import com.sicco.erp.util.DialogChangeStatusDispatch;
 import com.sicco.erp.util.DialogChoseUser;
 
 public class TaskAdapter extends BaseAdapter {
@@ -107,10 +109,12 @@ public class TaskAdapter extends BaseAdapter {
 									context.startActivity(intent);
 									break;
 								case R.id.action_change_status:
-									intent.setClass(context,
-											ChangeStatusDispatch.class);
-									intent.putExtra("dispatch", dispatch);
-									context.startActivity(intent);
+									ArrayList<Status> listStatus = new ArrayList<Status>();
+									listStatus.add(new Status("stt1","1"));
+									listStatus.add(new Status("stt2","2"));
+									listStatus.add(new Status("stt3","3"));
+									listStatus.add(new Status("stt4","4"));
+									new DialogChangeStatusDispatch(context, listStatus);
 									break;
 								case R.id.action_job_transfer:
 									intent.setClass(context,
