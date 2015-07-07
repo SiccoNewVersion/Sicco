@@ -116,7 +116,7 @@ public class TaskAdapter extends BaseAdapter {
 									listStatus.add(new Status(context.getResources().getString(R.string.need_handle),"2"));
 									listStatus.add(new Status(context.getResources().getString(R.string.pause_handle),"3"));
 									listStatus.add(new Status(context.getResources().getString(R.string.finish_handle),"4"));
-									new DialogChangeStatusDispatch(context, listStatus);
+									new DialogChangeStatusDispatch(context, listStatus,dispatch);
 									break;
 								case R.id.action_job_transfer:
 									intent.setClass(context,

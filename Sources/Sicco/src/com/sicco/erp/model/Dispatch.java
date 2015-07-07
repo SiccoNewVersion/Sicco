@@ -106,6 +106,36 @@ public class Dispatch implements Serializable {
 		this.data = data;
 	}
 
+	public void changeStatusDispatch(String url,String id_dispatch,String status,OnLoadListener OnLoadListener){
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		
+		RequestParams params = new RequestParams();
+		params.add("id_dispatch", id_dispatch);
+		params.add("status", status);
+		
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, params, new JsonHttpResponseHandler(){
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				onLoadListener.onSuccess();
+				String jsonRead = response.toString();
+				Log.d("NgaDV", "get Json"+jsonRead);
+				super.onSuccess(statusCode, headers, response);
+			}
+			
+		});
+	}
+	
 	public ArrayList<Dispatch> getData(String url, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();

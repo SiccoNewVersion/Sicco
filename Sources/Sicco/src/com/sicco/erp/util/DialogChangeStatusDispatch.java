@@ -11,14 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.model.Status;
 
 public class DialogChangeStatusDispatch {
@@ -30,12 +35,14 @@ public class DialogChangeStatusDispatch {
 	private Button btnDone;
 	private Button btnRetry;
 	private ListView lvStatus;
+	private Dispatch dispatch;
 	
 	public DialogChangeStatusDispatch(Context context,
-			ArrayList<Status> listStatus) {
+			ArrayList<Status> listStatus,Dispatch dispatch) {
 		super();
 		this.context = context;
 		this.listStatus = listStatus;
+		this.dispatch = dispatch;
 		
 		Log.d("NgaDV", "listStatus.size():"+listStatus.size());
 		
@@ -60,6 +67,15 @@ public class DialogChangeStatusDispatch {
 		statusAdapter = new StatusAdapter(context, R.layout.item_status, listStatus);
 		lvStatus.setAdapter(statusAdapter);
 		
+		lvStatus.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Toast.makeText(context, "onclick"+position, 0).show();
+			}
+		});
+		
 		
 		txtTitle.setText(context.getResources().getString(R.string.change_status));
 		
@@ -82,7 +98,27 @@ public class DialogChangeStatusDispatch {
 
 			@Override
 			public void onClick(View arg0) {
-				// do something
+				dispatch.changeStatusDispatch(context.getResources().getString(R.string.api_change_status), 
+						Long.toString(dispatch.getId()), 
+						dispatch.getStatus(), 
+						new OnLoadListener(){
+
+							@Override
+							public void onStart() {
+								
+							}
+
+							@Override
+							public void onSuccess() {
+								Toast.makeText(context, "onSuccess change", Toast.LENGTH_SHORT).show();
+							}
+
+							@Override
+							public void onFalse() {
+								// TODO Auto-generated method stub
+								
+							}});
+				
 			}
 		});
 		// click retry
