@@ -90,15 +90,15 @@
 	<string name="api_get_dispatch_approval">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
 	<string name="api_get_dispatch_handle">http://office.sinco.pro.vn/api/handl_dispatch.php</string>
 	<string name="api_get_dispatch_other">http://office.sinco.pro.vn/api/other_dispatch.php</string>
-	<string name="api_get_all_user">http://office.sicco.vn/api/list_users.php</string>
-	<string name="api_get_deparment">http://office.sicco.vn/api/departments.php</string>
+	<string name="api_get_all_user">http://office.sinco.pro.vn/api/list_users.php</string>
+	<string name="api_get_deparment">http://office.sinco.pro.vn/api/departments.php</string>
 	<string name="api_get_steer_report">http://office.sinco.pro.vn/api/get_report_steer.php</string>
 	<string name="api_chuyencongvan">http://office.sinco.pro.vn/api/chuyencongvan.php</string>
 	<string name="api_phecongvan">http://office.sinco.pro.vn/api/phecongvan.php</string>
 	<string name="api_send_report">http://office.sinco.pro.vn/api/send_report.php</string>
 	<string name="api_send_handl_forward">http://office.sinco.pro.vn/api/guixuly.php</string>
 	<string name="api_change_status">http://office.sinco.pro.vn/api/change_status.php</string>
-	<string name="api_get_one_user">http://office.sicco.vn/api/get_one_user.php</string>
+	<string name="api_get_one_user">http://office.sinco.pro.vn/api/get_one_user.php</string>
 	
 	<!-- ToanNM -->
     <string name="cong_van">Công văn cần phê</string>
