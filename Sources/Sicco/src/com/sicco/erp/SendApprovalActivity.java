@@ -72,10 +72,17 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	public void onBackPressed() {
+		listChecked.removeAll(listChecked);
+		super.onBackPressed();
+	}
+	
+	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
+			listChecked.removeAll(listChecked);
 			finish();
 			break;
 		case R.id.btnChoseHandler:

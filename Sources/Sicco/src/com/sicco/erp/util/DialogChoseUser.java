@@ -43,7 +43,10 @@ public class DialogChoseUser {
 	private ExpandableListUserAdapter adapter;
 	private int mCurrentExpandedGroup = -1;
 	private String handler;
-	private String strUsers = "";
+	public static String strUsersHandl = "";
+	public static String strUsersView = "";
+	public static String idUsersHandl = "";
+	public static String idUsersView = "";
 
 	private ExpandableListView listView;
 	private ProgressBar loading;
@@ -54,6 +57,10 @@ public class DialogChoseUser {
 	private User user;
 	private Dispatch dispatch;
 
+	public DialogChoseUser() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public DialogChoseUser(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
@@ -203,10 +210,6 @@ public class DialogChoseUser {
 					handler += listChecked.get(i).getUsername() + "; ";
 				}
 				
-				for (int i = 0; i < listChecked.size(); i++) {
-					strUsers += listChecked.get(i).getUsername() + "; ";
-				}
-
 				if (TaskAdapter.flag.equals("handle")) {
 					if (listChecked.isEmpty()) {
 						Toast.makeText(
@@ -224,13 +227,34 @@ public class DialogChoseUser {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
 				}else if (TaskAdapter.flag.equals("chooseHandler")) {
-					if (!strUsers.equals("")) {
-						ConvertDispatchActivity.txtHandler.setText(strUsers);
+					for (int i = 0; i < listChecked.size(); i++) {
+						if (i == listChecked.size() - 1) {
+							strUsersHandl += listChecked.get(i).getUsername();
+							idUsersHandl += listChecked.get(i).getId();
+						} else {
+							strUsersHandl += listChecked.get(i).getUsername() + ",";
+							idUsersHandl += listChecked.get(i).getId() + ",";
+						}
+					}
+					
+					if (!strUsersHandl.equals("")) {
+						ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
+						listChecked.clear();
 					}
 					alertDialog.dismiss();
 				}else if (TaskAdapter.flag.equals("chooseViewer")) {
-					if (!strUsers.equals("")) {
-						ConvertDispatchActivity.txtViewer.setText(strUsers);
+					for (int i = 0; i < listChecked.size(); i++) {
+						if (i == listChecked.size() - 1) {
+							strUsersView += listChecked.get(i).getUsername();
+							idUsersView += listChecked.get(i).getId();
+						} else {
+							strUsersView += listChecked.get(i).getUsername() + ",";
+							idUsersView += listChecked.get(i).getId() + ",";
+						}
+					}
+					if (!strUsersView.equals("")) {
+						ConvertDispatchActivity.txtViewer.setText(strUsersView);
+						listChecked.clear();
 					}
 					alertDialog.dismiss();
 				}
@@ -317,4 +341,5 @@ public class DialogChoseUser {
 					}
 				});
 	}
+
 }
