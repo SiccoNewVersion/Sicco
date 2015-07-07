@@ -89,7 +89,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private void setSpinnerStatus(){
 		
 		for (int i = 0; i < arr.length; i++) {
-			listStatus.add(new Status(arr[i], Integer.toString(i)));
+//			listStatus.add(new Status(arr[i], Integer.toString(i)));
 			Log.d("NgaDV", listStatus.get(i).getStatus());
 		}
 		Log.d("NgaDV", ""+listStatus.size());

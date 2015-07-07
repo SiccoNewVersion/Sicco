@@ -1,14 +1,19 @@
 package com.sicco.erp.model;
 
 public class Status {
-	private String status,key;
+	private String status;
+	private Long key;
 
 	
 	
-	public Status(String status, String key) {
+	public Status(String status, Long key) {
 		super();
 		this.status = status;
 		this.key = key;
+	}
+
+	public Status() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getStatus() {
@@ -19,11 +24,12 @@ public class Status {
 		this.status = status;
 	}
 
-	public String getKey() {
+	public Long getKey() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(Long key) {
 		this.key = key;
 	}
+
 }

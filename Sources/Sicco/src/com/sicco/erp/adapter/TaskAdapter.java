@@ -112,10 +112,10 @@ public class TaskAdapter extends BaseAdapter {
 								case R.id.action_change_status:
 									listStatus = new ArrayList<Status>();
 									
-									listStatus.add(new Status(context.getResources().getString(R.string.need_approval),"1"));
-									listStatus.add(new Status(context.getResources().getString(R.string.need_handle),"2"));
-									listStatus.add(new Status(context.getResources().getString(R.string.pause_handle),"3"));
-									listStatus.add(new Status(context.getResources().getString(R.string.finish_handle),"4"));
+									listStatus.add(new Status(context.getResources().getString(R.string.need_approval),Long.parseLong("1")));
+									listStatus.add(new Status(context.getResources().getString(R.string.need_handle),Long.parseLong("2")));
+									listStatus.add(new Status(context.getResources().getString(R.string.pause_handle),Long.parseLong("3")));
+									listStatus.add(new Status(context.getResources().getString(R.string.finish_handle),Long.parseLong("4")));
 									new DialogChangeStatusDispatch(context, listStatus,dispatch);
 									break;
 								case R.id.action_job_transfer:
