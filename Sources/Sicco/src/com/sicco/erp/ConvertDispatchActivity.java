@@ -6,6 +6,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Intent;
@@ -26,8 +27,10 @@ import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
+import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.util.DialogChoseDepartment;
 import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.Utils;
 
 public class ConvertDispatchActivity extends Activity implements
 		OnClickListener {
@@ -118,9 +121,9 @@ public class ConvertDispatchActivity extends Activity implements
 		date = c.get(Calendar.DATE);
 		months = c.get(Calendar.MONTH);
 		years_now = c.get(Calendar.YEAR);
-		
-		toDate = new StringBuilder().append(padding_str(years_now))
-				.append("-").append(padding_str(months + 1)).append("-")
+
+		toDate = new StringBuilder().append(padding_str(years_now)).append("-")
+				.append(padding_str(months + 1)).append("-")
 				.append(padding_str(date));
 
 		edtTitleJob.setText(getResources().getString(R.string.action)
@@ -212,34 +215,33 @@ public class ConvertDispatchActivity extends Activity implements
 
 			break;
 		case R.id.lnDepartment:
-			new DialogChoseDepartment(ConvertDispatchActivity.this, HomeActivity.listDep);
+			new DialogChoseDepartment(ConvertDispatchActivity.this,
+					HomeActivity.listDep);
 			break;
 		case R.id.lnToDate:
 			showDialog(DATE_DIALOG_ID);
 			break;
 		case R.id.btnConvert:
-			Log.d("LuanDT", "userH: " + DialogChoseUser.strUsersHandl);
-			Log.d("LuanDT", "userV: " + DialogChoseUser.strUsersView);
-			Log.d("LuanDT", "id--userH: " + DialogChoseUser.idUsersHandl);
-			Log.d("LuanDT", "id--userV: " + DialogChoseUser.idUsersView);
-			Log.d("LuanDT", "id--idDepSelected: " + DialogChoseDepartment.idDepSelected);
 
 			boolean error = false;
 			if (edtTitleJob.getText().toString().trim().equals("")) {
 				edtTitleJob.setError(getResources().getString(
 						R.string.truong_nay_khong_duoc_de_rong));
 				error = true;
-			} else if (txtHandler.getText().toString()
+			}
+			if (txtHandler.getText().toString()
 					.equals(getResources().getString(R.string.handler1))) {
 				txtHandler.setError(getResources().getString(
 						R.string.truong_nay_khong_duoc_de_rong));
 				error = true;
-			} else if (txtViewer.getText().toString()
+			}
+			if (txtViewer.getText().toString()
 					.equals(getResources().getString(R.string.viewer))) {
 				txtViewer.setError(getResources().getString(
 						R.string.truong_nay_khong_duoc_de_rong));
 				error = true;
-			} else if (txtDepartment.getText().toString()
+			}
+			if (txtDepartment.getText().toString()
 					.equals(getResources().getString(R.string.department))) {
 				txtDepartment.setError(getResources().getString(
 						R.string.truong_nay_khong_duoc_de_rong));
@@ -247,7 +249,64 @@ public class ConvertDispatchActivity extends Activity implements
 			}
 
 			if (error == false) {
+				final ProgressDialog progressDialog = new ProgressDialog(
+						ConvertDispatchActivity.this);
+				progressDialog.setMessage(getResources().getString(
+						R.string.waiting));
 
+				
+				Dispatch dispatch = new Dispatch(ConvertDispatchActivity.this);
+				dispatch.convertDispatch(
+						getResources().getString(R.string.api_chuyencongvan),
+						Utils.getString(ConvertDispatchActivity.this, "user_id"),
+						edtTitleJob.getText().toString(), txtFromDate.getText().toString(),
+						txtToDate.getText().toString(), ""
+								+ DialogChoseDepartment.idDepSelected,
+						txtHandler.getText().toString(), txtViewer.getText()
+								.toString(), DialogChoseUser.idUsersHandl,
+						DialogChoseUser.idUsersView, new OnRequestListener() {
+
+							@Override
+							public void onSuccess() {
+								progressDialog.dismiss();
+								Toast.makeText(
+										ConvertDispatchActivity.this,
+										getResources().getString(
+												R.string.success),
+										Toast.LENGTH_LONG).show();
+								listChecked.removeAll(listChecked);
+								finish();
+
+							}
+
+							@Override
+							public void onStart() {
+								progressDialog.show();
+
+							}
+
+							@Override
+							public void onFalse() {
+								listChecked.removeAll(listChecked);
+								progressDialog.dismiss();
+								Toast.makeText(
+										ConvertDispatchActivity.this,
+										getResources().getString(
+												R.string.internet_false),
+										Toast.LENGTH_LONG).show();
+								listChecked.removeAll(listChecked);
+
+							}
+
+							@Override
+							public void onFalse(String stFalse) {
+								progressDialog.dismiss();
+								Toast.makeText(ConvertDispatchActivity.this,
+										stFalse, Toast.LENGTH_LONG).show();
+								listChecked.removeAll(listChecked);
+
+							}
+						});
 			}
 
 			break;

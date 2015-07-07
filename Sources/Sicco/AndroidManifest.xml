@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -22,35 +21,54 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" >
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ApprovalActivity" >
+        <activity
+            android:name=".ApprovalActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".DealtWithActivity" >
+        <activity
+            android:name=".DealtWithActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".OtherActivity" >
+        <activity
+            android:name=".OtherActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".OptionActivity" >
+        <activity
+            android:name=".ViewDispatchActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ViewDispatchActivity" >
+        <activity
+            android:name=".SendApprovalActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".SendApprovalActivity" >
+        <activity
+            android:name=".SteerReportActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".SteerReportActivity" 
-         	android:windowSoftInputMode="stateHidden">
+        <activity
+            android:name=".ChangeStatusDispatch"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".ChangeStatusDispatch" 
-         	android:windowSoftInputMode="stateHidden">
+        <activity
+            android:name=".ConvertDispatchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".ConvertDispatchActivity" >
-        </activity>
+
         <service android:name="com.sicco.erp.service.GetAllNotificationService" >
         </service>
     </application>

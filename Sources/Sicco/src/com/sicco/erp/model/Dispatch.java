@@ -106,16 +106,17 @@ public class Dispatch implements Serializable {
 		this.data = data;
 	}
 
-	public void changeStatusDispatch(String url,String id_dispatch,String status,OnLoadListener OnLoadListener){
+	public void changeStatusDispatch(String url, String id_dispatch,
+			String status, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
-		
+
 		RequestParams params = new RequestParams();
 		params.add("id_dispatch", id_dispatch);
 		params.add("status", status);
-		
+
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(url, params, new JsonHttpResponseHandler(){
+		client.post(url, params, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
@@ -129,13 +130,13 @@ public class Dispatch implements Serializable {
 					JSONObject response) {
 				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
-				Log.d("NgaDV", "get Json"+jsonRead);
+				Log.d("NgaDV", "get Json" + jsonRead);
 				super.onSuccess(statusCode, headers, response);
 			}
-			
+
 		});
 	}
-	
+
 	public ArrayList<Dispatch> getData(String url, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
@@ -250,7 +251,8 @@ public class Dispatch implements Serializable {
 						JSONObject json = new JSONObject(jsonRead);
 						int error = json.getInt("error");
 						if (error == 1) {
-							Dispatch.this.onRequestListener.onFalse(json.getString("error_msg"));
+							Dispatch.this.onRequestListener.onFalse(json
+									.getString("error_msg"));
 						} else {
 							Dispatch.this.onRequestListener.onSuccess();
 						}
@@ -269,8 +271,10 @@ public class Dispatch implements Serializable {
 			}
 		});
 	}
-	
-	public void approvalDispatch(String url, String userId, String cvId, String noiDung, String nguoiXuLy, OnRequestListener onRequestListener){
+
+	public void approvalDispatch(String url, String userId, String cvId,
+			String noiDung, String nguoiXuLy,
+			OnRequestListener onRequestListener) {
 		Dispatch.this.onRequestListener = onRequestListener;
 		Dispatch.this.onRequestListener.onStart();
 		RequestParams params = new RequestParams();
@@ -278,11 +282,11 @@ public class Dispatch implements Serializable {
 		params.add("id_cv", cvId);
 		params.add("noi_dung", noiDung);
 		params.add("nguoi_xu_ly", nguoiXuLy);
-		
+
 		Log.d("LuanDT", "params phe: " + params);
-		
+
 		AsyncHttpClient httpClient = new AsyncHttpClient();
-		httpClient.post(url, params, new JsonHttpResponseHandler(){
+		httpClient.post(url, params, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
@@ -297,24 +301,85 @@ public class Dispatch implements Serializable {
 					JSONObject response) {
 				String json = response.toString();
 				Log.d("LuanDT", "json phe cv: " + json);
-				
-				if(!json.isEmpty()){
+
+				if (!json.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(json);
 						int success = object.getInt("success");
-						if(success == 1){
+						if (success == 1) {
 							Dispatch.this.onRequestListener.onSuccess();
 						} else {
-							Dispatch.this.onRequestListener.onFalse(context.getResources().getString(R.string.error_l));
+							Dispatch.this.onRequestListener
+									.onFalse(context.getResources().getString(
+											R.string.error_l));
 						}
-						
+
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 				}
 				super.onSuccess(statusCode, headers, response);
 			}
-			
+
+		});
+	}
+
+	// /////////////////
+	public void convertDispatch(String url, String userId, String tenCongViec,
+			String tuNgay, String denNgay, String phongBan, String nguoiXuLy,
+			String nguoiXem, String idNguoiXuLy, String idNguoiXem,
+			OnRequestListener onRequestListener) {
+		Dispatch.this.onRequestListener = onRequestListener;
+		Dispatch.this.onRequestListener.onStart();
+		RequestParams params = new RequestParams();
+		params.add("id", userId);
+		params.add("ten_cv", tenCongViec);
+		params.add("tu_ngay", tuNgay);
+		params.add("den_ngay", denNgay);
+		params.add("phong_ban", phongBan);
+		params.add("nguoi_xu_ly", nguoiXuLy);
+		params.add("nguoi_xem", nguoiXem);
+		params.add("id_nguoi_xu_ly", idNguoiXuLy);
+		params.add("id_nguoi_xem", idNguoiXem);
+
+		Log.d("LuanDT", "params convertDispatch: " + params);
+
+		AsyncHttpClient httpClient = new AsyncHttpClient();
+		httpClient.post(url, params, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				Dispatch.this.onRequestListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				Log.d("LuanDT", "json: false");
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String json = response.toString();
+				Log.d("LuanDT", "json convertDispatch cv: " + json);
+
+				if (!json.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(json);
+						int success = object.getInt("success");
+						if (success == 1) {
+							Dispatch.this.onRequestListener.onSuccess();
+						} else {
+							Dispatch.this.onRequestListener
+									.onFalse(context.getResources().getString(
+											R.string.error_l));
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+
 		});
 	}
 
