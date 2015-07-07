@@ -28,6 +28,7 @@ import com.sicco.erp.util.DialogChoseUser;
 
 public class TaskAdapter extends BaseAdapter {
 	private Context context;
+	ArrayList<Status> listStatus;
 	private ArrayList<Dispatch> data;
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
@@ -109,11 +110,12 @@ public class TaskAdapter extends BaseAdapter {
 									context.startActivity(intent);
 									break;
 								case R.id.action_change_status:
-									ArrayList<Status> listStatus = new ArrayList<Status>();
-									listStatus.add(new Status("stt1","1"));
-									listStatus.add(new Status("stt2","2"));
-									listStatus.add(new Status("stt3","3"));
-									listStatus.add(new Status("stt4","4"));
+									listStatus = new ArrayList<Status>();
+									
+									listStatus.add(new Status(context.getResources().getString(R.string.need_approval),"1"));
+									listStatus.add(new Status(context.getResources().getString(R.string.need_handle),"2"));
+									listStatus.add(new Status(context.getResources().getString(R.string.pause_handle),"3"));
+									listStatus.add(new Status(context.getResources().getString(R.string.finish_handle),"4"));
 									new DialogChangeStatusDispatch(context, listStatus);
 									break;
 								case R.id.action_job_transfer:
