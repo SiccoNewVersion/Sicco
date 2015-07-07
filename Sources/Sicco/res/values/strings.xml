@@ -51,6 +51,7 @@
     <string name="execute">Thực hiện</string>
     <string name="normal">Bình thường</string>
     <string name="begin_progress">0%</string>
+    <string name="msg_sending">"    Đang gửi</string>
     
     <string-array name="arrStatus">
         <item name="choose_status">Chọn trạng thái</item>

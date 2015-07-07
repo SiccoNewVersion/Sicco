@@ -125,8 +125,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 						
 						@Override
 						public void onStart() {
-							
-							progressDialog.setMessage("abc");
+							progressDialog.setMessage(getResources().getString(R.string.msg_sending));
 							progressDialog.show();
 							Log.d("NgaDV", "onStart");
 						}
