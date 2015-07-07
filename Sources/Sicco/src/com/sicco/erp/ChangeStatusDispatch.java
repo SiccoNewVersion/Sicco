@@ -62,7 +62,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	}
 	private void init() {
 		
-			arr = getResources().getStringArray(R.array.arrStatus);
+//			arr = getResources().getStringArray(R.array.arrStatus);
 			listStatus = new ArrayList<Status>();
 //			arrStatusDispatch 	= 	new 				HashMap<Integer, String>();
 			back 				= 	(ImageView)		findViewById(R.id.back);

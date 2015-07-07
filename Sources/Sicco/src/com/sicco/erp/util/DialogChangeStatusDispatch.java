@@ -57,17 +57,11 @@ public class DialogChangeStatusDispatch {
 		btnDone = (Button)layout.findViewById(R.id.done);
 		btnRetry = (Button)layout.findViewById(R.id.retry);
 		
-//		listStatus = new ArrayList<Status>();
-//		listStatus.add(new Status("st1", "1"));
-//		listStatus.add(new Status("st2", "2"));
-//		listStatus.add(new Status("st3", "3"));
-//		listStatus.add(new Status("st4", "4"));
-		
 		statusAdapter = new StatusAdapter(context, R.layout.item_status, listStatus);
 		lvStatus.setAdapter(statusAdapter);
 		
 		
-		txtTitle.setText("abc");
+		txtTitle.setText(context.getResources().getString(R.string.change_status));
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(layout);

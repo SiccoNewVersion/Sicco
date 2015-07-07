@@ -53,13 +53,11 @@
     <string name="begin_progress">0%</string>
     <string name="msg_sending">"    Đang gửi</string>
     
-    <string-array name="arrStatus">
-        <item name="choose_status">Chọn trạng thái</item>
-        <item name="need_approval">Cần phê</item>
-        <item name="need_handle">Cần xử lý</item>
-        <item name="pause_handle">Tạm dừng xử lý</item>
-        <item name="finish_handle">Kết thúc xử lý</item>
-    </string-array>
+        <string name="choose_status">Chọn trạng thái</string>
+        <string name="need_approval">Cần phê</string>
+        <string name="need_handle">Cần xử lý</string>
+        <string name="pause_handle">Tạm dừng xử lý</string>
+        <string name="finish_handle">Kết thúc xử lý</string>
     
     <!-- LuanDT -->
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>
