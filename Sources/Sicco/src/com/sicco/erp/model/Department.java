@@ -1,5 +1,6 @@
 package com.sicco.erp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.apache.http.Header;
@@ -12,25 +13,26 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class Department {
+public class Department implements Serializable {
 
-	private String id, departmentName;
+	private String departmentName;
+	private long id;
 	private ArrayList<Department> listDep;
 	public static boolean getJsonDep = false;
 
 	public Department() {
 	}
 	
-	public Department(String id, String departmentName) {
+	public Department(long id, String departmentName) {
 		this.id = id;
 		this.departmentName = departmentName;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -60,7 +62,7 @@ public class Department {
 							String id = row.getString("id_phong_ban");
 							String depName = row.getString("ten_phong_ban");
 							
-							listDep.add(new Department(id, depName));
+							listDep.add(new Department(Long.parseLong(id), depName));
 							
 						}
 
@@ -104,7 +106,7 @@ public class Department {
 							String id = row.getString("id_phong_ban");
 							String depName = row.getString("ten_phong_ban");
 							
-							listDep.add(new Department(id, depName));
+							listDep.add(new Department(Long.parseLong(id), depName));
 							
 						}
 

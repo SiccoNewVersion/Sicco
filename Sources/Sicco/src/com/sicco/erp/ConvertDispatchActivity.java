@@ -1,16 +1,21 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +26,7 @@ import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
+import com.sicco.erp.util.DialogChoseDepartment;
 import com.sicco.erp.util.DialogChoseUser;
 
 public class ConvertDispatchActivity extends Activity implements
@@ -29,7 +35,8 @@ public class ConvertDispatchActivity extends Activity implements
 	private LinearLayout lnJobType, lnFromDate, lnStatus, lnProgress, lnLevel,
 			lnHandler, lnViewer, lnDepartment, lnToDate;
 	private TextView txtNumSignDispatch, txtJobType, txtFromDate, txtStatus,
-			txtProgress, txtLevel, txtDepartment, txtToDate;
+			txtProgress, txtLevel, txtToDate;
+	public static TextView txtDepartment;
 	private EditText edtTitleJob;
 	private Button btnConvert;
 
@@ -39,6 +46,15 @@ public class ConvertDispatchActivity extends Activity implements
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
 	private Dispatch dispatch;
+
+	static final int DATE_DIALOG_ID = 111;
+	private int date;
+	private int months;
+	private int years_now;
+
+	private StringBuilder toDate;
+	private Date d;
+	String newDateString;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +114,55 @@ public class ConvertDispatchActivity extends Activity implements
 		allUser = HomeActivity.allUser;
 
 		// set data
+		final Calendar c = Calendar.getInstance();
+		date = c.get(Calendar.DATE);
+		months = c.get(Calendar.MONTH);
+		years_now = c.get(Calendar.YEAR);
+		
+		toDate = new StringBuilder().append(padding_str(years_now))
+				.append("-").append(padding_str(months + 1)).append("-")
+				.append(padding_str(date));
+
 		edtTitleJob.setText(getResources().getString(R.string.action)
 				+ dispatch.getNumberDispatch());
 		txtFromDate.setText(dispatch.getDate());
-		txtToDate.setText(dispatch.getDate());
+		txtToDate.setText(toDate);
 
+	}
+
+	// ------------choose date------------------//
+
+	private DatePickerDialog.OnDateSetListener datePickerListener = new OnDateSetListener() {
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			date = dayOfMonth;
+			months = monthOfYear;
+			years_now = year;
+
+			txtToDate.setText(new StringBuilder()
+					.append(padding_str(years_now)).append("-")
+					.append(padding_str(months + 1)).append("-")
+					.append(padding_str(date)));
+		}
+
+	};
+
+	@Deprecated
+	protected Dialog onCreateDialog(int id) {
+		DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+				datePickerListener, years_now, months, date);
+		datePickerDialog.getDatePicker().setSpinnersShown(false);
+		datePickerDialog.getDatePicker().setCalendarViewShown(true);
+		return datePickerDialog;
+	}
+
+	private static String padding_str(int c) {
+		if (c >= 10)
+			return String.valueOf(c);
+		else
+			return "0" + String.valueOf(c);
 	}
 
 	@Override
@@ -152,20 +212,17 @@ public class ConvertDispatchActivity extends Activity implements
 
 			break;
 		case R.id.lnDepartment:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
+			new DialogChoseDepartment(ConvertDispatchActivity.this, HomeActivity.listDep);
 			break;
 		case R.id.lnToDate:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
+			showDialog(DATE_DIALOG_ID);
 			break;
 		case R.id.btnConvert:
 			Log.d("LuanDT", "userH: " + DialogChoseUser.strUsersHandl);
 			Log.d("LuanDT", "userV: " + DialogChoseUser.strUsersView);
 			Log.d("LuanDT", "id--userH: " + DialogChoseUser.idUsersHandl);
 			Log.d("LuanDT", "id--userV: " + DialogChoseUser.idUsersView);
+			Log.d("LuanDT", "id--idDepSelected: " + DialogChoseDepartment.idDepSelected);
 
 			boolean error = false;
 			if (edtTitleJob.getText().toString().trim().equals("")) {

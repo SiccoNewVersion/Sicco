@@ -74,6 +74,7 @@
     
     <string name="done">Xong</string>
 	<string name="chose_user">Chọn người xử lý</string>
+	<string name="chose_dipartment">Chọn phòng ban</string>
 	<string name="choose_handle">Chọn người xử lý/chuyển tiếp</string>
 	<string name="empty_handle">Bạn chưa chọn người sử lý/chuyển tiếp.</string>
 	<string name="success">Thành công</string>

@@ -279,7 +279,7 @@ public class DialogChoseUser {
 			ArrayList<User> data = new ArrayList<User>();
 			for (int j = 0; j < users.size(); j++) {
 				User temp = users.get(j);
-				if (temp.getDepartment().equals(department.getId())) {
+				if (Integer.parseInt(temp.getDepartment()) == department.getId()) {
 					data.add(new User(temp.getId(), temp.getUsername(), temp
 							.getDepartment()));
 				}
