@@ -67,7 +67,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -76,7 +75,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 					android:hint="@string/enter_title"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -101,7 +99,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/job_type"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -110,7 +107,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/everyday"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -145,7 +141,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView" 
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -170,7 +165,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/to_date"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -179,7 +173,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView" 
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -238,7 +231,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/progress"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -247,7 +239,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/begin_progress"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -272,7 +263,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/level"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -281,7 +271,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/normal"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -306,7 +295,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/handler1"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -315,7 +303,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/handler1"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -340,7 +327,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/viewer"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -349,7 +335,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/viewer"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -374,7 +359,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/department"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -383,7 +367,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/department"
-                    
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -412,7 +395,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                
                 android:layout_marginBottom="30dp" />
         </LinearLayout>
     </ScrollView>
