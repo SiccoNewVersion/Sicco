@@ -34,8 +34,10 @@ public class HomeActivity extends Activity implements OnClickListener {
 	public static ArrayList<User> allUser;
 
 	// ToanNM
-	int cvcp_count, cvxl_count, cl_count;
-	SessionManager session;
+	private int cvcp_count, cvxl_count, cl_count;
+	private SessionManager session;
+	private Handler handler;
+	private Runnable runnable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +60,19 @@ public class HomeActivity extends Activity implements OnClickListener {
 		user = new User();
 		listDep = new ArrayList<Department>();
 		allUser = new ArrayList<User>();
-		listDep = department
-				.getData(getResources().getString(R.string.api_get_deparment));
-		allUser = user.getData(getResources().getString(R.string.api_get_all_user));
+		listDep = department.getData(getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(
+				R.string.api_get_all_user));
 	}
 
-	void setCount() {
-		int delay = 1000;
+	public void setCount() {
+		final int delay = 5000;
 		final TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
 		final TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
 		final TextView notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
-		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-
+		handler = new Handler();
+		runnable = new Runnable() {
 			@Override
 			public void run() {
 				cvcp_count = Utils.getInt(getApplicationContext(),
@@ -87,9 +89,22 @@ public class HomeActivity extends Activity implements OnClickListener {
 				Log.d("ToanNM", "cvcp_count : " + cvcp_count
 						+ ", cvxl_count : " + cvxl_count + ", cl_count : "
 						+ cl_count);
+				handler.postDelayed(runnable, delay);
 			}
-		}, delay);
+		};
+		runnable.run();
+	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		handler.removeCallbacks(runnable);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		setCount();
 	}
 
 	void checkNotifyCount(TextView textView, int notifyCount) {
@@ -135,6 +150,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		case R.id.exit:
 			session.logoutUser();
 			ServiceStart.stopAllService(getApplicationContext());
+			Utils.stopAlarm(getApplicationContext());
 			finish();
 			break;
 		}
@@ -142,7 +158,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		finish();
+		super.onBackPressed();
 	}
 
 	private void startActivity(Class c) {

@@ -8,23 +8,31 @@ public class NotificationModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	long id;
-	String notify_type;
-	String msg_type;
-	String content;
-	String url;
-	String state;
-	String name;
+	int notify_type;
+	String soHieuCongVan;
+	String trichYeu;
+	String dinhKem;
+	String ngayDenSicco;
+	String trangThai;
 
-	public NotificationModel(long id, String notify_type, String msg_type,
-			String name, String content, String url, String state) {
+	public NotificationModel(long id, int notify_type, String soHieuCongVan,
+			String trichYeu, String dinhKem, String ngayDenSicco,
+			String trangThai) {
 		this.id = id;
 		this.notify_type = notify_type;
-		this.msg_type = msg_type;
-		this.name = name;
-		this.content = content;
-		this.url = url;
-		this.state = state;
+		this.soHieuCongVan = soHieuCongVan;
+		this.trichYeu = trichYeu;
+		this.dinhKem = dinhKem;
+		this.ngayDenSicco = ngayDenSicco;
+		this.trangThai = trangThai;
+	}
 
+	public int getNotify_type() {
+		return notify_type;
+	}
+
+	public void setNotify_type(int notify_type) {
+		this.notify_type = notify_type;
 	}
 
 	public long getId() {
@@ -35,66 +43,44 @@ public class NotificationModel implements Serializable {
 		this.id = id;
 	}
 
-	public String getNotify_type() {
-		return notify_type;
+	public String getSoHieuCongVan() {
+		return soHieuCongVan;
 	}
 
-	public void setNotify_type(String notify_type) {
-		this.notify_type = notify_type;
+	public void setSoHieuCongVan(String soHieuCongVan) {
+		this.soHieuCongVan = soHieuCongVan;
 	}
 
-	public String getMsg_type() {
-		return msg_type;
+	public String getTrichYeu() {
+		return trichYeu;
 	}
 
-	public void setMsg_type(String msg_type) {
-		this.msg_type = msg_type;
+	public void setTrichYeu(String trichYeu) {
+		this.trichYeu = trichYeu;
 	}
 
-	public String getContent() {
-		return content;
+	public String getDinhKem() {
+		return dinhKem;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setDinhKem(String dinhKem) {
+		this.dinhKem = dinhKem;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getNgayDenSicco() {
+		return ngayDenSicco;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setNgayDenSicco(String ngayDenSicco) {
+		this.ngayDenSicco = ngayDenSicco;
 	}
 
-	public String getState() {
-		return state;
+	public String getTrangThai() {
+		return trangThai;
 	}
 
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean equalsContent(NotificationModel other) {
-		return ((this.id == other.id))
-				&& (this.notify_type.equals(other.notify_type))
-				&& (this.msg_type.equals(other.msg_type))
-				&& (this.name.equals(other.name))
-				&& (this.content.equals(other.content))
-				&& (this.url.equals(other.url));
-	}
-
-	public String toString() {
-		String ret = "" + content;
-		return ret;
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
 	}
 
 }

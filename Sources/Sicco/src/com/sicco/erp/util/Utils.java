@@ -18,15 +18,18 @@ public class Utils {
 
 	static final String SHARED_PREFERENCE_BOOLEAN = "SharedPreference_Boolean";
 	static final String SHARED_PREFERENCE_STRING = "SharedPreference_String";
+	static AlarmManager manager;
+	static PendingIntent pIntent;
 
 	public static void scheduleNext(Context context) {
 		Intent intent = new Intent(context, GetAllNotificationService.class);
 		long time = SystemClock.elapsedRealtime();
-		AlarmManager manager = (AlarmManager) context
+		manager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
+		pIntent = PendingIntent.getService(context, 0, intent,
+				Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time + 300 * 1000,
-				PendingIntent.getService(context, 0, intent,
-						Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+				pIntent);
 
 		// Intent notificationOnStatusBar = new Intent(context,
 		// HandleNotificationService.class);
@@ -37,6 +40,10 @@ public class Utils {
 		// notificationOnStatusBarTime + 300 * 1000,
 		// PendingIntent.getService(context, 0, notificationOnStatusBar,
 		// Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
+	}
+
+	public static void stopAlarm(Context context) {
+		manager.cancel(pIntent);
 	}
 
 	public static void scheduleNextNext(Context context) {
@@ -93,8 +100,8 @@ public class Utils {
 	}
 
 	public static String getString(Context context, String key) {
-			SharedPreferences pref = context.getSharedPreferences(
-					SessionManager.PREF_NAME, Context.MODE_PRIVATE);
+		SharedPreferences pref = context.getSharedPreferences(
+				SessionManager.PREF_NAME, Context.MODE_PRIVATE);
 
 		return pref.getString(key, "-1");
 	}

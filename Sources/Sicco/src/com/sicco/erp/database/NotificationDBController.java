@@ -36,26 +36,41 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	
 	public static String TABLE_NAME = "notification_tbl";
 	public static String ID_COL = "_id";
-//	public static String USERNAME_COL = "username";
-	public static String ID_NOTYFI_COL = "id_notyfi";
+	public static String SOHIEUCONGVAN_COL = "soHieuCongVan";
+	public static String TRICHYEU_COL = "trichYeu";
+	public static String DINHKEM_COL = "dinhKem";
+	public static String NGAYDENSICCO_COL = "ngayDenSicco";
+	public static String TRANGTHAI_COL = "trangThai";
+	public static String USERNAME_COL = "username";
+//	public static String ID_NOTYFI_COL = "id_notyfi";
 	public static String NOTIFI_TYPE_COL = "notifi_type";
-	public static String MSG_TYPE_COL = "msg_type";
-	public static String NAME_COL = "ten";
-	public static String CONTENT_COL = "noi_dung";
-	public static String URL_COL = "url";
-	public static String STATE_COL = "state";
+//	public static String MSG_TYPE_COL = "msg_type";
+//	public static String NAME_COL = "ten";
+//	public static String CONTENT_COL = "noi_dung";
+//	public static String URL_COL = "url";
+	
+//	private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
+//			+ TABLE_NAME + "("
+//			+ ID_COL + " integer primary key autoincrement,"
+////			+ USERNAME_COL + " text,"
+//			+ ID_NOTYFI_COL + " text,"
+//			+ NOTIFI_TYPE_COL + " text,"
+//			+ MSG_TYPE_COL + " text,"
+//			+ NAME_COL + " text,"
+//			+ CONTENT_COL + " text,"
+//			+ URL_COL + " text,"
+//			+ STATE_COL + " text);";
 	
 	private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
 			+ TABLE_NAME + "("
 			+ ID_COL + " integer primary key autoincrement,"
-//			+ USERNAME_COL + " text,"
-			+ ID_NOTYFI_COL + " text,"
-			+ NOTIFI_TYPE_COL + " text,"
-			+ MSG_TYPE_COL + " text,"
-			+ NAME_COL + " text,"
-			+ CONTENT_COL + " text,"
-			+ URL_COL + " text,"
-			+ STATE_COL + " text);";
+			+ NOTIFI_TYPE_COL + " integer,"
+			+ USERNAME_COL + " text,"
+			+ SOHIEUCONGVAN_COL + " text,"
+			+ TRICHYEU_COL + " text,"
+			+ DINHKEM_COL + " text,"
+			+ NGAYDENSICCO_COL + " text,"
+			+ TRANGTHAI_COL + " text);";
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
@@ -130,7 +145,7 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	
 	public void checkedNotification(NotificationModel item, int id){
 		ContentValues values = new ContentValues();
-		values.put(STATE_COL, NOTIFICATION_STATE_CHECKED);
+		values.put(TRANGTHAI_COL, NOTIFICATION_STATE_CHECKED);
 		
 		String where = NotificationDBController.ID_COL + " = " + id;
 		update(TABLE_NAME, values, where, null);
