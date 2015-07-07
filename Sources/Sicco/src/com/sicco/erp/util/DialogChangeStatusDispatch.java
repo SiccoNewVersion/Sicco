@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.Log;
@@ -31,11 +32,11 @@ public class DialogChangeStatusDispatch {
 	private StatusAdapter statusAdapter;
 	private ArrayList<Status> listStatus;
 	private TextView txtTitle;
-	private RadioButton rdStatus;
 	private Button btnDone;
 	private Button btnRetry;
 	private ListView lvStatus;
 	private Dispatch dispatch;
+	private Status status;
 	
 	public DialogChangeStatusDispatch(Context context,
 			ArrayList<Status> listStatus,Dispatch dispatch) {
@@ -43,8 +44,8 @@ public class DialogChangeStatusDispatch {
 		this.context = context;
 		this.listStatus = listStatus;
 		this.dispatch = dispatch;
-		
-		Log.d("NgaDV", "listStatus.size():"+listStatus.size());
+		status  = new Status();
+		status.setKey(Long.parseLong(dispatch.getStatus()));
 		
 		showDialog();
 	}
@@ -64,7 +65,7 @@ public class DialogChangeStatusDispatch {
 		btnDone = (Button)layout.findViewById(R.id.done);
 		btnRetry = (Button)layout.findViewById(R.id.retry);
 		
-		statusAdapter = new StatusAdapter(context, R.layout.item_status, listStatus);
+		statusAdapter = new StatusAdapter(context, listStatus);
 		lvStatus.setAdapter(statusAdapter);
 		
 		lvStatus.setOnItemClickListener(new OnItemClickListener() {
@@ -72,10 +73,13 @@ public class DialogChangeStatusDispatch {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Toast.makeText(context, "onclick"+position, 0).show();
+				status =  (Status) parent.getAdapter().getItem(position);
+				
+				Log.d("NgaDV", "status:"+status.getStatus());
 			}
 		});
 		
+		lvStatus.setItemChecked(Integer.parseInt(dispatch.getStatus())-1, true);
 		
 		txtTitle.setText(context.getResources().getString(R.string.change_status));
 		
@@ -98,24 +102,31 @@ public class DialogChangeStatusDispatch {
 
 			@Override
 			public void onClick(View arg0) {
+				
+				final ProgressDialog progressDialog = new ProgressDialog(context);
+				
 				dispatch.changeStatusDispatch(context.getResources().getString(R.string.api_change_status), 
 						Long.toString(dispatch.getId()), 
-						dispatch.getStatus(), 
+						Long.toString(status.getKey()), 
 						new OnLoadListener(){
 
 							@Override
 							public void onStart() {
-								
+								progressDialog.show();
+								progressDialog.setMessage(context.getResources().getString(R.string.waiting));
 							}
 
 							@Override
 							public void onSuccess() {
-								Toast.makeText(context, "onSuccess change", Toast.LENGTH_SHORT).show();
+								progressDialog.dismiss();
+								Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+								alertDialog.dismiss();
 							}
 
 							@Override
 							public void onFalse() {
-								// TODO Auto-generated method stub
+
+								progressDialog.dismiss();
 								
 							}});
 				
@@ -130,5 +141,6 @@ public class DialogChangeStatusDispatch {
 			}
 		});
 	}
+	
 	
 }
