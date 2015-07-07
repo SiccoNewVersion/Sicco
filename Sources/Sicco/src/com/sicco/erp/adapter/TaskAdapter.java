@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SteerReportActivity;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
@@ -34,10 +38,16 @@ public class TaskAdapter extends BaseAdapter {
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
 	public static String flag = "";
+	
+	private Cursor cursor;
+	private NotificationDBController db;
+	int type;
 
-	public TaskAdapter(Context context, ArrayList<Dispatch> data) {
+
+	public TaskAdapter(Context context, ArrayList<Dispatch> data, int type) {
 		this.context = context;
 		this.data = data;
+		this.type = type;
 
 		listChecked = new ArrayList<User>();
 
@@ -81,6 +91,18 @@ public class TaskAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
+		
+		if (type == 1) {
+			long id = dispatch.getId();
+			String state = querryFromDB(context, id);
+			if (state
+					.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
+				view.setBackgroundColor(Color.CYAN);
+			} else {
+				view.setBackgroundColor(Color.WHITE);
+			}
+		}
+		
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {
@@ -140,5 +162,28 @@ public class TaskAdapter extends BaseAdapter {
 		TextView title;
 		TextView description;
 		TextView approval;
+		LinearLayout mainLayout;
+	}
+	
+	String querryFromDB(Context context, long position) {
+		String state = "";
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DISPATCH_COL + " = " + position;
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				// int did = cursor
+				// .getInt(cursor
+				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
+				state = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
+			} while (cursor.moveToNext());
+		}
+		return state;
 	}
 }
