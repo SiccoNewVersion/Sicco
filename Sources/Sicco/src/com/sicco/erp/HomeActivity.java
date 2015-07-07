@@ -1,8 +1,10 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,13 +41,13 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private SessionManager session;
 	private static HomeActivity homeActivity;
 
+	String myPackage = "com.sicco.erp";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		// ToanNM
-		ServiceStart.startGetNotificationService(getApplicationContext());
-		Log.d("ToanNM", "Service has been started from Home Activity");
 		setContentView(R.layout.activity_home);
 		homeActivity = this;
 		session = SessionManager.getInstance(getApplicationContext());
@@ -72,6 +74,29 @@ public class HomeActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		setCountNotify();
+		String process = getAllRunningService();
+		if (!process.equalsIgnoreCase(myPackage)) {
+			ServiceStart.startGetNotificationService(getApplicationContext());
+			Log.d("ToanNM", "Service has been started from Home Activity");
+		}
+	}
+
+	public String getAllRunningService() {
+		ActivityManager am = (ActivityManager) getApplicationContext()
+				.getSystemService(ACTIVITY_SERVICE);
+		List<ActivityManager.RunningServiceInfo> rs = am
+				.getRunningServices(100);
+		String process = "";
+		for (int i = 0; i < rs.size(); i++) {
+			ActivityManager.RunningServiceInfo rsi = rs.get(i);
+			// get service following by package
+			if (rsi.service.getPackageName().contains(myPackage)) {
+				process = rsi.process;
+			}
+		}
+
+		return process;
 	}
 
 	void checkNotifyCount(TextView textView, int notifyCount) {
@@ -158,6 +183,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		alertDialog.show();
 	}
 
+	TextView notify_cvcp, notify_cvxl, notify_cl;
+
 	private void setCountNotify() {
 		cvcp_count = Utils.getInt(getApplicationContext(),
 				GetAllNotificationService.CVCP_KEY);
@@ -165,9 +192,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 				GetAllNotificationService.CVXL_KEY);
 		cl_count = Utils.getInt(getApplicationContext(),
 				GetAllNotificationService.CL_KEY);
-		TextView notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
-		TextView notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
-		TextView notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
+		notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
+		notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
+		notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
 		checkNotifyCount(notify_cvcp, cvcp_count);
 		checkNotifyCount(notify_cvxl, cvxl_count);
 		checkNotifyCount(notify_cl, cl_count);

@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
 
 public class NotificationDBController extends SQLiteOpenHelper {
@@ -35,7 +36,9 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	}
 	
 	public static String TABLE_NAME = "notification_tbl";
+	public static String DISPATCH_TABLE_NAME = "dispatch_tbl";
 	public static String ID_COL = "_id";
+	public static String DISPATCH_COL = "did";
 	public static String SOHIEUCONGVAN_COL = "soHieuCongVan";
 	public static String TRICHYEU_COL = "trichYeu";
 	public static String DINHKEM_COL = "dinhKem";
@@ -44,6 +47,7 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	public static String USERNAME_COL = "username";
 //	public static String ID_NOTYFI_COL = "id_notyfi";
 	public static String NOTIFI_TYPE_COL = "notifi_type";
+	public static String DSTATE_COL = "dstate";
 //	public static String MSG_TYPE_COL = "msg_type";
 //	public static String NAME_COL = "ten";
 //	public static String CONTENT_COL = "noi_dung";
@@ -71,10 +75,16 @@ public class NotificationDBController extends SQLiteOpenHelper {
 			+ DINHKEM_COL + " text,"
 			+ NGAYDENSICCO_COL + " text,"
 			+ TRANGTHAI_COL + " text);";
+	
+	private static String CREATE_DISPATCH_TABLE = "CREATE TABLE IF NOT EXISTS "
+			+ DISPATCH_TABLE_NAME + "("
+			+ DISPATCH_COL + " integer primary key autoincrement,"
+			+ DSTATE_COL + " text);";
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_TABLE);
+		db.execSQL(CREATE_DISPATCH_TABLE);
 	}
 
 	@Override
@@ -149,6 +159,14 @@ public class NotificationDBController extends SQLiteOpenHelper {
 		
 		String where = NotificationDBController.ID_COL + " = " + id;
 		update(TABLE_NAME, values, where, null);
+	}
+	
+	public void checkedDisPatch(Dispatch item, long id){
+		ContentValues values = new ContentValues();
+		values.put(DSTATE_COL, NOTIFICATION_STATE_CHECKED);
+		
+		String where = NotificationDBController.DISPATCH_COL + " = " + id;
+		update(DISPATCH_TABLE_NAME, values, where, null);
 	}
 	
 	public void deleteAllData()

@@ -97,7 +97,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(DealtWithActivity.this, arrDispatch);
+		adapter = new TaskAdapter(DealtWithActivity.this, arrDispatch, 0);
 		listDispatch.setAdapter(adapter);
 	}
 

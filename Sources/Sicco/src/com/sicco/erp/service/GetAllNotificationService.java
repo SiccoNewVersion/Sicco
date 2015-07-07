@@ -11,7 +11,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -49,9 +48,6 @@ public class GetAllNotificationService extends Service {
 	String ngayDenSicco = "";
 	String trangThai = "";
 	int total;
-
-	Handler handler;
-	Runnable runnable;
 
 	// key
 	public static String CVCP_KEY = "CONGVIECCANPHE_KEY";
@@ -277,7 +273,7 @@ public class GetAllNotificationService extends Service {
 										dinhKem);
 								values.put(
 										NotificationDBController.NGAYDENSICCO_COL,
-										ngayDenSicco);
+										"");
 								values.put(
 										NotificationDBController.TRANGTHAI_COL,
 										NotificationDBController.NOTIFICATION_STATE_NEW);

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,13 +24,16 @@ import android.widget.TextView;
 
 import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 
-public class OtherActivity extends Activity implements OnClickListener, OnItemClickListener{
-	
+public class OtherActivity extends Activity implements OnClickListener,
+		OnItemClickListener {
+
 	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
@@ -41,6 +46,9 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 	private Dispatch dispatch;
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
+
+	NotificationDBController db;
+	Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +70,7 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
-		title_actionbar = (TextView)  findViewById(R.id.title_actionbar);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar.setText(getResources().getString(R.string.cv_cac_loai));
 		// click
 		back.setOnClickListener(this);
@@ -73,7 +81,8 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(OtherActivity.this);
-		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_other),
+		arrDispatch = dispatch.getData(
+				getResources().getString(R.string.api_get_dispatch_other),
 				new OnLoadListener() {
 
 					@Override
@@ -97,8 +106,9 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(OtherActivity.this,
-				arrDispatch);
+
+		db = NotificationDBController.getInstance(getApplicationContext());
+		adapter = new TaskAdapter(OtherActivity.this, arrDispatch, 1);
 		listDispatch.setAdapter(adapter);
 	}
 
@@ -120,7 +130,8 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 			break;
 		case R.id.retry:
 			adapter.setData(dispatch.getData(
-					getResources().getString(R.string.api_get_dispatch_other), new OnLoadListener() {
+					getResources().getString(R.string.api_get_dispatch_other),
+					new OnLoadListener() {
 
 						@Override
 						public void onStart() {
@@ -148,12 +159,24 @@ public class OtherActivity extends Activity implements OnClickListener, OnItemCl
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(OtherActivity.this, dispatch.getContent());
-//		Intent intent = new Intent(OtherActivity.this, ViewDispatchActivity.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putSerializable("dispatch", dispatch);
-//		intent.putExtra("bundle", bundle);
-//		startActivity(intent);
+		viewDispatch = new ViewDispatch(OtherActivity.this,
+				dispatch.getContent());
+		// Intent intent = new Intent(OtherActivity.this,
+		// ViewDispatchActivity.class);
+		// Bundle bundle = new Bundle();
+		// bundle.putSerializable("dispatch", dispatch);
+		// intent.putExtra("bundle", bundle);
+		// startActivity(intent);
+		
+//		db = NotificationDBController.getInstance(getApplicationContext());
+//		cursor = db.query(NotificationDBController.TABLE_NAME, null, null,
+//				null, null, null, null);
+//		String sql = "Update" + NotificationDBController.DSTATE_COL + " from " + NotificationDBController.TABLE_NAME
+//				+  arg2;
+//		cursor = db.rawQuery(sql, null);
+		
+		db.checkedDisPatch(dispatch, dispatch.getId());
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

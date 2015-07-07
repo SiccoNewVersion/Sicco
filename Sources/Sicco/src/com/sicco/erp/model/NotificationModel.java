@@ -14,6 +14,7 @@ public class NotificationModel implements Serializable {
 	String dinhKem;
 	String ngayDenSicco;
 	String trangThai;
+	String state;
 
 	public NotificationModel(long id, int notify_type, String soHieuCongVan,
 			String trichYeu, String dinhKem, String ngayDenSicco,
@@ -25,6 +26,15 @@ public class NotificationModel implements Serializable {
 		this.dinhKem = dinhKem;
 		this.ngayDenSicco = ngayDenSicco;
 		this.trangThai = trangThai;
+//		this.state = state;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public int getNotify_type() {

@@ -1,15 +1,24 @@
 package com.sicco.erp.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.sicco.erp.ApprovalActivity;
+import com.sicco.erp.DealtWithActivity;
+import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.model.NotificationModel;
 
@@ -29,7 +38,8 @@ public class MyNotificationManager {
 	String content = "";
 	String url = "";
 	String noti = "";
-	public int noti_count = 0;
+	int noti_count = 0;
+	int notify_type;
 	PendingIntent pendInt;
 	String tag;
 	static int flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -57,22 +67,25 @@ public class MyNotificationManager {
 					NOTIFICATION_ID = CONGVAN_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_van);
 					tag = congvan;
+					notify_type = 1;
 				}
 				if (notification_type == 2) {
 					NOTIFICATION_ID = CONGVIEC_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_viec);
 					tag = congviec;
+					notify_type = 2;
 				}
 				if (notification_type == 3) {
 					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.lich_bieu);
 					tag = lichbieu;
+					notify_type = 3;
 				}
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + "\n";
 				contentText = noi_dung;
-				notify(context, NOTIFICATION_ID);
+				notify(context, NOTIFICATION_ID, notify_type);
 			}
 
 			if (notification_count > 1) {
@@ -81,43 +94,98 @@ public class MyNotificationManager {
 					noti = context.getResources().getString(R.string.cong_van);
 					name += "" + ten + "\n";
 					tag = congvan;
+					notify_type = 1;
 				}
 				if (notification_type == 2) {
 					NOTIFICATION_ID = CONGVIEC_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_viec);
 					name += "" + ten + "\n";
 					tag = congviec;
+					notify_type = 2;
 				}
 				if (notification_type == 3) {
 					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.lich_bieu);
 					name += "" + ten + "\n";
 					tag = lichbieu;
+					notify_type = 3;
 				}
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + " " + "\n";
 				contentText = name;
-				notify(context, NOTIFICATION_ID);
+				notify(context, NOTIFICATION_ID, notify_type);
 			}
 		}
 	}
 
+	String getAllRunningService(Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningServiceInfo> rs = am
+				.getRunningServices(100);
+		String process = "";
+		for (int i = 0; i < rs.size(); i++) {
+			ActivityManager.RunningServiceInfo rsi = rs.get(i);
+			// get service following by package
+			if (rsi.service.getPackageName().contains("com.sicco.erp")) {
+				process = rsi.process;
+			}
+		}
+
+		return process;
+	}
+
 	// ==========================================================================
-	public void notify(Context context, int notification_id) {
+	public void notify(Context context, int notification_id, int notify_type) {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				context);
-		Intent notIntent = new Intent(context, ApprovalActivity.class);
+		Intent notIntent = null;
+		String myPackage = "com.sicco.erp";
+		String process = getAllRunningService(context);
+		Intent LaunchIntent = context.getPackageManager()
+				.getLaunchIntentForPackage(myPackage);
+		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		context.startActivity(LaunchIntent);
+		if (notify_type == 1) {
+//			if (!process.equalsIgnoreCase(myPackage)) {
+//				context.startActivity(LaunchIntent);
+//			}
+			notIntent = new Intent(context, ApprovalActivity.class);
+			notIntent.setPackage(myPackage);
+		} else if (notify_type == 2) {
+//			if (!process.equalsIgnoreCase(myPackage)) {
+//				context.startActivity(LaunchIntent);
+//			}
+			notIntent = new Intent(context, DealtWithActivity.class);
+			notIntent.setPackage(myPackage);
+		} else if (notify_type == 3) {
+//			if (!process.equalsIgnoreCase(myPackage)) {
+//				context.startActivity(LaunchIntent);
+//			}
+			notIntent = new Intent(context, OtherActivity.class);
+			notIntent.setPackage(myPackage);
+		}
+
 		notIntent.addFlags(flags);
 		// notIntent.putExtra("com.sicco.erp", 1);
 		pendInt = PendingIntent.getActivity(context, 0, notIntent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
+		Uri alarmSound = RingtoneManager
+				.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true);
+		//
+		int max_volume = 20;
+
+		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true)
+//				.setPriority(Notification.PRIORITY_HIGH)
+				.setSound(alarmSound, max_volume);
+		;
+		;
 		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 		style.bigText(contentText);
-//		style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
+		// style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
 		style.build();
 
 		// ==============================

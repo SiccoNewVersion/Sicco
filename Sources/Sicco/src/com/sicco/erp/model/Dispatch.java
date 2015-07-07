@@ -8,13 +8,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sicco.erp.R;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
@@ -25,6 +28,9 @@ public class Dispatch implements Serializable {
 	private String date, handler;
 	private String status;
 	private ArrayList<Dispatch> data;
+	
+	private Cursor cursor;
+	private NotificationDBController db;
 
 	public Dispatch(Context context) {
 		this.context = context;
@@ -168,6 +174,28 @@ public class Dispatch implements Serializable {
 
 							data.add(new Dispatch(id, numberDispatch,
 									description, content, date, handler, status));
+							
+							// // add to db
+							db = NotificationDBController.getInstance(context);
+							String sql = "Select * from "
+									+ NotificationDBController.DISPATCH_TABLE_NAME
+									+ " where "
+									+ NotificationDBController.DISPATCH_COL
+									+ " = " + id;
+							cursor = db.rawQuery(sql, null);
+
+							ContentValues values = new ContentValues();
+							values.put(NotificationDBController.DISPATCH_COL,
+									id);
+							values.put(
+									NotificationDBController.DSTATE_COL,
+									NotificationDBController.NOTIFICATION_STATE_NEW);
+
+							long rowInserted = db.insert(
+									NotificationDBController.DISPATCH_TABLE_NAME, null,
+									values);
+							Log.d("ToanNM", "Dispatch rowInserted : "
+									+ rowInserted);
 						}
 
 					} catch (JSONException e) {
