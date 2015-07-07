@@ -47,23 +47,23 @@ public class MyNotificationManager {
 
 		for (int i = 0; i < notification_count; i++) {
 			// get data
-			String notification_type = arrayList.get(i).getNotify_type();
-			String ten = arrayList.get(i).getName();
-			String noi_dung = arrayList.get(i).getContent();
-			String data = arrayList.get(i).getUrl();
+			int notification_type = arrayList.get(i).getNotify_type();
+			String ten = arrayList.get(i).getSoHieuCongVan();
+			String noi_dung = arrayList.get(i).getTrichYeu();
+			String ngaydenSicco = arrayList.get(i).getNgayDenSicco();
 
 			if (notification_count == 1) {
-				if (notification_type.equalsIgnoreCase(congvan)) {
+				if (notification_type == 1) {
 					NOTIFICATION_ID = CONGVAN_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_van);
 					tag = congvan;
 				}
-				if (notification_type.equalsIgnoreCase(congviec)) {
+				if (notification_type == 2) {
 					NOTIFICATION_ID = CONGVIEC_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_viec);
 					tag = congviec;
 				}
-				if (notification_type.equalsIgnoreCase(lichbieu)) {
+				if (notification_type == 3) {
 					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.lich_bieu);
 					tag = lichbieu;
@@ -72,24 +72,23 @@ public class MyNotificationManager {
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + "\n";
 				contentText = noi_dung;
-				url = data;
 				notify(context, NOTIFICATION_ID);
 			}
 
 			if (notification_count > 1) {
-				if (notification_type.equalsIgnoreCase(congvan)) {
+				if (notification_type == 1) {
 					NOTIFICATION_ID = CONGVAN_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_van);
 					name += "" + ten + "\n";
 					tag = congvan;
 				}
-				if (notification_type.equalsIgnoreCase(congviec)) {
+				if (notification_type == 2) {
 					NOTIFICATION_ID = CONGVIEC_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.cong_viec);
 					name += "" + ten + "\n";
 					tag = congviec;
 				}
-				if (notification_type.equalsIgnoreCase(lichbieu)) {
+				if (notification_type == 3) {
 					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
 					noti = context.getResources().getString(R.string.lich_bieu);
 					name += "" + ten + "\n";
@@ -99,7 +98,6 @@ public class MyNotificationManager {
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + " " + "\n";
 				contentText = name;
-				url = data;
 				notify(context, NOTIFICATION_ID);
 			}
 		}
@@ -116,10 +114,10 @@ public class MyNotificationManager {
 		pendInt = PendingIntent.getActivity(context, 0, notIntent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
-		builder.setContentIntent(pendInt).setOngoing(true).setAutoCancel(true);
+		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true);
 		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 		style.bigText(contentText);
-		style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
+//		style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
 		style.build();
 
 		// ==============================

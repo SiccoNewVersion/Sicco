@@ -7,7 +7,7 @@ public class ServiceStart {
 	Context context;
 	static Intent getNotificationIntentStartService = null;
 	static Intent handleNotificationIntentStartService = null;
-
+	
 	public static void startGetNotificationService(Context context) {
 		getNotificationIntentStartService = new Intent(context,
 				GetAllNotificationService.class);
