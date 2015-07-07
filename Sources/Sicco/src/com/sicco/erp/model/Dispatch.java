@@ -134,9 +134,26 @@ public class Dispatch implements Serializable {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
-				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
 				Log.d("NgaDV", "get Json" + jsonRead);
+				
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						int success = object.getInt("success");
+						if (success == 1) {
+							onLoadListener.onSuccess();
+							Log.d("NgaDV", "onLoadListener.onSuccess()");
+						} else {
+							onLoadListener.onFalse();
+							Log.d("NgaDV", "onLoadListener.onFalse()");
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				
 				super.onSuccess(statusCode, headers, response);
 			}
 

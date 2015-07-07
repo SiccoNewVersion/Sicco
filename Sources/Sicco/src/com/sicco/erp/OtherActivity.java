@@ -161,19 +161,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(OtherActivity.this,
 				dispatch.getContent());
-		// Intent intent = new Intent(OtherActivity.this,
-		// ViewDispatchActivity.class);
-		// Bundle bundle = new Bundle();
-		// bundle.putSerializable("dispatch", dispatch);
-		// intent.putExtra("bundle", bundle);
-		// startActivity(intent);
-		
-//		db = NotificationDBController.getInstance(getApplicationContext());
-//		cursor = db.query(NotificationDBController.TABLE_NAME, null, null,
-//				null, null, null, null);
-//		String sql = "Update" + NotificationDBController.DSTATE_COL + " from " + NotificationDBController.TABLE_NAME
-//				+  arg2;
-//		cursor = db.rawQuery(sql, null);
 		
 		db.checkedDisPatch(dispatch, dispatch.getId());
 		adapter.notifyDataSetChanged();

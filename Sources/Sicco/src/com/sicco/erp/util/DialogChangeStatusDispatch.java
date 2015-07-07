@@ -119,7 +119,7 @@ public class DialogChangeStatusDispatch {
 							@Override
 							public void onSuccess() {
 								progressDialog.dismiss();
-								Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
 							}
 
