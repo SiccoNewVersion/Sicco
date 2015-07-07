@@ -80,7 +80,7 @@
 	<string name="exit_download">Đang tải tệp tin, bạn có muốn hủy?</string>
 	<string name="agree">Đồng ý</string>
 	<string name="no">Không</string>
-	<string name="waiting">Đang sử lý...</string>
+	<string name="waiting">Đang xử lý...</string>
 	<string name="error_l">Lỗi! Vui lòng thử lại sau ít phút</string>
 	
 	<!-- link api -->

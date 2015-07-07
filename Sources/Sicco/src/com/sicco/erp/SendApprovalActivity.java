@@ -85,10 +85,11 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btnApproval:
 			for (int i = 0; i < listChecked.size(); i++) {
-				if (i == listChecked.size() - 1)
+				if (i == listChecked.size() - 1) {
 					nameHandler += listChecked.get(i).getUsername();
-				else
+				} else {
 					nameHandler += listChecked.get(i).getUsername() + ",";
+				}
 			}
 
 			final ProgressDialog progressDialog = new ProgressDialog(
@@ -107,8 +108,8 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 						public void onSuccess() {
 							progressDialog.dismiss();
 							Toast.makeText(SendApprovalActivity.this,
-									getResources().getString(R.string.success), Toast.LENGTH_LONG)
-									.show();
+									getResources().getString(R.string.success),
+									Toast.LENGTH_LONG).show();
 							listChecked.removeAll(listChecked);
 							finish();
 
@@ -124,7 +125,10 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 						public void onFalse() {
 							listChecked.removeAll(listChecked);
 							progressDialog.dismiss();
-							Toast.makeText(SendApprovalActivity.this, getResources().getString(R.string.internet_false),
+							Toast.makeText(
+									SendApprovalActivity.this,
+									getResources().getString(
+											R.string.internet_false),
 									Toast.LENGTH_LONG).show();
 							listChecked.removeAll(listChecked);
 
@@ -133,7 +137,8 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 						@Override
 						public void onFalse(String stFalse) {
 							progressDialog.dismiss();
-							Toast.makeText(SendApprovalActivity.this, stFalse, Toast.LENGTH_LONG).show();
+							Toast.makeText(SendApprovalActivity.this, stFalse,
+									Toast.LENGTH_LONG).show();
 							listChecked.removeAll(listChecked);
 
 						}
