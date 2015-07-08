@@ -70,9 +70,17 @@ public class HomeActivity extends Activity implements OnClickListener {
 		setCountNotify();
 		String process = getAllRunningService();
 		if (!process.equalsIgnoreCase(myPackage)) {
-			ServiceStart.startGetNotificationService(getApplicationContext());
+//			ServiceStart.startGetNotificationService(getApplicationContext());
+			startGetAllNotificationService();
 			Log.d("ToanNM", "Service has been started from Home Activity");
 		}
+	}
+	
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 0);
+		getApplicationContext().startService(intent);
 	}
 
 	public String getAllRunningService() {
