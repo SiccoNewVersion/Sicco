@@ -27,7 +27,8 @@
     <string name="insert_text">Nhập văn bản</string>
     <string name="data_empty">Không có dữ liệu.</string>
     <!-- End TuNT -->
-    
+
+
     <!-- NgaDV -->
     <string name="hint_input_report_steer">Nhập chỉ đạo/báo cáo...</string>
     <string name="handler">Người xử lý: "</string>
@@ -46,74 +47,72 @@
     <string name="department">Phòng ban</string>
     <string name="title">Tiêu đề</string>
     <string name="covert">Chuyển</string>
-    
     <string name="everyday">Hàng ngày</string>
     <string name="execute">Thực hiện</string>
     <string name="normal">Bình thường</string>
     <string name="begin_progress">0%</string>
     <string name="msg_sending">"    Đang gửi</string>
-    
-        <string name="choose_status">Chọn trạng thái</string>
-        <string name="need_approval">Cần phê</string>
-        <string name="need_handle">Cần xử lý</string>
-        <string name="pause_handle">Tạm dừng xử lý</string>
-        <string name="finish_handle">Kết thúc xử lý</string>
-    
+    <string name="choose_status">Chọn trạng thái</string>
+    <string name="need_approval">Cần phê</string>
+    <string name="need_handle">Cần xử lý</string>
+    <string name="pause_handle">Tạm dừng xử lý</string>
+    <string name="finish_handle">Kết thúc xử lý</string>
+
     <!-- LuanDT -->
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>
     <string name="enter_title">Nhập tiêu đề</string>
     <string name="cv_cac_loai">Công văn các loại</string>
     <string name="task">Tác vụ</string>
-    <!--menu_task-->
+    <string name="file_notfound">Tệp đính kèm không khả dụng</string>
+    <!-- menu_task -->
     <string name="handle">Gửi xử lý/chuyển tiếp</string>
     <string name="steer_report">Chỉ đạo/Báo cáo</string>
     <string name="change_status">Thay đổi trạng thái</string>
     <string name="job_transfer">Chuyển công việc</string>
-    
     <string name="done">Xong</string>
-	<string name="chose_user">Chọn người xử lý</string>
-	<string name="chose_dipartment">Chọn phòng ban</string>
-	<string name="choose_handle">Chọn người xử lý/chuyển tiếp</string>
-	<string name="empty_handle">Bạn chưa chọn người sử lý/chuyển tiếp.</string>
-	<string name="success">Thành công</string>
-	<string name="action">Thực hiện công văn số hiệu "</string>
-	<string name="default_value">Giá trị mặc định</string>
-	<string name="list_handler">Danh sách người xử lý/chuyển tiếp</string>
-	<string name="downloading">Đang tải: "</string>
-	<string name="exit_download">Đang tải tệp tin, bạn có muốn hủy?</string>
-	<string name="agree">Đồng ý</string>
-	<string name="no">Không</string>
-	<string name="waiting">Đang xử lý...</string>
-	<string name="error_l">Lỗi! Vui lòng thử lại sau ít phút</string>
-	
-	<!-- link api -->
-	<string name="api_get_dispatch_approval">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
-	<string name="api_get_dispatch_handle">http://office.sinco.pro.vn/api/handl_dispatch.php</string>
-	<string name="api_get_dispatch_other">http://office.sinco.pro.vn/api/other_dispatch.php</string>
-	<string name="api_get_all_user">http://office.sinco.pro.vn/api/list_users.php</string>
-	<string name="api_get_deparment">http://office.sinco.pro.vn/api/departments.php</string>
-	<string name="api_get_steer_report">http://office.sinco.pro.vn/api/get_report_steer.php</string>
-	<string name="api_chuyencongvan">http://office.sinco.pro.vn/api/chuyencongvan.php</string>
-	<string name="api_phecongvan">http://office.sinco.pro.vn/api/phecongvan.php</string>
-	<string name="api_send_report">http://office.sinco.pro.vn/api/send_report.php</string>
-	<string name="api_send_handl_forward">http://office.sinco.pro.vn/api/guixuly.php</string>
-	<string name="api_change_status">http://office.sinco.pro.vn/api/change_status.php</string>
-	<string name="api_get_one_user">http://office.sinco.pro.vn/api/get_one_user.php</string>
-	
-	<!-- ToanNM -->
+    <string name="chose_user">Chọn người xử lý</string>
+    <string name="chose_dipartment">Chọn phòng ban</string>
+    <string name="choose_handle">Chọn người xử lý/chuyển tiếp</string>
+    <string name="empty_handle">Bạn chưa chọn người sử lý/chuyển tiếp.</string>
+    <string name="success">Thành công</string>
+    <string name="action">Thực hiện công văn số hiệu "</string>
+    <string name="default_value">Giá trị mặc định</string>
+    <string name="list_handler">Danh sách người xử lý/chuyển tiếp</string>
+    <string name="downloading">Đang tải: "</string>
+    <string name="exit_download">Đang tải tệp tin, bạn có muốn hủy?</string>
+    <string name="agree">Đồng ý</string>
+    <string name="no">Không</string>
+    <string name="waiting">Đang xử lý...</string>
+    <string name="error_l">Lỗi! Vui lòng thử lại sau ít phút</string>
+
+    <!-- link api -->
+    <string name="api_get_dispatch_approval">http://office.sinco.pro.vn/api/approval_dispatch.php</string>
+    <string name="api_get_dispatch_handle">http://office.sinco.pro.vn/api/handl_dispatch.php</string>
+    <string name="api_get_dispatch_other">http://office.sinco.pro.vn/api/other_dispatch.php</string>
+    <string name="api_get_all_user">http://office.sinco.pro.vn/api/list_users.php</string>
+    <string name="api_get_deparment">http://office.sinco.pro.vn/api/departments.php</string>
+    <string name="api_get_steer_report">http://office.sinco.pro.vn/api/get_report_steer.php</string>
+    <string name="api_chuyencongvan">http://office.sinco.pro.vn/api/chuyencongvan.php</string>
+    <string name="api_phecongvan">http://office.sinco.pro.vn/api/phecongvan.php</string>
+    <string name="api_send_report">http://office.sinco.pro.vn/api/send_report.php</string>
+    <string name="api_send_handl_forward">http://office.sinco.pro.vn/api/guixuly.php</string>
+    <string name="api_change_status">http://office.sinco.pro.vn/api/change_status.php</string>
+    <string name="api_get_one_user">http://office.sinco.pro.vn/api/get_one_user.php</string>
+
+    <!-- ToanNM -->
     <string name="cong_van">công văn cần phê</string>
     <string name="cong_viec">công văn cần xử lý</string>
     <string name="lich_bieu">công văn các loại</string>
     <string name="one_msg">Bạn có 1 %1$s</string>
-	<string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
-	<string name="new_noti">Cảnh báo mới</string>
-	<string name="new_noti_mess">Bạn có </string>
-	<!-- Home -->
+    <string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
+    <string name="new_noti">Cảnh báo mới</string>
+    <string name="new_noti_mess">Bạn có </string>
+    <!-- Home -->
     <string name="progress_msg">Đang đăng nhập...</string>
     <string name="error_title">Lỗi đăng nhập</string>
     <string name="error_null">Bạn chưa nhập tên tài khoản hoặc mật khẩu</string>
     <string name="error">Sai tên tài khoản hoặc mật khẩu</string>
-    
+
     <!-- AcctentRemover -->
     <string-array name="special_characters">
         <item>À</item>
@@ -371,4 +370,5 @@
         <item>U</item>
         <item>u</item>
     </string-array>
+
 </resources>

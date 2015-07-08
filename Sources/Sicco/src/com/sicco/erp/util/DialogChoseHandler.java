@@ -34,7 +34,7 @@ import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
 
-public class DialogChoseUser {
+public class DialogChoseHandler {
 
 	private Context context;
 	private ArrayList<Department> listDep;
@@ -43,9 +43,8 @@ public class DialogChoseUser {
 	private ArrayList<User> listChecked;
 	private ExpandableListUserAdapter adapter;
 	private int mCurrentExpandedGroup = -1;
-	private String handler;
-	public static String strUsersView = "";
-	public static String idUsersView = "";
+	public static String strUsersHandl = "";
+	public static String idUsersHandl = "";
 
 	private ExpandableListView listView;
 	private ProgressBar loading;
@@ -56,11 +55,11 @@ public class DialogChoseUser {
 	private User user;
 	private Dispatch dispatch;
 
-	public DialogChoseUser() {
+	public DialogChoseHandler() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public DialogChoseUser(Context context, ArrayList<Department> listDep,
+	public DialogChoseHandler(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
 		this.listDep = listDep;
@@ -74,23 +73,6 @@ public class DialogChoseUser {
 		showDialog();
 	}
 	
-	public DialogChoseUser(Context context, Dispatch dispatch, ArrayList<Department> listDep,
-			ArrayList<User> allUser, ArrayList<User> listChecked) {
-		this.context = context;
-		this.dispatch = dispatch;
-		this.listDep = listDep;
-		this.allUser = allUser;
-		this.listChecked = listChecked;
-
-		department = new Department();
-		user = new User();
-
-		Log.d("LuanDT", "listDep.size(): " + listDep.size());
-		Log.d("LuanDT", "allUser.size(): " + allUser.size());
-		
-		listUser = getData(listDep, allUser);
-		showDialog();
-	}
 
 	private void showDialog() {
 		Rect rect = new Rect();
@@ -207,43 +189,21 @@ public class DialogChoseUser {
 
 			@Override
 			public void onClick(View arg0) {
-				handler = context.getResources().getString(R.string.handler);
-				for (int i = 0; i < listChecked.size(); i++) {
-					handler += listChecked.get(i).getUsername() + "; ";
-				}
-				
-				if (TaskAdapter.flag.equals("handle")) {
-					if (listChecked.isEmpty()) {
-						Toast.makeText(
-								context,
-								context.getResources().getString(
-										R.string.empty_handle),
-								Toast.LENGTH_SHORT).show();
-					} else {
-						alertDialog.dismiss();
-						new DialogShowHandler(context, dispatch,listChecked);
-
-					}
-
-				} else if (TaskAdapter.flag.equals("")) {
-					SendApprovalActivity.txtHandler.setText(handler);
-					alertDialog.dismiss();
-				}else if (TaskAdapter.flag.equals("chooseViewer")) {
 					for (int i = 0; i < listChecked.size(); i++) {
 						if (i == listChecked.size() - 1) {
-							strUsersView += listChecked.get(i).getUsername();
-							idUsersView += listChecked.get(i).getId();
+							strUsersHandl += listChecked.get(i).getUsername();
+							idUsersHandl += listChecked.get(i).getId();
 						} else {
-							strUsersView += listChecked.get(i).getUsername() + ",";
-							idUsersView += listChecked.get(i).getId() + ",";
+							strUsersHandl += listChecked.get(i).getUsername() + ",";
+							idUsersHandl += listChecked.get(i).getId() + ",";
 						}
 					}
-					if (!strUsersView.equals("")) {
-						ConvertDispatchActivity.txtViewer.setText(strUsersView);
+					
+					if (!strUsersHandl.equals("")) {
+						ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
 //						listChecked.clear();
 					}
 					alertDialog.dismiss();
-				}
 				
 			}
 		});
