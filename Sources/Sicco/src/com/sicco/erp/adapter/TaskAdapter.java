@@ -162,7 +162,7 @@ public class TaskAdapter extends BaseAdapter {
 													R.string.finish_handle),
 											Long.parseLong("4")));
 									new DialogChangeStatusDispatch(context,
-											listStatus, dispatch);
+											listStatus, dispatch, type);
 									break;
 								case R.id.action_job_transfer:
 									intent.setClass(context,
@@ -196,7 +196,9 @@ public class TaskAdapter extends BaseAdapter {
 				null, null, null, null, null);
 		String sql = "Select * from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
-				+ NotificationDBController.DISPATCH_COL + " = " + position;
+				+ NotificationDBController.DISPATCH_COL + " = " + position
+				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
+		Log.d("ToanNM", "task adapter sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {

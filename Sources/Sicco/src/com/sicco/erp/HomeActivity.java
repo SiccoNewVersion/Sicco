@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
@@ -59,6 +61,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		cancelAllNotification(getApplicationContext());
 	}
 
 	@Override
@@ -89,12 +92,13 @@ public class HomeActivity extends Activity implements OnClickListener {
 		return process;
 	}
 
-	void checkNotifyCount(TextView textView, int notifyCount) {
+	void checkNotifyCount(TextView textView, int notifyCount, int type) {
 		if (notifyCount != 0) {
 			textView.setVisibility(View.VISIBLE);
 			textView.setText("" + notifyCount);
 		} else if (notifyCount == 0) {
 			textView.setVisibility(View.GONE);
+			cancelNotification(getApplicationContext(), type);
 		}
 	}
 
@@ -130,6 +134,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 			session.logoutUser();
 			ServiceStart.stopAllService(getApplicationContext());
 			Utils.stopAlarm(getApplicationContext());
+			cancelAllNotification(getApplicationContext());
 			finish();
 			break;
 		}
@@ -185,9 +190,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 		notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
 		notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
 		notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
-		checkNotifyCount(notify_cvcp, cvcp_count);
-		checkNotifyCount(notify_cvxl, cvxl_count);
-		checkNotifyCount(notify_cl, cl_count);
+		checkNotifyCount(notify_cvcp, cvcp_count, 1);
+		checkNotifyCount(notify_cvxl, cvxl_count, 2);
+		checkNotifyCount(notify_cl, cl_count, 3);
 	}
 
 	public static class NotifyBR extends BroadcastReceiver {
@@ -197,5 +202,42 @@ public class HomeActivity extends Activity implements OnClickListener {
 			if (HomeActivity.getInstance() != null)
 				HomeActivity.getInstance().setCountNotify();
 		}
+	}
+	
+	void CongVanCancelNotification(Context context) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager
+				.cancel(MyNotificationManager.CONGVAN_NOTIFICATION_ID);
+	}
+
+	void CongViecCancelNotification(Context context) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager
+				.cancel(MyNotificationManager.CONGVIEC_NOTIFICATION_ID);
+	}
+
+	void LichBieuCancelNotification(Context context) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager
+				.cancel(MyNotificationManager.LICHBIEU_NOTIFICATION_ID);
+	}
+
+	void cancelNotification(Context context, int id) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager.cancel(id);
+	}
+
+	void cancelAllNotification(Context context) {
+		CongVanCancelNotification(context);
+		CongViecCancelNotification(context);
+		LichBieuCancelNotification(context);
 	}
 }
