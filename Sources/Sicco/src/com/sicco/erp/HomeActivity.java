@@ -308,7 +308,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		months = c.get(Calendar.MONTH);
 		years_now = c.get(Calendar.YEAR);
 
-		if (date > 20) {
+		if (date > 20 || months > 6) {
 			checkDate();
 		}
 		super.onResume();
