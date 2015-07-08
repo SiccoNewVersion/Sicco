@@ -185,6 +185,8 @@ public class Dispatch implements Serializable {
 							String status = row.getString("status");
 							String handler = row.getString("handler");
 
+							content = content.replace(" ", "%20");
+							
 							data.add(new Dispatch(id, numberDispatch,
 									description, content, date, handler, status));
 
