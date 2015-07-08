@@ -70,6 +70,16 @@ public class GetAllNotificationService extends Service {
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
 		CacLoaiAsync();
+		if (intent != null) {
+			action = intent.getIntExtra("ACTION", 0);
+		} else {
+			try {
+				action = intent.getIntExtra("ACTION", 1);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
 		Utils.scheduleNext(getApplicationContext());
 
 		// final int delay = 30 * 10 *1000;
@@ -84,9 +94,6 @@ public class GetAllNotificationService extends Service {
 		// }
 		// };
 		// runnable.run();
-		if (intent != null) {
-			action = intent.getIntExtra("ACTION", 0);
-		}
 
 		return START_STICKY;
 	}

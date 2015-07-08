@@ -49,12 +49,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
-		
+
 		OtherActivity.otherActivitySelected = false;
-		
+
 		init();
 		Log.d("NgaDV", "onCreate");
-		
+
 	}
 
 	private void init() {
@@ -80,8 +80,8 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(DealtWithActivity.this);
-		arrDispatch = dispatch.getData(DealtWithActivity.this, 
-				getResources().getString(R.string.api_get_dispatch_handle),
+		arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()
+				.getString(R.string.api_get_dispatch_handle),
 				new OnLoadListener() {
 
 					@Override
@@ -126,7 +126,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			adapter.setData(dispatch.getData(DealtWithActivity.this, 
+			adapter.setData(dispatch.getData(DealtWithActivity.this,
 					getResources().getString(R.string.api_get_dispatch_handle),
 					new OnLoadListener() {
 
@@ -213,7 +213,6 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
-
 
 	// ToanNM
 	@Override

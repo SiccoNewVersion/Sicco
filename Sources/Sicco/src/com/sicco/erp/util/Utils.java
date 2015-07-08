@@ -23,13 +23,14 @@ public class Utils {
 
 	public static void scheduleNext(Context context) {
 		Intent intent = new Intent(context, GetAllNotificationService.class);
+		intent.putExtra("ACTION", 1);
 		long time = SystemClock.elapsedRealtime();
 		manager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		pIntent = PendingIntent.getService(context, 0, intent,
 				Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-				time + 30 * 60 * 1000, pIntent);
+				time + 1* 60 * 1000, pIntent);
 
 	}
 
