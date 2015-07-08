@@ -272,7 +272,7 @@ public class DialogChangeStatusDispatch {
 	
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(context, GetAllNotificationService.class);
-		intent.putExtra("ACTION", 1);
+		intent.putExtra("ACTION", 0);
 		context.startService(intent);
 	}
 
