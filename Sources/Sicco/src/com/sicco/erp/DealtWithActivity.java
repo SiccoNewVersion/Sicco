@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -202,4 +203,28 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
+	
+	@Override
+	protected void onStart() {
+		Log.d("NgaDV", "onStart");
+		super.onStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		Log.d("NgaDV", "onResume");
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		Log.d("NgaDV", "onPause");
+		super.onPause();
+	}
+	@Override
+	protected void onStop() {
+		Log.d("NgaDV", "onStop");
+		super.onStop();
+	}
+	
 }
