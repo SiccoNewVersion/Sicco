@@ -115,6 +115,9 @@ public class DialogChangeStatusDispatch {
 
 				final ProgressDialog progressDialog = new ProgressDialog(
 						context);
+				progressDialog.setMessage(context
+						.getResources().getString(
+								R.string.waiting));
 
 				dispatch.changeStatusDispatch(
 						context.getResources().getString(
@@ -125,9 +128,6 @@ public class DialogChangeStatusDispatch {
 							@Override
 							public void onStart() {
 								progressDialog.show();
-								progressDialog.setMessage(context
-										.getResources().getString(
-												R.string.waiting));
 							}
 
 							@Override
@@ -232,7 +232,7 @@ public class DialogChangeStatusDispatch {
 							public void onFalse() {
 
 								progressDialog.dismiss();
-
+								Toast.makeText(context, context.getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
 							}
 						});
 
