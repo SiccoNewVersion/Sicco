@@ -2,9 +2,6 @@ package com.sicco.erp.adapter;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.R;
-import com.sicco.erp.model.ReportSteer;
-
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,16 +10,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.sicco.erp.R;
+import com.sicco.erp.model.ReportSteer;
+
 public class ReportSteerAdapter extends BaseAdapter {
 
 	private Context context;
 	private ArrayList<ReportSteer> data;
 
-	// private int intResource;
 	public ReportSteerAdapter(Context context, ArrayList<ReportSteer> data) {
 		this.context = context;
 		this.data = data;
-		// this.intResource = resource;
 	}
 
 	public Context getContext() {

@@ -26,7 +26,6 @@ public class NotificationModel implements Serializable {
 		this.dinhKem = dinhKem;
 		this.ngayDenSicco = ngayDenSicco;
 		this.trangThai = trangThai;
-//		this.state = state;
 	}
 
 	public String getState() {

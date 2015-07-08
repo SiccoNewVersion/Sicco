@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -127,10 +126,8 @@ public class User {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
-//				getData(url);
 				getJsonUser = false;
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				Log.d("LuanDT", "json: false");
 			}
 		});
 		return listUser	;
@@ -172,7 +169,6 @@ public class User {
 					Throwable throwable, JSONObject errorResponse) {
 				onLoadListener.onFalse();
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				Log.d("LuanDT", "json: false");
 			}
 		});
 		return listUser	;

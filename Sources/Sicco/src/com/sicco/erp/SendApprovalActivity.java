@@ -50,14 +50,12 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		dispat = (Dispatch) intent.getSerializableExtra("dispatch");
 
 		back = (ImageView) findViewById(R.id.back);
-		// send = (ImageView) findViewById(R.id.send);
 		btnChoseHandler = (Button) findViewById(R.id.btnChoseHandler);
 		btnApproval = (Button) findViewById(R.id.btnApproval);
 		txtHandler = (TextView) findViewById(R.id.txt_handler);
 		document = (EditText) findViewById(R.id.document);
 		// click
 		back.setOnClickListener(this);
-		// send.setOnClickListener(this);
 		btnApproval.setOnClickListener(this);
 		btnChoseHandler.setOnClickListener(this);
 

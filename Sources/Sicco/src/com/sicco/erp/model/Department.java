@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -80,7 +78,6 @@ public class Department implements Serializable {
 //				getData(url);
 				getJsonDep = false;
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				Log.d("LuanDT", "json: false");
 			}
 		});
 		return listDep;
@@ -123,7 +120,6 @@ public class Department implements Serializable {
 					Throwable throwable, JSONObject errorResponse) {
 				onLoadListener.onFalse();
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				Log.d("LuanDT", "json: false");
 			}
 		});
 		return listDep;

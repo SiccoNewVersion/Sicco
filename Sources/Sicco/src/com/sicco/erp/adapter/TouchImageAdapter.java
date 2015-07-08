@@ -38,10 +38,6 @@ public class TouchImageAdapter extends PagerAdapter {
 				.error(R.drawable.image_error).crossFade().into(img);
 		container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
-		// ExtendedViewPager pager = (ExtendedViewPager) container;
-		// View view = getView(position, pager);
-		//
-		// pager.addView(view);
 		return img;
 	}
 

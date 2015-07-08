@@ -15,14 +15,11 @@ public class ViewDispatchActivity extends PdfViewerActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_view_dispatch);
-//		init();
 	}
 
 	private void init() {
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
-		//
 		back.setOnClickListener(this);
 	}
 

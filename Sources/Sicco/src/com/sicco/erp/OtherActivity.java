@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -30,7 +29,6 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
-import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 
 public class OtherActivity extends Activity implements OnClickListener,
@@ -172,8 +170,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 				dispatch.getContent());
 
 		db.checkedDisPatch(dispatch, dispatch.getId());
-//		int count = querryFromDB(getApplicationContext());
-//		setCount(count);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -185,13 +181,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 		String sql = "Select Count(*) from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
 				+ NotificationDBController.DSTATE_COL + " = \"new\"";
-		Log.d("ToanNM", "otheractivity sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
-				// int did = cursor
-				// .getInt(cursor
-				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
 				state = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
@@ -258,8 +250,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 	protected void onStart() {
 		super.onStart();
 		startGetAllNotificationService();
-		// int count = querryFromDB(getApplicationContext());
-		// setCount(count);
 	}
 
 	//

@@ -65,7 +65,6 @@ public class GetAllNotificationService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// start Service
-		Log.d("ToanNM", "GetAllNotification.onstart()");
 
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
@@ -82,18 +81,6 @@ public class GetAllNotificationService extends Service {
 		}
 		Utils.scheduleNext(getApplicationContext());
 
-		// final int delay = 30 * 10 *1000;
-		// handler = new Handler();
-		// runnable = new Runnable(){
-		// @Override
-		// public void run() {
-		// CongVanCanPheAsync();
-		// CongVanXuLyAsync();
-		// CacLoaiAsync();
-		// handler.postDelayed(runnable, delay);
-		// }
-		// };
-		// runnable.run();
 
 		return START_STICKY;
 	}
@@ -116,7 +103,6 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
-						// Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -179,7 +165,6 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
-						// Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -201,9 +186,6 @@ public class GetAllNotificationService extends Service {
 										ngayDenSicco, trangThai));
 
 							}
-							Log.d("ToanNM", "row : " + rows.length()
-									+ " , congVanXuLy_list.size(): "
-									+ congVanXuLy_list.size());
 							origanizeNoti(congVanXuLy_list);
 							saveInt(2, total);
 
@@ -244,7 +226,6 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
-						Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -278,9 +259,6 @@ public class GetAllNotificationService extends Service {
 										+ NotificationDBController.USERNAME_COL
 										+ " = \"" + username + "\"";
 								cursor = db.rawQuery(sql, null);
-//								if (cursor != null && cursor.getCount() > 0) {
-//
-//								} else {
 									ContentValues values = new ContentValues();
 									values.put(NotificationDBController.ID_COL,
 											id);
@@ -310,8 +288,6 @@ public class GetAllNotificationService extends Service {
 											.insert(NotificationDBController.TABLE_NAME,
 													null, values);
 
-									Log.d("ToanNM", "rowInserted is : "
-											+ rowInserted);
 //								}
 							}
 							// initMessageData(cacLoai_list, 3, username);
@@ -351,7 +327,6 @@ public class GetAllNotificationService extends Service {
 				+ NotificationDBController.NOTIFI_TYPE_COL + " = " + type
 				+ " and " + NotificationDBController.USERNAME_COL + " = \""
 				+ username + "\"";
-		Log.d("ToanNM", "sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -377,7 +352,6 @@ public class GetAllNotificationService extends Service {
 				temp = new NotificationModel(id, type, soHieuCongVan, trichYeu,
 						dinhKem, ngayDenSicco, trangThai);
 				data.add(temp);
-				Log.d("ToanNM", "data size after init Data is : " + data.size());
 			} while (cursor.moveToNext());
 		}
 		origanizeNoti(data);
@@ -422,8 +396,6 @@ public class GetAllNotificationService extends Service {
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(notificationServiceStr);
 		mNotificationManager.cancel(notification_id);
-		Log.d("ToanNM", "cancelNotification() at notification_id:"
-				+ notification_id);
 	}
 
 }

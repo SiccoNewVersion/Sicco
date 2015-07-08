@@ -90,9 +90,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 		
 		for (int i = 0; i < arr.length; i++) {
 //			listStatus.add(new Status(arr[i], Integer.toString(i)));
-			Log.d("NgaDV", listStatus.get(i).getStatus());
 		}
-		Log.d("NgaDV", ""+listStatus.size());
 		spinnerStatusAdapter= new SpinnerStatusAdapter(ChangeStatusDispatch.this, listStatus);
 		
 		 
@@ -124,15 +122,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 		}
 
 		private void setListReportSteer(Dispatch dispatch) {
-
-			// arrReportSteers = new ArrayList<ReportSteer>();
-			//
-			// for (int i = 0; i < 10; i++) {
-			// arrReportSteers.add(new ReportSteer(i, "NgaDV"+i, i+"-02-201"+i,
-			// "content "+i));
-			//
-			// Log.d("NgaDV", arrReportSteers.get(i).getHandler());
-			// }
 
 			arrReportSteers = reportSteer.getData(
 					getResources().getString(R.string.api_get_steer_report),

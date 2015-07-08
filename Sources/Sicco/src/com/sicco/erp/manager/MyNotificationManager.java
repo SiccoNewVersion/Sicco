@@ -143,30 +143,18 @@ public class MyNotificationManager {
 		String process = getAllRunningService(context);
 		Intent LaunchIntent = context.getPackageManager()
 				.getLaunchIntentForPackage(myPackage);
-		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		context.startActivity(LaunchIntent);
 		if (notify_type == 1) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
 			notIntent = new Intent(context, ApprovalActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 2) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
 			notIntent = new Intent(context, DealtWithActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 3) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
 			notIntent = new Intent(context, OtherActivity.class);
 			notIntent.setPackage(myPackage);
 		}
 
 		notIntent.addFlags(flags);
-		// notIntent.putExtra("com.sicco.erp", 1);
 		pendInt = PendingIntent.getActivity(context, 0, notIntent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		Uri alarmSound = RingtoneManager
@@ -176,7 +164,6 @@ public class MyNotificationManager {
 		int max_volume = 20;
 
 		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true)
-		// .setPriority(Notification.PRIORITY_HIGH)
 				.setSound(alarmSound, max_volume);
 
 		int build_version = android.os.Build.VERSION.SDK_INT;
@@ -185,7 +172,6 @@ public class MyNotificationManager {
 		}
 		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 		style.bigText(contentText);
-		// style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
 		style.build();
 
 		// ==============================

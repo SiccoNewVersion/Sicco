@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,13 +17,10 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-import com.sicco.erp.ChangeStatusDispatch;
 import com.sicco.erp.ConvertDispatchActivity;
-import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.database.NotificationDBController;
-import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
@@ -198,13 +194,9 @@ public class TaskAdapter extends BaseAdapter {
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
 				+ NotificationDBController.DISPATCH_COL + " = " + position
 				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
-		Log.d("ToanNM", "task adapter sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
-				// int did = cursor
-				// .getInt(cursor
-				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
 				state = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
@@ -212,7 +204,5 @@ public class TaskAdapter extends BaseAdapter {
 		}
 		return state;
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////////
 	
 }

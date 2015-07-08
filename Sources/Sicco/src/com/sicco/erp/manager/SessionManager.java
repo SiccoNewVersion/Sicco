@@ -2,12 +2,12 @@ package com.sicco.erp.manager;
 
 import java.util.HashMap;
 
-import com.sicco.erp.LoginActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.sicco.erp.LoginActivity;
 
 public class SessionManager {
 	// Shared Preferences

@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -240,11 +239,9 @@ public class DialogChoseUser {
 					}
 					if (!strUsersView.equals("")) {
 						ConvertDispatchActivity.txtViewer.setText(strUsersView);
-//						listChecked.clear();
 					}
 					if (listChecked.isEmpty()) {
 						ConvertDispatchActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
-//						listChecked.clear();
 					}
 					alertDialog.dismiss();
 				}

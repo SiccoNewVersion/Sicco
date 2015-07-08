@@ -3,18 +3,13 @@ package com.sicco.erp.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.SendApprovalActivity;
-import com.sicco.erp.model.Department;
-import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
 
 public class StatusAdapter extends BaseAdapter {
@@ -25,8 +20,6 @@ public class StatusAdapter extends BaseAdapter {
 		this.context = context;
 		this.listStatus = lisStatus;
 	}
-
-	
 
 	public ArrayList<Status> getListStatus() {
 		return listStatus;

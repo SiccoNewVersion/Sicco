@@ -1,22 +1,17 @@
 package com.sicco.erp;
 
-import java.util.HashMap;
-
 import org.apache.http.Header;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -63,7 +58,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		// session
 		session = SessionManager.getInstance(getApplicationContext());
-		
 
 	}
 
@@ -99,22 +93,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 		params.add("username", u);
 		params.add("password", p);
 		mLoginDialog.setVisibility(View.VISIBLE);
-		// String login = getApplicationContext().getResources().getString(
-		// R.string.progress_msg);
-		// mLoginDialog.setTitle(login);
-		// mLoginDialog.setMessage(getString(R.string.progress_msg));
-		// mLoginDialog.show();
 		login.setEnabled(false);
 
-		handler.post(getApplicationContext(), getResources().getString(R.string.api_get_one_user), params,
+		handler.post(getApplicationContext(),
+				getResources().getString(R.string.api_get_one_user), params,
 				new JsonHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						int error_code = -1;
 						String st = response.toString();
-						Log.d("ToanNM", "json:" + st);
-						// mLoginDialog.dismiss();
 						mLoginDialog.setVisibility(View.GONE);
 						login.setEnabled(true);
 						try {
@@ -139,7 +127,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 									.startGetNotificationService(getApplicationContext());
 							finish();
 						} else if (error_code != 0) {
-							Log.d("ToanNM", "run");
 							String t = getApplicationContext().getResources()
 									.getString(R.string.error_title);
 							String s = getApplicationContext().getResources()
@@ -154,7 +141,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// mLoginDialog.dismiss();
 						mLoginDialog.setVisibility(View.GONE);
 						login.setEnabled(true);
 						String s = getApplicationContext().getResources()

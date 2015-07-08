@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -42,7 +41,6 @@ public class ViewDispatch {
 		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(false);
 		if (downloadFile.isZero()) {
-			Log.d("TuNT", "isZero");
 			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.setIndeterminate(true);
 		} else {
@@ -89,13 +87,9 @@ public class ViewDispatch {
 							ViewDispatchActivity.class);
 					intent.putExtra(PdfViewerActivity.EXTRA_PDFFILENAME, p);
 					context.startActivity(intent);
-//					Toast.makeText(context,
-//							"No Viewer Application Found", Toast.LENGTH_SHORT)
-//							.show();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				Log.d("TuNT", "onSuccess: " + p);
 			}
 
 			@Override
@@ -106,12 +100,10 @@ public class ViewDispatch {
 					if (aDialog.isShowing())
 						aDialog.dismiss();
 				}
-				Log.d("TuNT", "onFalse");
 			}
 
 			@Override
 			public void onDownload(int progress) {
-				Log.d("TuNT", "onDownload: " + progress);
 				dialog.setProgress(progress);
 			}
 
