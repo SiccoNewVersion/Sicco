@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ public class DialogChangeStatusDispatch {
 	private ArrayList<Status> listStatus;
 	private TextView txtTitle;
 	private Button btnDone;
+	private Button btnRetry;
 	private ListView lvStatus;
 	private Dispatch dispatch;
 	private Status status;
@@ -66,10 +68,12 @@ public class DialogChangeStatusDispatch {
 		View layout = layoutInflater.inflate(
 				R.layout.dialog_change_status_dispatch, null);
 		layout.setMinimumWidth((int) (rect.width() * 1f));
+		// layout.setMinimumHeight((int) (rect.height() * 1f));
 
 		txtTitle = (TextView) layout.findViewById(R.id.title_actionbar);
 		lvStatus = (ListView) layout.findViewById(R.id.lvStatus);
 		btnDone = (Button) layout.findViewById(R.id.done);
+		btnRetry = (Button) layout.findViewById(R.id.retry);
 
 		statusAdapter = new StatusAdapter(context, listStatus);
 		lvStatus.setAdapter(statusAdapter);
@@ -80,6 +84,8 @@ public class DialogChangeStatusDispatch {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				status = (Status) parent.getAdapter().getItem(position);
+
+				Log.d("NgaDV", "status:" + status.getStatus());
 			}
 		});
 
@@ -131,6 +137,9 @@ public class DialogChangeStatusDispatch {
 								// ToanNM
 								startGetAllNotificationService();
 								setCount(type);
+//								int count = querryFromDB(context);
+//								setCount(count);
+								// end of ToanNM
 								progressDialog.dismiss();
 								Toast.makeText(
 										context,
@@ -177,7 +186,7 @@ public class DialogChangeStatusDispatch {
 															OtherActivity.connectError
 																	.setVisibility(View.VISIBLE);
 														}
-													});
+													}, 1);
 								} else {
 									
 									DealtWithActivity activity = new DealtWithActivity();
@@ -219,7 +228,7 @@ public class DialogChangeStatusDispatch {
 															DealtWithActivity.connectError
 																	.setVisibility(View.VISIBLE);
 														}
-													});
+													}, 0);
 								}
 							}
 
@@ -231,6 +240,14 @@ public class DialogChangeStatusDispatch {
 							}
 						});
 
+			}
+		});
+		// click retry
+		btnRetry.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// Do something
 			}
 		});
 	}
@@ -247,6 +264,7 @@ public class DialogChangeStatusDispatch {
 		String sql = "Select * from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
 				+ NotificationDBController.DSTATE_COL + " = \"new\"";
+		Log.d("ToanNM", "otheractivity sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		return count;
@@ -259,6 +277,7 @@ public class DialogChangeStatusDispatch {
 	}
 
 	void setCount(int type) {
+		Log.d("ToanNM", "CongVanType : " + type);
 		if (type == 1) {
 			int count = Utils.getInt(context, GetAllNotificationService.CL_KEY);
 			if (count != 0) {
@@ -266,6 +285,8 @@ public class DialogChangeStatusDispatch {
 			} else if (count == 0) {
 				cancelNotification(context, 3);
 			}
+			db = NotificationDBController.getInstance(context);
+			db.changeStateDisPatch(dispatch, dispatch.getId(), 0, "new");
 			Utils.saveInt(context, GetAllNotificationService.CL_KEY, count);
 		} else if (type == 0) {
 			int count = Utils.getInt(context,
@@ -275,6 +296,8 @@ public class DialogChangeStatusDispatch {
 			} else if (count == 0) {
 				cancelNotification(context, 2);
 			}
+			db = NotificationDBController.getInstance(context);
+			db.changeStateDisPatch(dispatch, dispatch.getId(), 1, "new");
 			Utils.saveInt(context, GetAllNotificationService.CVXL_KEY, count);
 		}
 	}

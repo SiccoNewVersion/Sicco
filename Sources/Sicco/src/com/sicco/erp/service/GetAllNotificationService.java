@@ -24,6 +24,8 @@ import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.util.Utils;
 
@@ -65,6 +67,7 @@ public class GetAllNotificationService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// start Service
+		Log.d("ToanNM", "GetAllNotification.onstart()");
 
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
@@ -77,10 +80,22 @@ public class GetAllNotificationService extends Service {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+
 		}
 		Utils.scheduleNext(getApplicationContext());
 
+		// final int delay = 30 * 10 *1000;
+		// handler = new Handler();
+		// runnable = new Runnable(){
+		// @Override
+		// public void run() {
+		// CongVanCanPheAsync();
+		// CongVanXuLyAsync();
+		// CacLoaiAsync();
+		// handler.postDelayed(runnable, delay);
+		// }
+		// };
+		// runnable.run();
 
 		return START_STICKY;
 	}
@@ -103,6 +118,7 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
+						// Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -126,7 +142,8 @@ public class GetAllNotificationService extends Service {
 							Log.d("ToanNM", "row : " + rows.length()
 									+ " , congVanCanPhe_list.size(): "
 									+ congVanCanPhe_list.size());
-							origanizeNoti(congVanCanPhe_list);
+							origanizeNoti(congVanCanPhe_list,
+									congVanCanPhe_list.size());
 							saveInt(1, total);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -165,6 +182,7 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
+						// Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -186,7 +204,11 @@ public class GetAllNotificationService extends Service {
 										ngayDenSicco, trangThai));
 
 							}
-							origanizeNoti(congVanXuLy_list);
+							Log.d("ToanNM", "row : " + rows.length()
+									+ " , congVanXuLy_list.size(): "
+									+ congVanXuLy_list.size());
+							origanizeNoti(congVanXuLy_list,
+									congVanXuLy_list.size());
 							saveInt(2, total);
 
 						} catch (Exception e) {
@@ -226,6 +248,7 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
+						Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -259,6 +282,9 @@ public class GetAllNotificationService extends Service {
 										+ NotificationDBController.USERNAME_COL
 										+ " = \"" + username + "\"";
 								cursor = db.rawQuery(sql, null);
+								if (cursor != null && cursor.getCount() > 0) {
+
+								} else {
 									ContentValues values = new ContentValues();
 									values.put(NotificationDBController.ID_COL,
 											id);
@@ -288,11 +314,54 @@ public class GetAllNotificationService extends Service {
 											.insert(NotificationDBController.TABLE_NAME,
 													null, values);
 
-//								}
+									Log.d("ToanNM", "rowInserted is : "
+											+ rowInserted);
+								}
 							}
 							// initMessageData(cacLoai_list, 3, username);
-							origanizeNoti(cacLoai_list);
-							saveInt(3, total);
+//							SharedPreferences p = PreferenceManager
+//									.getDefaultSharedPreferences(getApplicationContext());
+//							boolean firstRun = p.getBoolean(
+//									PREFERENCE_FIRST_RUN, true);
+							boolean firstRun = Utils.getBoolean(getApplicationContext(), "FIRSTRUN", true);
+							if (firstRun) {
+								Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", false);
+								origanizeNoti(cacLoai_list, total);
+								saveInt(3, total);
+							} else {
+								// =================================================
+								// \\
+								Dispatch dis = new Dispatch(
+										getApplicationContext());
+								String url = getApplicationContext()
+										.getResources()
+										.getString(
+												R.string.api_get_dispatch_other);
+								dData = new ArrayList<Dispatch>();
+								dData = dis.getData(getApplicationContext(),
+										url, new OnLoadListener() {
+
+											@Override
+											public void onSuccess() {
+												cacLoai(username);
+											}
+
+											@Override
+											public void onStart() {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void onFalse() {
+												// TODO Auto-generated method
+												// stub
+
+											}
+										}, 1);
+							}
+
 							if (cursor != null && cursor.getCount() > 0) {
 							} else {
 								// initMessageData(cacLoai_list, 3, username);
@@ -316,6 +385,27 @@ public class GetAllNotificationService extends Service {
 
 	}
 
+	ArrayList<Dispatch> dData;
+
+	void cacLoai(String username) {
+		int count = 0;
+		db = NotificationDBController.getInstance(getApplicationContext());
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DSTATE_COL + " = \"new\"" + " and "
+				+ NotificationDBController.D_TYPE_COL + " = " + 1 + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username + "\"" ;
+		cursor = db.rawQuery(sql, null);
+		count = cursor.getCount();
+		Log.d("ToanNM", "Service sql : " + sql);
+		// ================================================= \\
+		// origanizeNoti(cacLoai_list, count);
+		sereprateCacLoaiList(dData, count);
+		saveInt(3, count);
+	}
+
 	void initMessageData(ArrayList<NotificationModel> data, int type,
 			String username) {
 		db = NotificationDBController.getInstance(getApplicationContext());
@@ -327,6 +417,7 @@ public class GetAllNotificationService extends Service {
 				+ NotificationDBController.NOTIFI_TYPE_COL + " = " + type
 				+ " and " + NotificationDBController.USERNAME_COL + " = \""
 				+ username + "\"";
+		Log.d("ToanNM", "sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -352,9 +443,10 @@ public class GetAllNotificationService extends Service {
 				temp = new NotificationModel(id, type, soHieuCongVan, trichYeu,
 						dinhKem, ngayDenSicco, trangThai);
 				data.add(temp);
+				Log.d("ToanNM", "data size after init Data is : " + data.size());
 			} while (cursor.moveToNext());
 		}
-		origanizeNoti(data);
+		origanizeNoti(data, data.size());
 
 	}
 
@@ -369,8 +461,8 @@ public class GetAllNotificationService extends Service {
 
 	}
 
-	void origanizeNoti(ArrayList<NotificationModel> data) {
-		sereprateList(data);
+	void origanizeNoti(ArrayList<NotificationModel> data, int notification_count) {
+		sereprateList(data, notification_count);
 		NotifyBR notifyBR = new NotifyBR();
 		IntentFilter intentFilter = new IntentFilter("acb");
 		registerReceiver(notifyBR, intentFilter);
@@ -378,11 +470,12 @@ public class GetAllNotificationService extends Service {
 		sendBroadcast(i);
 	}
 
-	void sereprateList(ArrayList<NotificationModel> data) {
+	void sereprateList(ArrayList<NotificationModel> data, int notification_count) {
 		int size = data.size();
 		if (action == 1 && size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
-			myNotificationManager.notifyType(getApplicationContext(), data);
+			myNotificationManager.notifyType(getApplicationContext(), data,
+					notification_count);
 		}
 		if (size == 0) {
 			int type = data.get(0).getNotify_type();
@@ -391,11 +484,26 @@ public class GetAllNotificationService extends Service {
 		}
 	}
 
+	void sereprateCacLoaiList(ArrayList<Dispatch> data, int notification_count) {
+		int size = data.size();
+		if (action == 1 && size != 0) {
+			MyNotificationManager myNotificationManager = new MyNotificationManager();
+			myNotificationManager.notifyCacLoai(getApplicationContext(), data,
+					notification_count);
+		}
+		if (size == 0) {
+			cancelNotification(getApplicationContext(), 3);
+			saveInt(3, size);
+		}
+	}
+
 	void cancelNotification(Context context, int notification_id) {
 		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(notificationServiceStr);
 		mNotificationManager.cancel(notification_id);
+		Log.d("ToanNM", "cancelNotification() at notification_id:"
+				+ notification_id);
 	}
 
 }

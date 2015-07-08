@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -52,6 +53,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		OtherActivity.otherActivitySelected = false;
 
 		init();
+		Log.d("NgaDV", "onCreate");
 
 	}
 
@@ -102,7 +104,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 						loading.setVisibility(View.GONE);
 						connectError.setVisibility(View.VISIBLE);
 					}
-				});
+				}, 0);
 		adapter = new TaskAdapter(DealtWithActivity.this, arrDispatch, 0);
 		listDispatch.setAdapter(adapter);
 	}
@@ -148,7 +150,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 							loading.setVisibility(View.GONE);
 							connectError.setVisibility(View.VISIBLE);
 						}
-					}));
+					}, 0));
 			break;
 		}
 	}
@@ -158,6 +160,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(DealtWithActivity.this,
 				dispatch.getContent());
+		// Intent intent = new Intent(DealtWithActivity.this,
+		// ViewDispatchActivity.class);
+		// Bundle bundle = new Bundle();
+		// bundle.putSerializable("dispatch", dispatch);
+		// intent.putExtra("bundle", bundle);
+		// startActivity(intent);
 	}
 
 	@Override

@@ -86,7 +86,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 						loading.setVisibility(View.GONE);
 						connectError.setVisibility(View.VISIBLE);
 					}
-				});
+				}, 0);
 		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
 				arrDispatch);
 		listDispatch.setAdapter(dispatchAdapter);
@@ -188,7 +188,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 							loading.setVisibility(View.GONE);
 							connectError.setVisibility(View.VISIBLE);
 						}
-					}));
+					}, 0));
 			break;
 		}
 	}

@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Department;
@@ -42,14 +43,15 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private int cvcp_count, cvxl_count, cl_count;
 	private SessionManager session;
 	private static HomeActivity homeActivity;
-	String p = "";
-	String u;
 
 	String myPackage = "com.sicco.erp";
 
 	private int date;
 	private int months;
 	private int years_now;
+
+	String p = "";
+	String u;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -162,11 +164,16 @@ public class HomeActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.exit:
 			session.logoutUser();
+			NotificationDBController db = NotificationDBController
+					.getInstance(getApplicationContext());
+			db.deleteAllData();
+			Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", true);
 			ServiceStart.stopAllService(getApplicationContext());
 			Utils.stopAlarm(getApplicationContext());
 			cancelAllNotification(getApplicationContext());
 			clearNotifyCount();
 			finish();
+
 			break;
 		}
 	}
@@ -290,12 +297,11 @@ public class HomeActivity extends Activity implements OnClickListener {
 		builder.setTitle(R.string.app_name);
 		builder.setMessage(R.string.confirm_exit);
 		builder.setCancelable(false);
-		builder.setPositiveButton("OK",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						exit();
-					}
-				});
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				exit();
+			}
+		});
 		alertDialog = builder.create();
 		alertDialog.show();
 
@@ -313,4 +319,5 @@ public class HomeActivity extends Activity implements OnClickListener {
 		}
 		super.onResume();
 	}
+
 }

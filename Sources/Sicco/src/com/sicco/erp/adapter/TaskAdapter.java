@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -192,8 +193,8 @@ public class TaskAdapter extends BaseAdapter {
 				null, null, null, null, null);
 		String sql = "Select * from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
-				+ NotificationDBController.DISPATCH_COL + " = " + position
-				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
+				+ NotificationDBController.DISPATCH_COL + " = " + position;
+		Log.d("ToanNM", "task adapter sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -204,5 +205,6 @@ public class TaskAdapter extends BaseAdapter {
 		}
 		return state;
 	}
+	
 	
 }

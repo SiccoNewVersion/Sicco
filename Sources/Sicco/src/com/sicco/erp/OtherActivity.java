@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.database.NotificationDBController;
@@ -29,6 +31,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 
 public class OtherActivity extends Activity implements OnClickListener,
@@ -110,7 +113,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 						loading.setVisibility(View.GONE);
 						connectError.setVisibility(View.VISIBLE);
 					}
-				});
+				}, 1);
 
 		db = NotificationDBController.getInstance(getApplicationContext());
 		adapter = new TaskAdapter(OtherActivity.this, arrDispatch, 1);
@@ -158,7 +161,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 							loading.setVisibility(View.GONE);
 							connectError.setVisibility(View.VISIBLE);
 						}
-					}));
+					}, 1));
 			break;
 		}
 	}
@@ -170,26 +173,68 @@ public class OtherActivity extends Activity implements OnClickListener,
 				dispatch.getContent());
 
 		db.checkedDisPatch(dispatch, dispatch.getId());
+		
+		String state = querryFromDB(getApplicationContext(), arg2);
+		if(state.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)){
+			int count = querryFromDB(getApplicationContext());
+			setCount(count);
+		}
+		startGetAllNotificationService();
+		
 		adapter.notifyDataSetChanged();
 	}
 
+	void setCount(int count) {
+		if (count != 0) {
+			count--;
+		} else if (count == 0) {
+			cancelNotification(getApplicationContext(), 3);
+		}
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CL_KEY, count);
+	}
+	
 	String querryFromDB(Context context, long position) {
 		String state = "";
 		db = NotificationDBController.getInstance(context);
 		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
 				null, null, null, null, null);
-		String sql = "Select Count(*) from "
+		String sql = "Select * from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
-				+ NotificationDBController.DSTATE_COL + " = \"new\"";
+				+ NotificationDBController.DISPATCH_COL + " = " + position;
+//				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
+				// int did = cursor
+				// .getInt(cursor
+				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
 				state = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
 			} while (cursor.moveToNext());
 		}
 		return state;
+	}
+
+	int querryFromDB(Context context) {
+		int count = 0;
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME
+				+ " where "
+				+ NotificationDBController.DSTATE_COL
+				+ " = \"new\""
+				+ " and "
+				+ NotificationDBController.D_TYPE_COL
+				+ " = " + 1;
+		Log.d("ToanNM", "otheractivity sql : " + sql);
+		cursor = db.rawQuery(sql, null);
+		count = cursor.getCount();
+		Toast.makeText(getApplicationContext(), "OtherActivity : " + count , Toast.LENGTH_SHORT).show();
+		return count;
 	}
 
 	void cancelNotification(Context context, int notification_id) {
@@ -249,7 +294,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onStart() {
 		super.onStart();
-		startGetAllNotificationService();
+		 startGetAllNotificationService();
+//		int count = querryFromDB(getApplicationContext());
+//		setCount(count);
 	}
 
 	//
