@@ -81,7 +81,7 @@ public class ViewDispatch {
 						objIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						context.startActivity(objIntent);
 					} else {
-						Toast.makeText(context, "File NotFound",
+						Toast.makeText(context, context.getResources().getString(R.string.file_notfound),
 								Toast.LENGTH_SHORT).show();
 					}
 				} catch (ActivityNotFoundException e) {
