@@ -229,6 +229,8 @@ public class DialogChoseUser {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
 				}else if (TaskAdapter.flag.equals("chooseViewer")) {
+					strUsersView = "";
+					idUsersView = "";
 					for (int i = 0; i < listChecked.size(); i++) {
 						if (i == listChecked.size() - 1) {
 							strUsersView += listChecked.get(i).getUsername();

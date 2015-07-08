@@ -189,6 +189,8 @@ public class DialogChoseHandler {
 
 			@Override
 			public void onClick(View arg0) {
+				strUsersHandl = "";
+				idUsersHandl = "";
 					for (int i = 0; i < listChecked.size(); i++) {
 						if (i == listChecked.size() - 1) {
 							strUsersHandl += listChecked.get(i).getUsername();
@@ -201,7 +203,6 @@ public class DialogChoseHandler {
 					
 					if (!strUsersHandl.equals("")) {
 						ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
-//						listChecked.clear();
 					}
 					if (listChecked.isEmpty()) {
 						ConvertDispatchActivity.txtHandler.setText(context.getResources().getString(R.string.handler1));
