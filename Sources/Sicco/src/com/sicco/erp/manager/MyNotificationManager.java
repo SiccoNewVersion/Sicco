@@ -24,6 +24,7 @@ import com.sicco.erp.model.NotificationModel;
 
 public class MyNotificationManager {
 	Context mContext;
+	public static boolean startNoti = false;
 	public static int CONGVAN_NOTIFICATION_ID = 1;
 	public static int CONGVIEC_NOTIFICATION_ID = 2;
 	public static int LICHBIEU_NOTIFICATION_ID = 3;
@@ -152,18 +153,21 @@ public class MyNotificationManager {
 //			if (!process.equalsIgnoreCase(myPackage)) {
 //				context.startActivity(LaunchIntent);
 //			}
+			startNoti = true;
 			notIntent = new Intent(context, ApprovalActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 2) {
 //			if (!process.equalsIgnoreCase(myPackage)) {
 //				context.startActivity(LaunchIntent);
 //			}
+			startNoti = true;
 			notIntent = new Intent(context, DealtWithActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 3) {
 //			if (!process.equalsIgnoreCase(myPackage)) {
 //				context.startActivity(LaunchIntent);
 //			}
+			startNoti = true;
 			notIntent = new Intent(context, OtherActivity.class);
 			notIntent.setPackage(myPackage);
 		}

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
@@ -62,13 +63,21 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		btnApproval.setOnClickListener(this);
 		btnChoseHandler.setOnClickListener(this);
 
-		department = new Department();
-		user = new User(SendApprovalActivity.this);
-
 		listChecked = new ArrayList<User>();
 
-		listDep = HomeActivity.listDep;
-		allUser = HomeActivity.allUser;
+		if (MyNotificationManager.startNoti) {
+			department = new Department();
+			user = new User();
+			listDep = new ArrayList<Department>();
+			allUser = new ArrayList<User>();
+			listDep = department.getData(getResources().getString(
+					R.string.api_get_deparment));
+			allUser = user.getData(getResources().getString(
+					R.string.api_get_all_user));
+		} else {
+			listDep = HomeActivity.listDep;
+			allUser = HomeActivity.allUser;
+		}
 	}
 
 	@Override
