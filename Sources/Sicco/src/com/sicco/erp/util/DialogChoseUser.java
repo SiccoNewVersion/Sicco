@@ -242,6 +242,10 @@ public class DialogChoseUser {
 						ConvertDispatchActivity.txtViewer.setText(strUsersView);
 //						listChecked.clear();
 					}
+					if (listChecked.isEmpty()) {
+						ConvertDispatchActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
+//						listChecked.clear();
+					}
 					alertDialog.dismiss();
 				}
 				

@@ -59,6 +59,7 @@
     <string name="finish_handle">Kết thúc xử lý</string>
 
     <!-- LuanDT -->
+    <string name="approval_dispatch">Phê công văn</string>
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>
     <string name="enter_title">Nhập tiêu đề</string>
     <string name="cv_cac_loai">Công văn các loại</string>

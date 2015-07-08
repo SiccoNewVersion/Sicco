@@ -203,6 +203,9 @@ public class DialogChoseHandler {
 						ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
 //						listChecked.clear();
 					}
+					if (listChecked.isEmpty()) {
+						ConvertDispatchActivity.txtHandler.setText(context.getResources().getString(R.string.handler1));
+					}
 					alertDialog.dismiss();
 				
 			}

@@ -35,7 +35,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/cv_can_phe"
+                android:text="@string/approval_dispatch"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
