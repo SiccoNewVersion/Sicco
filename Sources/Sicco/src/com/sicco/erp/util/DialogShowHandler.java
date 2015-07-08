@@ -35,8 +35,9 @@ public class DialogShowHandler {
 
 		showDialog();
 	}
-	
-	public DialogShowHandler(Context context,Dispatch dispatch, ArrayList<User> listChecked) {
+
+	public DialogShowHandler(Context context, Dispatch dispatch,
+			ArrayList<User> listChecked) {
 		this.context = context;
 		this.dispatch = dispatch;
 		this.listChecked = listChecked;
@@ -65,7 +66,9 @@ public class DialogShowHandler {
 			else
 				handler += listChecked.get(i).getUsername() + ",";
 		}
-		txtListHandeler.setText(context.getResources().getString(R.string.handler)+handler);
+		txtListHandeler.setText(context.getResources().getString(
+				R.string.handler)
+				+ handler);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(layout);
@@ -104,16 +107,22 @@ public class DialogShowHandler {
 
 	private void guiXuLy() {
 		final ProgressDialog dialog = new ProgressDialog(context);
-		dialog.setMessage("dang xu ly");
+		dialog.setMessage(context.getResources().getString(R.string.waiting));
 		Dispatch dDispatch = new Dispatch(context);
-		dDispatch.guiXuLy(context.getResources().getString(R.string.api_send_handl_forward), Long.toString(dispatch.getId()),
-				handler, new OnRequestListener() {
+		dDispatch.guiXuLy(
+				context.getResources().getString(
+						R.string.api_send_handl_forward),
+				Long.toString(dispatch.getId()), handler,
+				new OnRequestListener() {
 
 					@Override
 					public void onSuccess() {
 						dialog.dismiss();
-						Toast.makeText(context, "Thao tac thanh cong.",
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(
+								context,
+								context.getResources().getString(
+										R.string.success), Toast.LENGTH_LONG)
+								.show();
 						listChecked.removeAll(listChecked);
 					}
 
@@ -125,16 +134,22 @@ public class DialogShowHandler {
 					@Override
 					public void onFalse() {
 						dialog.dismiss();
-						Toast.makeText(context, "Thao tac khong thanh cong",
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(
+								context,
+								context.getResources().getString(
+										R.string.error_l), Toast.LENGTH_LONG)
+								.show();
 						listChecked.removeAll(listChecked);
 					}
 
 					@Override
 					public void onFalse(String stFalse) {
 						dialog.dismiss();
-						Toast.makeText(context, "Thao tac thanh cong. "
-								+ stFalse, Toast.LENGTH_LONG).show();
+						Toast.makeText(
+								context,
+								context.getResources().getString(
+										R.string.error_l), Toast.LENGTH_LONG)
+								.show();
 						listChecked.removeAll(listChecked);
 					}
 				});

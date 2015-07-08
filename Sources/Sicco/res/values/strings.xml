@@ -101,9 +101,9 @@
 	<string name="api_get_one_user">http://office.sinco.pro.vn/api/get_one_user.php</string>
 	
 	<!-- ToanNM -->
-    <string name="cong_van">Công văn cần phê</string>
-    <string name="cong_viec">Công văn cần xử lí</string>
-    <string name="lich_bieu">Các loại khác</string>
+    <string name="cong_van">công văn cần phê</string>
+    <string name="cong_viec">công văn cần xử lý</string>
+    <string name="lich_bieu">công văn các loại mới</string>
     <string name="one_msg">Bạn có 1 %1$s</string>
 	<string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
 	<string name="new_noti">Cảnh báo mới</string>
