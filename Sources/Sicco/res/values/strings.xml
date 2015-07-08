@@ -103,7 +103,7 @@
 	<!-- ToanNM -->
     <string name="cong_van">công văn cần phê</string>
     <string name="cong_viec">công văn cần xử lý</string>
-    <string name="lich_bieu">công văn các loại mới</string>
+    <string name="lich_bieu">công văn các loại</string>
     <string name="one_msg">Bạn có 1 %1$s</string>
 	<string name="multi_msg">Bạn có %1$i cảnh báo mới</string>
 	<string name="new_noti">Cảnh báo mới</string>
