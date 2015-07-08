@@ -31,10 +31,10 @@
 
     <!-- NgaDV -->
     <string name="hint_input_report_steer">Nhập chỉ đạo/báo cáo...</string>
-    <string name="handler">Người xử lý: "</string>
+    <string name="handler">Người xử lý:"</string>
     <string name="handler1">Người xử lý</string>
-    <string name="time">Thời gian: "</string>
-    <string name="report">Báo cáo: "</string>
+    <string name="time">Thời gian:"</string>
+    <string name="report">Báo cáo:"</string>
     <string name="sep">" / "</string>
     <string name="empty_content_report">Bạn chưa nhập nội dung</string>
     <string name="job_type">Loại công việc</string>

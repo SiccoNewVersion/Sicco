@@ -48,6 +48,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
 		init();
+		Log.d("NgaDV", "onCreate");
 	}
 
 	private void init() {
@@ -205,6 +206,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	}
 	
 	@Override
+	protected void onRestart() {
+		Log.d("NgaDV", "onRestart");
+		super.onRestart();
+	}
+
+	@Override
 	protected void onStart() {
 		Log.d("NgaDV", "onStart");
 		super.onStart();
@@ -226,5 +233,9 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		Log.d("NgaDV", "onStop");
 		super.onStop();
 	}
-	
+	@Override
+	protected void onDestroy() {
+		Log.d("NgaDV", "onDestroy");
+		super.onDestroy();
+	}
 }
