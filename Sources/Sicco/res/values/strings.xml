@@ -13,7 +13,7 @@
     <string name="option">Thiết lập</string>
     <string name="exit">Đăng xuất</string>
     <string name="cancel">Hủy</string>
-    <string name="confirm_exit">Bạn có thật sự muốn thoát khỏi ứng dụng?</string>
+    <string name="confirm_exit">Bản thử nghiệm đã hết hạn. Vui lòng cài đặt bản chính thức để tiếp tục sử dụng.</string>
     <string name="search">Tìm kiếm</string>
     <string name="approval">Phê</string>
     <string name="login">Đăng nhập</string>

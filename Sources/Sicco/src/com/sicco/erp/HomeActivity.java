@@ -1,6 +1,7 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,24 +47,28 @@ public class HomeActivity extends Activity implements OnClickListener {
 
 	String myPackage = "com.sicco.erp";
 
+	private int date;
+	private int months;
+	private int years_now;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
-		
+
 		// session
-				session = SessionManager.getInstance(getApplicationContext());
+		session = SessionManager.getInstance(getApplicationContext());
 		// check session
-				HashMap<String, String> hashMap = session.getUserDetails();
-				u = hashMap.get(SessionManager.KEY_NAME);
-				p = hashMap.get(SessionManager.KEY_PASSWORD);
-				Log.d("ToanNM", "u : " + u + ", p : ");
-				if (u.equals("") && p.equals("")) {
-					Intent intent = new Intent(this,LoginActivity.class);
-					startActivity(intent);
-					finish();
-				}
-		
+		HashMap<String, String> hashMap = session.getUserDetails();
+		u = hashMap.get(SessionManager.KEY_NAME);
+		p = hashMap.get(SessionManager.KEY_PASSWORD);
+		Log.d("ToanNM", "u : " + u + ", p : ");
+		if (u.equals("") && p.equals("")) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+			finish();
+		}
+
 		// ToanNM
 		setContentView(R.layout.activity_home);
 		homeActivity = this;
@@ -87,12 +92,12 @@ public class HomeActivity extends Activity implements OnClickListener {
 		setCountNotify();
 		String process = getAllRunningService();
 		if (!process.equalsIgnoreCase(myPackage)) {
-//			ServiceStart.startGetNotificationService(getApplicationContext());
+			// ServiceStart.startGetNotificationService(getApplicationContext());
 			startGetAllNotificationService();
 			Log.d("ToanNM", "Service has been started from Home Activity");
 		}
 	}
-	
+
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(getApplicationContext(),
 				GetAllNotificationService.class);
@@ -165,11 +170,14 @@ public class HomeActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	
-	void clearNotifyCount(){
-		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CVCP_KEY, 0);
-		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CVXL_KEY, 0);
-		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CL_KEY, 0);
+
+	void clearNotifyCount() {
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CVCP_KEY, 0);
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CVXL_KEY, 0);
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CL_KEY, 0);
 	}
 
 	@Override
@@ -235,7 +243,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 				HomeActivity.getInstance().setCountNotify();
 		}
 	}
-	
+
 	void CongVanCancelNotification(Context context) {
 		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context
@@ -271,5 +279,38 @@ public class HomeActivity extends Activity implements OnClickListener {
 		CongVanCancelNotification(context);
 		CongViecCancelNotification(context);
 		LichBieuCancelNotification(context);
+	}
+
+	public void checkDate() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				new ContextThemeWrapper(HomeActivity.this,
+						android.R.style.Theme_Holo_Light));
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.setTitle(R.string.app_name);
+		builder.setMessage(R.string.confirm_exit);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						exit();
+					}
+				});
+		alertDialog = builder.create();
+		alertDialog.show();
+
+	}
+
+	@Override
+	protected void onResume() {
+		final Calendar c = Calendar.getInstance();
+		date = c.get(Calendar.DATE);
+		months = c.get(Calendar.MONTH);
+		years_now = c.get(Calendar.YEAR);
+
+		if (date > 20) {
+			checkDate();
+		}
+		super.onResume();
 	}
 }
