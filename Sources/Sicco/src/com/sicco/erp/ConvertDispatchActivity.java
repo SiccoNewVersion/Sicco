@@ -28,6 +28,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseDepartment;
+import com.sicco.erp.util.DialogChoseHandler;
 import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
 
@@ -46,7 +47,7 @@ public class ConvertDispatchActivity extends Activity implements
 
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
-	private ArrayList<User> listChecked;
+	private ArrayList<User> listChecked, listCheckedHandler;
 	private Dispatch dispatch;
 
 	static final int DATE_DIALOG_ID = 111;
@@ -111,6 +112,7 @@ public class ConvertDispatchActivity extends Activity implements
 		btnConvert.setOnClickListener(this);
 
 		listChecked = new ArrayList<User>();
+		listCheckedHandler = new ArrayList<User>();
 
 		department = new Department();
 		user = new User();
@@ -178,6 +180,13 @@ public class ConvertDispatchActivity extends Activity implements
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
+			//clear data
+			listChecked.clear();
+			listCheckedHandler.clear();
+			DialogChoseHandler.strUsersHandl = getResources().getString(R.string.handler1);
+			DialogChoseHandler.idUsersHandl = "";
+			DialogChoseUser.strUsersView = getResources().getString(R.string.viewer);
+			DialogChoseUser.idUsersView = "";
 			finish();
 			break;
 		case R.id.lnJobType:
@@ -207,9 +216,8 @@ public class ConvertDispatchActivity extends Activity implements
 			break;
 		case R.id.lnHandler:
 
-			TaskAdapter.flag = "chooseHandler";
-			new DialogChoseUser(ConvertDispatchActivity.this, listDep, allUser,
-					listChecked);
+			new DialogChoseHandler(ConvertDispatchActivity.this, listDep, allUser,
+					listCheckedHandler);
 
 			break;
 		case R.id.lnViewer:
@@ -267,7 +275,7 @@ public class ConvertDispatchActivity extends Activity implements
 						txtToDate.getText().toString(), ""
 								+ DialogChoseDepartment.idDepSelected,
 						txtHandler.getText().toString(), txtViewer.getText()
-								.toString(), DialogChoseUser.idUsersHandl,
+								.toString(), DialogChoseHandler.idUsersHandl,
 						DialogChoseUser.idUsersView, new OnRequestListener() {
 
 							@Override
@@ -278,7 +286,15 @@ public class ConvertDispatchActivity extends Activity implements
 										getResources().getString(
 												R.string.success),
 										Toast.LENGTH_LONG).show();
-								listChecked.removeAll(listChecked);
+								
+								//clear data
+								listChecked.clear();
+								listCheckedHandler.clear();
+								DialogChoseHandler.strUsersHandl = getResources().getString(R.string.handler1);
+								DialogChoseHandler.idUsersHandl = "";
+								DialogChoseUser.strUsersView = getResources().getString(R.string.viewer);
+								DialogChoseUser.idUsersView = "";
+								
 								finish();
 
 							}
