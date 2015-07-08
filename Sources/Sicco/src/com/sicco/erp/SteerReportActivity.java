@@ -112,6 +112,8 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 						public void onFalse() {
 							Log.d("NgaDV", "onFalse");
 							progressDialog.dismiss();
+							Toast.makeText(SteerReportActivity.this, getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
+							
 						}
 					});
 
