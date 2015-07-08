@@ -50,7 +50,7 @@ public class MyNotificationManager {
 
 	public void notifyType(Context context,
 			ArrayList<NotificationModel> arrayList, int notification_count) {
-//		int notification_count = arrayList.size();
+		// int notification_count = arrayList.size();
 		noti_count = notification_count;
 
 		for (int i = 0; i < notification_count; i++) {
@@ -73,12 +73,12 @@ public class MyNotificationManager {
 					tag = congviec;
 					notify_type = 2;
 				}
-				if (notification_type == 3) {
-					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
-					noti = context.getResources().getString(R.string.lich_bieu);
-					tag = lichbieu;
-					notify_type = 3;
-				}
+				// if (notification_type == 3) {
+				// NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
+				// noti = context.getResources().getString(R.string.lich_bieu);
+				// tag = lichbieu;
+				// notify_type = 3;
+				// }
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + "\n";
@@ -101,13 +101,13 @@ public class MyNotificationManager {
 					tag = congviec;
 					notify_type = 2;
 				}
-				if (notification_type == 3) {
-					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
-					noti = context.getResources().getString(R.string.lich_bieu);
-					name += "" + ten + "\n";
-					tag = lichbieu;
-					notify_type = 3;
-				}
+				// if (notification_type == 3) {
+				// NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
+				// noti = context.getResources().getString(R.string.lich_bieu);
+				// name += "" + ten + "\n";
+				// tag = lichbieu;
+				// notify_type = 3;
+				// }
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + " " + "\n";
@@ -116,38 +116,38 @@ public class MyNotificationManager {
 			}
 		}
 	}
-	
-	public void notifyCacLoai(Context context,
-			ArrayList<Dispatch> arrayList, int notification_count) {
-//		int notification_count = arrayList.size();
+
+	public void notifyCacLoai(Context context, ArrayList<Dispatch> arrayList,
+			int notification_count) {
+		// int notification_count = arrayList.size();
 		noti_count = notification_count;
 
 		for (int i = 0; i < notification_count; i++) {
 			// get data
-//			int notification_type = arrayList.get(i).getNumberDispatch();
+			// int notification_type = arrayList.get(i).getNumberDispatch();
 			String ten = arrayList.get(i).getNumberDispatch();
 			String noi_dung = arrayList.get(i).getDescription();
-			
-			noti = context.getResources().getString(R.string.lich_bieu);
-			
-			message = context.getResources().getString(
-					R.string.new_noti_mess)
-					+ " " + notification_count + " " + noti + "\n";
-			contentText = noi_dung;
-			notify(context, NOTIFICATION_ID, 3);
-			
+			if (notification_count == 1) {
+				noti = context.getResources().getString(R.string.lich_bieu);
+				
+				message = context.getResources().getString(
+						R.string.new_noti_mess)
+						+ " " + notification_count + " " + noti + "\n";
+				contentText = noi_dung;
+				notify(context, 3, 3);
+			}
 			if (notification_count > 1) {
-					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
-					noti = context.getResources().getString(R.string.lich_bieu);
-					name += "" + ten + "\n";
-					tag = lichbieu;
-					notify_type = 3;
-					
+				NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
+				noti = context.getResources().getString(R.string.lich_bieu);
+				name += "" + ten + "\n";
+				tag = lichbieu;
+				notify_type = 3;
+
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + " " + "\n";
 				contentText = name;
-				notify(context, NOTIFICATION_ID, 3);
+				notify(context, 3, 3);
 			}
 		}
 	}
@@ -180,23 +180,23 @@ public class MyNotificationManager {
 		Intent LaunchIntent = context.getPackageManager()
 				.getLaunchIntentForPackage(myPackage);
 		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		context.startActivity(LaunchIntent);
+		// context.startActivity(LaunchIntent);
 		if (notify_type == 1) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
+			// if (!process.equalsIgnoreCase(myPackage)) {
+			// context.startActivity(LaunchIntent);
+			// }
 			notIntent = new Intent(context, ApprovalActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 2) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
+			// if (!process.equalsIgnoreCase(myPackage)) {
+			// context.startActivity(LaunchIntent);
+			// }
 			notIntent = new Intent(context, DealtWithActivity.class);
 			notIntent.setPackage(myPackage);
 		} else if (notify_type == 3) {
-//			if (!process.equalsIgnoreCase(myPackage)) {
-//				context.startActivity(LaunchIntent);
-//			}
+			// if (!process.equalsIgnoreCase(myPackage)) {
+			// context.startActivity(LaunchIntent);
+			// }
 			notIntent = new Intent(context, OtherActivity.class);
 			notIntent.setPackage(myPackage);
 		}
