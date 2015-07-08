@@ -20,6 +20,7 @@ public class ReportSteer {
 	private String handler, date, content;
 	private ArrayList<ReportSteer> data;
 	private long id;
+	public static int CHECK_TOTAL_DATA;
 
 	public ReportSteer(Context context) {
 		this.context = context;
@@ -138,7 +139,7 @@ public class ReportSteer {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
-				onLoadListener.onSuccess();
+				
 				String jsonRead = response.toString();
 				
 				Log.d("NgaDV", "get Report Json : " + jsonRead);
@@ -146,21 +147,32 @@ public class ReportSteer {
 					try {
 						JSONObject jsonObject = new JSONObject(jsonRead);
 						JSONArray jsonArray = jsonObject.getJSONArray("row");
+						if (jsonObject.getString("success").equals("1")) {
+							Log.d("NgaDV", "jsonObject.getString(total)"+jsonObject.getString("total"));
+							
+							if (Integer.parseInt(jsonObject.getString("total")) != 0) {
+								CHECK_TOTAL_DATA = 1;
+								for (int i = 0; i < jsonArray.length(); i++) {
+									JSONObject row = jsonArray.getJSONObject(i);
+		
+									String reporter = row.getString("reporter");
+									String dateCreated = row.getString("date_created");
+									String content = row.getString("content");
+		
+									data.add(new ReportSteer(i, reporter, dateCreated, content));
 
-						for (int i = 0; i < jsonArray.length(); i++) {
-							JSONObject row = jsonArray.getJSONObject(i);
-
-							String reporter = row.getString("reporter");
-							String dateCreated = row.getString("date_created");
-							String content = row.getString("content");
-
-							data.add(new ReportSteer(i, reporter, dateCreated, content));
-
+								}
+							}else {
+								CHECK_TOTAL_DATA = 0;
+							}
+							
 						}
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
+				onLoadListener.onSuccess();
 				super.onSuccess(statusCode, headers, response);
 			}
 
