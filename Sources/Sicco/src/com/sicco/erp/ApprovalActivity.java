@@ -260,7 +260,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(getApplicationContext(),
 				GetAllNotificationService.class);
-		intent.putExtra("ACTION", 1);
+		intent.putExtra("ACTION", 0);
 		getApplicationContext().startService(intent);
 
 	}

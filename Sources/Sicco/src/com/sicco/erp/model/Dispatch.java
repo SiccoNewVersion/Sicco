@@ -200,9 +200,9 @@ public class Dispatch implements Serializable {
 									+ NotificationDBController.DISPATCH_COL
 									+ " = " + id;
 							cursor = db.rawQuery(sql, null);
-							if (cursor != null && cursor.getCount() > 0) {
-								querryFromDB(context);
-							} else {
+//							if (cursor != null && cursor.getCount() > 0) {
+//								querryFromDB(context);
+//							} else {
 								ContentValues values = new ContentValues();
 								values.put(
 										NotificationDBController.DISPATCH_COL,
@@ -233,7 +233,7 @@ public class Dispatch implements Serializable {
 												null, values);
 								Log.d("ToanNM", "Dispatch rowInserted : "
 										+ rowInserted);
-							}
+//							}
 						}
 
 					} catch (JSONException e) {

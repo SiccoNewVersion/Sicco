@@ -3,11 +3,14 @@ package com.sicco.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -27,6 +30,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 
 public class OtherActivity extends Activity implements OnClickListener,
@@ -161,7 +165,46 @@ public class OtherActivity extends Activity implements OnClickListener,
 				dispatch.getContent());
 
 		db.checkedDisPatch(dispatch, dispatch.getId());
+		String c = querryFromDB(getApplicationContext(), arg2);
+		int count = Integer.parseInt(c);
+		if (count != 0) {
+			count--;
+		} else if (count == 0) {
+			cancelNotification(getApplicationContext(), 3);
+		}
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CL_KEY, count);
 		adapter.notifyDataSetChanged();
+	}
+
+	String querryFromDB(Context context, long position) {
+		String state = "";
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select Count(*) from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DSTATE_COL + " = \"new\"";
+		Log.d("ToanNM", "otheractivity sql : " + sql);
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				// int did = cursor
+				// .getInt(cursor
+				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
+				state = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
+			} while (cursor.moveToNext());
+		}
+		return state;
+	}
+
+	void cancelNotification(Context context, int notification_id) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager.cancel(notification_id);
 	}
 
 	@Override
@@ -220,7 +263,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(getApplicationContext(),
 				GetAllNotificationService.class);
-		intent.putExtra("ACTION", 1);
+		intent.putExtra("ACTION", 0);
 		getApplicationContext().startService(intent);
 	}
 	// End of ToanNM
