@@ -6,12 +6,11 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -26,8 +25,8 @@ import android.widget.Toast;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.model.User;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
+import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChoseDepartment;
 import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
@@ -57,7 +56,8 @@ public class ConvertDispatchActivity extends Activity implements
 
 	private StringBuilder toDate;
 	private Date d;
-	String newDateString;
+	private Department department;
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class ConvertDispatchActivity extends Activity implements
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
-
 		init();
 	}
 
@@ -113,8 +112,14 @@ public class ConvertDispatchActivity extends Activity implements
 
 		listChecked = new ArrayList<User>();
 
-		listDep = HomeActivity.listDep;
-		allUser = HomeActivity.allUser;
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department.getData(getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(
+				R.string.api_get_all_user));
 
 		// set data
 		final Calendar c = Calendar.getInstance();
@@ -215,8 +220,7 @@ public class ConvertDispatchActivity extends Activity implements
 
 			break;
 		case R.id.lnDepartment:
-			new DialogChoseDepartment(ConvertDispatchActivity.this,
-					HomeActivity.listDep);
+			new DialogChoseDepartment(ConvertDispatchActivity.this, listDep);
 			break;
 		case R.id.lnToDate:
 			showDialog(DATE_DIALOG_ID);

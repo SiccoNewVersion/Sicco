@@ -55,8 +55,6 @@ public class TaskAdapter extends BaseAdapter {
 		listChecked = new ArrayList<User>();
 
 		
-		if (MyNotificationManager.startNoti) {
-			Log.d("LuanDT", "MyNotificationManager.startNoti: " + MyNotificationManager.startNoti);
 			department = new Department();
 			user = new User();
 			listDep = new ArrayList<Department>();
@@ -65,11 +63,6 @@ public class TaskAdapter extends BaseAdapter {
 					R.string.api_get_deparment));
 			allUser = user.getData(context.getResources().getString(
 					R.string.api_get_all_user));
-		} else {
-			Log.d("LuanDT", "MyNotificationManager.startNoti: " + MyNotificationManager.startNoti);
-			listDep = HomeActivity.listDep;
-			allUser = HomeActivity.allUser;
-		}
 	}
 
 	public void setData(ArrayList<Dispatch> data) {

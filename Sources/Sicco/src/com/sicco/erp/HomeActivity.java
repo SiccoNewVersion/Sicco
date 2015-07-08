@@ -31,8 +31,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai;
 	private FrameLayout exit;
 	private AlertDialog alertDialog;
-	private Department department;
-	private User user;
 	public static ArrayList<Department> listDep;
 	public static ArrayList<User> allUser;
 
@@ -52,14 +50,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 		homeActivity = this;
 		session = SessionManager.getInstance(getApplicationContext());
 		init();
-		department = new Department();
-		user = new User();
-		listDep = new ArrayList<Department>();
-		allUser = new ArrayList<User>();
-		listDep = department.getData(getResources().getString(
-				R.string.api_get_deparment));
-		allUser = user.getData(getResources().getString(
-				R.string.api_get_all_user));
 	}
 
 	public static HomeActivity getInstance() {
