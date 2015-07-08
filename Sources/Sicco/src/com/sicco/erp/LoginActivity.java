@@ -28,7 +28,6 @@ import com.sicco.erp.service.ServiceStart;
 public class LoginActivity extends Activity implements OnClickListener {
 	private EditText username, password;
 	private Button login;
-	private TextView forgotPW;
 
 	String login_file;
 	// Session Manager Class
@@ -54,10 +53,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
 		login = (Button) findViewById(R.id.login);
-		forgotPW = (TextView) findViewById(R.id.forgot_pw);
 		// click
 		login.setOnClickListener(this);
-		forgotPW.setOnClickListener(this);
 
 		// progress
 		// mLoginDialog = new ProgressDialog(this);
@@ -66,14 +63,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		// session
 		session = SessionManager.getInstance(getApplicationContext());
-		// check session
-		HashMap<String, String> hashMap = session.getUserDetails();
-		u = hashMap.get(SessionManager.KEY_NAME);
-		p = hashMap.get(SessionManager.KEY_PASSWORD);
-		Log.d("ToanNM", "u : " + u + ", p : ");
-		if (!u.equals("") && !p.equals("")) {
-			MyAsync();
-		}
+		
 
 	}
 
@@ -83,10 +73,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch (id) {
 		case R.id.login:
 			login();
-			break;
-		case R.id.forgot_pw:
-			Toast.makeText(LoginActivity.this, "forgot_pw", Toast.LENGTH_SHORT)
-					.show();
 			break;
 		}
 	}

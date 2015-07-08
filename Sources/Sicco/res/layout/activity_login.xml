@@ -111,15 +111,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center" >
-
-                <TextView
-                    android:id="@+id/forgot_pw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="@string/forgot_password"
-                    android:textColor="#2070C9"
-                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

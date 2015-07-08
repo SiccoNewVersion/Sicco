@@ -1,6 +1,7 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -40,6 +41,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private int cvcp_count, cvxl_count, cl_count;
 	private SessionManager session;
 	private static HomeActivity homeActivity;
+	String p = "";
+	String u;
 
 	String myPackage = "com.sicco.erp";
 
@@ -47,6 +50,20 @@ public class HomeActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
+		
+		// session
+				session = SessionManager.getInstance(getApplicationContext());
+		// check session
+				HashMap<String, String> hashMap = session.getUserDetails();
+				u = hashMap.get(SessionManager.KEY_NAME);
+				p = hashMap.get(SessionManager.KEY_PASSWORD);
+				Log.d("ToanNM", "u : " + u + ", p : ");
+				if (u.equals("") && p.equals("")) {
+					Intent intent = new Intent(this,LoginActivity.class);
+					startActivity(intent);
+					finish();
+				}
+		
 		// ToanNM
 		setContentView(R.layout.activity_home);
 		homeActivity = this;
