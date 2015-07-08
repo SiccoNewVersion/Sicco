@@ -160,7 +160,7 @@ public class Dispatch implements Serializable {
 		});
 	}
 
-	public ArrayList<Dispatch> getData(String url, OnLoadListener OnLoadListener) {
+	public ArrayList<Dispatch> getData(final Context context, String url, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();

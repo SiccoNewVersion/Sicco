@@ -31,15 +31,15 @@ import com.sicco.erp.util.ViewDispatch;
 public class DealtWithActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	private LinearLayout searchView, connectError;
+	public static LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	private TextView emptyView;
-	private ListView listDispatch;
-	private ProgressBar loading;
+	public static TextView emptyView;
+	public static ListView listDispatch;
+	public static ProgressBar loading;
 	private Button retry;
-	private TaskAdapter adapter;
-	private ArrayList<Dispatch> arrDispatch;
+	public static TaskAdapter adapter;
+	public static ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
@@ -49,8 +49,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
+		
+		OtherActivity.otherActivitySelected = false;
+		
 		init();
 		Log.d("NgaDV", "onCreate");
+		
 	}
 
 	private void init() {
@@ -76,7 +80,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(DealtWithActivity.this);
-		arrDispatch = dispatch.getData(
+		arrDispatch = dispatch.getData(DealtWithActivity.this, 
 				getResources().getString(R.string.api_get_dispatch_handle),
 				new OnLoadListener() {
 
@@ -122,7 +126,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			adapter.setData(dispatch.getData(
+			adapter.setData(dispatch.getData(DealtWithActivity.this, 
 					getResources().getString(R.string.api_get_dispatch_handle),
 					new OnLoadListener() {
 
@@ -135,8 +139,10 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 						@Override
 						public void onSuccess() {
 							loading.setVisibility(View.GONE);
-							// listDispatch.setAdapter(dispatchAdapter);
 							adapter.notifyDataSetChanged();
+							if (adapter.getCount() <= 0) {
+								listDispatch.setEmptyView(emptyView);
+							}
 						}
 
 						@Override
@@ -208,35 +214,6 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		editSearch.setText("");
 	}
 
-	@Override
-	protected void onRestart() {
-		Log.d("NgaDV", "onRestart");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Log.d("NgaDV", "onResume");
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		Log.d("NgaDV", "onPause");
-		super.onPause();
-	}
-
-	@Override
-	protected void onStop() {
-		Log.d("NgaDV", "onStop");
-		super.onStop();
-	}
-
-	@Override
-	protected void onDestroy() {
-		Log.d("NgaDV", "onDestroy");
-		super.onDestroy();
-	}
 
 	// ToanNM
 	@Override

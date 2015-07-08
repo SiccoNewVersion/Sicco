@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.DealtWithActivity;
+import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
 import com.sicco.erp.model.Dispatch;
@@ -141,6 +143,89 @@ public class DialogChangeStatusDispatch {
 												R.string.success),
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
+								
+								if (OtherActivity.otherActivitySelected) {
+									OtherActivity.arrDispatch = dispatch
+											.getData(context,
+													context.getResources()
+															.getString(
+																	R.string.api_get_dispatch_other),
+													new OnLoadListener() {
+
+														@Override
+														public void onStart() {
+															OtherActivity.loading
+																	.setVisibility(View.VISIBLE);
+															OtherActivity.connectError
+																	.setVisibility(View.GONE);
+														}
+
+														@Override
+														public void onSuccess() {
+															OtherActivity.loading
+																	.setVisibility(View.GONE);
+															OtherActivity.adapter
+																	.setData(OtherActivity.arrDispatch);
+															OtherActivity.adapter
+																	.notifyDataSetChanged();
+															if (OtherActivity.adapter
+																	.getCount() <= 0) {
+																OtherActivity.listDispatch
+																		.setEmptyView(OtherActivity.emptyView);
+															}
+														}
+
+														@Override
+														public void onFalse() {
+															OtherActivity.loading
+																	.setVisibility(View.GONE);
+															OtherActivity.connectError
+																	.setVisibility(View.VISIBLE);
+														}
+													});
+								} else {
+									
+									DealtWithActivity activity = new DealtWithActivity();
+									
+									DealtWithActivity.arrDispatch = dispatch
+											.getData(context,
+													context.getResources()
+															.getString(
+																	R.string.api_get_dispatch_handle),
+													new OnLoadListener() {
+
+														@Override
+														public void onStart() {
+															DealtWithActivity.loading
+																	.setVisibility(View.VISIBLE);
+															DealtWithActivity.connectError
+																	.setVisibility(View.GONE);
+														}
+
+														@Override
+														public void onSuccess() {
+															DealtWithActivity.loading
+																	.setVisibility(View.GONE);
+															DealtWithActivity.adapter
+																	.setData(DealtWithActivity.arrDispatch);
+															DealtWithActivity.adapter
+																	.notifyDataSetChanged();
+															if (DealtWithActivity.adapter
+																	.getCount() <= 0) {
+																DealtWithActivity.listDispatch
+																		.setEmptyView(DealtWithActivity.emptyView);
+															}
+														}
+
+														@Override
+														public void onFalse() {
+															DealtWithActivity.loading
+																	.setVisibility(View.GONE);
+															DealtWithActivity.connectError
+																	.setVisibility(View.VISIBLE);
+														}
+													});
+								}
 							}
 
 							@Override

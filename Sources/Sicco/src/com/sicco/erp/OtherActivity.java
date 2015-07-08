@@ -36,19 +36,21 @@ import com.sicco.erp.util.ViewDispatch;
 public class OtherActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	private LinearLayout searchView, connectError;
+	public static LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	private TextView emptyView;
-	private ListView listDispatch;
-	private ProgressBar loading;
+	public static TextView emptyView;
+	public static ListView listDispatch;
+	public static ProgressBar loading;
 	private Button retry;
-	private TaskAdapter adapter;
-	private ArrayList<Dispatch> arrDispatch;
+	public static TaskAdapter adapter;
+	public static ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
-
+	
+	public static boolean otherActivitySelected = false;
+	
 	NotificationDBController db;
 	Cursor cursor;
 
@@ -57,6 +59,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
+		
+		otherActivitySelected = true;
+		
 		init();
 	}
 
@@ -83,7 +88,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(OtherActivity.this);
-		arrDispatch = dispatch.getData(
+		arrDispatch = dispatch.getData(OtherActivity.this, 
 				getResources().getString(R.string.api_get_dispatch_other),
 				new OnLoadListener() {
 
@@ -131,7 +136,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			adapter.setData(dispatch.getData(
+			adapter.setData(dispatch.getData(OtherActivity.this, 
 					getResources().getString(R.string.api_get_dispatch_other),
 					new OnLoadListener() {
 
@@ -144,8 +149,10 @@ public class OtherActivity extends Activity implements OnClickListener,
 						@Override
 						public void onSuccess() {
 							loading.setVisibility(View.GONE);
-							// listDispatch.setAdapter(dispatchAdapter);
 							adapter.notifyDataSetChanged();
+							if (adapter.getCount() <= 0) {
+								listDispatch.setEmptyView(emptyView);
+							}
 						}
 
 						@Override
