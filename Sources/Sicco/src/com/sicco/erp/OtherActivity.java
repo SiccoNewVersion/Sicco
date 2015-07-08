@@ -48,9 +48,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 	private Dispatch dispatch;
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
-	
+
 	public static boolean otherActivitySelected = false;
-	
+
 	NotificationDBController db;
 	Cursor cursor;
 
@@ -59,9 +59,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
-		
+
 		otherActivitySelected = true;
-		
+
 		init();
 	}
 
@@ -88,8 +88,8 @@ public class OtherActivity extends Activity implements OnClickListener,
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
 		dispatch = new Dispatch(OtherActivity.this);
-		arrDispatch = dispatch.getData(OtherActivity.this, 
-				getResources().getString(R.string.api_get_dispatch_other),
+		arrDispatch = dispatch.getData(OtherActivity.this, getResources()
+				.getString(R.string.api_get_dispatch_other),
 				new OnLoadListener() {
 
 					@Override
@@ -136,8 +136,8 @@ public class OtherActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			adapter.setData(dispatch.getData(OtherActivity.this, 
-					getResources().getString(R.string.api_get_dispatch_other),
+			adapter.setData(dispatch.getData(OtherActivity.this, getResources()
+					.getString(R.string.api_get_dispatch_other),
 					new OnLoadListener() {
 
 						@Override
@@ -172,15 +172,8 @@ public class OtherActivity extends Activity implements OnClickListener,
 				dispatch.getContent());
 
 		db.checkedDisPatch(dispatch, dispatch.getId());
-		String c = querryFromDB(getApplicationContext(), arg2);
-		int count = Integer.parseInt(c);
-		if (count != 0) {
-			count--;
-		} else if (count == 0) {
-			cancelNotification(getApplicationContext(), 3);
-		}
-		Utils.saveInt(getApplicationContext(),
-				GetAllNotificationService.CL_KEY, count);
+//		int count = querryFromDB(getApplicationContext());
+//		setCount(count);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -265,13 +258,16 @@ public class OtherActivity extends Activity implements OnClickListener,
 	protected void onStart() {
 		super.onStart();
 		startGetAllNotificationService();
+		// int count = querryFromDB(getApplicationContext());
+		// setCount(count);
 	}
 
+	//
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(getApplicationContext(),
 				GetAllNotificationService.class);
 		intent.putExtra("ACTION", 0);
 		getApplicationContext().startService(intent);
 	}
-	// End of ToanNM
+	// // End of ToanNM
 }

@@ -53,17 +53,17 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_approval);
-		
+
 		OtherActivity.otherActivitySelected = false;
-		
+
 		init();
 	}
 
 	@Override
 	protected void onResume() {
 		dispatch = new Dispatch(ApprovalActivity.this);
-		arrDispatch = dispatch.getData(ApprovalActivity.this, 
-				getResources().getString(R.string.api_get_dispatch_approval),
+		arrDispatch = dispatch.getData(ApprovalActivity.this, getResources()
+				.getString(R.string.api_get_dispatch_approval),
 				new OnLoadListener() {
 
 					@Override
@@ -163,7 +163,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			dispatchAdapter.setData(dispatch.getData(ApprovalActivity.this, 
+			dispatchAdapter.setData(dispatch.getData(ApprovalActivity.this,
 					getResources()
 							.getString(R.string.api_get_dispatch_approval),
 					new OnLoadListener() {

@@ -143,9 +143,16 @@ public class HomeActivity extends Activity implements OnClickListener {
 			ServiceStart.stopAllService(getApplicationContext());
 			Utils.stopAlarm(getApplicationContext());
 			cancelAllNotification(getApplicationContext());
+			clearNotifyCount();
 			finish();
 			break;
 		}
+	}
+	
+	void clearNotifyCount(){
+		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CVCP_KEY, 0);
+		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CVXL_KEY, 0);
+		Utils.saveInt(getApplicationContext(), GetAllNotificationService.CL_KEY, 0);
 	}
 
 	@Override

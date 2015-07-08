@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.sicco.erp.DealtWithActivity;
 import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.model.Status;
@@ -135,6 +137,8 @@ public class DialogChangeStatusDispatch {
 								// ToanNM
 								startGetAllNotificationService();
 								setCount(type);
+//								int count = querryFromDB(context);
+//								setCount(count);
 								// end of ToanNM
 								progressDialog.dismiss();
 								Toast.makeText(
@@ -249,6 +253,23 @@ public class DialogChangeStatusDispatch {
 	}
 
 	// ToanNM
+	NotificationDBController db;
+	Cursor cursor;
+
+	int querryFromDB(Context context) {
+		int count;
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DSTATE_COL + " = \"new\"";
+		Log.d("ToanNM", "otheractivity sql : " + sql);
+		cursor = db.rawQuery(sql, null);
+		count = cursor.getCount();
+		return count;
+	}
+	
 	void startGetAllNotificationService() {
 		Intent intent = new Intent(context, GetAllNotificationService.class);
 		intent.putExtra("ACTION", 1);
