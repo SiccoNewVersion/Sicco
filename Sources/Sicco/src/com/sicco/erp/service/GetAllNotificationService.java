@@ -6,8 +6,10 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -48,6 +50,7 @@ public class GetAllNotificationService extends Service {
 	String ngayDenSicco = "";
 	String trangThai = "";
 	int total;
+	int action;
 
 	// key
 	public static String CVCP_KEY = "CONGVIECCANPHE_KEY";
@@ -81,6 +84,9 @@ public class GetAllNotificationService extends Service {
 		// }
 		// };
 		// runnable.run();
+		if (intent != null) {
+			action = intent.getIntExtra("ACTION", 0);
+		}
 
 		return START_STICKY;
 	}
@@ -93,7 +99,8 @@ public class GetAllNotificationService extends Service {
 		congVanCanPhe_list = new ArrayList<NotificationModel>();
 
 		RequestParams params = new RequestParams();
-		String username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
+		String username = Utils.getString(getApplicationContext(),
+				SessionManager.KEY_NAME);
 		params.add("username", username);
 
 		handler.post(getApplicationContext(), url_get_notification, params,
@@ -107,7 +114,7 @@ public class GetAllNotificationService extends Service {
 						try {
 							JSONObject json = new JSONObject(st);
 							total = json.getInt("total");
-							Log.d("TuNT", "total 1: "+total);
+							Log.d("TuNT", "total 1: " + total);
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -155,7 +162,8 @@ public class GetAllNotificationService extends Service {
 		congVanXuLy_list = new ArrayList<NotificationModel>();
 
 		RequestParams params = new RequestParams();
-		String username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
+		String username = Utils.getString(getApplicationContext(),
+				SessionManager.KEY_NAME);
 		params.add("username", username);
 
 		handler.post(getApplicationContext(), url_get_notification, params,
@@ -169,7 +177,7 @@ public class GetAllNotificationService extends Service {
 						try {
 							JSONObject json = new JSONObject(st);
 							total = json.getInt("total");
-							Log.d("TuNT", "total 2: "+total);
+							Log.d("TuNT", "total 2: " + total);
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -216,6 +224,8 @@ public class GetAllNotificationService extends Service {
 		url_get_notification = getResources().getString(
 				R.string.api_get_dispatch_other);
 
+		cacLoai_list = new ArrayList<NotificationModel>();
+
 		RequestParams params = new RequestParams();
 		final String username = Utils.getString(getApplicationContext(),
 				SessionManager.KEY_NAME);
@@ -231,6 +241,7 @@ public class GetAllNotificationService extends Service {
 
 						try {
 							JSONObject json = new JSONObject(st);
+							total = json.getInt("total");
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -242,53 +253,66 @@ public class GetAllNotificationService extends Service {
 								String ngayDenSicco = row.getString("ngay_den");
 								String trangThai = row.getString("status");
 
+								cacLoai_list.add(new NotificationModel(i, 3,
+										soHieuCongVan, trichYeu, dinhKem,
+										ngayDenSicco, trangThai));
+
 								// // add to db
 								db = NotificationDBController
 										.getInstance(getApplicationContext());
 								String sql = "Select * from "
 										+ NotificationDBController.TABLE_NAME
 										+ " where "
-										+ NotificationDBController.ID_COL
-										+ " = " + id;
+										+ NotificationDBController.TRANGTHAI_COL
+										+ " = \"new\""
+										+ " and "
+										+ NotificationDBController.NOTIFI_TYPE_COL
+										+ " = " + 3 + " and "
+										+ NotificationDBController.USERNAME_COL
+										+ " = \"" + username + "\"";
 								cursor = db.rawQuery(sql, null);
+//								if (cursor != null && cursor.getCount() > 0) {
+//
+//								} else {
+									ContentValues values = new ContentValues();
+									values.put(NotificationDBController.ID_COL,
+											id);
+									values.put(
+											NotificationDBController.NOTIFI_TYPE_COL,
+											3);
+									values.put(
+											NotificationDBController.USERNAME_COL,
+											username);
+									values.put(
+											NotificationDBController.SOHIEUCONGVAN_COL,
+											soHieuCongVan);
+									values.put(
+											NotificationDBController.TRICHYEU_COL,
+											trichYeu);
+									values.put(
+											NotificationDBController.DINHKEM_COL,
+											dinhKem);
+									values.put(
+											NotificationDBController.NGAYDENSICCO_COL,
+											"");
+									values.put(
+											NotificationDBController.TRANGTHAI_COL,
+											NotificationDBController.NOTIFICATION_STATE_NEW);
 
-								ContentValues values = new ContentValues();
-								values.put(NotificationDBController.ID_COL, id);
-								// values.put(NotificationDBController.USERNAME_COL,
-								// msg_type_id);
-								values.put(
-										NotificationDBController.NOTIFI_TYPE_COL,
-										3);
-								values.put(
-										NotificationDBController.USERNAME_COL,
-										username);
-								values.put(
-										NotificationDBController.SOHIEUCONGVAN_COL,
-										soHieuCongVan);
-								values.put(
-										NotificationDBController.TRICHYEU_COL,
-										trichYeu);
-								values.put(
-										NotificationDBController.DINHKEM_COL,
-										dinhKem);
-								values.put(
-										NotificationDBController.NGAYDENSICCO_COL,
-										"");
-								values.put(
-										NotificationDBController.TRANGTHAI_COL,
-										NotificationDBController.NOTIFICATION_STATE_NEW);
+									long rowInserted = db
+											.insert(NotificationDBController.TABLE_NAME,
+													null, values);
 
-								long rowInserted = db.insert(
-										NotificationDBController.TABLE_NAME,
-										null, values);
-
-								Log.d("ToanNM", "rowInserted is : "
-										+ rowInserted);
+									Log.d("ToanNM", "rowInserted is : "
+											+ rowInserted);
+//								}
 							}
-							initMessageData(cacLoai_list, 3);
+							// initMessageData(cacLoai_list, 3, username);
+							origanizeNoti(cacLoai_list);
+							saveInt(3, total);
 							if (cursor != null && cursor.getCount() > 0) {
 							} else {
-								initMessageData(cacLoai_list, 3);
+								// initMessageData(cacLoai_list, 3, username);
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -309,15 +333,18 @@ public class GetAllNotificationService extends Service {
 
 	}
 
-	void initMessageData(ArrayList<NotificationModel> data, int type) {
+	void initMessageData(ArrayList<NotificationModel> data, int type,
+			String username) {
 		db = NotificationDBController.getInstance(getApplicationContext());
-		data = new ArrayList<NotificationModel>();
 		cursor = db.query(NotificationDBController.TABLE_NAME, null, null,
 				null, null, null, null);
 		String sql = "Select * from " + NotificationDBController.TABLE_NAME
 				+ " where " + NotificationDBController.TRANGTHAI_COL
 				+ " = \"new\"" + " and "
-				+ NotificationDBController.NOTIFI_TYPE_COL + " = " + type;
+				+ NotificationDBController.NOTIFI_TYPE_COL + " = " + type
+				+ " and " + NotificationDBController.USERNAME_COL + " = \""
+				+ username + "\"";
+		Log.d("ToanNM", "sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -347,9 +374,9 @@ public class GetAllNotificationService extends Service {
 			} while (cursor.moveToNext());
 		}
 		origanizeNoti(data);
-		saveInt(type, data.size());
+
 	}
-	
+
 	void saveInt(int type, int size) {
 		if (type == 1) {
 			Utils.saveInt(getApplicationContext(), CVCP_KEY, size);
@@ -358,7 +385,7 @@ public class GetAllNotificationService extends Service {
 		} else if (type == 3) {
 			Utils.saveInt(getApplicationContext(), CL_KEY, size);
 		}
-		
+
 	}
 
 	void origanizeNoti(ArrayList<NotificationModel> data) {
@@ -366,12 +393,30 @@ public class GetAllNotificationService extends Service {
 		NotifyBR notifyBR = new NotifyBR();
 		IntentFilter intentFilter = new IntentFilter("acb");
 		registerReceiver(notifyBR, intentFilter);
-        Intent i = new Intent("acb");
-        sendBroadcast(i);
+		Intent i = new Intent("acb");
+		sendBroadcast(i);
 	}
 
 	void sereprateList(ArrayList<NotificationModel> data) {
-		MyNotificationManager myNotificationManager = new MyNotificationManager();
-		myNotificationManager.notifyType(getApplicationContext(), data);
+		int size = data.size();
+		if (action == 1 && size != 0) {
+			MyNotificationManager myNotificationManager = new MyNotificationManager();
+			myNotificationManager.notifyType(getApplicationContext(), data);
+		}
+		if (size == 0) {
+			int type = data.get(0).getNotify_type();
+			cancelNotification(getApplicationContext(), type);
+			saveInt(type, size);
+		}
 	}
+
+	void cancelNotification(Context context, int notification_id) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager.cancel(notification_id);
+		Log.d("ToanNM", "cancelNotification() at notification_id:"
+				+ notification_id);
+	}
+
 }

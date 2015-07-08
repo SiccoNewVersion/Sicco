@@ -11,6 +11,7 @@ public class ServiceStart {
 	public static void startGetNotificationService(Context context) {
 		getNotificationIntentStartService = new Intent(context,
 				GetAllNotificationService.class);
+		getNotificationIntentStartService.putExtra("ACTION", 1);
 		context.startService(getNotificationIntentStartService);
 	}
 

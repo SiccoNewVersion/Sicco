@@ -3,6 +3,7 @@ package com.sicco.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 
@@ -150,7 +152,8 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(DealtWithActivity.this, dispatch.getContent());
+		viewDispatch = new ViewDispatch(DealtWithActivity.this,
+				dispatch.getContent());
 		// Intent intent = new Intent(DealtWithActivity.this,
 		// ViewDispatchActivity.class);
 		// Bundle bundle = new Bundle();
@@ -204,7 +207,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		Log.d("NgaDV", "onRestart");
@@ -212,30 +215,41 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	}
 
 	@Override
-	protected void onStart() {
-		Log.d("NgaDV", "onStart");
-		super.onStart();
-	}
-	
-	@Override
 	protected void onResume() {
 		Log.d("NgaDV", "onResume");
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		Log.d("NgaDV", "onPause");
 		super.onPause();
 	}
+
 	@Override
 	protected void onStop() {
 		Log.d("NgaDV", "onStop");
 		super.onStop();
 	}
+
 	@Override
 	protected void onDestroy() {
 		Log.d("NgaDV", "onDestroy");
 		super.onDestroy();
 	}
+
+	// ToanNM
+	@Override
+	protected void onStart() {
+		super.onStart();
+		startGetAllNotificationService();
+	}
+
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 1);
+		getApplicationContext().startService(intent);
+	}
+	// End of ToanNM
 }

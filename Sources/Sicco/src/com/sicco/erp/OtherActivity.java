@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,12 +21,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 
@@ -161,7 +159,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(OtherActivity.this,
 				dispatch.getContent());
-		
+
 		db.checkedDisPatch(dispatch, dispatch.getId());
 		adapter.notifyDataSetChanged();
 	}
@@ -211,4 +209,19 @@ public class OtherActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
+
+	// ToanNM
+	@Override
+	protected void onStart() {
+		super.onStart();
+		startGetAllNotificationService();
+	}
+
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 1);
+		getApplicationContext().startService(intent);
+	}
+	// End of ToanNM
 }

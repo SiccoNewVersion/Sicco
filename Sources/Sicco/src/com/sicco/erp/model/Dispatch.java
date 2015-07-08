@@ -28,7 +28,7 @@ public class Dispatch implements Serializable {
 	private String date, handler;
 	private String status;
 	private ArrayList<Dispatch> data;
-	
+
 	private Cursor cursor;
 	private NotificationDBController db;
 
@@ -136,7 +136,7 @@ public class Dispatch implements Serializable {
 					JSONObject response) {
 				String jsonRead = response.toString();
 				Log.d("NgaDV", "get Json" + jsonRead);
-				
+
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
@@ -153,7 +153,7 @@ public class Dispatch implements Serializable {
 						e.printStackTrace();
 					}
 				}
-				
+
 				super.onSuccess(statusCode, headers, response);
 			}
 
@@ -174,7 +174,7 @@ public class Dispatch implements Serializable {
 					JSONObject response) {
 				String jsonRead = response.toString();
 
-//				Log.d("LuanDT", "json: " + jsonRead);
+				// Log.d("LuanDT", "json: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
@@ -191,7 +191,7 @@ public class Dispatch implements Serializable {
 
 							data.add(new Dispatch(id, numberDispatch,
 									description, content, date, handler, status));
-							
+
 							// // add to db
 							db = NotificationDBController.getInstance(context);
 							String sql = "Select * from "
@@ -200,19 +200,40 @@ public class Dispatch implements Serializable {
 									+ NotificationDBController.DISPATCH_COL
 									+ " = " + id;
 							cursor = db.rawQuery(sql, null);
+							if (cursor != null && cursor.getCount() > 0) {
+								querryFromDB(context);
+							} else {
+								ContentValues values = new ContentValues();
+								values.put(
+										NotificationDBController.DISPATCH_COL,
+										id);
+								values.put(
+										NotificationDBController.D_DESCRIPTION_COL,
+										description);
+								values.put(
+										NotificationDBController.D_CONTENT_COL,
+										content);
+								values.put(NotificationDBController.D_DATE_COL,
+										date);
+								values.put(
+										NotificationDBController.D_STATUS_COL,
+										status);
+								values.put(
+										NotificationDBController.D_HANDLER_COL,
+										handler);
+								values.put(
+										NotificationDBController.D_NUMBER_DISPATCH_COL,
+										numberDispatch);
+								values.put(
+										NotificationDBController.DSTATE_COL,
+										NotificationDBController.NOTIFICATION_STATE_NEW);
 
-							ContentValues values = new ContentValues();
-							values.put(NotificationDBController.DISPATCH_COL,
-									id);
-							values.put(
-									NotificationDBController.DSTATE_COL,
-									NotificationDBController.NOTIFICATION_STATE_NEW);
-
-							long rowInserted = db.insert(
-									NotificationDBController.DISPATCH_TABLE_NAME, null,
-									values);
-							Log.d("ToanNM", "Dispatch rowInserted : "
-									+ rowInserted);
+								long rowInserted = db
+										.insert(NotificationDBController.DISPATCH_TABLE_NAME,
+												null, values);
+								Log.d("ToanNM", "Dispatch rowInserted : "
+										+ rowInserted);
+							}
 						}
 
 					} catch (JSONException e) {
@@ -232,6 +253,51 @@ public class Dispatch implements Serializable {
 			}
 		});
 		return data;
+	}
+
+	void querryFromDB(Context context) {
+		db = NotificationDBController.getInstance(context);
+		data = new ArrayList<Dispatch>();
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME
+				// + " where "
+				// + NotificationDBController.DISPATCH_COL + " = " + position
+				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
+		Log.d("ToanNM", "task adapter sql : " + sql);
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				int did = cursor
+						.getInt(cursor
+								.getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
+				String state = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
+				String numberDispatch = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_NUMBER_DISPATCH_COL));
+				String description = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_DESCRIPTION_COL));
+				String content = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_CONTENT_COL));
+				String date = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_DATE_COL));
+				String status = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_STATUS_COL));
+				String handler = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.D_HANDLER_COL));
+
+				data.add(new Dispatch(did, numberDispatch, description,
+						content, date, handler, status));
+			} while (cursor.moveToNext());
+		}
 	}
 
 	public ArrayList<Dispatch> search(String k, OnLoadListener OnLoadListener) {

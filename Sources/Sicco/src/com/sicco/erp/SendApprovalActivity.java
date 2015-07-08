@@ -20,6 +20,7 @@ import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
+import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
 
@@ -62,14 +63,14 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 
 		listChecked = new ArrayList<User>();
 
-			department = new Department();
-			user = new User();
-			listDep = new ArrayList<Department>();
-			allUser = new ArrayList<User>();
-			listDep = department.getData(getResources().getString(
-					R.string.api_get_deparment));
-			allUser = user.getData(getResources().getString(
-					R.string.api_get_all_user));
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department.getData(getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(
+				R.string.api_get_all_user));
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		listChecked.removeAll(listChecked);
 		super.onBackPressed();
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -114,6 +115,9 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 
 						@Override
 						public void onSuccess() {
+							// ToanNM
+							startGetAllNotificationService();
+							// end of ToanNM
 							progressDialog.dismiss();
 							Toast.makeText(SendApprovalActivity.this,
 									getResources().getString(R.string.success),
@@ -158,5 +162,25 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
+
+	// ToanNM
+	@Override
+	protected void onStart() {
+		super.onStart();
+		startGetAllNotificationService();
+	}
+
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 1);
+		getApplicationContext().startService(intent);
+		int count = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CVCP_KEY);
+		count--;
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CVCP_KEY, count);
+	}
+	// End of ToanNM
 
 }

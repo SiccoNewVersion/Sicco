@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.DownloadFile;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
@@ -53,11 +55,12 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		setContentView(R.layout.activity_approval);
 		init();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		dispatch = new Dispatch(ApprovalActivity.this);
-		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
+		arrDispatch = dispatch.getData(
+				getResources().getString(R.string.api_get_dispatch_approval),
 				new OnLoadListener() {
 
 					@Override
@@ -70,7 +73,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						dispatchAdapter.notifyDataSetChanged();
-						if(dispatchAdapter.getCount()<=0){
+						if (dispatchAdapter.getCount() <= 0) {
 							listDispatch.setEmptyView(emptyView);
 						}
 					}
@@ -109,34 +112,35 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		retry.setOnClickListener(this);
 		listDispatch.setOnItemClickListener(this);
 		// set adapter
-//		dispatch = new Dispatch(ApprovalActivity.this);
-//		arrDispatch = dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
-//				new OnLoadListener() {
-//
-//					@Override
-//					public void onStart() {
-//						loading.setVisibility(View.VISIBLE);
-//						connectError.setVisibility(View.GONE);
-//					}
-//
-//					@Override
-//					public void onSuccess() {
-//						loading.setVisibility(View.GONE);
-//						dispatchAdapter.notifyDataSetChanged();
-//						if(dispatchAdapter.getCount()<=0){
-//							listDispatch.setEmptyView(emptyView);
-//						}
-//					}
-//
-//					@Override
-//					public void onFalse() {
-//						loading.setVisibility(View.GONE);
-//						connectError.setVisibility(View.VISIBLE);
-//					}
-//				});
-//		dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
-//				arrDispatch);
-//		listDispatch.setAdapter(dispatchAdapter);
+		// dispatch = new Dispatch(ApprovalActivity.this);
+		// arrDispatch =
+		// dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
+		// new OnLoadListener() {
+		//
+		// @Override
+		// public void onStart() {
+		// loading.setVisibility(View.VISIBLE);
+		// connectError.setVisibility(View.GONE);
+		// }
+		//
+		// @Override
+		// public void onSuccess() {
+		// loading.setVisibility(View.GONE);
+		// dispatchAdapter.notifyDataSetChanged();
+		// if(dispatchAdapter.getCount()<=0){
+		// listDispatch.setEmptyView(emptyView);
+		// }
+		// }
+		//
+		// @Override
+		// public void onFalse() {
+		// loading.setVisibility(View.GONE);
+		// connectError.setVisibility(View.VISIBLE);
+		// }
+		// });
+		// dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
+		// arrDispatch);
+		// listDispatch.setAdapter(dispatchAdapter);
 	}
 
 	@Override
@@ -157,7 +161,9 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.retry:
 			dispatchAdapter.setData(dispatch.getData(
-					getResources().getString(R.string.api_get_dispatch_approval), new OnLoadListener() {
+					getResources()
+							.getString(R.string.api_get_dispatch_approval),
+					new OnLoadListener() {
 
 						@Override
 						public void onStart() {
@@ -185,9 +191,10 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
-		
-		viewDispatch = new ViewDispatch(ApprovalActivity.this, dispatch.getContent());
-		
+
+		viewDispatch = new ViewDispatch(ApprovalActivity.this,
+				dispatch.getContent());
+
 		// Intent intent = new Intent(ApprovalActivity.this,
 		// ViewDispatchActivity.class);
 		// Bundle bundle = new Bundle();
@@ -242,5 +249,21 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
+
+	// ToanNM
+	@Override
+	protected void onStart() {
+		super.onStart();
+		startGetAllNotificationService();
+	}
+
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 1);
+		getApplicationContext().startService(intent);
+
+	}
+	// End of ToanNM
 
 }

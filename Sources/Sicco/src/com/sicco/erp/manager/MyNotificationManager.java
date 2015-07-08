@@ -179,10 +179,13 @@ public class MyNotificationManager {
 		int max_volume = 20;
 
 		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true)
-//				.setPriority(Notification.PRIORITY_HIGH)
+		// .setPriority(Notification.PRIORITY_HIGH)
 				.setSound(alarmSound, max_volume);
-		;
-		;
+
+		int build_version = android.os.Build.VERSION.SDK_INT;
+		if (build_version >= 16) {
+			builder.setPriority(Notification.PRIORITY_HIGH);
+		}
 		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 		style.bigText(contentText);
 		// style.setSummaryText("Swipe Left or Right to dismiss this Notification.");

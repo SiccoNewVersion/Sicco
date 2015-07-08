@@ -53,6 +53,14 @@ public class NotificationDBController extends SQLiteOpenHelper {
 //	public static String CONTENT_COL = "noi_dung";
 //	public static String URL_COL = "url";
 	
+	public static String D_NUMBER_DISPATCH_COL = "d_number_dispatch";
+	public static String D_DESCRIPTION_COL = "d_description";
+	public static String D_CONTENT_COL = "d_content";
+	public static String D_DATE_COL = "d_date";
+	public static String D_STATUS_COL = "d_status";
+	public static String D_HANDLER_COL = "d_handler";
+	
+	
 //	private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
 //			+ TABLE_NAME + "("
 //			+ ID_COL + " integer primary key autoincrement,"
@@ -79,6 +87,12 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	private static String CREATE_DISPATCH_TABLE = "CREATE TABLE IF NOT EXISTS "
 			+ DISPATCH_TABLE_NAME + "("
 			+ DISPATCH_COL + " integer primary key autoincrement,"
+			+ D_NUMBER_DISPATCH_COL + " text,"
+			+ D_DESCRIPTION_COL + " text,"
+			+ D_CONTENT_COL + " text,"
+			+ D_DATE_COL + " text,"
+			+ D_STATUS_COL + " text,"
+			+ D_HANDLER_COL + " text,"
 			+ DSTATE_COL + " text);";
 	@Override
 	public void onCreate(SQLiteDatabase db) {
