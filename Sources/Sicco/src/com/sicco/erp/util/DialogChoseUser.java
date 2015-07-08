@@ -85,8 +85,6 @@ public class DialogChoseUser {
 		department = new Department();
 		user = new User();
 
-		Log.d("LuanDT", "listDep.size(): " + listDep.size());
-		Log.d("LuanDT", "allUser.size(): " + allUser.size());
 		
 		listUser = getData(listDep, allUser);
 		showDialog();
