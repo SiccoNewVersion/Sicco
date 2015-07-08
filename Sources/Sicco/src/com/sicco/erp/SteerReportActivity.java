@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
@@ -40,6 +41,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	private ReportSteer reportSteer;
 	private EditText edtContent;
 	private Dispatch dispatch;
+	private TextView emptyView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		init();
 		setListReportSteer(dispatch);
 		sendReportSteer();
+		
 	}
 
 	private void init() {
@@ -64,6 +67,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
 		reportSteer = new ReportSteer(SteerReportActivity.this);
 		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
+		emptyView = (TextView)findViewById(R.id.empty_view);
 
 		// click
 		back.setOnClickListener(this);
@@ -91,34 +95,8 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 						@Override
 						public void onSuccess() {
 							edtContent.setText("");
-							arrReportSteers = reportSteer.getData(
-									getResources().getString(R.string.api_get_steer_report),
-									SessionManager.KEY_USER_ID,
-									Long.toString(dispatch.getId()),
-									new OnLoadListener() {
-										@Override
-										public void onSuccess() {
-											loading.setVisibility(View.GONE);
-											reportSteerAdapter.notifyDataSetChanged();
-										}
 
-										@Override
-										public void onStart() {
-											loading.setVisibility(View.VISIBLE);
-											connectError.setVisibility(View.GONE);
-										}
-
-										@Override
-										public void onFalse() {
-											loading.setVisibility(View.GONE);
-											connectError.setVisibility(View.VISIBLE);
-										}
-									});
-
-							reportSteerAdapter = new ReportSteerAdapter(getApplicationContext(),
-									arrReportSteers);
-
-							listReport.setAdapter(reportSteerAdapter);
+							setListReportSteer(dispatch);
 							progressDialog.dismiss();
 							Log.d("NgaDV", "onSuccess");
 						}
@@ -161,6 +139,12 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						reportSteerAdapter.notifyDataSetChanged();
+						
+						if (ReportSteer.CHECK_TOTAL_DATA == 0) {
+							listReport.setEmptyView(emptyView);
+						}
+						
+						Log.d("NgaDV", "ReportSteer.CHECK_TOTAL_DATA;"+ReportSteer.CHECK_TOTAL_DATA);
 					}
 
 					@Override
@@ -195,35 +179,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.retry:
-			arrReportSteers = reportSteer.getData(
-					getResources().getString(R.string.api_get_steer_report),
-					SessionManager.KEY_USER_ID,
-					Long.toString(dispatch.getId()),
-					new OnLoadListener() {
-
-						@Override
-						public void onSuccess() {
-							loading.setVisibility(View.GONE);
-							reportSteerAdapter.notifyDataSetChanged();
-						}
-
-						@Override
-						public void onStart() {
-							loading.setVisibility(View.VISIBLE);
-							connectError.setVisibility(View.GONE);
-						}
-
-						@Override
-						public void onFalse() {
-							loading.setVisibility(View.GONE);
-							connectError.setVisibility(View.VISIBLE);
-						}
-					});
-			reportSteerAdapter = new ReportSteerAdapter(
-					getApplicationContext(), arrReportSteers);
-
-			listReport.setAdapter(reportSteerAdapter);
-			reportSteerAdapter.notifyDataSetChanged();
+			setListReportSteer(dispatch);
 			break;
 		}
 
