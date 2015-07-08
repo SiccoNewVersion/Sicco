@@ -132,9 +132,12 @@ public class DialogChoseDepartment {
 
 					@Override
 					public void onSuccess() {
+						adapter.setData(listDep);
+						
 						loading.setVisibility(View.GONE);
 						listView.setVisibility(View.VISIBLE);
 						btnDone.setVisibility(View.VISIBLE);
+						
 						adapter.notifyDataSetChanged();
 					}
 

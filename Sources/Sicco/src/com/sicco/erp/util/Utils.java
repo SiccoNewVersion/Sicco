@@ -31,39 +31,10 @@ public class Utils {
 		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				time + 30 * 60 * 1000, pIntent);
 
-		// Intent notificationOnStatusBar = new Intent(context,
-		// HandleNotificationService.class);
-		// long notificationOnStatusBarTime = SystemClock.elapsedRealtime();
-		// AlarmManager notificationOnStatusBarManager = (AlarmManager)
-		// context.getSystemService(Context.ALARM_SERVICE);
-		// notificationOnStatusBarManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-		// notificationOnStatusBarTime + 300 * 1000,
-		// PendingIntent.getService(context, 0, notificationOnStatusBar,
-		// Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
 	}
 
 	public static void stopAlarm(Context context) {
 		manager.cancel(pIntent);
-	}
-
-	public static void scheduleNextNext(Context context) {
-		Intent intent = new Intent(context, GetAllNotificationService.class);
-		long time = SystemClock.elapsedRealtime();
-		AlarmManager manager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time + 3 * 1000,
-				PendingIntent.getService(context, 0, intent,
-						Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
-
-		// Intent notificationOnStatusBar = new Intent(context,
-		// HandleNotificationService.class);
-		// long notificationOnStatusBarTime = SystemClock.elapsedRealtime();
-		// AlarmManager notificationOnStatusBarManager = (AlarmManager)
-		// context.getSystemService(Context.ALARM_SERVICE);
-		// notificationOnStatusBarManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-		// notificationOnStatusBarTime + 3 * 1000,
-		// PendingIntent.getService(context, 0, notificationOnStatusBar,
-		// Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT));
 	}
 
 	public static void saveBoolean(Context context, String keyName,

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.database.NotificationDBController;
+import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
@@ -38,11 +40,12 @@ public class TaskAdapter extends BaseAdapter {
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
 	public static String flag = "";
-	
+
 	private Cursor cursor;
 	private NotificationDBController db;
 	int type;
-
+	private Department department;
+	private User user;
 
 	public TaskAdapter(Context context, ArrayList<Dispatch> data, int type) {
 		this.context = context;
@@ -51,8 +54,15 @@ public class TaskAdapter extends BaseAdapter {
 
 		listChecked = new ArrayList<User>();
 
-		listDep = HomeActivity.listDep;
-		allUser = HomeActivity.allUser;
+		
+			department = new Department();
+			user = new User();
+			listDep = new ArrayList<Department>();
+			allUser = new ArrayList<User>();
+			listDep = department.getData(context.getResources().getString(
+					R.string.api_get_deparment));
+			allUser = user.getData(context.getResources().getString(
+					R.string.api_get_all_user));
 	}
 
 	public void setData(ArrayList<Dispatch> data) {
@@ -91,18 +101,19 @@ public class TaskAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		
+
 		if (type == 1) {
 			long id = dispatch.getId();
 			String state = querryFromDB(context, id);
 			if (state
 					.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
-				view.setBackgroundColor(Color.CYAN);
+				view.setBackgroundColor(context.getResources().getColor(
+						R.color.item_color));
 			} else {
 				view.setBackgroundColor(Color.WHITE);
 			}
 		}
-		
+
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {
@@ -133,12 +144,25 @@ public class TaskAdapter extends BaseAdapter {
 									break;
 								case R.id.action_change_status:
 									listStatus = new ArrayList<Status>();
-									
-									listStatus.add(new Status(context.getResources().getString(R.string.need_approval),Long.parseLong("1")));
-									listStatus.add(new Status(context.getResources().getString(R.string.need_handle),Long.parseLong("2")));
-									listStatus.add(new Status(context.getResources().getString(R.string.pause_handle),Long.parseLong("3")));
-									listStatus.add(new Status(context.getResources().getString(R.string.finish_handle),Long.parseLong("4")));
-									new DialogChangeStatusDispatch(context, listStatus,dispatch);
+
+									listStatus.add(new Status(context
+											.getResources().getString(
+													R.string.need_approval),
+											Long.parseLong("1")));
+									listStatus.add(new Status(context
+											.getResources().getString(
+													R.string.need_handle), Long
+											.parseLong("2")));
+									listStatus.add(new Status(context
+											.getResources().getString(
+													R.string.pause_handle),
+											Long.parseLong("3")));
+									listStatus.add(new Status(context
+											.getResources().getString(
+													R.string.finish_handle),
+											Long.parseLong("4")));
+									new DialogChangeStatusDispatch(context,
+											listStatus, dispatch);
 									break;
 								case R.id.action_job_transfer:
 									intent.setClass(context,
@@ -164,7 +188,7 @@ public class TaskAdapter extends BaseAdapter {
 		TextView approval;
 		LinearLayout mainLayout;
 	}
-	
+
 	String querryFromDB(Context context, long position) {
 		String state = "";
 		db = NotificationDBController.getInstance(context);

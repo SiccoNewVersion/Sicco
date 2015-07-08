@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -86,6 +87,9 @@ public class DialogChoseUser {
 		department = new Department();
 		user = new User();
 
+		Log.d("LuanDT", "listDep.size(): " + listDep.size());
+		Log.d("LuanDT", "allUser.size(): " + allUser.size());
+		
 		listUser = getData(listDep, allUser);
 		showDialog();
 	}
