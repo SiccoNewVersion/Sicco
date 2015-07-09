@@ -189,7 +189,6 @@ public class DialogChangeStatusDispatch {
 													}, 1);
 								} else {
 									
-									DealtWithActivity activity = new DealtWithActivity();
 									
 									DealtWithActivity.arrDispatch = dispatch
 											.getData(context,

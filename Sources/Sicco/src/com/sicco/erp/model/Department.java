@@ -13,6 +13,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class Department implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String departmentName;
 	private long id;
 	private ArrayList<Department> listDep;

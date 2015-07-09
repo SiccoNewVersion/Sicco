@@ -55,7 +55,6 @@ public class DialogShowHandler {
 		layout.setMinimumWidth((int) (rect.width() * 1f));
 		// layout.setMinimumHeight((int) (rect.height() * 1f));
 
-		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
 		TextView txtListHandeler = (TextView) layout
 				.findViewById(R.id.listHandler);
 

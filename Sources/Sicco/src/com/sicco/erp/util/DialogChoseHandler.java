@@ -28,7 +28,6 @@ import com.sicco.erp.adapter.ExpandableListUserAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
-import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
 
 public class DialogChoseHandler {
@@ -50,12 +49,7 @@ public class DialogChoseHandler {
 
 	private Department department;
 	private User user;
-	private Dispatch dispatch;
 
-	public DialogChoseHandler() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public DialogChoseHandler(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;

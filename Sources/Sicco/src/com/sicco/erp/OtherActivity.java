@@ -257,6 +257,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 	public void onBackPressed() {
 		if (searchView.getVisibility() == View.VISIBLE) {
 			searchView.setVisibility(View.GONE);
+			editSearch.setText("");
 		} else {
 			super.onBackPressed();
 		}
@@ -304,8 +305,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 	protected void onStart() {
 		super.onStart();
 		 startGetAllNotificationService();
-//		int count = querryFromDB(getApplicationContext());
-//		setCount(count);
 	}
 
 	//

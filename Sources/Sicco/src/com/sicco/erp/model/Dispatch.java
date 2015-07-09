@@ -23,6 +23,10 @@ import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
 public class Dispatch implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Context context;
 	private long id;
 	private String numberDispatch, description, content;
@@ -284,9 +288,6 @@ public class Dispatch implements Serializable {
 				int did = cursor
 						.getInt(cursor
 								.getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
-				String state = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
 				String numberDispatch = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.D_NUMBER_DISPATCH_COL));
