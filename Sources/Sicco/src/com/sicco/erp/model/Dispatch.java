@@ -164,8 +164,10 @@ public class Dispatch implements Serializable {
 
 		});
 	}
+
 	// ToanNM
-	public ArrayList<Dispatch> getData(final Context context, String url, OnLoadListener OnLoadListener, final int type) {
+	public ArrayList<Dispatch> getData(final Context context, String url,
+			OnLoadListener OnLoadListener, final int type) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
@@ -173,6 +175,7 @@ public class Dispatch implements Serializable {
 		RequestParams params = new RequestParams();
 		params.add("username", Utils.getString(context, "name"));
 		Log.d("LuanDT", "params: " + params);
+
 		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
@@ -195,63 +198,14 @@ public class Dispatch implements Serializable {
 							String handler = row.getString("handler");
 
 							content = content.replace(" ", "%20");
-							
+
 							data.add(new Dispatch(id, numberDispatch,
 									description, content, date, handler, status));
 
-							// // add to db
-							db = NotificationDBController.getInstance(context);
-							String sql = "Select * from "
-									+ NotificationDBController.DISPATCH_TABLE_NAME
-									+ " where "
-									+ NotificationDBController.DISPATCH_COL
-									+ " = " + id;
-							cursor = db.rawQuery(sql, null);
-//							if (cursor != null && cursor.getCount() > 0 && type == 1) {
-////								querryFromDB(context);
-////								Log.d("DEBUG", "type = " + type);
-//							} else {
-								ContentValues values = new ContentValues();
-								String username = Utils.getString(context,
-										SessionManager.KEY_NAME);
-								values.put(
-										NotificationDBController.USERNAME_COL,
-										username);
-								values.put(
-										NotificationDBController.DISPATCH_COL,
-										id);
-								values.put(
-										NotificationDBController.D_TYPE_COL,
-										type);
-								values.put(
-										NotificationDBController.D_DESCRIPTION_COL,
-										description);
-								values.put(
-										NotificationDBController.D_CONTENT_COL,
-										content);
-								values.put(NotificationDBController.D_DATE_COL,
-										date);
-								values.put(
-										NotificationDBController.D_STATUS_COL,
-										status);
-								values.put(
-										NotificationDBController.D_HANDLER_COL,
-										handler);
-								values.put(
-										NotificationDBController.D_NUMBER_DISPATCH_COL,
-										numberDispatch);
-								values.put(
-										NotificationDBController.DSTATE_COL,
-										NotificationDBController.NOTIFICATION_STATE_NEW);
+							addToDB(context, type, id, numberDispatch, content, date, status, handler);
 
-								long rowInserted = db
-										.insert(NotificationDBController.DISPATCH_TABLE_NAME,
-												null, values);
-								Log.d("ToanNM", "Dispatch rowInserted : "
-										+ rowInserted);
-//							}
 						}
-
+						Log.d("MyDebug", "data.size : " + data.size());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -271,6 +225,44 @@ public class Dispatch implements Serializable {
 		return data;
 	}
 
+	void addToDB(Context context, int type, long id, String numberDispatch, String content, String date, String status, String handler) {
+		// // add to db
+		String username = Utils.getString(context, SessionManager.KEY_NAME);
+		db = NotificationDBController.getInstance(context);
+		String sql = "Select * from "
+				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DISPATCH_COL + " = " + id + " and "
+				+ NotificationDBController.D_TYPE_COL + " = " + 1 + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
+		cursor = db.rawQuery(sql, null);
+		if (type == 1) {
+			if (cursor != null && cursor.getCount() > 0) {
+//				querryFromDB(context, Utils.getString(context, "name"));
+			} else {
+				ContentValues values = new ContentValues();
+
+				values.put(NotificationDBController.USERNAME_COL, username);
+				values.put(NotificationDBController.DISPATCH_COL, id);
+				values.put(NotificationDBController.D_TYPE_COL, type);
+				values.put(NotificationDBController.D_DESCRIPTION_COL,
+						description);
+				values.put(NotificationDBController.D_CONTENT_COL, content);
+				values.put(NotificationDBController.D_DATE_COL, date);
+				values.put(NotificationDBController.D_STATUS_COL, status);
+				values.put(NotificationDBController.D_HANDLER_COL, handler);
+				values.put(NotificationDBController.D_NUMBER_DISPATCH_COL,
+						numberDispatch);
+				values.put(NotificationDBController.DSTATE_COL,
+						NotificationDBController.NOTIFICATION_STATE_NEW);
+				long rowInserted = db.insert(
+						NotificationDBController.DISPATCH_TABLE_NAME, null,
+						values);
+				Log.d("ToanNM", "Dispatch rowInserted : " + rowInserted);
+			}
+		}
+	}
+
 	void querryFromDB(Context context, String username) {
 		db = NotificationDBController.getInstance(context);
 		data = new ArrayList<Dispatch>();
@@ -280,14 +272,17 @@ public class Dispatch implements Serializable {
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
 				+ NotificationDBController.DSTATE_COL + " = \"new\"" + " and "
 				+ NotificationDBController.D_TYPE_COL + " = " + 1 + " and "
-				+ NotificationDBController.USERNAME_COL + " = \"" + username + "\"" ;
-		Log.d("ToanNM", "Dispatch sql : " + sql);
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
 				int did = cursor
 						.getInt(cursor
 								.getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
+				// String state = cursor
+				// .getString(cursor
+				// .getColumnIndexOrThrow(NotificationDBController.DSTATE_COL));
 				String numberDispatch = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.D_NUMBER_DISPATCH_COL));
@@ -312,6 +307,7 @@ public class Dispatch implements Serializable {
 			} while (cursor.moveToNext());
 		}
 	}
+
 	// end of ToanNM
 	public ArrayList<Dispatch> search(String k, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;

@@ -3,7 +3,6 @@ package com.sicco.erp.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,6 +19,7 @@ import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
+
 public class MyNotificationManager {
 	Context mContext;
 	public static int CONGVAN_NOTIFICATION_ID = 1;
@@ -78,9 +78,11 @@ public class MyNotificationManager {
 					tag = lichbieu;
 					notify_type = 3;
 				}
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + "\n";
+				message = 
+						context.getResources().getString(
+						R.string.new_noti_mess) +
+						" " + notification_count + 
+						" " + noti + "\n";
 				contentText = noi_dung;
 				notify(context, NOTIFICATION_ID, notify_type);
 			}
@@ -107,9 +109,11 @@ public class MyNotificationManager {
 					tag = lichbieu;
 					notify_type = 3;
 				}
-				message = context.getResources().getString(
+				message = 
+						context.getResources().getString(
 						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+						+ " " + notification_count + 
+						" " + noti + " " + "\n";
 				contentText = name;
 				notify(context, NOTIFICATION_ID, notify_type);
 			}
@@ -129,9 +133,11 @@ public class MyNotificationManager {
 			if (notification_count == 1) {
 				noti = context.getResources().getString(R.string.lich_bieu);
 
-				message = context.getResources().getString(
+				message =
+						context.getResources().getString(
 						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + "\n";
+						+ " " + notification_count + 
+						" " + noti + "\n";
 				contentText = noi_dung;
 				notify(context, 3, 3);
 			}
@@ -142,9 +148,11 @@ public class MyNotificationManager {
 				tag = lichbieu;
 				notify_type = 3;
 
-				message = context.getResources().getString(
+				message = 
+						context.getResources().getString(
 						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+						+ " " + notification_count + 
+						" " + noti + " " + "\n";
 				contentText = name;
 				notify(context, 3, 3);
 			}
@@ -169,12 +177,18 @@ public class MyNotificationManager {
 	}
 
 	// ==========================================================================
+	@SuppressWarnings("deprecation")
 	public void notify(Context context, int notification_id, int notify_type) {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				context);
 		Intent notIntent = null;
 		String myPackage = "com.sicco.erp";
+//		String process = getAllRunningService(context);
+//		Intent LaunchIntent = context.getPackageManager()
+//				.getLaunchIntentForPackage(myPackage);
+		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// context.startActivity(LaunchIntent);
 		if (notify_type == 1) {
 			// if (!process.equalsIgnoreCase(myPackage)) {
 			// context.startActivity(LaunchIntent);
@@ -203,11 +217,10 @@ public class MyNotificationManager {
 				.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		//
-		int max_volume = 20;
 
 		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true)
 		// .setPriority(Notification.PRIORITY_HIGH)
-				.setSound(alarmSound, max_volume);
+				.setSound(alarmSound);
 
 		int build_version = android.os.Build.VERSION.SDK_INT;
 		if (build_version >= 16) {
@@ -230,7 +243,6 @@ public class MyNotificationManager {
 				(long) 100 };
 		builder.setVibrate(pattern);
 		builder.setLights(0xFFFFFFFF, 500, 500);
-		@SuppressWarnings("deprecation")
 		Notification notification = builder.getNotification();
 		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
