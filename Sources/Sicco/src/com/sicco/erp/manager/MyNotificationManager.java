@@ -73,12 +73,12 @@ public class MyNotificationManager {
 					tag = congviec;
 					notify_type = 2;
 				}
-				// if (notification_type == 3) {
-				// NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
-				// noti = context.getResources().getString(R.string.lich_bieu);
-				// tag = lichbieu;
-				// notify_type = 3;
-				// }
+				if (notification_type == 3) {
+					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
+					noti = context.getResources().getString(R.string.lich_bieu);
+					tag = lichbieu;
+					notify_type = 3;
+				}
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + "\n";
@@ -101,13 +101,13 @@ public class MyNotificationManager {
 					tag = congviec;
 					notify_type = 2;
 				}
-				// if (notification_type == 3) {
-				// NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
-				// noti = context.getResources().getString(R.string.lich_bieu);
-				// name += "" + ten + "\n";
-				// tag = lichbieu;
-				// notify_type = 3;
-				// }
+				if (notification_type == 3) {
+					NOTIFICATION_ID = LICHBIEU_NOTIFICATION_ID;
+					noti = context.getResources().getString(R.string.lich_bieu);
+					name += "" + ten + "\n";
+					tag = lichbieu;
+					notify_type = 3;
+				}
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + " " + "\n";
@@ -129,7 +129,7 @@ public class MyNotificationManager {
 			String noi_dung = arrayList.get(i).getDescription();
 			if (notification_count == 1) {
 				noti = context.getResources().getString(R.string.lich_bieu);
-				
+
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
 						+ " " + notification_count + " " + noti + "\n";
