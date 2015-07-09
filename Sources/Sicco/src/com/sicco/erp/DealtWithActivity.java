@@ -160,17 +160,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(DealtWithActivity.this,
 				dispatch.getContent());
-		// Intent intent = new Intent(DealtWithActivity.this,
-		// ViewDispatchActivity.class);
-		// Bundle bundle = new Bundle();
-		// bundle.putSerializable("dispatch", dispatch);
-		// intent.putExtra("bundle", bundle);
-		// startActivity(intent);
 	}
 
 	@Override
 	public void onBackPressed() {
 		if (searchView.getVisibility() == View.VISIBLE) {
+			editSearch.setText("");
 			searchView.setVisibility(View.GONE);
 		} else {
 			super.onBackPressed();

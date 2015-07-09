@@ -3,8 +3,6 @@ package com.sicco.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,7 +24,6 @@ import com.sicco.erp.adapter.DispatchAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.service.GetAllNotificationService;
-import com.sicco.erp.util.DownloadFile;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 
@@ -43,9 +40,6 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private TextView title_actionbar;
-	private AlertDialog aDialog;
-	private ProgressDialog dialog;
-	private DownloadFile downloadFile;
 	private ViewDispatch viewDispatch;
 
 	@Override
@@ -212,6 +206,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	@Override
 	public void onBackPressed() {
 		if (searchView.getVisibility() == View.VISIBLE) {
+			editSearch.setText("");
 			searchView.setVisibility(View.GONE);
 		} else {
 			super.onBackPressed();

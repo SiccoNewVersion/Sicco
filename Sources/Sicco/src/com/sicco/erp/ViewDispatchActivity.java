@@ -5,21 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 public class ViewDispatchActivity extends PdfViewerActivity implements
 		OnClickListener {
 	private ImageView back;
-	private TextView title;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		init();
 	}
 
 	private void init() {
 		back = (ImageView) findViewById(R.id.back);
-		title = (TextView) findViewById(R.id.title);
 		back.setOnClickListener(this);
 	}
 

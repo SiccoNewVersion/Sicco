@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
@@ -183,7 +182,6 @@ public class TaskAdapter extends BaseAdapter {
 		TextView title;
 		TextView description;
 		TextView approval;
-		LinearLayout mainLayout;
 	}
 
 	String querryFromDB(Context context, long position) {

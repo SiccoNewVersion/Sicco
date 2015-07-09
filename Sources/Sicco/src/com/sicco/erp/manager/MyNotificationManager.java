@@ -3,6 +3,7 @@ package com.sicco.erp.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -19,7 +20,6 @@ import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
-
 public class MyNotificationManager {
 	Context mContext;
 	public static int CONGVAN_NOTIFICATION_ID = 1;
@@ -58,7 +58,6 @@ public class MyNotificationManager {
 			int notification_type = arrayList.get(i).getNotify_type();
 			String ten = arrayList.get(i).getSoHieuCongVan();
 			String noi_dung = arrayList.get(i).getTrichYeu();
-			String ngaydenSicco = arrayList.get(i).getNgayDenSicco();
 
 			if (notification_count == 1) {
 				if (notification_type == 1) {
@@ -176,11 +175,6 @@ public class MyNotificationManager {
 				context);
 		Intent notIntent = null;
 		String myPackage = "com.sicco.erp";
-		String process = getAllRunningService(context);
-		Intent LaunchIntent = context.getPackageManager()
-				.getLaunchIntentForPackage(myPackage);
-		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// context.startActivity(LaunchIntent);
 		if (notify_type == 1) {
 			// if (!process.equalsIgnoreCase(myPackage)) {
 			// context.startActivity(LaunchIntent);
@@ -236,6 +230,7 @@ public class MyNotificationManager {
 				(long) 100 };
 		builder.setVibrate(pattern);
 		builder.setLights(0xFFFFFFFF, 500, 500);
+		@SuppressWarnings("deprecation")
 		Notification notification = builder.getNotification();
 		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 

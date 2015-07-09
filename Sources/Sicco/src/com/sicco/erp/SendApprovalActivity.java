@@ -25,7 +25,7 @@ import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
 
 public class SendApprovalActivity extends Activity implements OnClickListener {
-	private ImageView back, send;
+	private ImageView back;
 	private EditText document;
 	private Button btnChoseHandler, btnApproval;
 	public static TextView txtHandler;
@@ -34,7 +34,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked;
-	private String nameHandler = "", returned;
+	private String nameHandler = "";
 	private Dispatch dispat;
 
 	@Override

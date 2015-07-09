@@ -64,7 +64,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 		HashMap<String, String> hashMap = session.getUserDetails();
 		u = hashMap.get(SessionManager.KEY_NAME);
 		p = hashMap.get(SessionManager.KEY_PASSWORD);
-		Log.d("ToanNM", "u : " + u + ", p : ");
 		if (u.equals("") && p.equals("")) {
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);

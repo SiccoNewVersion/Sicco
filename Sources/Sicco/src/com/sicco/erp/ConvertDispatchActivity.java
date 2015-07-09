@@ -2,7 +2,6 @@ package com.sicco.erp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -37,8 +36,8 @@ public class ConvertDispatchActivity extends Activity implements
 	private ImageView back;
 	private LinearLayout lnJobType, lnFromDate, lnStatus, lnProgress, lnLevel,
 			lnHandler, lnViewer, lnDepartment, lnToDate;
-	private TextView txtNumSignDispatch, txtJobType, txtFromDate, txtStatus,
-			txtProgress, txtLevel, txtToDate;
+	private TextView txtFromDate;
+	private TextView txtToDate;
 	public static TextView txtDepartment;
 	private EditText edtTitleJob;
 	private Button btnConvert;
@@ -56,7 +55,6 @@ public class ConvertDispatchActivity extends Activity implements
 	private int years_now;
 
 	private StringBuilder toDate;
-	private Date d;
 	private Department department;
 	private User user;
 
@@ -83,11 +81,7 @@ public class ConvertDispatchActivity extends Activity implements
 		lnDepartment = (LinearLayout) findViewById(R.id.lnDepartment);
 		lnToDate = (LinearLayout) findViewById(R.id.lnToDate);
 
-		txtJobType = (TextView) findViewById(R.id.txtJobType);
 		txtFromDate = (TextView) findViewById(R.id.txtFromDate);
-		txtStatus = (TextView) findViewById(R.id.txtStatus);
-		txtProgress = (TextView) findViewById(R.id.txtProgress);
-		txtLevel = (TextView) findViewById(R.id.txtLevel);
 		txtHandler = (TextView) findViewById(R.id.txtHandler);
 		txtViewer = (TextView) findViewById(R.id.txtViewer);
 		txtDepartment = (TextView) findViewById(R.id.txtDepartment);
@@ -175,6 +169,7 @@ public class ConvertDispatchActivity extends Activity implements
 			return "0" + String.valueOf(c);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();

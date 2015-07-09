@@ -6,11 +6,9 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
@@ -42,7 +39,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	private ArrayList<ReportSteer> arrReportSteers;
 	private ReportSteer reportSteer;
 	private EditText edtContent;
-	private TextView txtStatusDispatch;
 	private String arr[] ;
 	private ArrayList<Status> listStatus;
 	
@@ -50,7 +46,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_status_dispatch);
 		Intent intent = getIntent();
@@ -62,9 +57,7 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 	}
 	private void init() {
 		
-//			arr = getResources().getStringArray(R.array.arrStatus);
 			listStatus = new ArrayList<Status>();
-//			arrStatusDispatch 	= 	new 				HashMap<Integer, String>();
 			back 				= 	(ImageView)		findViewById(R.id.back);
 			loading 			= 	(ProgressBar) 	findViewById(R.id.loading);
 			retry 				= 	(Button) 		findViewById(R.id.retry);
@@ -75,9 +68,6 @@ public class ChangeStatusDispatch extends Activity implements OnClickListener {
 			reportSteer 		= 	new 			ReportSteer(getApplicationContext());
 			edtContent 			= 	(EditText)		findViewById(R.id.edtReportOrSteer);
 			spnStatusDispatch	= 	(Spinner)		findViewById(R.id.spnStatusDispatch);
-			
-			
-			txtStatusDispatch	=	(EditText)		findViewById(R.id.txtStatusDispatch);
 
 			// click
 			back.setOnClickListener(this);

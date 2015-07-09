@@ -166,10 +166,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		listReport.setAdapter(reportSteerAdapter);
 	}
 
-	private SessionManager SessionManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void onClick(View v) {
