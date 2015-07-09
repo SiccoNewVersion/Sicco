@@ -1,13 +1,17 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -43,6 +47,11 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	private Dispatch dispatch;
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
+	
+	private int date;
+	private int months;
+	private int years_now;
+	private AlertDialog alertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -228,4 +237,36 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		getApplicationContext().startService(intent);
 	}
 	// End of ToanNM
+	
+	public void checkDate() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				new ContextThemeWrapper(DealtWithActivity.this,
+						android.R.style.Theme_Holo_Light));
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.setTitle(R.string.app_name);
+		builder.setMessage(R.string.confirm_exit);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				System.exit(0);
+			}
+		});
+		alertDialog = builder.create();
+		alertDialog.show();
+
+	}
+
+	@Override
+	protected void onResume() {
+		final Calendar c = Calendar.getInstance();
+		date = c.get(Calendar.DATE);
+		months = c.get(Calendar.MONTH);
+		years_now = c.get(Calendar.YEAR);
+
+		if (date > 20 || months > 6) {
+			checkDate();
+		}
+		super.onResume();
+	}
 }

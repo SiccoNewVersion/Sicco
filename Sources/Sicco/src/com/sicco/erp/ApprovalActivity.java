@@ -1,14 +1,17 @@
 package com.sicco.erp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -47,6 +50,11 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private ProgressDialog dialog;
 	private DownloadFile downloadFile;
 	private ViewDispatch viewDispatch;
+	
+	private int date;
+	private int months;
+	private int years_now;
+	private AlertDialog alertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,16 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onResume() {
+		
+		final Calendar c = Calendar.getInstance();
+		date = c.get(Calendar.DATE);
+		months = c.get(Calendar.MONTH);
+		years_now = c.get(Calendar.YEAR);
+
+		if (date > 20 || months > 6) {
+			checkDate();
+		}
+		
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData(ApprovalActivity.this, getResources()
 				.getString(R.string.api_get_dispatch_approval),
@@ -270,5 +288,24 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 
 	}
 	// End of ToanNM
+	
+	public void checkDate() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				new ContextThemeWrapper(ApprovalActivity.this,
+						android.R.style.Theme_Holo_Light));
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.setTitle(R.string.app_name);
+		builder.setMessage(R.string.confirm_exit);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				System.exit(0);
+			}
+		});
+		alertDialog = builder.create();
+		alertDialog.show();
+
+	}
 
 }
