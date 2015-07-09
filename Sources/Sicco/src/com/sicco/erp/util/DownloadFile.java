@@ -10,7 +10,6 @@ import java.net.URLConnection;
 
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 public class DownloadFile extends AsyncTask<Void, Integer, Boolean> {
 	private String urlDownload;
@@ -82,11 +81,6 @@ public class DownloadFile extends AsyncTask<Void, Integer, Boolean> {
 				output.write(data, 0, count);
 				if (fileLength > 0) // only if total length is known
 					publishProgress((int) (total * 100 / fileLength));
-				 Log.d("TuNT", "=======================================");
-				 Log.d("TuNT", "total: " + total);
-				 Log.d("TuNT", "count: " + count);
-				 Log.d("TuNT", "fileLength: " + fileLength);
-				 Log.d("TuNT", "progress" + (total * 100 / fileLength));
 			}
 			output.flush();
 			output.close();
@@ -94,7 +88,6 @@ public class DownloadFile extends AsyncTask<Void, Integer, Boolean> {
 		} catch (Exception e) {
 			if (onDownloadListener != null)
 				onDownloadListener.onFalse();
-			Log.e("Error: ", e.getMessage());
 		}
 		return true;
 	}

@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -68,7 +67,6 @@ public class GetAllNotificationService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// start Service
-		Log.d("ToanNM", "GetAllNotification.onstart()");
 
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
@@ -124,7 +122,6 @@ public class GetAllNotificationService extends Service {
 						try {
 							JSONObject json = new JSONObject(st);
 							total = json.getInt("total");
-							Log.d("TuNT", "total 1: " + total);
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -140,9 +137,6 @@ public class GetAllNotificationService extends Service {
 										id, 1, soHieuCongVan, trichYeu,
 										dinhKem, ngayDenSicco, trangThai));
 							}
-							Log.d("ToanNM", "row : " + rows.length()
-									+ " , congVanCanPhe_list.size(): "
-									+ congVanCanPhe_list.size());
 							origanizeNoti(congVanCanPhe_list,
 									congVanCanPhe_list.size(), 1);
 							saveInt(1, total);
@@ -188,7 +182,6 @@ public class GetAllNotificationService extends Service {
 						try {
 							JSONObject json = new JSONObject(st);
 							total = json.getInt("total");
-							Log.d("TuNT", "total 2: " + total);
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -205,9 +198,6 @@ public class GetAllNotificationService extends Service {
 										ngayDenSicco, trangThai));
 
 							}
-							Log.d("ToanNM", "row : " + rows.length()
-									+ " , congVanXuLy_list.size(): "
-									+ congVanXuLy_list.size());
 							origanizeNoti(congVanXuLy_list,
 									congVanXuLy_list.size(), 2);
 							saveInt(2, total);
@@ -249,7 +239,6 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
-						Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -315,8 +304,6 @@ public class GetAllNotificationService extends Service {
 									long rowInserted = db
 											.insert(NotificationDBController.TABLE_NAME,
 													null, values);
-									Log.d("ToanNM", "cacloai rowInserted is : "
-											+ rowInserted);
 
 								}
 							}
@@ -326,9 +313,6 @@ public class GetAllNotificationService extends Service {
 							if (firstRun) {
 								Utils.saveBoolean(getApplicationContext(),
 										"FIRSTRUN", false);
-								Log.d("ToanNM", "cacloai_list size : "
-										+ cacLoai_list.size() + "total : "
-										+ total);
 								origanizeNoti(cacLoai_list, total, 3);
 								saveInt(3, total);
 							} else {
@@ -403,7 +387,6 @@ public class GetAllNotificationService extends Service {
 				+ "\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
-		Log.d("ToanNM", "Service sql : " + sql);
 		// ================================================= \\
 		// origanizeNoti(cacLoai_list, count);
 		sereprateCacLoaiList(dData, count);
@@ -421,7 +404,6 @@ public class GetAllNotificationService extends Service {
 				+ NotificationDBController.NOTIFI_TYPE_COL + " = " + type
 				+ " and " + NotificationDBController.USERNAME_COL + " = \""
 				+ username + "\"";
-		Log.d("ToanNM", "sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -447,7 +429,6 @@ public class GetAllNotificationService extends Service {
 				temp = new NotificationModel(id, type, soHieuCongVan, trichYeu,
 						dinhKem, ngayDenSicco, trangThai);
 				data.add(temp);
-				Log.d("ToanNM", "data size after init Data is : " + data.size());
 			} while (cursor.moveToNext());
 		}
 		origanizeNoti(data, data.size(), type);
@@ -507,8 +488,6 @@ public class GetAllNotificationService extends Service {
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(notificationServiceStr);
 		mNotificationManager.cancel(notification_id);
-		Log.d("ToanNM", "cancelNotification() at notification_id:"
-				+ notification_id);
 	}
 
 }

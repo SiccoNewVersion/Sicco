@@ -85,7 +85,6 @@ public class DialogChangeStatusDispatch {
 					int position, long id) {
 				status = (Status) parent.getAdapter().getItem(position);
 
-				Log.d("NgaDV", "status:" + status.getStatus());
 			}
 		});
 
@@ -263,7 +262,6 @@ public class DialogChangeStatusDispatch {
 		String sql = "Select * from "
 				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
 				+ NotificationDBController.DSTATE_COL + " = \"new\"";
-		Log.d("ToanNM", "otheractivity sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		return count;
@@ -276,7 +274,6 @@ public class DialogChangeStatusDispatch {
 	}
 
 	void setCount(int type) {
-		Log.d("ToanNM", "CongVanType : " + type);
 		if (type == 1) {
 			int count = Utils.getInt(context, GetAllNotificationService.CL_KEY);
 			if (count != 0) {

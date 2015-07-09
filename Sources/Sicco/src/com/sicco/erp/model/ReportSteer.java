@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -88,7 +87,6 @@ public class ReportSteer {
 				onLoadListener.onSuccess();
 				String jsonRead = response.toString();
 				
-				Log.d("NgaDV", "get Report Json : " + jsonRead);
 				super.onSuccess(statusCode, headers, response);
 			}
 
@@ -121,13 +119,11 @@ public class ReportSteer {
 				
 				String jsonRead = response.toString();
 				
-				Log.d("NgaDV", "get Report Json : " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject jsonObject = new JSONObject(jsonRead);
 						JSONArray jsonArray = jsonObject.getJSONArray("row");
 						if (jsonObject.getString("success").equals("1")) {
-							Log.d("NgaDV", "jsonObject.getString(total)"+jsonObject.getString("total"));
 							
 							if (Integer.parseInt(jsonObject.getString("total")) != 0) {
 								CHECK_TOTAL_DATA = 1;

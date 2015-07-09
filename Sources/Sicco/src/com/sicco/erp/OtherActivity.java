@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -239,7 +238,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 				+ " and "
 				+ NotificationDBController.D_TYPE_COL
 				+ " = " + 1;
-		Log.d("ToanNM", "otheractivity sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		Toast.makeText(getApplicationContext(), "OtherActivity : " + count , Toast.LENGTH_SHORT).show();

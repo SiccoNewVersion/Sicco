@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -48,7 +47,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
-		Log.d("NgaDV", "id_user:"+Utils.getString(SteerReportActivity.this, SessionManager.KEY_USER_ID));
 		init();
 		setListReportSteer(dispatch);
 		sendReportSteer();
@@ -96,19 +94,16 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 							setListReportSteer(dispatch);
 							progressDialog.dismiss();
-							Log.d("NgaDV", "onSuccess");
 						}
 						
 						@Override
 						public void onStart() {
 							progressDialog.setMessage(getResources().getString(R.string.msg_sending));
 							progressDialog.show();
-							Log.d("NgaDV", "onStart");
 						}
 						
 						@Override
 						public void onFalse() {
-							Log.d("NgaDV", "onFalse");
 							progressDialog.dismiss();
 							Toast.makeText(SteerReportActivity.this, getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
 							
@@ -144,7 +139,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 							listReport.setEmptyView(emptyView);
 						}
 						
-						Log.d("NgaDV", "ReportSteer.CHECK_TOTAL_DATA;"+ReportSteer.CHECK_TOTAL_DATA);
 					}
 
 					@Override
