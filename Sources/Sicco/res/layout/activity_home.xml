@@ -172,7 +172,7 @@
                             android:padding="5dp"
                             android:src="@drawable/ic_cacloai" />
 
-                        <TextView
+                        <!-- <TextView
                             android:id="@+id/activity_home_notify_cacloai"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
@@ -184,7 +184,7 @@
                             android:text="0"
                             android:textColor="@color/white"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold" /> -->
                     </FrameLayout>
 
                     <TextView

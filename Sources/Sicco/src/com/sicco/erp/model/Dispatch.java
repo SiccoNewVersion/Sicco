@@ -31,6 +31,14 @@ public class Dispatch implements Serializable {
 	private String numberDispatch, description, content;
 	private String date, handler;
 	private String status;
+	private String coQuanBanHanh;
+	public String getCoQuanBanHanh() {
+		return coQuanBanHanh;
+	}
+
+	public void setCoQuanBanHanh(String coQuanBanHanh) {
+		this.coQuanBanHanh = coQuanBanHanh;
+	}
 	private ArrayList<Dispatch> data;
 
 	private Cursor cursor;
@@ -40,6 +48,18 @@ public class Dispatch implements Serializable {
 		this.context = context;
 	}
 
+	public Dispatch(long id, String numberDispatch, String description,
+			String content, String date, String handler, String status,String coQuanBanHanh) {
+		super();
+		this.id = id;
+		this.numberDispatch = numberDispatch;
+		this.description = description;
+		this.content = content;
+		this.date = date;
+		this.handler = handler;
+		this.status = status;
+		this.coQuanBanHanh = coQuanBanHanh;
+	}
 	public Dispatch(long id, String numberDispatch, String description,
 			String content, String date, String handler, String status) {
 		super();
@@ -190,12 +210,13 @@ public class Dispatch implements Serializable {
 							String content = row.getString("content");
 							String date = row.getString("ngay_den");
 							String status = row.getString("status");
+							String coQuanBanHanh = row.getString("co_quan_ban_hanh");
 							String handler = row.getString("handler");
-
+							
 							content = content.replace(" ", "%20");
 
 							data.add(new Dispatch(id, numberDispatch,
-									description, content, date, handler, status));
+									description, content, date, handler, status,coQuanBanHanh));
 
 							addToDB(context, type, id, numberDispatch, content, date, status, handler);
 
@@ -333,8 +354,12 @@ public class Dispatch implements Serializable {
 							.removeAccent(dispatch.getNumberDispatch());
 					String replace = AccentRemover.getInstance(context)
 							.removeAccent(dispatch.getDescription());
+					String replaceCoQuanBanHanh = AccentRemover.getInstance(context)
+							.removeAccent(dispatch.getCoQuanBanHanh());
 					if (iReplace.toLowerCase().contains(vReplace.toLowerCase())
 							|| replace.toLowerCase().contains(
+									vReplace.toLowerCase()) 
+							|| replaceCoQuanBanHanh.toLowerCase().contains(
 									vReplace.toLowerCase())) {
 						result.add(dispatch);
 					}

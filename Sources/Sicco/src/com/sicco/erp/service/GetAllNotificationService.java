@@ -70,7 +70,7 @@ public class GetAllNotificationService extends Service {
 
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
-		CacLoaiAsync();
+//		CacLoaiAsync();
 		if (intent != null) {
 			action = intent.getIntExtra("ACTION", 0);
 		} else {

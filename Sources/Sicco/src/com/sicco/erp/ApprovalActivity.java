@@ -47,9 +47,6 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
 	
-	private int date;
-	private int months;
-	private int years_now;
 	private AlertDialog alertDialog;
 
 	@Override
@@ -66,14 +63,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		
-		final Calendar c = Calendar.getInstance();
-		date = c.get(Calendar.DATE);
-		months = c.get(Calendar.MONTH);
-		years_now = c.get(Calendar.YEAR);
-
-		if (date > 20 || months > 6) {
-			checkDate();
-		}
+		HomeActivity.checkDate(this);
 		
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData(ApprovalActivity.this, getResources()
@@ -286,23 +276,5 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	}
 	// End of ToanNM
 	
-	public void checkDate() {
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				new ContextThemeWrapper(ApprovalActivity.this,
-						android.R.style.Theme_Holo_Light));
-		builder.setIcon(R.drawable.ic_launcher);
-		builder.setTitle(R.string.app_name);
-		builder.setMessage(R.string.confirm_exit);
-		builder.setCancelable(false);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				System.exit(0);
-			}
-		});
-		alertDialog = builder.create();
-		alertDialog.show();
-
-	}
 
 }

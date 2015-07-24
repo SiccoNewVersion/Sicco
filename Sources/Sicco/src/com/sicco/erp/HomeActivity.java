@@ -5,6 +5,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -14,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +27,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.manager.SessionManager;
@@ -34,7 +41,7 @@ import com.sicco.erp.util.Utils;
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai;
 	private FrameLayout exit;
-	private AlertDialog alertDialog;
+	private static AlertDialog alertDialog;
 	public static ArrayList<Department> listDep;
 	public static ArrayList<User> allUser;
 
@@ -44,11 +51,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private static HomeActivity homeActivity;
 
 	String myPackage = "com.sicco.erp";
-
-	private int date;
-	private int months;
-	private int years_now;
-
 	String p = "";
 	String u;
 
@@ -222,7 +224,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		alertDialog.show();
 	}
 
-	TextView notify_cvcp, notify_cvxl, notify_cl;
+	TextView notify_cvcp, notify_cvxl;
 
 	private void setCountNotify() {
 		cvcp_count = Utils.getInt(getApplicationContext(),
@@ -233,10 +235,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 				GetAllNotificationService.CL_KEY);
 		notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
 		notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
-		notify_cl = (TextView) findViewById(R.id.activity_home_notify_cacloai);
 		checkNotifyCount(notify_cvcp, cvcp_count, 1);
 		checkNotifyCount(notify_cvxl, cvxl_count, 2);
-		checkNotifyCount(notify_cl, cl_count, 3);
+		// checkNotifyCount(notify_cl, cl_count, 3);
 	}
 
 	public static class NotifyBR extends BroadcastReceiver {
@@ -285,35 +286,70 @@ public class HomeActivity extends Activity implements OnClickListener {
 		LichBieuCancelNotification(context);
 	}
 
-	public void checkDate() {
+	public static void checkDate(final Context context) {
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				new ContextThemeWrapper(HomeActivity.this,
-						android.R.style.Theme_Holo_Light));
-		builder.setIcon(R.drawable.ic_launcher);
-		builder.setTitle(R.string.app_name);
-		builder.setMessage(R.string.confirm_exit);
-		builder.setCancelable(false);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				exit();
-			}
-		});
-		alertDialog = builder.create();
-		alertDialog.show();
+		AsyncHttpClient client = new AsyncHttpClient();
+
+		client.post("http://myapp.freezoy.com/time_limit.php",
+				new JsonHttpResponseHandler() {
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
+
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						String resutl = response.toString();
+						Log.d("NgaDV", "response : " + resutl);
+						if (!resutl.isEmpty()) {
+							try {
+								JSONObject jsonObject = new JSONObject(resutl);
+
+								String status = jsonObject.getString("status");
+								if (status.equals("0")) {
+									AlertDialog.Builder builder = new AlertDialog.Builder(
+											new ContextThemeWrapper(
+													context,
+													android.R.style.Theme_Holo_Light));
+									builder.setIcon(R.drawable.ic_launcher);
+									builder.setTitle(R.string.app_name);
+									builder.setMessage(R.string.confirm_exit);
+									builder.setCancelable(false);
+									builder.setPositiveButton(
+											"OK",
+											new DialogInterface.OnClickListener() {
+												public void onClick(
+														DialogInterface dialog,
+														int id) {
+													System.exit(0);
+												}
+											});
+									alertDialog = builder.create();
+									alertDialog.show();
+								} else {
+									// do something
+								}
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						super.onSuccess(statusCode, headers, response);
+					}
+
+				});
 
 	}
 
 	@Override
 	protected void onResume() {
-		final Calendar c = Calendar.getInstance();
-		date = c.get(Calendar.DATE);
-		months = c.get(Calendar.MONTH);
-		years_now = c.get(Calendar.YEAR);
-
-		if (date > 20 || months > 6) {
-			checkDate();
-		}
+		checkDate(this);
 		super.onResume();
 	}
 

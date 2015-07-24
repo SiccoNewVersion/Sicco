@@ -57,10 +57,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 
 	NotificationDBController db;
 	Cursor cursor;
-	
-	private int date;
-	private int months;
-	private int years_now;
 	private AlertDialog alertDialog;
 
 	@Override
@@ -335,14 +331,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onResume() {
-		final Calendar c = Calendar.getInstance();
-		date = c.get(Calendar.DATE);
-		months = c.get(Calendar.MONTH);
-		years_now = c.get(Calendar.YEAR);
-
-		if (date > 20 || months > 6) {
-			checkDate();
-		}
 		super.onResume();
 	}
 }
