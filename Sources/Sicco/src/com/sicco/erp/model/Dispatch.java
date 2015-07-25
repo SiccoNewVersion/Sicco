@@ -42,9 +42,6 @@ public class Dispatch implements Serializable {
 
 	public Dispatch(Context context) {
 		this.context = context;
-		DispatchType dispatchType = new DispatchType();
-		dataDispatchType = dispatchType.getData(context.getResources()
-				.getString(R.string.api_get_dispatch_type));
 	}
 
 	public Dispatch(long id, String numberDispatch, String description,
@@ -202,6 +199,11 @@ public class Dispatch implements Serializable {
 	// ToanNM
 	public ArrayList<Dispatch> getData(final Context context, String url,
 			OnLoadListener OnLoadListener, final int type) {
+		
+		DispatchType dispatchType = new DispatchType();
+		dataDispatchType = dispatchType.getData(context.getResources()
+				.getString(R.string.api_get_dispatch_type));
+		
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
