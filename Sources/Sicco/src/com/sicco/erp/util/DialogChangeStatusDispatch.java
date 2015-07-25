@@ -88,7 +88,7 @@ public class DialogChangeStatusDispatch {
 			}
 		});
 
-		lvStatus.setItemChecked(Integer.parseInt(dispatch.getStatus()) - 1,
+		lvStatus.setItemChecked(Integer.parseInt(dispatch.getStatus()) - 2,
 				true);
 
 		txtTitle.setText(context.getResources().getString(

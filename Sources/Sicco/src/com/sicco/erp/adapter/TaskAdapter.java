@@ -140,10 +140,10 @@ public class TaskAdapter extends BaseAdapter {
 								case R.id.action_change_status:
 									listStatus = new ArrayList<Status>();
 
-									listStatus.add(new Status(context
-											.getResources().getString(
-													R.string.need_approval),
-											Long.parseLong("1")));
+//									listStatus.add(new Status(context
+//											.getResources().getString(
+//													R.string.need_approval),
+//											Long.parseLong("1")));
 									listStatus.add(new Status(context
 											.getResources().getString(
 													R.string.need_handle), Long

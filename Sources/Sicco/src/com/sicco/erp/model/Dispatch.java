@@ -32,24 +32,24 @@ public class Dispatch implements Serializable {
 	private String date, handler;
 	private String status;
 	private String coQuanBanHanh;
-	public String getCoQuanBanHanh() {
-		return coQuanBanHanh;
-	}
+	private String loaicongvan;
 
-	public void setCoQuanBanHanh(String coQuanBanHanh) {
-		this.coQuanBanHanh = coQuanBanHanh;
-	}
 	private ArrayList<Dispatch> data;
+	private ArrayList<DispatchType> dataDispatchType;
 
 	private Cursor cursor;
 	private NotificationDBController db;
 
 	public Dispatch(Context context) {
 		this.context = context;
+		DispatchType dispatchType = new DispatchType();
+		dataDispatchType = dispatchType.getData(context.getResources()
+				.getString(R.string.api_get_dispatch_type));
 	}
 
 	public Dispatch(long id, String numberDispatch, String description,
-			String content, String date, String handler, String status,String coQuanBanHanh) {
+			String content, String date, String handler, String status,
+			String coQuanBanHanh, String loaicongvan) {
 		super();
 		this.id = id;
 		this.numberDispatch = numberDispatch;
@@ -59,7 +59,9 @@ public class Dispatch implements Serializable {
 		this.handler = handler;
 		this.status = status;
 		this.coQuanBanHanh = coQuanBanHanh;
+		this.loaicongvan = loaicongvan;
 	}
+
 	public Dispatch(long id, String numberDispatch, String description,
 			String content, String date, String handler, String status) {
 		super();
@@ -136,6 +138,22 @@ public class Dispatch implements Serializable {
 		this.data = data;
 	}
 
+	public String getLoaicongvan() {
+		return loaicongvan;
+	}
+
+	public void setLoaicongvan(String loaicongvan) {
+		this.loaicongvan = loaicongvan;
+	}
+
+	public String getCoQuanBanHanh() {
+		return coQuanBanHanh;
+	}
+
+	public void setCoQuanBanHanh(String coQuanBanHanh) {
+		this.coQuanBanHanh = coQuanBanHanh;
+	}
+
 	public void changeStatusDispatch(String url, String id_dispatch,
 			String status, OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
@@ -210,15 +228,34 @@ public class Dispatch implements Serializable {
 							String content = row.getString("content");
 							String date = row.getString("ngay_den");
 							String status = row.getString("status");
-							String coQuanBanHanh = row.getString("co_quan_ban_hanh");
+							String coQuanBanHanh = row
+									.getString("co_quan_ban_hanh");
 							String handler = row.getString("handler");
-							
+							String idloaicv = row.getString("id_loai_cong_van");
+
 							content = content.replace(" ", "%20");
 
-							data.add(new Dispatch(id, numberDispatch,
-									description, content, date, handler, status,coQuanBanHanh));
+							if (!dataDispatchType.isEmpty()) {
+								for (int j = 0; j < dataDispatchType.size(); j++) {
+									DispatchType type = dataDispatchType.get(j);
+									if (idloaicv.equals(type.getId())) {
+										data.add(new Dispatch(id,
+												numberDispatch, description,
+												content, date, handler, status,
+												coQuanBanHanh, type.getTitle()));
+//										Log.d("LuanDT",
+//												"----->>>loai cong van: "
+//														+ type.getTitle());
+									}
+								}
+							} else {
+								data.add(new Dispatch(id, numberDispatch,
+										description, content, date, handler,
+										status, coQuanBanHanh, ""));
+							}
 
-							addToDB(context, type, id, numberDispatch, content, date, status, handler);
+							addToDB(context, type, id, numberDispatch, content,
+									date, status, handler);
 
 						}
 					} catch (JSONException e) {
@@ -239,7 +276,8 @@ public class Dispatch implements Serializable {
 		return data;
 	}
 
-	void addToDB(Context context, int type, long id, String numberDispatch, String content, String date, String status, String handler) {
+	void addToDB(Context context, int type, long id, String numberDispatch,
+			String content, String date, String status, String handler) {
 		// // add to db
 		String username = Utils.getString(context, SessionManager.KEY_NAME);
 		db = NotificationDBController.getInstance(context);
@@ -252,7 +290,7 @@ public class Dispatch implements Serializable {
 		cursor = db.rawQuery(sql, null);
 		if (type == 1) {
 			if (cursor != null && cursor.getCount() > 0) {
-//				querryFromDB(context, Utils.getString(context, "name"));
+				// querryFromDB(context, Utils.getString(context, "name"));
 			} else {
 				ContentValues values = new ContentValues();
 
@@ -354,12 +392,16 @@ public class Dispatch implements Serializable {
 							.removeAccent(dispatch.getNumberDispatch());
 					String replace = AccentRemover.getInstance(context)
 							.removeAccent(dispatch.getDescription());
-					String replaceCoQuanBanHanh = AccentRemover.getInstance(context)
-							.removeAccent(dispatch.getCoQuanBanHanh());
+					String replaceCoQuanBanHanh = AccentRemover.getInstance(
+							context).removeAccent(dispatch.getCoQuanBanHanh());
+					String replaceLoaiCongVan = AccentRemover.getInstance(
+							context).removeAccent(dispatch.getLoaicongvan());
 					if (iReplace.toLowerCase().contains(vReplace.toLowerCase())
 							|| replace.toLowerCase().contains(
-									vReplace.toLowerCase()) 
+									vReplace.toLowerCase())
 							|| replaceCoQuanBanHanh.toLowerCase().contains(
+									vReplace.toLowerCase())
+							|| replaceLoaiCongVan.toLowerCase().contains(
 									vReplace.toLowerCase())) {
 						result.add(dispatch);
 					}
@@ -420,7 +462,6 @@ public class Dispatch implements Serializable {
 		params.add("noi_dung", noiDung);
 		params.add("nguoi_xu_ly", nguoiXuLy);
 
-
 		AsyncHttpClient httpClient = new AsyncHttpClient();
 		httpClient.post(url, params, new JsonHttpResponseHandler() {
 
@@ -475,7 +516,6 @@ public class Dispatch implements Serializable {
 		params.add("nguoi_xem", nguoiXem);
 		params.add("id_nguoi_xu_ly", idNguoiXuLy);
 		params.add("id_nguoi_xem", idNguoiXem);
-
 
 		AsyncHttpClient httpClient = new AsyncHttpClient();
 		httpClient.post(url, params, new JsonHttpResponseHandler() {
