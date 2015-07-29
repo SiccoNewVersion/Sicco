@@ -46,6 +46,7 @@
     <string name="viewer">Người xem</string>
     <string name="department">Phòng ban</string>
     <string name="title">Tiêu đề</string>
+    <string name="des">Mô tả</string>
     <string name="covert">Chuyển</string>
     <string name="everyday">Hàng ngày</string>
     <string name="execute">Thực hiện</string>

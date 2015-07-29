@@ -70,7 +70,7 @@ public class GetAllNotificationService extends Service {
 
 		CongVanCanPheAsync();
 		CongVanXuLyAsync();
-//		CacLoaiAsync();
+		// CacLoaiAsync();
 		if (intent != null) {
 			action = intent.getIntExtra("ACTION", 0);
 		} else {
@@ -121,7 +121,7 @@ public class GetAllNotificationService extends Service {
 
 						try {
 							JSONObject json = new JSONObject(st);
-							total = json.getInt("total");
+							total = json.getInt("so_cv_can_phe");
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);
@@ -132,11 +132,17 @@ public class GetAllNotificationService extends Service {
 								String dinhKem = row.getString("content");
 								String ngayDenSicco = row.getString("ngay_den");
 								String trangThai = row.getString("status");
+								String pheduyet = row.getString("phe_duyet");
 
-								congVanCanPhe_list.add(new NotificationModel(
-										id, 1, soHieuCongVan, trichYeu,
-										dinhKem, ngayDenSicco, trangThai));
+								if (pheduyet.equals("0")) {
+									congVanCanPhe_list
+											.add(new NotificationModel(id, 1,
+													soHieuCongVan, trichYeu,
+													dinhKem, ngayDenSicco,
+													trangThai));
+								}
 							}
+
 							origanizeNoti(congVanCanPhe_list,
 									congVanCanPhe_list.size(), 1);
 							saveInt(1, total);
@@ -259,19 +265,20 @@ public class GetAllNotificationService extends Service {
 										ngayDenSicco, trangThai));
 
 								// // add to db
-								 db = NotificationDBController
-								 .getInstance(getApplicationContext());
-								 String sql = "Select * from "
-								 + NotificationDBController.TABLE_NAME
-								 + " where "
-								 + NotificationDBController.ID_COL + " = "
-								 + id
-								 + " and "
-								 + NotificationDBController.NOTIFI_TYPE_COL
-								 + " = " + 3 + " and "
-								 + NotificationDBController.USERNAME_COL
-								 + " = \"" + username + "\"";
-								 cursor = db.rawQuery(sql, null);
+								db = NotificationDBController
+										.getInstance(getApplicationContext());
+								String sql = "Select * from "
+										+ NotificationDBController.TABLE_NAME
+										+ " where "
+										+ NotificationDBController.ID_COL
+										+ " = "
+										+ id
+										+ " and "
+										+ NotificationDBController.NOTIFI_TYPE_COL
+										+ " = " + 3 + " and "
+										+ NotificationDBController.USERNAME_COL
+										+ " = \"" + username + "\"";
+								cursor = db.rawQuery(sql, null);
 
 								if (cursor != null && cursor.getCount() > 0) {
 

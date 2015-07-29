@@ -58,6 +58,13 @@ public class DispatchAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
+		
+		if(dispatch.getPheduyet().equals("1")){
+			holder.approval.setVisibility(View.GONE);
+		} else {
+			holder.approval.setVisibility(View.VISIBLE);
+		}
+		
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {

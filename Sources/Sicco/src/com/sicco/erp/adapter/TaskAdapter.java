@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.YuvImage;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.sicco.erp.model.Status;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChangeStatusDispatch;
 import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.Utils;
 
 public class TaskAdapter extends BaseAdapter {
 	private Context context;
@@ -49,15 +52,14 @@ public class TaskAdapter extends BaseAdapter {
 
 		listChecked = new ArrayList<User>();
 
-		
-			department = new Department();
-			user = new User();
-			listDep = new ArrayList<Department>();
-			allUser = new ArrayList<User>();
-			listDep = department.getData(context.getResources().getString(
-					R.string.api_get_deparment));
-			allUser = user.getData(context.getResources().getString(
-					R.string.api_get_all_user));
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department.getData(context.getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(context.getResources().getString(
+				R.string.api_get_all_user));
 	}
 
 	public void setData(ArrayList<Dispatch> data) {
@@ -97,27 +99,62 @@ public class TaskAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		if (type == 1) {
-			long id = dispatch.getId();
-			String state = querryFromDB(context, id);
-			if (state
-					.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
-				view.setBackgroundColor(context.getResources().getColor(
-						R.color.item_color));
-			} else {
-				view.setBackgroundColor(Color.WHITE);
-			}
+		// if (type == 1) {
+		// long id = dispatch.getId();
+		// String state = querryFromDB(context, id);
+		// if (state
+		// .equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
+		// view.setBackgroundColor(context.getResources().getColor(
+		// R.color.item_color));
+		// } else {
+		// view.setBackgroundColor(Color.WHITE);
+		// }
+		// }
+
+		if (dispatch.getStatus().equals("3")) {
+			view.setBackgroundColor(context.getResources().getColor(
+					R.color.item_color));
+		} else if (dispatch.getStatus().equals("4")) {
+			view.setBackgroundColor(Color.WHITE);
 		}
 
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
+
+//		//popupMenu
+//		final String[] nguoidoitrangthai = dispatch.getNguoithaydoitrangthai()
+//				.split(",");
+//		final String username = Utils.getString(context, "name");
+//		for (int i = 0; i < nguoidoitrangthai.length; i++) {
+//			if (username.equals(nguoidoitrangthai[i])) {
+//				update_status = true;
+//			}
+//		}
+
 		holder.approval.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
+				//popupMenu
+				final String[] nguoidoitrangthai = dispatch.getNguoithaydoitrangthai()
+						.split(",");
+				final String username = Utils.getString(context, "name");
+				boolean update_status = false;
+				for (int i = 0; i < nguoidoitrangthai.length; i++) {
+					if (username.equals(nguoidoitrangthai[i])) {
+						update_status = true;
+					}
+				}
+				
 				PopupMenu popupMenu = new PopupMenu(context, holder.approval);
-				popupMenu.getMenuInflater().inflate(R.menu.menu_task,
-						popupMenu.getMenu());
+				if(update_status){
+					popupMenu.getMenuInflater().inflate(R.menu.menu_task,
+							popupMenu.getMenu());
+				} else {
+					popupMenu.getMenuInflater().inflate(R.menu.menu_task1,
+							popupMenu.getMenu());
+				}
+
 				popupMenu.show();
 				popupMenu
 						.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -140,10 +177,10 @@ public class TaskAdapter extends BaseAdapter {
 								case R.id.action_change_status:
 									listStatus = new ArrayList<Status>();
 
-//									listStatus.add(new Status(context
-//											.getResources().getString(
-//													R.string.need_approval),
-//											Long.parseLong("1")));
+									// listStatus.add(new Status(context
+									// .getResources().getString(
+									// R.string.need_approval),
+									// Long.parseLong("1")));
 									listStatus.add(new Status(context
 											.getResources().getString(
 													R.string.need_handle), Long
@@ -201,6 +238,5 @@ public class TaskAdapter extends BaseAdapter {
 		}
 		return state;
 	}
-	
-	
+
 }

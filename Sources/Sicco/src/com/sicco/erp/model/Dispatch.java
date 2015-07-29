@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -33,6 +34,8 @@ public class Dispatch implements Serializable {
 	private String status;
 	private String coQuanBanHanh;
 	private String loaicongvan;
+	private String nguoithaydoitrangthai;
+	private String pheduyet;
 
 	private ArrayList<Dispatch> data;
 	private ArrayList<DispatchType> dataDispatchType;
@@ -46,7 +49,7 @@ public class Dispatch implements Serializable {
 
 	public Dispatch(long id, String numberDispatch, String description,
 			String content, String date, String handler, String status,
-			String coQuanBanHanh, String loaicongvan) {
+			String coQuanBanHanh, String loaicongvan, String nguoithaydoitrangthai, String pheduyet) {
 		super();
 		this.id = id;
 		this.numberDispatch = numberDispatch;
@@ -57,6 +60,8 @@ public class Dispatch implements Serializable {
 		this.status = status;
 		this.coQuanBanHanh = coQuanBanHanh;
 		this.loaicongvan = loaicongvan;
+		this.nguoithaydoitrangthai = nguoithaydoitrangthai;
+		this.pheduyet = pheduyet;
 	}
 
 	public Dispatch(long id, String numberDispatch, String description,
@@ -73,6 +78,22 @@ public class Dispatch implements Serializable {
 
 	public long getId() {
 		return id;
+	}
+
+	public String getNguoithaydoitrangthai() {
+		return nguoithaydoitrangthai;
+	}
+
+	public void setNguoithaydoitrangthai(String nguoithaydoitrangthai) {
+		this.nguoithaydoitrangthai = nguoithaydoitrangthai;
+	}
+
+	public String getPheduyet() {
+		return pheduyet;
+	}
+
+	public void setPheduyet(String pheduyet) {
+		this.pheduyet = pheduyet;
 	}
 
 	public String getHandler() {
@@ -234,7 +255,9 @@ public class Dispatch implements Serializable {
 									.getString("co_quan_ban_hanh");
 							String handler = row.getString("handler");
 							String idloaicv = row.getString("id_loai_cong_van");
-
+							String nguoithaydoitrangthai = row.getString("nguoi_thay_doi_trang_thai");
+							String pheduyet = row.getString("phe_duyet");
+							
 							content = content.replace(" ", "%20");
 
 							if (!dataDispatchType.isEmpty()) {
@@ -244,7 +267,7 @@ public class Dispatch implements Serializable {
 										data.add(new Dispatch(id,
 												numberDispatch, description,
 												content, date, handler, status,
-												coQuanBanHanh, type.getTitle()));
+												coQuanBanHanh, type.getTitle(), nguoithaydoitrangthai, pheduyet));
 //										Log.d("LuanDT",
 //												"----->>>loai cong van: "
 //														+ type.getTitle());
@@ -253,7 +276,7 @@ public class Dispatch implements Serializable {
 							} else {
 								data.add(new Dispatch(id, numberDispatch,
 										description, content, date, handler,
-										status, coQuanBanHanh, ""));
+										status, coQuanBanHanh, "", nguoithaydoitrangthai, pheduyet));
 							}
 
 							addToDB(context, type, id, numberDispatch, content,
@@ -504,7 +527,7 @@ public class Dispatch implements Serializable {
 	// /////////////////
 	public void convertDispatch(String url, String userId, String tenCongViec,
 			String tuNgay, String denNgay, String phongBan, String nguoiXuLy,
-			String nguoiXem, String idNguoiXuLy, String idNguoiXem,
+			String nguoiXem, String idNguoiXuLy, String idNguoiXem, String mota, String file,
 			OnRequestListener onRequestListener) {
 		Dispatch.this.onRequestListener = onRequestListener;
 		Dispatch.this.onRequestListener.onStart();
@@ -518,7 +541,10 @@ public class Dispatch implements Serializable {
 		params.add("nguoi_xem", nguoiXem);
 		params.add("id_nguoi_xu_ly", idNguoiXuLy);
 		params.add("id_nguoi_xem", idNguoiXem);
+		params.add("mota", mota);
+		params.add("file", file);
 
+		Log.d("LuanDT", "convertDispatch: " + params);
 		AsyncHttpClient httpClient = new AsyncHttpClient();
 		httpClient.post(url, params, new JsonHttpResponseHandler() {
 
@@ -533,7 +559,7 @@ public class Dispatch implements Serializable {
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String json = response.toString();
-
+				Log.d("LuanDT", "json: " + json);
 				if (!json.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(json);

@@ -176,14 +176,14 @@ public class OtherActivity extends Activity implements OnClickListener,
 		viewDispatch = new ViewDispatch(OtherActivity.this,
 				dispatch.getContent());
 
-		db.checkedDisPatch(dispatch, dispatch.getId());
-		
-		String state = querryFromDB(getApplicationContext(), arg2);
-		if(state.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)){
-			int count = querryFromDB(getApplicationContext());
-			setCount(count);
-		}
-		startGetAllNotificationService();
+//		db.checkedDisPatch(dispatch, dispatch.getId());
+//		
+//		String state = querryFromDB(getApplicationContext(), arg2);
+//		if(state.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)){
+//			int count = querryFromDB(getApplicationContext());
+//			setCount(count);
+//		}
+//		startGetAllNotificationService();
 		
 		adapter.notifyDataSetChanged();
 	}

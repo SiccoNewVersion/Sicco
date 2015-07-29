@@ -1,5 +1,6 @@
 package com.sicco.erp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -40,6 +41,7 @@ public class ConvertDispatchActivity extends Activity implements
 	private TextView txtToDate;
 	public static TextView txtDepartment;
 	private EditText edtTitleJob;
+	private EditText edtDes;
 	private Button btnConvert;
 
 	public static TextView txtHandler, txtViewer;
@@ -57,6 +59,7 @@ public class ConvertDispatchActivity extends Activity implements
 	private StringBuilder toDate;
 	private Department department;
 	private User user;
+	private String file;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class ConvertDispatchActivity extends Activity implements
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
+		file = dispatch.getContent();
 		init();
 	}
 
@@ -90,6 +94,7 @@ public class ConvertDispatchActivity extends Activity implements
 		btnConvert = (Button) findViewById(R.id.btnConvert);
 
 		edtTitleJob = (EditText) findViewById(R.id.edtTitle);
+		edtDes = (EditText) findViewById(R.id.edtDes);
 
 		// click
 		back.setOnClickListener(this);
@@ -175,12 +180,14 @@ public class ConvertDispatchActivity extends Activity implements
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
-			//clear data
+			// clear data
 			listChecked.clear();
 			listCheckedHandler.clear();
-			DialogChoseHandler.strUsersHandl = getResources().getString(R.string.handler1);
+			DialogChoseHandler.strUsersHandl = getResources().getString(
+					R.string.handler1);
 			DialogChoseHandler.idUsersHandl = "";
-			DialogChoseUser.strUsersView = getResources().getString(R.string.viewer);
+			DialogChoseUser.strUsersView = getResources().getString(
+					R.string.viewer);
 			DialogChoseUser.idUsersView = "";
 			finish();
 			break;
@@ -211,8 +218,8 @@ public class ConvertDispatchActivity extends Activity implements
 			break;
 		case R.id.lnHandler:
 
-			new DialogChoseHandler(ConvertDispatchActivity.this, listDep, allUser,
-					listCheckedHandler);
+			new DialogChoseHandler(ConvertDispatchActivity.this, listDep,
+					allUser, listCheckedHandler);
 
 			break;
 		case R.id.lnViewer:
@@ -230,9 +237,16 @@ public class ConvertDispatchActivity extends Activity implements
 			break;
 		case R.id.btnConvert:
 
+			File theFile = new File(file);
+			
 			boolean error = false;
 			if (edtTitleJob.getText().toString().trim().equals("")) {
 				edtTitleJob.setError(getResources().getString(
+						R.string.truong_nay_khong_duoc_de_rong));
+				error = true;
+			}
+			if (edtDes.getText().toString().trim().equals("")) {
+				edtDes.setError(getResources().getString(
 						R.string.truong_nay_khong_duoc_de_rong));
 				error = true;
 			}
@@ -260,18 +274,18 @@ public class ConvertDispatchActivity extends Activity implements
 						ConvertDispatchActivity.this);
 				progressDialog.setMessage(getResources().getString(
 						R.string.waiting));
-
 				
 				Dispatch dispatch = new Dispatch(ConvertDispatchActivity.this);
 				dispatch.convertDispatch(
 						getResources().getString(R.string.api_chuyencongvan),
 						Utils.getString(ConvertDispatchActivity.this, "user_id"),
-						edtTitleJob.getText().toString(), txtFromDate.getText().toString(),
-						txtToDate.getText().toString(), ""
+						edtTitleJob.getText().toString(), txtFromDate.getText()
+								.toString(), txtToDate.getText().toString(), ""
 								+ DialogChoseDepartment.idDepSelected,
 						txtHandler.getText().toString(), txtViewer.getText()
 								.toString(), DialogChoseHandler.idUsersHandl,
-						DialogChoseUser.idUsersView, new OnRequestListener() {
+						DialogChoseUser.idUsersView, edtDes.getText()
+								.toString(), theFile.getName(), new OnRequestListener() {
 
 							@Override
 							public void onSuccess() {
@@ -281,15 +295,17 @@ public class ConvertDispatchActivity extends Activity implements
 										getResources().getString(
 												R.string.success),
 										Toast.LENGTH_LONG).show();
-								
-								//clear data
+
+								// clear data
 								listChecked.clear();
 								listCheckedHandler.clear();
-								DialogChoseHandler.strUsersHandl = getResources().getString(R.string.handler1);
+								DialogChoseHandler.strUsersHandl = getResources()
+										.getString(R.string.handler1);
 								DialogChoseHandler.idUsersHandl = "";
-								DialogChoseUser.strUsersView = getResources().getString(R.string.viewer);
+								DialogChoseUser.strUsersView = getResources()
+										.getString(R.string.viewer);
 								DialogChoseUser.idUsersView = "";
-								
+
 								finish();
 
 							}
