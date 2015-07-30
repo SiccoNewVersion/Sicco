@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:orientation="vertical" 
-    android:background="@drawable/drawer_selector">
+    android:background="@drawable/drawer_selector"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/txtStatusDispatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@android:color/black"
         android:textSize="20dp" 
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:gravity="left|center_vertical"/>
+        android:gravity="left|center_vertical"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
