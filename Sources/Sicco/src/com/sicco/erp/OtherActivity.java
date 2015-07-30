@@ -133,7 +133,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 		// setFilter
 		// set spinner
 		ArrayList<Status> listStatus = new ArrayList<Status>();
-		listStatus.add(new Status(getResources().getString(R.string.cac_loai),
+		listStatus.add(new Status(getResources().getString(R.string.all),
 				Long.parseLong("-1")));
 		listStatus.add(new Status(getResources()
 				.getString(R.string.pause_handle), Long.parseLong("4")));

@@ -121,7 +121,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		// setFilter
 		// set spinner
 		ArrayList<Status> listStatus = new ArrayList<Status>();
-		listStatus.add(new Status(getResources().getString(R.string.xu_ly),
+		listStatus.add(new Status(getResources().getString(R.string.all),
 				Long.parseLong("-1")));
 		listStatus.add(new Status(getResources()
 				.getString(R.string.need_handle), Long.parseLong("2")));
