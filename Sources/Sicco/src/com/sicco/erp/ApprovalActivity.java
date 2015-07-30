@@ -234,7 +234,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 					empty.setVisibility(View.GONE);
 				}
 				ArrayList<Dispatch> searchData = dispatch.search(arg0
-						.toString().trim());
+						.toString().trim(), arrDispatch);
 				dispatchAdapter.setData(searchData);
 				dispatchAdapter.notifyDataSetChanged();
 			}

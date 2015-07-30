@@ -201,9 +201,11 @@ public class GetAllNotificationService extends Service {
 								String ngayDenSicco = row.getString("ngay_den");
 								String trangThai = row.getString("status");
 
-								congVanXuLy_list.add(new NotificationModel(id,
-										2, soHieuCongVan, trichYeu, dinhKem,
-										ngayDenSicco, trangThai));
+								if (trangThai.equals("2")) {
+									congVanXuLy_list.add(new NotificationModel(
+											id, 2, soHieuCongVan, trichYeu,
+											dinhKem, ngayDenSicco, trangThai));
+								}
 
 							}
 							origanizeNoti(congVanXuLy_list,
@@ -310,10 +312,10 @@ public class GetAllNotificationService extends Service {
 											NotificationDBController.TRANGTHAI_COL,
 											NotificationDBController.NOTIFICATION_STATE_NEW);
 
-//									long rowInserted = 
-											db
-											.insert(NotificationDBController.TABLE_NAME,
-													null, values);
+									// long rowInserted =
+									db.insert(
+											NotificationDBController.TABLE_NAME,
+											null, values);
 
 								}
 							}
@@ -455,14 +457,14 @@ public class GetAllNotificationService extends Service {
 		}
 		getTotalNotification();
 	}
-	
-	void getTotalNotification(){
+
+	void getTotalNotification() {
 		int cvcp_total = Utils.getInt(getApplicationContext(), CVCP_KEY);
 		int cvxl_total = Utils.getInt(getApplicationContext(), CVXL_KEY);
 		int total = cvcp_total + cvxl_total;
 		Utils.saveInt(getApplicationContext(), TOTAL_KEY, total);
 		BadgeUtils.setBadge(getApplicationContext(), total);
-		
+
 	}
 
 	void origanizeNoti(ArrayList<NotificationModel> data,

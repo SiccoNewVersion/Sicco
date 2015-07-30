@@ -35,6 +35,7 @@ import com.sicco.erp.model.Department;
 import com.sicco.erp.model.User;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.service.ServiceStart;
+import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Utils;
 
 public class HomeActivity extends Activity implements OnClickListener {
@@ -183,6 +184,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 				GetAllNotificationService.CVXL_KEY, 0);
 		Utils.saveInt(getApplicationContext(),
 				GetAllNotificationService.CL_KEY, 0);
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.TOTAL_KEY, 0);
+		BadgeUtils.setBadge(getApplicationContext(), 0);
 	}
 
 	@Override

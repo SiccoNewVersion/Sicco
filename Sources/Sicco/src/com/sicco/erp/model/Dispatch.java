@@ -404,7 +404,7 @@ public class Dispatch implements Serializable {
 		return result;
 	}
 
-	public ArrayList<Dispatch> search(String k) {
+	public ArrayList<Dispatch> search(String k, ArrayList<Dispatch> data) {
 		ArrayList<Dispatch> result = new ArrayList<Dispatch>();
 		String vReplace = AccentRemover.getInstance(context).removeAccent(k);
 		if (!data.isEmpty()) {
