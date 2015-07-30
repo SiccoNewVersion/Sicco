@@ -11,7 +11,6 @@
     <color name="exit_select_color">#76b5e7</color>
     <color name="home_item_select_color">#d1d1d1</color>
     <color name="empty">#00ffffff</color>
-    <!--358cd1-->
     <color name="actionbar_color">#358cd1</color>
     <color name="pressed">#4DFFFFFF</color>
     <color name="item_title_color">#323232</color>
@@ -23,4 +22,11 @@
     <!-- NgaDV -->
     <color name="bg_pressed">#30000000</color>
     <color name="label_item">#111</color>
+    
+    <!-- LuanDT -->
+    <color name="black">#212121</color>
+    <color name="red">#d50000</color>
+    <color name="yellow">#ffd600</color>
+    <color name="green">#00c853</color>
+    <color name="gray">#757575</color>
 </resources>

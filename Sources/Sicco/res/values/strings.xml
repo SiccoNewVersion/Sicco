@@ -56,6 +56,7 @@
     <string name="choose_status">Chọn trạng thái</string>
     <string name="need_approval">Cần phê</string>
     <string name="need_handle">Cần xử lý</string>
+    <string name="handling">Đang xử lý</string>
     <string name="pause_handle">Tạm dừng xử lý</string>
     <string name="finish_handle">Kết thúc xử lý</string>
 

@@ -65,6 +65,23 @@ public class DispatchAdapter extends BaseAdapter {
 			holder.approval.setVisibility(View.VISIBLE);
 		}
 		
+		if(dispatch.getStatus().equals("1")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.black));
+			holder.description.setTextColor(context.getResources().getColor(R.color.black));
+		} else if(dispatch.getStatus().equals("2")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.red));
+			holder.description.setTextColor(context.getResources().getColor(R.color.red));
+		} else if(dispatch.getStatus().equals("3")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.yellow));
+			holder.description.setTextColor(context.getResources().getColor(R.color.yellow));
+		} else if(dispatch.getStatus().equals("4")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.gray));
+			holder.description.setTextColor(context.getResources().getColor(R.color.gray));
+		} else if(dispatch.getStatus().equals("5")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.green));
+			holder.description.setTextColor(context.getResources().getColor(R.color.green));
+		}
+		
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
 		holder.approval.setOnClickListener(new OnClickListener() {

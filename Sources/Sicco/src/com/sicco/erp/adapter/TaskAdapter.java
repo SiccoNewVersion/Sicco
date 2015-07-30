@@ -109,25 +109,22 @@ public class TaskAdapter extends BaseAdapter {
 		// }
 		// }
 
-		if (dispatch.getStatus().equals("3")) {
-			view.setBackgroundColor(context.getResources().getColor(
-					R.color.item_color));
-		} else if (dispatch.getStatus().equals("4")) {
-			view.setBackgroundColor(Color.WHITE);
+		if(dispatch.getStatus().equals("2")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.red));
+			holder.description.setTextColor(context.getResources().getColor(R.color.red));
+		} else if(dispatch.getStatus().equals("3")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.yellow));
+			holder.description.setTextColor(context.getResources().getColor(R.color.yellow));
+		} else if(dispatch.getStatus().equals("4")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.gray));
+			holder.description.setTextColor(context.getResources().getColor(R.color.gray));
+		} else if(dispatch.getStatus().equals("5")){
+			holder.title.setTextColor(context.getResources().getColor(R.color.green));
+			holder.description.setTextColor(context.getResources().getColor(R.color.green));
 		}
 
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
-
-//		//popupMenu
-//		final String[] nguoidoitrangthai = dispatch.getNguoithaydoitrangthai()
-//				.split(",");
-//		final String username = Utils.getString(context, "name");
-//		for (int i = 0; i < nguoidoitrangthai.length; i++) {
-//			if (username.equals(nguoidoitrangthai[i])) {
-//				update_status = true;
-//			}
-//		}
 
 		holder.approval.setOnClickListener(new OnClickListener() {
 
@@ -185,12 +182,16 @@ public class TaskAdapter extends BaseAdapter {
 											.parseLong("2")));
 									listStatus.add(new Status(context
 											.getResources().getString(
+													R.string.handling), Long
+											.parseLong("3")));
+									listStatus.add(new Status(context
+											.getResources().getString(
 													R.string.pause_handle),
-											Long.parseLong("3")));
+											Long.parseLong("4")));
 									listStatus.add(new Status(context
 											.getResources().getString(
 													R.string.finish_handle),
-											Long.parseLong("4")));
+											Long.parseLong("5")));
 									new DialogChangeStatusDispatch(context,
 											listStatus, dispatch, type);
 									break;
