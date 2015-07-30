@@ -59,7 +59,6 @@
     <string name="handling">Đang xử lý</string>
     <string name="pause_handle">Tạm dừng xử lý</string>
     <string name="finish_handle">Kết thúc xử lý</string>
-    
     <string name="all">Tất cả</string>
 
     <!-- LuanDT -->
@@ -376,5 +375,10 @@
         <item>U</item>
         <item>u</item>
     </string-array>
+
+    <string name="title_activity_assign_task">AssignTaskActivity</string>
+    <string name="title_activity_assigned_task">AssignedTaskActivity</string>
+    <string name="title_activity_list_task">ListTask</string>
+    <string name="title_activity_steer_report_task">SteerReportTaskActivity</string>
 
 </resources>

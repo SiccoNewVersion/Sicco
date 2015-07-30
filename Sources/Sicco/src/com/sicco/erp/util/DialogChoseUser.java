@@ -27,7 +27,7 @@ import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
-import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.Dispatch;
@@ -100,9 +100,9 @@ public class DialogChoseUser {
 		layout.setMinimumHeight((int) (rect.height() * 1f));
 
 		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
-		if (TaskAdapter.flag.equals("")) {
+		if (ActionAdapter.flag.equals("")) {
 			title.setText(context.getResources().getString(R.string.chose_user));
-		} else if (TaskAdapter.flag.equals("handle")) {
+		} else if (ActionAdapter.flag.equals("handle")) {
 			title.setText(context.getResources().getString(
 					R.string.choose_handle));
 		}
@@ -209,7 +209,7 @@ public class DialogChoseUser {
 					handler += listChecked.get(i).getUsername() + "; ";
 				}
 				
-				if (TaskAdapter.flag.equals("handle")) {
+				if (ActionAdapter.flag.equals("handle")) {
 					if (listChecked.isEmpty()) {
 						Toast.makeText(
 								context,
@@ -222,10 +222,10 @@ public class DialogChoseUser {
 
 					}
 
-				} else if (TaskAdapter.flag.equals("")) {
+				} else if (ActionAdapter.flag.equals("")) {
 					SendApprovalActivity.txtHandler.setText(handler);
 					alertDialog.dismiss();
-				}else if (TaskAdapter.flag.equals("chooseViewer")) {
+				}else if (ActionAdapter.flag.equals("chooseViewer")) {
 					strUsersView = "";
 					idUsersView = "";
 					for (int i = 0; i < listChecked.size(); i++) {

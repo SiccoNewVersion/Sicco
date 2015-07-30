@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.ExpandableListUserAdapter;
-import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.User;
@@ -76,9 +76,9 @@ public class DialogChoseHandler {
 		layout.setMinimumHeight((int) (rect.height() * 1f));
 
 		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
-		if (TaskAdapter.flag.equals("")) {
+		if (ActionAdapter.flag.equals("")) {
 			title.setText(context.getResources().getString(R.string.chose_user));
-		} else if (TaskAdapter.flag.equals("handle")) {
+		} else if (ActionAdapter.flag.equals("handle")) {
 			title.setText(context.getResources().getString(
 					R.string.choose_handle));
 		}

@@ -31,7 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.adapter.SpinnerStatusAdapter;
-import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
@@ -51,7 +51,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 	public static ListView listDispatch;
 	public static ProgressBar loading;
 	private Button retry;
-	public static TaskAdapter adapter;
+	public static ActionAdapter adapter;
 	public static ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private ViewDispatch viewDispatch;
@@ -127,7 +127,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 				}, 1);
 
 		db = NotificationDBController.getInstance(getApplicationContext());
-		adapter = new TaskAdapter(OtherActivity.this, arrDispatch, 1);
+		adapter = new ActionAdapter(OtherActivity.this, arrDispatch, 1);
 		listDispatch.setAdapter(adapter);
 		
 		// setFilter
@@ -153,7 +153,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 				Log.d("NgaDV", "status.getKey(): " + status.getKey());
 
 				if (!arrDispatch.isEmpty()) {
-					adapter = new TaskAdapter(OtherActivity.this, dispatch
+					adapter = new ActionAdapter(OtherActivity.this, dispatch
 							.filterDispatch(status.getKey(), arrDispatch), 0);
 					listDispatch.setAdapter(adapter);
 				}

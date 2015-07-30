@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sicco.erp.adapter.TaskAdapter;
+import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
@@ -225,7 +225,7 @@ public class ConvertDispatchActivity extends Activity implements
 			break;
 		case R.id.lnViewer:
 
-			TaskAdapter.flag = "chooseViewer";
+			ActionAdapter.flag = "chooseViewer";
 			new DialogChoseUser(ConvertDispatchActivity.this, listDep, allUser,
 					listChecked);
 

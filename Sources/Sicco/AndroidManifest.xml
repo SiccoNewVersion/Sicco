@@ -70,8 +70,25 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
-        <service android:name="com.sicco.erp.service.GetAllNotificationService" >
+        <service android:name=".service.GetAllNotificationService" >
         </service>
+
+        <activity
+            android:name="com.sicco.task.erp.AssignTaskActivity"
+            android:label="@string/title_activity_assign_task" >
+        </activity>
+        <activity
+            android:name="com.sicco.task.erp.AssignedTaskActivity"
+            android:label="@string/title_activity_assigned_task" >
+        </activity>
+        <activity
+            android:name="com.sicco.task.erp.ListTask"
+            android:label="@string/title_activity_list_task" >
+        </activity>
+        <activity
+            android:name="com.sicco.task.erp.SteerReportTaskActivity"
+            android:label="@string/title_activity_steer_report_task" >
+        </activity>
     </application>
 
 </manifest>

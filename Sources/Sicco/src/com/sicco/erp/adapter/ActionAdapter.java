@@ -28,7 +28,7 @@ import com.sicco.erp.util.DialogChangeStatusDispatch;
 import com.sicco.erp.util.DialogChoseUser;
 import com.sicco.erp.util.Utils;
 
-public class TaskAdapter extends BaseAdapter {
+public class ActionAdapter extends BaseAdapter {
 	private Context context;
 	ArrayList<Status> listStatus;
 	private ArrayList<Dispatch> data;
@@ -43,7 +43,7 @@ public class TaskAdapter extends BaseAdapter {
 	private Department department;
 	private User user;
 
-	public TaskAdapter(Context context, ArrayList<Dispatch> data, int type) {
+	public ActionAdapter(Context context, ArrayList<Dispatch> data, int type) {
 		this.context = context;
 		this.data = data;
 		this.type = type;
