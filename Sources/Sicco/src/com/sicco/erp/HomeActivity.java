@@ -153,6 +153,11 @@ public class HomeActivity extends Activity implements OnClickListener {
 		gaoviec.setOnClickListener(this);
 		dagiao.setOnClickListener(this);
 		danhsachviec.setOnClickListener(this);
+		
+	//		gaoviec.setVisibility(View.GONE);
+	//		dagiao.setVisibility(View.GONE);
+	//		danhsachviec.setVisibility(View.GONE);
+		
 		// option.setOnClickListener(this);
 		exit.setOnClickListener(this);
 	}
