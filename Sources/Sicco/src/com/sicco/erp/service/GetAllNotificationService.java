@@ -26,6 +26,7 @@ import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.model.NotificationModel;
+import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Utils;
 
 public class GetAllNotificationService extends Service {
@@ -57,6 +58,7 @@ public class GetAllNotificationService extends Service {
 	public static String CVCP_KEY = "CONGVIECCANPHE_KEY";
 	public static String CVXL_KEY = "CONGVIECXULY_KEY";
 	public static String CL_KEY = "CACLOAI_KEY";
+	public static String TOTAL_KEY = "TOTAL_KEY";
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -308,7 +310,8 @@ public class GetAllNotificationService extends Service {
 											NotificationDBController.TRANGTHAI_COL,
 											NotificationDBController.NOTIFICATION_STATE_NEW);
 
-									long rowInserted = db
+//									long rowInserted = 
+											db
 											.insert(NotificationDBController.TABLE_NAME,
 													null, values);
 
@@ -450,7 +453,16 @@ public class GetAllNotificationService extends Service {
 		} else if (type == 3) {
 			Utils.saveInt(getApplicationContext(), CL_KEY, size);
 		}
-
+		getTotalNotification();
+	}
+	
+	void getTotalNotification(){
+		int cvcp_total = Utils.getInt(getApplicationContext(), CVCP_KEY);
+		int cvxl_total = Utils.getInt(getApplicationContext(), CVXL_KEY);
+		int total = cvcp_total + cvxl_total;
+		Utils.saveInt(getApplicationContext(), TOTAL_KEY, total);
+		BadgeUtils.setBadge(getApplicationContext(), total);
+		
 	}
 
 	void origanizeNoti(ArrayList<NotificationModel> data,
