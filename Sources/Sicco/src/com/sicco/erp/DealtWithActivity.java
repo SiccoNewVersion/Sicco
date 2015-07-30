@@ -8,22 +8,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
@@ -41,10 +46,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	public static TaskAdapter adapter;
 	public static ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
-	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
-	
+
 	private AlertDialog alertDialog;
+	private SpinnerStatusAdapter spinnerStatusAdapter;
+	private Spinner spnFilter;
+	private TextView title_actionbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +77,9 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		spnFilter = (Spinner) findViewById(R.id.spnFilter);
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setText(getResources().getString(R.string.cv_xu_ly));
+		title_actionbar.setVisibility(View.GONE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -79,6 +87,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listDispatch.setOnItemClickListener(this);
+
 		// set adapter
 		dispatch = new Dispatch(DealtWithActivity.this);
 		arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()
@@ -108,6 +117,43 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 				}, 0);
 		adapter = new TaskAdapter(DealtWithActivity.this, arrDispatch, 0);
 		listDispatch.setAdapter(adapter);
+
+		// setFilter
+		// set spinner
+		ArrayList<Status> listStatus = new ArrayList<Status>();
+		listStatus.add(new Status(getResources().getString(R.string.xu_ly),
+				Long.parseLong("-1")));
+		listStatus.add(new Status(getResources()
+				.getString(R.string.need_handle), Long.parseLong("2")));
+		listStatus.add(new Status(getResources().getString(R.string.handling),
+				Long.parseLong("3")));
+
+		spinnerStatusAdapter = new SpinnerStatusAdapter(
+				getApplicationContext(), listStatus);
+		spnFilter.setAdapter(spinnerStatusAdapter);
+
+		spnFilter.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Status status = (Status) parent.getAdapter().getItem(position);
+				Log.d("NgaDV", "status.getKey(): " + status.getKey());
+
+				if (!arrDispatch.isEmpty()) {
+					adapter = new TaskAdapter(DealtWithActivity.this, dispatch
+							.filterDispatch(status.getKey(), arrDispatch), 0);
+					listDispatch.setAdapter(adapter);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 	}
 
 	@Override
@@ -223,11 +269,12 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		intent.putExtra("ACTION", 0);
 		getApplicationContext().startService(intent);
 	}
+
 	// End of ToanNM
-	
+
 	@Override
 	protected void onResume() {
-		
+
 		HomeActivity.checkDate(this);
 		super.onResume();
 	}
