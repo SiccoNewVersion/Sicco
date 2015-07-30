@@ -37,9 +37,12 @@ import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.service.ServiceStart;
 import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Utils;
+import com.sicco.task.erp.AssignTaskActivity;
+import com.sicco.task.erp.AssignedTaskActivity;
+import com.sicco.task.erp.ListTask;
 
 public class HomeActivity extends Activity implements OnClickListener {
-	private LinearLayout canphe, xuly, cacloai;
+	private LinearLayout canphe, xuly, cacloai, gaoviec, dagiao, danhsachviec;
 	private FrameLayout exit;
 	private static AlertDialog alertDialog;
 	public static ArrayList<Department> listDep;
@@ -138,12 +141,18 @@ public class HomeActivity extends Activity implements OnClickListener {
 		canphe = (LinearLayout) findViewById(R.id.canphe);
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
+		gaoviec = (LinearLayout) findViewById(R.id.giaoviec);
+		dagiao = (LinearLayout) findViewById(R.id.dagiao);
+		danhsachviec = (LinearLayout) findViewById(R.id.danhsachviec);
 		// option = (FrameLayout) findViewById(R.id.option);
 		exit = (FrameLayout) findViewById(R.id.exit);
 		// click
 		canphe.setOnClickListener(this);
 		xuly.setOnClickListener(this);
 		cacloai.setOnClickListener(this);
+		gaoviec.setOnClickListener(this);
+		dagiao.setOnClickListener(this);
+		danhsachviec.setOnClickListener(this);
 		// option.setOnClickListener(this);
 		exit.setOnClickListener(this);
 	}
@@ -160,6 +169,15 @@ public class HomeActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.cacloai:
 			startActivity(OtherActivity.class);
+			break;
+		case R.id.giaoviec:
+			startActivity(AssignTaskActivity.class);
+			break;
+		case R.id.dagiao:
+			startActivity(AssignedTaskActivity.class);
+			break;
+		case R.id.danhsachviec:
+			startActivity(ListTask.class);
 			break;
 		case R.id.exit:
 			session.logoutUser();
