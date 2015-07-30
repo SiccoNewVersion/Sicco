@@ -78,7 +78,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		 listTask.setOnItemClickListener(this);
 
 		// set adapter
-		task = new Task();
+		task = new Task(AssignedTaskActivity.this);
 		// arrTask = task.getData(AssignedTaskActivity.this, getResources()
 		// .getString(R.string.api_get_dispatch_handle),
 		// new OnLoadListener() {
