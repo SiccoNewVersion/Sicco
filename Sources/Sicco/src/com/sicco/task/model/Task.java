@@ -19,7 +19,7 @@ import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
 public class Task implements Serializable {
-	private String id;
+	private long id;
 	private String ten_cong_viec;
 	private String nguoi_thuc_hien;
 	private String du_an;
@@ -41,7 +41,7 @@ public class Task implements Serializable {
 		this.context = context;
 	}
 
-	public Task(String id, String ten_cong_viec, String nguoi_thuc_hien,
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
 			String du_an, String tien_do, String ngay_bat_dau,
 			String ngay_ket_thuc, String nguoi_giao, String dinh_kem,
 			String phong_ban, String mo_ta, String code, String id_du_an,
@@ -63,11 +63,11 @@ public class Task implements Serializable {
 		this.id_phong_ban = id_phong_ban;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -227,7 +227,7 @@ public class Task implements Serializable {
 
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
-							data.add(new Task(id, ten_cong_viec,
+							data.add(new Task(Long.parseLong(id), ten_cong_viec,
 									nguoi_thuc_hien, du_an, tien_do,
 									ngay_bat_dau, ngay_ket_thuc, nguoi_giao,
 									dinh_kem, phong_ban, mo_ta, code, id_du_an,

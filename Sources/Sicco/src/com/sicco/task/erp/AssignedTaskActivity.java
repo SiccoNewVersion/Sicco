@@ -3,7 +3,6 @@ package com.sicco.task.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.TaskAdapter;
@@ -42,7 +40,6 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	private ArrayList<Task> arrTask;
 	private TaskAdapter adapter;
 
-	private AlertDialog alertDialog;
 	private TextView title_actionbar;
 
 	@Override
@@ -68,44 +65,46 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setVisibility(View.GONE);
+		title_actionbar
+				.setText(getResources().getString(R.string.viec_da_giao));
 		// click
-		 back.setOnClickListener(this);
-		 search.setOnClickListener(this);
-		 close.setOnClickListener(this);
-		 empty.setOnClickListener(this);
-		 retry.setOnClickListener(this);
-		 listTask.setOnItemClickListener(this);
+		back.setOnClickListener(this);
+		search.setOnClickListener(this);
+		close.setOnClickListener(this);
+		empty.setOnClickListener(this);
+		retry.setOnClickListener(this);
+		listTask.setOnItemClickListener(this);
 
 		// set adapter
 		task = new Task(AssignedTaskActivity.this);
-		// arrTask = task.getData(AssignedTaskActivity.this, getResources()
-		// .getString(R.string.api_get_dispatch_handle),
-		// new OnLoadListener() {
-		//
-		// @Override
-		// public void onStart() {
-		// loading.setVisibility(View.VISIBLE);
-		// connectError.setVisibility(View.GONE);
-		// }
-		//
-		// @Override
-		// public void onSuccess() {
-		// loading.setVisibility(View.GONE);
-		// adapter.notifyDataSetChanged();
-		// if (adapter.getCount() <= 0) {
-		// listDispatch.setEmptyView(emptyView);
-		// }
-		// }
-		//
-		// @Override
-		// public void onFalse() {
-		// loading.setVisibility(View.GONE);
-		// connectError.setVisibility(View.VISIBLE);
-		// }
-		// }, 0);
-		// adapter = new ActionAdapter(DealtWithActivity.this, arrDispatch, 0);
-		// listDispatch.setAdapter(adapter);
+		arrTask = task.getData(AssignedTaskActivity.this, getResources()
+				.getString(R.string.api_get_assigned_task),
+				new Task.OnLoadListener() {
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						adapter.notifyDataSetChanged();
+						if (adapter.getCount() <= 0) {
+							listTask.setEmptyView(emptyView);
+						}
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				});
+		adapter = new TaskAdapter(AssignedTaskActivity.this, arrTask,
+				"AssignedTaskActivity");
+		listTask.setAdapter(adapter);
 
 	}
 
@@ -126,40 +125,40 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.retry:
-			// adapter.setData(dispatch.getData(DealtWithActivity.this,
-			// getResources().getString(R.string.api_get_dispatch_handle),
-			// new OnLoadListener() {
-			//
-			// @Override
-			// public void onStart() {
-			// loading.setVisibility(View.VISIBLE);
-			// connectError.setVisibility(View.GONE);
-			// }
-			//
-			// @Override
-			// public void onSuccess() {
-			// loading.setVisibility(View.GONE);
-			// adapter.notifyDataSetChanged();
-			// if (adapter.getCount() <= 0) {
-			// listDispatch.setEmptyView(emptyView);
-			// }
-			// }
-			//
-			// @Override
-			// public void onFalse() {
-			// loading.setVisibility(View.GONE);
-			// connectError.setVisibility(View.VISIBLE);
-			// }
-			// }, 0));
+			adapter.setData(task.getData(AssignedTaskActivity.this,
+					getResources().getString(R.string.api_get_assigned_task),
+					new Task.OnLoadListener() {
+
+						@Override
+						public void onStart() {
+							loading.setVisibility(View.VISIBLE);
+							connectError.setVisibility(View.GONE);
+						}
+
+						@Override
+						public void onSuccess() {
+							loading.setVisibility(View.GONE);
+							adapter.notifyDataSetChanged();
+							if (adapter.getCount() <= 0) {
+								listTask.setEmptyView(emptyView);
+							}
+						}
+
+						@Override
+						public void onFalse() {
+							loading.setVisibility(View.GONE);
+							connectError.setVisibility(View.VISIBLE);
+						}
+					}));
 			break;
 		}
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Dispatch dispatch = (Dispatch) arg0.getAdapter().getItem(arg2);
+		Task task = (Task) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(AssignedTaskActivity.this,
-				dispatch.getContent());
+				task.getDinh_kem());
 	}
 
 	@Override
@@ -186,10 +185,10 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 				} else {
 					empty.setVisibility(View.GONE);
 				}
-				// ArrayList<Dispatch> searchData = dispatch.search(arg0
-				// .toString().trim(), arrDispatch);
-				// adapter.setData(searchData);
-				// adapter.notifyDataSetChanged();
+				ArrayList<Task> searchData = task.search(
+						arg0.toString().trim(), arrTask);
+				adapter.setData(searchData);
+				adapter.notifyDataSetChanged();
 			}
 
 			@Override

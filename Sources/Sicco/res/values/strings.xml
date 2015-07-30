@@ -94,6 +94,8 @@
     <string name="no">Không</string>
     <string name="waiting">Đang xử lý...</string>
     <string name="error_l">Lỗi! Vui lòng thử lại sau ít phút</string>
+    <string name="delete_task">Xóa công việc</string>
+    <string name="update_rate">Cập nhật tiến độ</string>
 
     <!-- link api -->
     <string name="api_get_dispatch_approval">http://office.sicco.vn/api_distpatch/approval_dispatch.php</string>
@@ -109,6 +111,10 @@
     <string name="api_change_status">http://office.sicco.vn/api_distpatch/change_status.php</string>
     <string name="api_get_one_user">http://office.sicco.vn/api_distpatch/get_one_user.php</string>
     <string name="api_get_dispatch_type">http://office.sicco.vn/api_distpatch/dispatch_type.php</string>
+    
+    <string name="api_get_assigned_task"></string>
+    <string name="api_get_task"></string>
+    <string name="api_get_steer_report_task"></string>
 
     <!-- ToanNM -->
     <string name="cong_van">công văn cần phê</string>
