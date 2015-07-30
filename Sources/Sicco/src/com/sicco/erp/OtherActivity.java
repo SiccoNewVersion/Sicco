@@ -12,24 +12,29 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.adapter.TaskAdapter;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
@@ -49,9 +54,11 @@ public class OtherActivity extends Activity implements OnClickListener,
 	public static TaskAdapter adapter;
 	public static ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
-	private TextView title_actionbar;
 	private ViewDispatch viewDispatch;
-
+	private TextView title_actionbar;
+	
+	private Spinner spnFilter;
+	private SpinnerStatusAdapter spinnerStatusAdapter;
 	public static boolean otherActivitySelected = false;
 
 	NotificationDBController db;
@@ -81,8 +88,9 @@ public class OtherActivity extends Activity implements OnClickListener,
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		spnFilter = (Spinner)findViewById(R.id.spnFilter);
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setText(getResources().getString(R.string.cv_cac_loai));
+		title_actionbar.setVisibility(View.GONE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -121,6 +129,42 @@ public class OtherActivity extends Activity implements OnClickListener,
 		db = NotificationDBController.getInstance(getApplicationContext());
 		adapter = new TaskAdapter(OtherActivity.this, arrDispatch, 1);
 		listDispatch.setAdapter(adapter);
+		
+		// setFilter
+		// set spinner
+		ArrayList<Status> listStatus = new ArrayList<Status>();
+		listStatus.add(new Status(getResources().getString(R.string.cac_loai),
+				Long.parseLong("-1")));
+		listStatus.add(new Status(getResources()
+				.getString(R.string.pause_handle), Long.parseLong("4")));
+		listStatus.add(new Status(getResources().getString(R.string.finish_handle),
+				Long.parseLong("5")));
+
+		spinnerStatusAdapter = new SpinnerStatusAdapter(
+				getApplicationContext(), listStatus);
+		spnFilter.setAdapter(spinnerStatusAdapter);
+
+		spnFilter.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Status status = (Status) parent.getAdapter().getItem(position);
+				Log.d("NgaDV", "status.getKey(): " + status.getKey());
+
+				if (!arrDispatch.isEmpty()) {
+					adapter = new TaskAdapter(OtherActivity.this, dispatch
+							.filterDispatch(status.getKey(), arrDispatch), 0);
+					listDispatch.setAdapter(adapter);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override

@@ -49,7 +49,8 @@ public class Dispatch implements Serializable {
 
 	public Dispatch(long id, String numberDispatch, String description,
 			String content, String date, String handler, String status,
-			String coQuanBanHanh, String loaicongvan, String nguoithaydoitrangthai, String pheduyet) {
+			String coQuanBanHanh, String loaicongvan,
+			String nguoithaydoitrangthai, String pheduyet) {
 		super();
 		this.id = id;
 		this.numberDispatch = numberDispatch;
@@ -220,11 +221,11 @@ public class Dispatch implements Serializable {
 	// ToanNM
 	public ArrayList<Dispatch> getData(final Context context, String url,
 			OnLoadListener OnLoadListener, final int type) {
-		
+
 		DispatchType dispatchType = new DispatchType();
 		dataDispatchType = dispatchType.getData(context.getResources()
 				.getString(R.string.api_get_dispatch_type));
-		
+
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		data = new ArrayList<Dispatch>();
@@ -255,9 +256,10 @@ public class Dispatch implements Serializable {
 									.getString("co_quan_ban_hanh");
 							String handler = row.getString("handler");
 							String idloaicv = row.getString("id_loai_cong_van");
-							String nguoithaydoitrangthai = row.getString("nguoi_thay_doi_trang_thai");
+							String nguoithaydoitrangthai = row
+									.getString("nguoi_thay_doi_trang_thai");
 							String pheduyet = row.getString("phe_duyet");
-							
+
 							content = content.replace(" ", "%20");
 
 							if (!dataDispatchType.isEmpty()) {
@@ -267,16 +269,18 @@ public class Dispatch implements Serializable {
 										data.add(new Dispatch(id,
 												numberDispatch, description,
 												content, date, handler, status,
-												coQuanBanHanh, type.getTitle(), nguoithaydoitrangthai, pheduyet));
-//										Log.d("LuanDT",
-//												"----->>>loai cong van: "
-//														+ type.getTitle());
+												coQuanBanHanh, type.getTitle(),
+												nguoithaydoitrangthai, pheduyet));
+										// Log.d("LuanDT",
+										// "----->>>loai cong van: "
+										// + type.getTitle());
 									}
 								}
 							} else {
 								data.add(new Dispatch(id, numberDispatch,
 										description, content, date, handler,
-										status, coQuanBanHanh, "", nguoithaydoitrangthai, pheduyet));
+										status, coQuanBanHanh, "",
+										nguoithaydoitrangthai, pheduyet));
 							}
 
 							addToDB(context, type, id, numberDispatch, content,
@@ -436,6 +440,25 @@ public class Dispatch implements Serializable {
 		return result;
 	}
 
+	public ArrayList<Dispatch> filterDispatch(Long keyStatus,
+			ArrayList<Dispatch> data) {
+		ArrayList<Dispatch> result = new ArrayList<Dispatch>();
+		Log.d("NgaDV", "keyStatus0: " + keyStatus);
+		if (!data.isEmpty()) {
+			Log.d("NgaDV", "keyStatus1: " + keyStatus);
+			for (Dispatch dispatch : data) {
+				if (dispatch.getStatus().equals("" + keyStatus)) {
+					result.add(dispatch);
+				}else if(keyStatus == -1) {
+					Log.d("NgaDV", "keyStatus: " + keyStatus);
+					return data;
+				}
+			}
+
+		}
+		return result;
+	}
+
 	public void guiXuLy(String url, String cvId, String nguoiXuLy,
 			OnRequestListener onRequestListener) {
 		Dispatch.this.onRequestListener = onRequestListener;
@@ -527,8 +550,8 @@ public class Dispatch implements Serializable {
 	// /////////////////
 	public void convertDispatch(String url, String userId, String tenCongViec,
 			String tuNgay, String denNgay, String phongBan, String nguoiXuLy,
-			String nguoiXem, String idNguoiXuLy, String idNguoiXem, String mota, String file,
-			OnRequestListener onRequestListener) {
+			String nguoiXem, String idNguoiXuLy, String idNguoiXem,
+			String mota, String file, OnRequestListener onRequestListener) {
 		Dispatch.this.onRequestListener = onRequestListener;
 		Dispatch.this.onRequestListener.onStart();
 		RequestParams params = new RequestParams();

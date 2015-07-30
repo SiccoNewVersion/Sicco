@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sicco.erp.adapter.DispatchAdapter;
@@ -44,7 +45,8 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	private ViewDispatch viewDispatch;
 	
 	private AlertDialog alertDialog;
-
+	private Spinner spnFilter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,6 +107,8 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		spnFilter = (Spinner)findViewById(R.id.spnFilter);
+		spnFilter.setVisibility(View.GONE);
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar.setText(getResources().getString(R.string.cv_can_phe));
 		// click
