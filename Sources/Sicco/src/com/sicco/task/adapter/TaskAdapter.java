@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.SteerReportActivity;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
 
@@ -64,7 +64,7 @@ public class TaskAdapter extends BaseAdapter {
 					arg2, false);
 			holder = new ViewHolder();
 			holder.taskName = (TextView) view.findViewById(R.id.taskName);
-			holder.handler = (TextView) view.findViewById(R.id.handle);
+			holder.handler = (TextView) view.findViewById(R.id.handler);
 			holder.project = (TextView) view.findViewById(R.id.project);
 			holder.action = (TextView) view.findViewById(R.id.action);
 			view.setTag(holder);
@@ -72,9 +72,16 @@ public class TaskAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
+		String handler = "<font weigth='bold'><b><u><i>"
+				+ context.getResources().getString(R.string.nguoi_thuc_hien)
+				+ "</i></u></b></font>" + "  " + task.getNguoi_thuc_hien();
+		String project = "<font weigth='bold'><b><u><i>"
+				+ context.getResources().getString(R.string.du_an)
+				+ "</i></u></b></font>" + "  " + task.getDu_an();
+		
 		holder.taskName.setText(task.getTen_cong_viec());
-		holder.handler.setText(task.getNguoi_thuc_hien());
-		holder.project.setText(task.getDu_an());
+		holder.handler.setText(Html.fromHtml(handler));
+		holder.project.setText(Html.fromHtml(project));
 
 		holder.action.setOnClickListener(new OnClickListener() {
 

@@ -1,4 +1,4 @@
-package com.sicco.erp.adapter;
+package com.sicco.task.adapter;
 
 import java.util.ArrayList;
 
@@ -12,13 +12,14 @@ import android.widget.TextView;
 
 import com.sicco.erp.R;
 import com.sicco.erp.model.ReportSteer;
+import com.sicco.task.model.ReportSteerTask;
 
-public class ReportSteerAdapter extends BaseAdapter {
+public class ReportSteerTaskAdapter extends BaseAdapter {
 
 	private Context context;
-	private ArrayList<ReportSteer> data;
+	private ArrayList<ReportSteerTask> data;
 
-	public ReportSteerAdapter(Context context, ArrayList<ReportSteer> data) {
+	public ReportSteerTaskAdapter(Context context, ArrayList<ReportSteerTask> data) {
 		this.context = context;
 		this.data = data;
 	}
@@ -31,11 +32,11 @@ public class ReportSteerAdapter extends BaseAdapter {
 		this.context = context;
 	}
 
-	public ArrayList<ReportSteer> getData() {
+	public ArrayList<ReportSteerTask> getData() {
 		return data;
 	}
 
-	public void setData(ArrayList<ReportSteer> data) {
+	public void setData(ArrayList<ReportSteerTask> data) {
 		this.data = data;
 	}
 
@@ -45,7 +46,7 @@ public class ReportSteerAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public ReportSteer getItem(int position) {
+	public ReportSteerTask getItem(int position) {
 		return data.get(position);
 	}
 
@@ -57,16 +58,18 @@ public class ReportSteerAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder;
-		ReportSteer reportSteer = getItem(position);
+		ReportSteerTask reportSteer = getItem(position);
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(
-					R.layout.item_report_steer, parent, false);
+					R.layout.item_report_steer_task, parent, false);
 			viewHolder = new ViewHolder();
 			viewHolder.handler = (TextView) convertView
 					.findViewById(R.id.txtHandler);
 			viewHolder.date = (TextView) convertView.findViewById(R.id.txtDate);
 			viewHolder.contentReport = (TextView) convertView
 					.findViewById(R.id.txtContentReportSteer);
+			viewHolder.attachments = (TextView) convertView
+					.findViewById(R.id.txtAttach);
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -88,14 +91,23 @@ public class ReportSteerAdapter extends BaseAdapter {
 		String contentReport = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.noi_dung)
 				+ "</i></u></b></font>" + "  " + reportSteer.getContent();
+		String attachments = "<font weigth='bold'><b><u><i>"
+				+ context.getResources().getString(R.string.attach)
+				+ "</i></u></b></font>" + "  " + reportSteer.getFile();
+		
+		
 		viewHolder.handler.setText(Html.fromHtml(handler));
 		viewHolder.date.setText(Html.fromHtml(date));
 		viewHolder.contentReport.setText(Html.fromHtml(contentReport));
+		viewHolder.attachments.setText(Html.fromHtml(attachments));
 
 		return convertView;
 	}
 
 	private class ViewHolder {
-		TextView handler, date, contentReport;
+		private TextView handler;
+		private TextView date;
+		private TextView contentReport;
+		private TextView attachments;
 	}
 }

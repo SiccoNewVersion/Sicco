@@ -73,6 +73,11 @@
     <string name="giao_viec">Giao việc</string>
     <string name="da_giao">Đã giao</string>
     <string name="danh_sach_viec">Danh sách việc</string>
+    <string name="nguoi_thuc_hien">Người thực hiên:</string>
+    <string name="du_an">Dự án:</string>
+    <string name="attach">Đính kèm:</string>
+    <string name="dang_boi">Đăng bởi:</string>
+    <string name="noi_dung">Nội dung:</string>
     
     <!-- menu_task -->
     <string name="handle">Gửi xử lý/chuyển tiếp</string>

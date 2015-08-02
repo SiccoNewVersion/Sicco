@@ -75,22 +75,19 @@
 
         <activity
             android:name="com.sicco.task.erp.AssignTaskActivity"
-            android:label="@string/title_activity_assign_task"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.sicco.task.erp.AssignedTaskActivity"
-            android:label="@string/title_activity_assigned_task"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.sicco.task.erp.ListTask"
-            android:label="@string/title_activity_list_task"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.sicco.task.erp.SteerReportTaskActivity"
-            android:label="@string/title_activity_steer_report_task"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" >
         </activity>
     </application>

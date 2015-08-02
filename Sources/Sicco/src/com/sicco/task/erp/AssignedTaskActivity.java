@@ -77,31 +77,36 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 
 		// set adapter
 		task = new Task(AssignedTaskActivity.this);
-		arrTask = task.getData(AssignedTaskActivity.this, getResources()
-				.getString(R.string.api_get_assigned_task),
-				new Task.OnLoadListener() {
-
-					@Override
-					public void onStart() {
-						loading.setVisibility(View.VISIBLE);
-						connectError.setVisibility(View.GONE);
-					}
-
-					@Override
-					public void onSuccess() {
-						loading.setVisibility(View.GONE);
-						adapter.notifyDataSetChanged();
-						if (adapter.getCount() <= 0) {
-							listTask.setEmptyView(emptyView);
-						}
-					}
-
-					@Override
-					public void onFalse() {
-						loading.setVisibility(View.GONE);
-						connectError.setVisibility(View.VISIBLE);
-					}
-				});
+		arrTask = new ArrayList<Task>();
+		arrTask.add(new Task(1, "ten_cong_viec", "nguoi_thuc_hien", "du_an",
+				"tien_do", "ngay_bat_dau", "ngay_ket_thuc", "nguoi_giao",
+				"dinh_kem", "phong_ban", "mo_ta", "code", "id_du_an",
+				"id_phong_ban"));
+//		arrTask = task.getData(AssignedTaskActivity.this, getResources()
+//				.getString(R.string.api_get_assigned_task),
+//				new Task.OnLoadListener() {
+//
+//					@Override
+//					public void onStart() {
+//						loading.setVisibility(View.VISIBLE);
+//						connectError.setVisibility(View.GONE);
+//					}
+//
+//					@Override
+//					public void onSuccess() {
+//						loading.setVisibility(View.GONE);
+//						adapter.notifyDataSetChanged();
+//						if (adapter.getCount() <= 0) {
+//							listTask.setEmptyView(emptyView);
+//						}
+//					}
+//
+//					@Override
+//					public void onFalse() {
+//						loading.setVisibility(View.GONE);
+//						connectError.setVisibility(View.VISIBLE);
+//					}
+//				});
 		adapter = new TaskAdapter(AssignedTaskActivity.this, arrTask,
 				"AssignedTaskActivity");
 		listTask.setAdapter(adapter);
