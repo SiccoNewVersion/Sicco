@@ -60,6 +60,8 @@
     <string name="pause_handle">Tạm dừng xử lý</string>
     <string name="finish_handle">Kết thúc xử lý</string>
     <string name="all">Tất cả</string>
+    
+    <string name="file">Tệp đính kèm</string>
 
     <!-- LuanDT -->
     <string name="approval_dispatch">Phê công văn</string>
