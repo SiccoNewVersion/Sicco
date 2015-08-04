@@ -35,6 +35,7 @@ import com.sicco.erp.util.Utils;
 
 public class AssignTaskActivity extends Activity implements
 		OnClickListener {
+	private static int FLAG_DATE_PICKER = 1;
 	private ImageView back;
 	private LinearLayout 	lnDateHandle,
 							lnHandler, 
@@ -46,14 +47,12 @@ public class AssignTaskActivity extends Activity implements
 	
 	private TextView 	txtDateHandle;
 	private TextView 	txtDateFinish;
-	public static TextView txtDepartment;
+	public static TextView txtDepartment, txtHandler, txtViewer;
 	private EditText 	edtDes;
 	private EditText 	edtTitle;
 	private Button 		btnAssign;
 	private TextView 	txtFile;
 	private TextView 	txtProject;
-
-	public static TextView txtHandler, txtViewer;
 
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
@@ -75,6 +74,8 @@ public class AssignTaskActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_assign_task);
+		
+		DialogChoseHandler.VIEW_CURRENT = 1;
 //
 //		Intent intent = getIntent();
 //		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
@@ -120,19 +121,19 @@ public class AssignTaskActivity extends Activity implements
 		
 		btnAssign.setOnClickListener(this);
 
-//		listChecked = new ArrayList<User>();
-//		listCheckedHandler = new ArrayList<User>();
-//
-//		department = new Department();
-//		user = new User();
-//		listDep = new ArrayList<Department>();
-//		allUser = new ArrayList<User>();
-//		listDep = department.getData(getResources().getString(
-//				R.string.api_get_deparment));
-//		allUser = user.getData(getResources().getString(
-//				R.string.api_get_all_user));
-//
-//		// set data
+		listChecked = new ArrayList<User>();
+		listCheckedHandler = new ArrayList<User>();
+
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department.getData(getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(
+				R.string.api_get_all_user));
+
+		// set data
 //		final Calendar c = Calendar.getInstance();
 //		date = c.get(Calendar.DATE);
 //		months = c.get(Calendar.MONTH);
@@ -159,10 +160,18 @@ public class AssignTaskActivity extends Activity implements
 			months = monthOfYear;
 			years_now = year;
 
-			txtDateHandle.setText(new StringBuilder()
+			if(FLAG_DATE_PICKER == 1){
+				txtDateHandle.setText(new StringBuilder()
 					.append(padding_str(years_now)).append("-")
 					.append(padding_str(months + 1)).append("-")
 					.append(padding_str(date)));
+			}else {
+				txtDateFinish.setText(new StringBuilder()
+				.append(padding_str(years_now)).append("-")
+				.append(padding_str(months + 1)).append("-")
+				.append(padding_str(date)));
+			}
+			
 		}
 
 	};
@@ -189,21 +198,23 @@ public class AssignTaskActivity extends Activity implements
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
-//			// clear data
-//			listChecked.clear();
-//			listCheckedHandler.clear();
-//			DialogChoseHandler.strUsersHandl = getResources().getString(
-//					R.string.handler1);
-//			DialogChoseHandler.idUsersHandl = "";
-//			DialogChoseUser.strUsersView = getResources().getString(
-//					R.string.viewer);
-//			DialogChoseUser.idUsersView = "";
+			// clear data
+			listChecked.clear();
+			listCheckedHandler.clear();
+			DialogChoseHandler.strUsersHandl = getResources().getString(
+					R.string.handler1);
+			DialogChoseHandler.idUsersHandl = "";
+			DialogChoseUser.strUsersView = getResources().getString(
+					R.string.viewer);
+			DialogChoseUser.idUsersView = "";
 			finish();
 			break;
 		case R.id.lnDateHandle:
+			FLAG_DATE_PICKER = 1;
 			showDialog(DATE_DIALOG_ID);
 			break;
 		case R.id.lnDateFinish:
+			FLAG_DATE_PICKER = 0;
 			showDialog(DATE_DIALOG_ID);
 			break;
 		case R.id.lnHandler:

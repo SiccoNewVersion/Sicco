@@ -24,6 +24,7 @@ import com.sicco.erp.R;
 import com.sicco.erp.adapter.DepartmentAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
+import com.sicco.task.erp.AssignTaskActivity;
 
 public class DialogChoseDepartment {
 
@@ -106,8 +107,12 @@ public class DialogChoseDepartment {
 			@Override
 			public void onClick(View arg0) {
 				if (clickItem) {
-					ConvertDispatchActivity.txtDepartment.setText(department
+					if (DialogChoseHandler.VIEW_CURRENT == 1) {
+						AssignTaskActivity.txtDepartment.setText(department.getDepartmentName());
+					}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+						ConvertDispatchActivity.txtDepartment.setText(department
 							.getDepartmentName());
+					}
 					idDepSelected = department.getId();
 					alertDialog.dismiss();
 				}else{

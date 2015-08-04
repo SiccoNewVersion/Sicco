@@ -34,6 +34,8 @@ import com.sicco.erp.util.Utils;
 
 public class ConvertDispatchActivity extends Activity implements
 		OnClickListener {
+	
+	public static int DIALOG_DISPATCH = 1;
 	private ImageView back;
 	private LinearLayout lnJobType, lnFromDate, lnStatus, lnProgress, lnLevel,
 			lnHandler, lnViewer, lnDepartment, lnToDate;
@@ -66,6 +68,8 @@ public class ConvertDispatchActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_convert_dispatch);
+
+		DialogChoseHandler.VIEW_CURRENT = 2;
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");

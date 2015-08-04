@@ -32,6 +32,7 @@ import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
+import com.sicco.task.erp.AssignTaskActivity;
 
 public class DialogChoseUser {
 
@@ -238,10 +239,20 @@ public class DialogChoseUser {
 						}
 					}
 					if (!strUsersView.equals("")) {
-						ConvertDispatchActivity.txtViewer.setText(strUsersView);
+						if (DialogChoseHandler.VIEW_CURRENT == 1) {
+							AssignTaskActivity.txtViewer.setText(strUsersView);
+						}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+							ConvertDispatchActivity.txtViewer.setText(strUsersView);
+						}
+						
 					}
 					if (listChecked.isEmpty()) {
-						ConvertDispatchActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
+						if (DialogChoseHandler.VIEW_CURRENT == 1) {
+							AssignTaskActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
+						}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+							ConvertDispatchActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
+						}
+						
 					}
 					alertDialog.dismiss();
 				}

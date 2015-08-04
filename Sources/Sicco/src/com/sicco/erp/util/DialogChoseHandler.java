@@ -29,9 +29,14 @@ import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.User;
+import com.sicco.task.erp.AssignTaskActivity;
 
 public class DialogChoseHandler {
-
+	/*
+		VIEW_CURRENT == 1 => AssignTaskActivity
+		VIEW_CURRENT == 2 => ConvertDispatchActivity
+	 */
+	public static int VIEW_CURRENT = 0;
 	private Context context;
 	private ArrayList<Department> listDep;
 	private ArrayList<User> allUser;
@@ -177,7 +182,6 @@ public class DialogChoseHandler {
 		});
 
 		btnDone.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				strUsersHandl = "";
@@ -193,10 +197,19 @@ public class DialogChoseHandler {
 					}
 					
 					if (!strUsersHandl.equals("")) {
-						ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
+						if (VIEW_CURRENT == 1) {
+							AssignTaskActivity.txtHandler.setText(strUsersHandl);
+						}else if (VIEW_CURRENT == 2){
+							ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
+						}
 					}
 					if (listChecked.isEmpty()) {
-						ConvertDispatchActivity.txtHandler.setText(context.getResources().getString(R.string.handler1));
+						if (VIEW_CURRENT == 1) {
+							AssignTaskActivity.txtHandler.setText(context.getResources().getString(R.string.handler1));
+						}else if(VIEW_CURRENT == 2) {
+							ConvertDispatchActivity.txtHandler.setText(context.getResources().getString(R.string.handler1));
+						}
+						
 					}
 					alertDialog.dismiss();
 				
