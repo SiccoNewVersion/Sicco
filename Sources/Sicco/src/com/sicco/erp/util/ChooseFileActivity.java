@@ -24,7 +24,10 @@ public class ChooseFileActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
+	
+	
 	// add them phan nay vao Child Acticity
+	/*
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -32,12 +35,10 @@ public class ChooseFileActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				Uri uri = data.getData();
 				path = uri.getPath();
-				Toast.makeText(getApplicationContext(), path,
-						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
+	}*/
 
 }

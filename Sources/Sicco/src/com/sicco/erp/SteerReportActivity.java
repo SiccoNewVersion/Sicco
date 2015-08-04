@@ -49,8 +49,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
 		init();
 		setListReportSteer(dispatch);
-		sendReportSteer();
-		
+
 	}
 
 	private void init() {
@@ -60,85 +59,32 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
 		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
 		listReport = (ListView) findViewById(R.id.listReport);
-		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
 		reportSteer = new ReportSteer(SteerReportActivity.this);
 		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
-		emptyView = (TextView)findViewById(R.id.empty_view);
+		emptyView = (TextView) findViewById(R.id.empty_view);
 
 		// click
 		back.setOnClickListener(this);
 		retry.setOnClickListener(this);
+		imgSendReportSteer.setOnClickListener(this);
 		// set adapter
 
-	}
-
-	private void sendReportSteer() {
-		imgSendReportSteer.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				final ProgressDialog progressDialog = new ProgressDialog(SteerReportActivity.this);
-				
-				String content = edtContent.getText().toString().trim();
-
-				if (!content.equals("")) {
-					reportSteer.sendReportSteer(getResources().getString(R.string.api_send_report), 
-							Utils.getString(SteerReportActivity.this, SessionManager.KEY_USER_ID), 
-							Long.toString(dispatch.getId()), 
-							content, 
-							new OnLoadListener() {
-						
-						@Override
-						public void onSuccess() {
-							edtContent.setText("");
-
-							setListReportSteer(dispatch);
-							progressDialog.dismiss();
-						}
-						
-						@Override
-						public void onStart() {
-							progressDialog.setMessage(getResources().getString(R.string.msg_sending));
-							progressDialog.show();
-						}
-						
-						@Override
-						public void onFalse() {
-							progressDialog.dismiss();
-							Toast.makeText(SteerReportActivity.this, getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
-							
-						}
-					});
-
-				} else {
-					Toast.makeText(
-							getApplicationContext(),
-							getResources().getString(
-									R.string.empty_content_report),
-							Toast.LENGTH_SHORT).show();
-					edtContent.startAnimation(AnimationUtils.loadAnimation(
-							getApplicationContext(), R.anim.shake));
-				}
-
-			}
-		});
 	}
 
 	private void setListReportSteer(Dispatch dispatch) {
 		arrReportSteers = reportSteer.getData(
 				getResources().getString(R.string.api_get_steer_report),
-				SessionManager.KEY_USER_ID,
-				Long.toString(dispatch.getId()),
+				SessionManager.KEY_USER_ID, Long.toString(dispatch.getId()),
 				new OnLoadListener() {
 					@Override
 					public void onSuccess() {
 						loading.setVisibility(View.GONE);
 						reportSteerAdapter.notifyDataSetChanged();
-						
+
 						if (ReportSteer.CHECK_TOTAL_DATA == 0) {
 							listReport.setEmptyView(emptyView);
 						}
-						
+
 					}
 
 					@Override
@@ -160,7 +106,6 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		listReport.setAdapter(reportSteerAdapter);
 	}
 
-
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -171,6 +116,62 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		case R.id.retry:
 			setListReportSteer(dispatch);
 			break;
+		case R.id.imgSendReportSteer:
+			sendReportSteer();
+			break;
+		}
+
+	}
+	
+	//comment
+	private void sendReportSteer() {
+
+		final ProgressDialog progressDialog = new ProgressDialog(
+				SteerReportActivity.this);
+
+		String content = edtContent.getText().toString().trim();
+
+		if (!content.equals("")) {
+			reportSteer.sendReportSteer(
+					getResources().getString(R.string.api_send_report), Utils
+							.getString(SteerReportActivity.this,
+									SessionManager.KEY_USER_ID), Long
+							.toString(dispatch.getId()), content,
+					new OnLoadListener() {
+
+						@Override
+						public void onSuccess() {
+							edtContent.setText("");
+
+							setListReportSteer(dispatch);
+							progressDialog.dismiss();
+						}
+
+						@Override
+						public void onStart() {
+							progressDialog.setMessage(getResources().getString(
+									R.string.msg_sending));
+							progressDialog.show();
+						}
+
+						@Override
+						public void onFalse() {
+							progressDialog.dismiss();
+							Toast.makeText(
+									SteerReportActivity.this,
+									getResources().getString(
+											R.string.internet_false),
+									Toast.LENGTH_SHORT).show();
+
+						}
+					});
+
+		} else {
+			Toast.makeText(getApplicationContext(),
+					getResources().getString(R.string.empty_content_report),
+					Toast.LENGTH_SHORT).show();
+			edtContent.startAnimation(AnimationUtils.loadAnimation(
+					getApplicationContext(), R.anim.shake));
 		}
 
 	}

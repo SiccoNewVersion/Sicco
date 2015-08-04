@@ -1,5 +1,6 @@
 package com.sicco.task.erp;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -41,11 +42,12 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 	private ArrayList<ReportSteerTask> arrReportSteers;
 	private ReportSteerTask reportSteerTask;
 	private EditText edtContent;
-	private TextView emptyView;
+	private TextView emptyView, fileName;
+	private Button btnChooseFile;
 	private long id_task;
 	private ViewDispatch viewDispatch;
 	private String path;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +57,6 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		id_task = intent.getLongExtra("id_task", -1);
 		init();
 		setListReportSteer("" + id_task);
-		sendReportSteer();
 
 	}
 
@@ -66,42 +67,19 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
 		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
 		listReport = (ListView) findViewById(R.id.listReport);
-		imgSendReportSteer = (ImageView) findViewById(R.id.imgSendReportSteer);
 		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
 		emptyView = (TextView) findViewById(R.id.empty_view);
+		btnChooseFile = (Button) findViewById(R.id.choose_file);
+		fileName = (TextView) findViewById(R.id.file_name);
 		reportSteerTask = new ReportSteerTask(SteerReportTaskActivity.this);
 
 		// click
 		back.setOnClickListener(this);
 		retry.setOnClickListener(this);
+		btnChooseFile.setOnClickListener(this);
+		imgSendReportSteer.setOnClickListener(this);
 		listReport.setOnItemClickListener(this);
 
-	}
-
-	private void sendReportSteer() {
-		imgSendReportSteer.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				final ProgressDialog progressDialog = new ProgressDialog(
-						SteerReportTaskActivity.this);
-
-				String content = edtContent.getText().toString().trim();
-
-				if (!content.equals("")) {
-
-				} else {
-					Toast.makeText(
-							getApplicationContext(),
-							getResources().getString(
-									R.string.empty_content_report),
-							Toast.LENGTH_SHORT).show();
-					edtContent.startAnimation(AnimationUtils.loadAnimation(
-							getApplicationContext(), R.anim.shake));
-				}
-
-			}
-		});
 	}
 
 	private void setListReportSteer(String id_task) {
@@ -133,7 +111,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 					}
 				});
 
-		adapter = new ReportSteerTaskAdapter(SteerReportTaskActivity.this, arrReportSteers);
+		adapter = new ReportSteerTaskAdapter(SteerReportTaskActivity.this,
+				arrReportSteers);
 		listReport.setAdapter(adapter);
 	}
 
@@ -147,18 +126,26 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		case R.id.retry:
 			setListReportSteer("" + id_task);
 			break;
+		case R.id.choose_file:
+			showFileChooser();
+			break;
+		case R.id.imgSendReportSteer:
+			sendReportSteer();
+			break;
 		}
 
 	}
 
+	//click item
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		ReportSteerTask reportSteerTask = (ReportSteerTask) arg0.getAdapter().getItem(arg2);
+		ReportSteerTask reportSteerTask = (ReportSteerTask) arg0.getAdapter()
+				.getItem(arg2);
 		viewDispatch = new ViewDispatch(SteerReportTaskActivity.this,
 				reportSteerTask.getFile());
 	}
-	
-	//choose file 
+
+	// choose file
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -166,11 +153,32 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			if (resultCode == RESULT_OK) {
 				Uri uri = data.getData();
 				path = uri.getPath();
-				Toast.makeText(getApplicationContext(), path,
-						Toast.LENGTH_SHORT).show();
+				
+				File file = new File(path);
+				
+				fileName.setText(file.getName());
 			}
 			break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	//sen comment
+	private void sendReportSteer() {
+		final ProgressDialog progressDialog = new ProgressDialog(
+				SteerReportTaskActivity.this);
+
+		String content = edtContent.getText().toString().trim();
+
+		if (!content.equals("")) {
+
+		} else {
+			Toast.makeText(getApplicationContext(),
+					getResources().getString(R.string.empty_content_report),
+					Toast.LENGTH_SHORT).show();
+			edtContent.startAnimation(AnimationUtils.loadAnimation(
+					getApplicationContext(), R.anim.shake));
+		}
+
 	}
 }
