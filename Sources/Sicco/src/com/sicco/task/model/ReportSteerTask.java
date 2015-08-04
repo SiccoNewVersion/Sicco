@@ -95,9 +95,9 @@ public class ReportSteerTask {
 		data = new ArrayList<ReportSteerTask>();
 		
 		RequestParams params = new RequestParams();
-		params.add("user_id", Utils.getString(context, "user_id"));
-		params.add("id_task", id_task);
-		
+//		params.add("user_id", Utils.getString(context, "user_id"));
+		params.add("id_cv", id_task);
+				
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
@@ -114,10 +114,10 @@ public class ReportSteerTask {
 							JSONObject row = rows.getJSONObject(i);
 							
 							String id = row.getString("id");
-							String handler = row.getString("nguoi_chi_dao");
-							String date = row.getString("date");
-							String content = row.getString("content");
-							String file = row.getString("file");
+							String handler = row.getString("nguoi_binh_luan");
+							String date = row.getString("thoi_gian");
+							String content = row.getString("noi_dung");
+							String file = row.getString("dinh_kem");
 							
 							file = file.replace(" ", "%20");
 

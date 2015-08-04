@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -39,7 +40,7 @@ public class SteerReportTaskActivity extends Activity implements
 	private ReportSteerTask reportSteerTask;
 	private EditText edtContent;
 	private TextView emptyView;
-	private String id_task;
+	private long id_task;
 	private ViewDispatch viewDispatch;
 
 	@Override
@@ -48,9 +49,9 @@ public class SteerReportTaskActivity extends Activity implements
 		setContentView(R.layout.activity_steer_report_task);
 
 		Intent intent = getIntent();
-		id_task = intent.getStringExtra("id_task");
+		id_task = intent.getLongExtra("id_task", -1);
 		init();
-		setListReportSteer(id_task);
+		setListReportSteer("" + id_task);
 		sendReportSteer();
 
 	}
@@ -102,33 +103,32 @@ public class SteerReportTaskActivity extends Activity implements
 
 	private void setListReportSteer(String id_task) {
 		arrReportSteers = new ArrayList<ReportSteerTask>();
-		arrReportSteers.add(new ReportSteerTask(1, "handler", "date", "content", "file"));
-//		arrReportSteers = reportSteerTask.getData(SteerReportTaskActivity.this,
-//				getResources().getString(R.string.api_get_steer_report_task),
-//				id_task, new ReportSteerTask.OnLoadListener() {
-//					@Override
-//					public void onSuccess() {
-//						loading.setVisibility(View.GONE);
-//						adapter.notifyDataSetChanged();
-//
-//						if (adapter.getCount() <= 0) {
-//							listReport.setEmptyView(emptyView);
-//						}
-//
-//					}
-//
-//					@Override
-//					public void onStart() {
-//						loading.setVisibility(View.VISIBLE);
-//						connectError.setVisibility(View.GONE);
-//					}
-//
-//					@Override
-//					public void onFalse() {
-//						loading.setVisibility(View.GONE);
-//						connectError.setVisibility(View.VISIBLE);
-//					}
-//				});
+		arrReportSteers = reportSteerTask.getData(SteerReportTaskActivity.this,
+				getResources().getString(R.string.api_get_steer_report_task),
+				id_task, new ReportSteerTask.OnLoadListener() {
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						adapter.notifyDataSetChanged();
+
+						if (adapter.getCount() <= 0) {
+							listReport.setEmptyView(emptyView);
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				});
 
 		adapter = new ReportSteerTaskAdapter(SteerReportTaskActivity.this, arrReportSteers);
 		listReport.setAdapter(adapter);
@@ -142,7 +142,7 @@ public class SteerReportTaskActivity extends Activity implements
 			finish();
 			break;
 		case R.id.retry:
-			setListReportSteer(id_task);
+			setListReportSteer("" + id_task);
 			break;
 		}
 

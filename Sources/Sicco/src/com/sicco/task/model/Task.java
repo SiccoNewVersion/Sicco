@@ -14,7 +14,6 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
@@ -22,6 +21,7 @@ public class Task implements Serializable {
 	private long id;
 	private String ten_cong_viec;
 	private String nguoi_thuc_hien;
+	private String nguoi_xem;
 	private String du_an;
 	private String tien_do;
 	private String ngay_bat_dau;
@@ -41,7 +41,7 @@ public class Task implements Serializable {
 		this.context = context;
 	}
 
-	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien, String nguoi_xem,
 			String du_an, String tien_do, String ngay_bat_dau,
 			String ngay_ket_thuc, String nguoi_giao, String dinh_kem,
 			String phong_ban, String mo_ta, String code, String id_du_an,
@@ -50,6 +50,7 @@ public class Task implements Serializable {
 		this.id = id;
 		this.ten_cong_viec = ten_cong_viec;
 		this.nguoi_thuc_hien = nguoi_thuc_hien;
+		this.nguoi_xem = nguoi_xem;
 		this.du_an = du_an;
 		this.tien_do = tien_do;
 		this.ngay_bat_dau = ngay_bat_dau;
@@ -85,6 +86,14 @@ public class Task implements Serializable {
 
 	public void setNguoi_thuc_hien(String nguoi_thuc_hien) {
 		this.nguoi_thuc_hien = nguoi_thuc_hien;
+	}
+
+	public String getNguoi_xem() {
+		return nguoi_xem;
+	}
+
+	public void setNguoi_xem(String nguoi_xem) {
+		this.nguoi_xem = nguoi_xem;
 	}
 
 	public String getDu_an() {
@@ -193,6 +202,7 @@ public class Task implements Serializable {
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.add("user_id", Utils.getString(context, "user_id"));
+		params.add("username", Utils.getString(context, "name"));
 
 		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
@@ -212,6 +222,8 @@ public class Task implements Serializable {
 									.getString("ten_cong_viec");
 							String nguoi_thuc_hien = row
 									.getString("nguoi_thuc_hien");
+							String nguoi_xem = row
+									.getString("nguoi_xem");
 							String du_an = row.getString("du_an");
 							String tien_do = row.getString("tien_do");
 							String ngay_bat_dau = row.getString("ngay_bat_dau");
@@ -228,7 +240,7 @@ public class Task implements Serializable {
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
 							data.add(new Task(Long.parseLong(id), ten_cong_viec,
-									nguoi_thuc_hien, du_an, tien_do,
+									nguoi_thuc_hien, nguoi_xem, du_an, tien_do,
 									ngay_bat_dau, ngay_ket_thuc, nguoi_giao,
 									dinh_kem, phong_ban, mo_ta, code, id_du_an,
 									id_phong_ban));
