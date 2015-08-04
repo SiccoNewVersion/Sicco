@@ -121,7 +121,7 @@
                 android:layout_marginLeft="10dp"/>
             
             <LinearLayout
-			    android:id="@+id/lnFromDate"
+			    android:id="@+id/lnDateHandle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -131,16 +131,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/from_date"
+                    android:text="@string/date_handle"
                     
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/txtFromDate"
+                    android:id="@+id/txtDateHandle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" 
+                    android:text="@string/date_handle" 
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -154,7 +154,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
             <LinearLayout
-			    android:id="@+id/lnToDate"
+			    android:id="@+id/lnDateFinish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -164,15 +164,15 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/to_date"
+                    android:text="@string/date_finish"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/txtToDate"
+                    android:id="@+id/txtDateFinish"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" 
+                    android:text="@string/date_finish"
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
@@ -316,9 +316,40 @@
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
+			<LinearLayout
+			    android:id="@+id/lnProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/project"
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/project"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+			<TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
             
             <Button
-                android:id="@+id/btnConvert"
+                android:id="@+id/btnAssign"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -326,7 +357,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/bg_btn_login_selector"
-                android:text="@string/covert"
+                android:text="@string/giao_viec"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"
