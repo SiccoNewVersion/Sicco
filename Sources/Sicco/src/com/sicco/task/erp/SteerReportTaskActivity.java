@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,11 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.util.ChooseFileActivity;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
 import com.sicco.task.model.ReportSteerTask;
 
-public class SteerReportTaskActivity extends Activity implements
+public class SteerReportTaskActivity extends ChooseFileActivity implements
 		OnClickListener, OnItemClickListener {
 
 	private LinearLayout connectError;
@@ -42,7 +44,8 @@ public class SteerReportTaskActivity extends Activity implements
 	private TextView emptyView;
 	private long id_task;
 	private ViewDispatch viewDispatch;
-
+	private String path;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -153,5 +156,21 @@ public class SteerReportTaskActivity extends Activity implements
 		ReportSteerTask reportSteerTask = (ReportSteerTask) arg0.getAdapter().getItem(arg2);
 		viewDispatch = new ViewDispatch(SteerReportTaskActivity.this,
 				reportSteerTask.getFile());
+	}
+	
+	//choose file 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 0:
+			if (resultCode == RESULT_OK) {
+				Uri uri = data.getData();
+				path = uri.getPath();
+				Toast.makeText(getApplicationContext(), path,
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }
