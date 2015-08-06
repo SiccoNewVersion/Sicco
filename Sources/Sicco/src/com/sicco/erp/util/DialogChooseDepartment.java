@@ -26,7 +26,7 @@ import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.task.erp.AssignTaskActivity;
 
-public class DialogChoseDepartment {
+public class DialogChooseDepartment {
 
 	private Context context;
 	private ArrayList<Department> listDep;
@@ -40,7 +40,7 @@ public class DialogChoseDepartment {
 	public static long idDepSelected;
 	private boolean clickItem = false;
 
-	public DialogChoseDepartment(Context context, ArrayList<Department> listDep) {
+	public DialogChooseDepartment(Context context, ArrayList<Department> listDep) {
 		this.context = context;
 		this.listDep = listDep;
 
@@ -107,9 +107,9 @@ public class DialogChoseDepartment {
 			@Override
 			public void onClick(View arg0) {
 				if (clickItem) {
-					if (DialogChoseHandler.VIEW_CURRENT == 1) {
+					if (DialogChooseHandler.VIEW_CURRENT == 1) {
 						AssignTaskActivity.txtDepartment.setText(department.getDepartmentName());
-					}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+					}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
 						ConvertDispatchActivity.txtDepartment.setText(department
 							.getDepartmentName());
 					}

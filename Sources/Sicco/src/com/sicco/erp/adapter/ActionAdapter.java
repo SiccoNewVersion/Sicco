@@ -24,7 +24,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Status;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChangeStatusDispatch;
-import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.DialogChooseUser;
 import com.sicco.erp.util.Utils;
 
 public class ActionAdapter extends BaseAdapter {
@@ -159,7 +159,7 @@ public class ActionAdapter extends BaseAdapter {
 								switch (item.getItemId()) {
 								case R.id.action_handle:
 									flag = "handle";
-									new DialogChoseUser(context, dispatch,
+									new DialogChooseUser(context, dispatch,
 											listDep, allUser, listChecked);
 									break;
 								case R.id.action_steer:

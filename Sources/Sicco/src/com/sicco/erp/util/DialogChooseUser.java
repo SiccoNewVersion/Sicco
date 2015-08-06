@@ -34,7 +34,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.User;
 import com.sicco.task.erp.AssignTaskActivity;
 
-public class DialogChoseUser {
+public class DialogChooseUser {
 
 	private Context context;
 	private ArrayList<Department> listDep;
@@ -56,11 +56,11 @@ public class DialogChoseUser {
 	private User user;
 	private Dispatch dispatch;
 
-	public DialogChoseUser() {
+	public DialogChooseUser() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public DialogChoseUser(Context context, ArrayList<Department> listDep,
+	public DialogChooseUser(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
 		this.listDep = listDep;
@@ -74,7 +74,7 @@ public class DialogChoseUser {
 		showDialog();
 	}
 	
-	public DialogChoseUser(Context context, Dispatch dispatch, ArrayList<Department> listDep,
+	public DialogChooseUser(Context context, Dispatch dispatch, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
 		this.dispatch = dispatch;
@@ -239,17 +239,17 @@ public class DialogChoseUser {
 						}
 					}
 					if (!strUsersView.equals("")) {
-						if (DialogChoseHandler.VIEW_CURRENT == 1) {
+						if (DialogChooseHandler.VIEW_CURRENT == 1) {
 							AssignTaskActivity.txtViewer.setText(strUsersView);
-						}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+						}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
 							ConvertDispatchActivity.txtViewer.setText(strUsersView);
 						}
 						
 					}
 					if (listChecked.isEmpty()) {
-						if (DialogChoseHandler.VIEW_CURRENT == 1) {
+						if (DialogChooseHandler.VIEW_CURRENT == 1) {
 							AssignTaskActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
-						}else if (DialogChoseHandler.VIEW_CURRENT == 2) {
+						}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
 							ConvertDispatchActivity.txtViewer.setText(context.getResources().getString(R.string.viewer));
 						}
 						

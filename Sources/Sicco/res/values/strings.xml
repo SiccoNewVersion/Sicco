@@ -65,6 +65,7 @@
 	<string name="date_handle">Ngày thực hiện</string>
 	<string name="date_finish">Ngày kết thúc</string>
     <string name="project">Dự án</string>
+    <string name="path_file">Đường dẫn file: "</string>
     <!-- LuanDT -->
     <string name="approval_dispatch">Phê công văn</string>
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>

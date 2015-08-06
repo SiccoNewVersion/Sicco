@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import com.sicco.erp.model.Department.OnLoadListener;
 import com.sicco.erp.model.User;
 import com.sicco.task.erp.AssignTaskActivity;
 
-public class DialogChoseHandler {
+public class DialogChooseHandler {
 	/*
 		VIEW_CURRENT == 1 => AssignTaskActivity
 		VIEW_CURRENT == 2 => ConvertDispatchActivity
@@ -55,7 +56,7 @@ public class DialogChoseHandler {
 	private Department department;
 	private User user;
 
-	public DialogChoseHandler(Context context, ArrayList<Department> listDep,
+	public DialogChooseHandler(Context context, ArrayList<Department> listDep,
 			ArrayList<User> allUser, ArrayList<User> listChecked) {
 		this.context = context;
 		this.listDep = listDep;
@@ -198,6 +199,7 @@ public class DialogChoseHandler {
 					
 					if (!strUsersHandl.equals("")) {
 						if (VIEW_CURRENT == 1) {
+
 							AssignTaskActivity.txtHandler.setText(strUsersHandl);
 						}else if (VIEW_CURRENT == 2){
 							ConvertDispatchActivity.txtHandler.setText(strUsersHandl);

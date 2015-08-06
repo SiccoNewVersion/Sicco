@@ -27,9 +27,9 @@ import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
-import com.sicco.erp.util.DialogChoseDepartment;
-import com.sicco.erp.util.DialogChoseHandler;
-import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.DialogChooseDepartment;
+import com.sicco.erp.util.DialogChooseHandler;
+import com.sicco.erp.util.DialogChooseUser;
 import com.sicco.erp.util.Utils;
 
 public class ConvertDispatchActivity extends Activity implements
@@ -69,7 +69,7 @@ public class ConvertDispatchActivity extends Activity implements
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_convert_dispatch);
 
-		DialogChoseHandler.VIEW_CURRENT = 2;
+		DialogChooseHandler.VIEW_CURRENT = 2;
 
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
@@ -188,12 +188,12 @@ public class ConvertDispatchActivity extends Activity implements
 			// clear data
 			listChecked.clear();
 			listCheckedHandler.clear();
-			DialogChoseHandler.strUsersHandl = getResources().getString(
+			DialogChooseHandler.strUsersHandl = getResources().getString(
 					R.string.handler1);
-			DialogChoseHandler.idUsersHandl = "";
-			DialogChoseUser.strUsersView = getResources().getString(
+			DialogChooseHandler.idUsersHandl = "";
+			DialogChooseUser.strUsersView = getResources().getString(
 					R.string.viewer);
-			DialogChoseUser.idUsersView = "";
+			DialogChooseUser.idUsersView = "";
 			finish();
 			break;
 		case R.id.lnJobType:
@@ -223,19 +223,19 @@ public class ConvertDispatchActivity extends Activity implements
 			break;
 		case R.id.lnHandler:
 
-			new DialogChoseHandler(ConvertDispatchActivity.this, listDep,
+			new DialogChooseHandler(ConvertDispatchActivity.this, listDep,
 					allUser, listCheckedHandler);
 
 			break;
 		case R.id.lnViewer:
 
 			ActionAdapter.flag = "chooseViewer";
-			new DialogChoseUser(ConvertDispatchActivity.this, listDep, allUser,
+			new DialogChooseUser(ConvertDispatchActivity.this, listDep, allUser,
 					listChecked);
 
 			break;
 		case R.id.lnDepartment:
-			new DialogChoseDepartment(ConvertDispatchActivity.this, listDep);
+			new DialogChooseDepartment(ConvertDispatchActivity.this, listDep);
 			break;
 		case R.id.lnToDate:
 			showDialog(DATE_DIALOG_ID);
@@ -286,10 +286,10 @@ public class ConvertDispatchActivity extends Activity implements
 						Utils.getString(ConvertDispatchActivity.this, "user_id"),
 						edtTitleJob.getText().toString(), txtFromDate.getText()
 								.toString(), txtToDate.getText().toString(), ""
-								+ DialogChoseDepartment.idDepSelected,
+								+ DialogChooseDepartment.idDepSelected,
 						txtHandler.getText().toString(), txtViewer.getText()
-								.toString(), DialogChoseHandler.idUsersHandl,
-						DialogChoseUser.idUsersView, edtDes.getText()
+								.toString(), DialogChooseHandler.idUsersHandl,
+						DialogChooseUser.idUsersView, edtDes.getText()
 								.toString(), theFile.getName(), new OnRequestListener() {
 
 							@Override
@@ -304,12 +304,12 @@ public class ConvertDispatchActivity extends Activity implements
 								// clear data
 								listChecked.clear();
 								listCheckedHandler.clear();
-								DialogChoseHandler.strUsersHandl = getResources()
+								DialogChooseHandler.strUsersHandl = getResources()
 										.getString(R.string.handler1);
-								DialogChoseHandler.idUsersHandl = "";
-								DialogChoseUser.strUsersView = getResources()
+								DialogChooseHandler.idUsersHandl = "";
+								DialogChooseUser.strUsersView = getResources()
 										.getString(R.string.viewer);
-								DialogChoseUser.idUsersView = "";
+								DialogChooseUser.idUsersView = "";
 
 								finish();
 

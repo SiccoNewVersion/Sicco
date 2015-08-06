@@ -1,15 +1,13 @@
 package com.sicco.task.erp;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,14 +24,15 @@ import com.sicco.erp.R;
 import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
-import com.sicco.erp.model.Dispatch.OnRequestListener;
+import com.sicco.erp.model.Project;
 import com.sicco.erp.model.User;
-import com.sicco.erp.util.DialogChoseDepartment;
-import com.sicco.erp.util.DialogChoseHandler;
-import com.sicco.erp.util.DialogChoseUser;
-import com.sicco.erp.util.Utils;
+import com.sicco.erp.util.ChooseFileActivity;
+import com.sicco.erp.util.DialogChooseDepartment;
+import com.sicco.erp.util.DialogChooseHandler;
+import com.sicco.erp.util.DialogChooseProject;
+import com.sicco.erp.util.DialogChooseUser;
 
-public class AssignTaskActivity extends Activity implements
+public class AssignTaskActivity extends ChooseFileActivity implements
 		OnClickListener {
 	private static int FLAG_DATE_PICKER = 1;
 	private ImageView back;
@@ -47,14 +46,14 @@ public class AssignTaskActivity extends Activity implements
 	
 	private TextView 	txtDateHandle;
 	private TextView 	txtDateFinish;
-	public static TextView txtDepartment, txtHandler, txtViewer;
+	public static TextView txtDepartment, txtHandler, txtViewer,txtProject;
 	private EditText 	edtDes;
 	private EditText 	edtTitle;
 	private Button 		btnAssign;
 	private TextView 	txtFile;
-	private TextView 	txtProject;
-
+	
 	private ArrayList<Department> listDep;
+	private ArrayList<Project> listProject;
 	private ArrayList<User> allUser;
 	private ArrayList<User> listChecked, listCheckedHandler;
 	private Dispatch dispatch;
@@ -66,8 +65,10 @@ public class AssignTaskActivity extends Activity implements
 
 	private StringBuilder toDate;
 	private Department department;
+	private Project project;
 	private User user;
 	private String file;
+	private String path;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class AssignTaskActivity extends Activity implements
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_assign_task);
 		
-		DialogChoseHandler.VIEW_CURRENT = 1;
+		DialogChooseHandler.VIEW_CURRENT = 1;
 //
 //		Intent intent = getIntent();
 //		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
@@ -107,7 +108,6 @@ public class AssignTaskActivity extends Activity implements
 		
 		btnAssign		= (Button)			findViewById(R.id.btnAssign);
 		
-
 		// click
 		back.setOnClickListener(this);
 
@@ -124,13 +124,17 @@ public class AssignTaskActivity extends Activity implements
 		listChecked = new ArrayList<User>();
 		listCheckedHandler = new ArrayList<User>();
 
-		department = new Department();
-		user = new User();
-		listDep = new ArrayList<Department>();
-		allUser = new ArrayList<User>();
-		listDep = department.getData(getResources().getString(
-				R.string.api_get_deparment));
-		allUser = user.getData(getResources().getString(
+		department 	= new Department();
+		project 	= new Project();
+		user 		= new User();
+		listDep 	= new ArrayList<Department>();
+		listProject = new ArrayList<Project>();
+		allUser 	= new ArrayList<User>();
+		
+		listDep 	= department.getData(getResources().getString(
+									R.string.api_get_deparment));
+		listProject = project.getData(getResources().getString(R.string.api_get_project));
+		allUser 	= user.getData(getResources().getString(
 				R.string.api_get_all_user));
 
 		// set data
@@ -201,12 +205,12 @@ public class AssignTaskActivity extends Activity implements
 			// clear data
 			listChecked.clear();
 			listCheckedHandler.clear();
-			DialogChoseHandler.strUsersHandl = getResources().getString(
+			DialogChooseHandler.strUsersHandl = getResources().getString(
 					R.string.handler1);
-			DialogChoseHandler.idUsersHandl = "";
-			DialogChoseUser.strUsersView = getResources().getString(
+			DialogChooseHandler.idUsersHandl = "";
+			DialogChooseUser.strUsersView = getResources().getString(
 					R.string.viewer);
-			DialogChoseUser.idUsersView = "";
+			DialogChooseUser.idUsersView = "";
 			finish();
 			break;
 		case R.id.lnDateHandle:
@@ -218,28 +222,46 @@ public class AssignTaskActivity extends Activity implements
 			showDialog(DATE_DIALOG_ID);
 			break;
 		case R.id.lnHandler:
-			new DialogChoseHandler(AssignTaskActivity.this, listDep,
+			new DialogChooseHandler(AssignTaskActivity.this, listDep,
 					allUser, listCheckedHandler);
 			break;
 		case R.id.lnViewer:
 
 			ActionAdapter.flag = "chooseViewer";
-			new DialogChoseUser(AssignTaskActivity.this, listDep, allUser,
+			new DialogChooseUser(AssignTaskActivity.this, listDep, allUser,
 					listChecked);
-
 			break;
 		case R.id.lnDepartment:
-			new DialogChoseDepartment(AssignTaskActivity.this, listDep);
+			new DialogChooseDepartment(AssignTaskActivity.this, listDep);
 			break;
 		case R.id.lnFile:
-			Toast.makeText(getApplicationContext(), "chon file", Toast.LENGTH_SHORT).show();
+			showFileChooser();
 			break;
 		case R.id.lnProject:
-			Toast.makeText(getApplicationContext(), "duan", Toast.LENGTH_SHORT).show();
+			new DialogChooseProject(AssignTaskActivity.this, listProject);
+			Toast.makeText(getApplicationContext(), "dua", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btnAssign:
 			Toast.makeText(getApplicationContext(), "Assign", Toast.LENGTH_SHORT).show();
 			break;
 		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 0:
+			if (resultCode == RESULT_OK) {
+				Uri uri = data.getData();
+				path = uri.getPath();
+				txtFile.setText(getResources().getString(R.string.path_file) + path);
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	@Override
+	protected void onResume() {
+		Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_SHORT).show();
+		super.onResume();
 	}
 }

@@ -21,7 +21,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Dispatch.OnRequestListener;
 import com.sicco.erp.model.User;
 import com.sicco.erp.service.GetAllNotificationService;
-import com.sicco.erp.util.DialogChoseUser;
+import com.sicco.erp.util.DialogChooseUser;
 import com.sicco.erp.util.Utils;
 
 public class SendApprovalActivity extends Activity implements OnClickListener {
@@ -87,7 +87,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btnChoseHandler:
 			ActionAdapter.flag = "";
-			new DialogChoseUser(SendApprovalActivity.this, listDep, allUser,
+			new DialogChooseUser(SendApprovalActivity.this, listDep, allUser,
 					listChecked);
 			break;
 		case R.id.btnApproval:
