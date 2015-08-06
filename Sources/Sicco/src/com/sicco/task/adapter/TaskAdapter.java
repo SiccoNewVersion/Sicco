@@ -132,6 +132,7 @@ public class TaskAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
+				update_status_and_rate = false;
 				final String[] nguoithuchien = task.getNguoi_thuc_hien().split(
 						",");
 				final String username = Utils.getString(context, "name");
