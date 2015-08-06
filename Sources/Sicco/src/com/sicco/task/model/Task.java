@@ -45,11 +45,11 @@ public class Task implements Serializable {
 		this.context = context;
 	}
 
-	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien, String nguoi_xem,
-			String du_an, String tien_do, String ngay_bat_dau,
-			String ngay_ket_thuc, String nguoi_giao, String dinh_kem,
-			String phong_ban, String mo_ta, String code, String id_du_an,
-			String id_phong_ban, String trang_thai) {
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
+			String nguoi_xem, String du_an, String tien_do,
+			String ngay_bat_dau, String ngay_ket_thuc, String nguoi_giao,
+			String dinh_kem, String phong_ban, String mo_ta, String code,
+			String id_du_an, String id_phong_ban, String trang_thai) {
 		super();
 		this.id = id;
 		this.ten_cong_viec = ten_cong_viec;
@@ -235,8 +235,7 @@ public class Task implements Serializable {
 									.getString("ten_cong_viec");
 							String nguoi_thuc_hien = row
 									.getString("nguoi_thuc_hien");
-							String nguoi_xem = row
-									.getString("nguoi_xem");
+							String nguoi_xem = row.getString("nguoi_xem");
 							String du_an = row.getString("du_an");
 							String tien_do = row.getString("tien_do");
 							String ngay_bat_dau = row.getString("ngay_bat_dau");
@@ -253,10 +252,11 @@ public class Task implements Serializable {
 
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
-							data.add(new Task(Long.parseLong(id), ten_cong_viec,
-									nguoi_thuc_hien, nguoi_xem, du_an, tien_do,
-									ngay_bat_dau, ngay_ket_thuc, nguoi_giao,
-									dinh_kem, phong_ban, mo_ta, code, id_du_an,
+							data.add(new Task(Long.parseLong(id),
+									ten_cong_viec, nguoi_thuc_hien, nguoi_xem,
+									du_an, tien_do, ngay_bat_dau,
+									ngay_ket_thuc, nguoi_giao, dinh_kem,
+									phong_ban, mo_ta, code, id_du_an,
 									id_phong_ban, trang_thai));
 						}
 					} catch (JSONException e) {
@@ -276,8 +276,8 @@ public class Task implements Serializable {
 		});
 		return data;
 	}
-	
-	//search
+
+	// search
 	public ArrayList<Task> search(String k, ArrayList<Task> data) {
 		ArrayList<Task> result = new ArrayList<Task>();
 		String vReplace = AccentRemover.getInstance(context).removeAccent(k);
@@ -289,7 +289,7 @@ public class Task implements Serializable {
 
 					String iReplace = AccentRemover.getInstance(context)
 							.removeAccent(task.getTen_cong_viec());
-					
+
 					if (iReplace.toLowerCase().contains(vReplace.toLowerCase())) {
 						result.add(task);
 					}
@@ -298,27 +298,69 @@ public class Task implements Serializable {
 		}
 		return result;
 	}
-	
-	//assign Task
-	public void assignTask(String url,
-						long user_id,
-						String name_task,
-						String des_task,
-						String date_handle,
-						String date_finish,
-						String str_id_handler,
-						String str_name_handler,
-						String str_id_viewer,
-						String str_name_viewer,
-						String tich_hop,
-						String id_department,
-						String id_project,
-						String pathFile,
-						OnLoadListener OnLoadListener) throws FileNotFoundException{
+
+	// cap nhat trang thai
+	public void changeStatusTask(Context context, long id_cv, String status,
+			OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+
+		RequestParams params = new RequestParams();
+		params.put("id_cv", id_cv);
+		params.put("status", status);
+
+		Log.d("LuanDT", "params: " + params);
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(context.getResources()
+				.getString(R.string.api_update_status), params,
+				new JsonHttpResponseHandler() {
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						onLoadListener.onFalse();
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
+
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						String jsonRead = response.toString();
+						Log.d("LuanDT", "json: " + jsonRead);
+						if (!jsonRead.isEmpty()) {
+							try {
+								JSONObject object = new JSONObject(jsonRead);
+								int success = object.getInt("success");
+								if (success == 1) {
+									onLoadListener.onSuccess();
+								} else {
+									onLoadListener.onFalse();
+								}
+
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+
+						super.onSuccess(statusCode, headers, response);
+					}
+
+				});
+	}
+
+	// assign Task
+	public void assignTask(String url, long user_id, String name_task,
+			String des_task, String date_handle, String date_finish,
+			String str_id_handler, String str_name_handler,
+			String str_id_viewer, String str_name_viewer, String tich_hop,
+			String id_department, String id_project, String pathFile,
+			OnLoadListener OnLoadListener) throws FileNotFoundException {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		RequestParams params = new RequestParams();
-		
+
 		params.add("user_id", Long.toString(user_id));
 		params.add("ten_cong_viec", name_task);
 		params.add("mo_ta", des_task);
@@ -337,10 +379,10 @@ public class Task implements Serializable {
 			params.put("dinh_kem", "");
 		}
 		params.add("id_du_an", id_project);
-		
+
 		Log.d("NgaDV", "params: " + params);
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(url, params, new JsonHttpResponseHandler(){
+		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
@@ -368,12 +410,12 @@ public class Task implements Serializable {
 					Throwable throwable, JSONObject errorResponse) {
 
 				onLoadListener.onFalse();
-				super.onFailure(statusCode, headers, throwable,
-						errorResponse);
+				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
-		
+
 	}
+
 	public interface OnLoadListener {
 		void onStart();
 
