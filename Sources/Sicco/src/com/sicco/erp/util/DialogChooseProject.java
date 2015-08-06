@@ -64,7 +64,6 @@ public class DialogChooseProject {
 		lvProject = (ListView) layout.findViewById(R.id.lvStatus);
 		btnDone = (Button) layout.findViewById(R.id.done);
 
-		// ------------
 		loading = (ProgressBar) layout.findViewById(R.id.loading);
 		retry = (Button) layout.findViewById(R.id.retry);
 		connectError = (LinearLayout) layout.findViewById(R.id.connect_error);
@@ -92,6 +91,9 @@ public class DialogChooseProject {
 
 		final AlertDialog alertDialog = builder.show();
 		ImageView imgBack = (ImageView) layout.findViewById(R.id.back);
+		TextView tvTitle  = (TextView)	layout.findViewById(R.id.title_actionbar);
+		
+		tvTitle.setText(context.getString(R.string.choose_project));
 		imgBack.setOnClickListener(new OnClickListener() {
 
 			@Override

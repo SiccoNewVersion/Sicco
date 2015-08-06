@@ -48,8 +48,10 @@
     </FrameLayout>
 
     <ScrollView
+        android:id="@+id/scrMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" 
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,7 +133,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/date_handle"
+                    android:text="@string/set_date_handle"
                     
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
@@ -164,7 +166,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/date_finish"
+                    android:text="@string/set_date_finish"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -196,7 +198,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/handler1"
+                    android:text="@string/choose_handler"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -228,7 +230,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/viewer"
+                    android:text="@string/choose_viewer"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -260,7 +262,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/department"
+                    android:text="@string/choose_department"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -296,7 +298,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/file"
+                    android:text="@string/choose_file"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -327,7 +329,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/project"
+                    android:text="@string/choose_project"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -347,22 +349,22 @@
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
-            
-            <Button
-                android:id="@+id/btnAssign"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_btn_login_selector"
-                android:text="@string/giao_viec"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_marginBottom="30dp" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnAssign"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_login_selector"
+        android:text="@string/giao_viec"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>
