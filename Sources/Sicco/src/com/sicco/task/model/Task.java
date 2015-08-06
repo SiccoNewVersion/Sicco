@@ -1,5 +1,7 @@
 package com.sicco.task.model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,6 +16,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sicco.erp.R;
 import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
@@ -285,6 +288,81 @@ public class Task implements Serializable {
 		return result;
 	}
 
+	//assign Task
+	public void assignTask(String url,
+						long user_id,
+						String name_task,
+						String des_task,
+						String date_handle,
+						String date_finish,
+						String str_id_handler,
+						String str_name_handler,
+						String str_id_viewer,
+						String str_name_viewer,
+						String tich_hop,
+						String id_department,
+						String id_project,
+						String pathFile,
+						OnLoadListener OnLoadListener) throws FileNotFoundException{
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		RequestParams params = new RequestParams();
+		
+		params.add("user_id", Long.toString(user_id));
+		params.add("ten_cong_viec", name_task);
+		params.add("mo_ta", des_task);
+		params.add("ngay_bat_dau", date_handle);
+		params.add("ngay_ket_thuc", date_finish);
+		params.add("id_nguoi_thuc_hien", str_id_handler);
+		params.add("nguoi_thuc_hien", str_name_handler);
+		params.add("id_nguoi_xem", str_id_viewer);
+		params.add("nguoi_xem", str_name_viewer);
+		params.add("tich_hop", tich_hop);
+		params.add("phong_ban_pt", id_department);
+		if (pathFile != null) {
+			File file = new File(pathFile);
+			params.put("dinh_kem", file);
+		} else {
+			params.put("dinh_kem", "");
+		}
+		params.add("id_du_an", id_project);
+		
+		Log.d("NgaDV", "params: " + params);
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, params, new JsonHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+
+				Log.d("NgaDV", "json: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						int success = object.getInt("success");
+						if (success == 1) {
+							onLoadListener.onSuccess();
+						} else {
+							onLoadListener.onFalse();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable,
+						errorResponse);
+			}
+		});
+		
+	}
 	public interface OnLoadListener {
 		void onStart();
 

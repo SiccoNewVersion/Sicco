@@ -171,7 +171,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	// sen comment
+	// send comment
 	private void sendReportSteer() {
 		final ProgressDialog progressDialog = new ProgressDialog(
 				SteerReportTaskActivity.this);
