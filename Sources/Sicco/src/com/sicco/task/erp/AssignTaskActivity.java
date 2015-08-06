@@ -1,12 +1,16 @@
 package com.sicco.task.erp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +29,6 @@ import android.widget.Toast;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.model.Department;
-import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.Project;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.ChooseFileActivity;
@@ -33,12 +36,15 @@ import com.sicco.erp.util.DialogChooseDepartment;
 import com.sicco.erp.util.DialogChooseHandler;
 import com.sicco.erp.util.DialogChooseProject;
 import com.sicco.erp.util.DialogChooseUser;
+import com.sicco.erp.util.Utils;
+import com.sicco.task.model.Task;
+import com.sicco.task.model.Task.OnLoadListener;
 
 public class AssignTaskActivity extends ChooseFileActivity implements
 		OnClickListener {
-	private static int FLAG_DATE_PICKER = 1;
-	private ImageView back;
-	private ScrollView scrollView;
+	private static int 		FLAG_DATE_PICKER = 1;
+	private ImageView 		back;
+	private ScrollView 		scrollView;
 	private LinearLayout 	lnDateHandle,
 							lnHandler, 
 							lnViewer, 
@@ -49,31 +55,35 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 							lnTitle,
 							lnDescription;
 	
-	private TextView 	txtDateHandle;
-	private TextView 	txtDateFinish;
-	public static TextView txtDepartment, txtHandler, txtViewer,txtProject;
-	private EditText 	edtDes;
-	private EditText 	edtTitle;
-	private Button 		btnAssign;
-	private TextView 	txtFile;
+	private TextView 		txtDateHandle;
+	private TextView 		txtDateFinish;
+	public static TextView 	txtDepartment, 
+							txtHandler, 
+							txtViewer,
+							txtProject;
+	private EditText 		edtDes;
+	private EditText 		edtTitle;
+	private Button 			btnAssign;
+	private TextView 		txtFile;
 	
-	private ArrayList<Department> listDep;
-	private ArrayList<Project> listProject;
-	private ArrayList<User> allUser;
-	private ArrayList<User> listChecked, listCheckedHandler;
-	private Dispatch dispatch;
+	private ArrayList<Department> 	listDep;
+	private ArrayList<Project> 		listProject;
+	private ArrayList<User> 		allUser;
+	private ArrayList<User> 		listChecked, 
+									listCheckedHandler;
+	private Task task;
 
-	static final int DATE_DIALOG_ID = 111;
-	private int date;
-	private int months;
-	private int years_now;
+	static final int 	DATE_DIALOG_ID = 111;
+	private int 		date;
+	private int 		months;
+	private int 		years_now;
 
-	private StringBuilder toDate;
-	private Department department;
-	private Project project;
-	private User user;
-	private String file;
-	private String path;
+	private StringBuilder 	toDate;
+	private Department 		department;
+	private Project 		project;
+	private User 			user;
+	private File 			file;
+	private String 			path;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +92,7 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 		setContentView(R.layout.activity_assign_task);
 		
 		DialogChooseHandler.VIEW_CURRENT = 1;
-//
-//		Intent intent = getIntent();
-//		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
-//		file = dispatch.getContent();
+		
 		init();
 	}
 
@@ -146,18 +153,15 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 				R.string.api_get_all_user));
 
 		// set data
-		final Calendar c = Calendar.getInstance();
-		date = c.get(Calendar.DATE);
-		months = c.get(Calendar.MONTH);
-		years_now = c.get(Calendar.YEAR);
-//
+		final 	Calendar c 	= Calendar.getInstance();
+				date 		= c.get(Calendar.DATE);
+				months 		= c.get(Calendar.MONTH);
+				years_now 	= c.get(Calendar.YEAR);
+
 		toDate = new StringBuilder().append(padding_str(years_now)).append("-")
 				.append(padding_str(months + 1)).append("-")
 				.append(padding_str(date));
-//
-//		edtDes.setText(dispatch.getDescription());
-//		txtDateHandle.setText(dispatch.getDate());
-//		txtDateFinish.setText(toDate);
+
 
 	}
 
@@ -168,9 +172,9 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
 				int dayOfMonth) {
-			date = dayOfMonth;
-			months = monthOfYear;
-			years_now = year;
+			date 		= dayOfMonth;
+			months 		= monthOfYear;
+			years_now 	= year;
 
 			if(FLAG_DATE_PICKER == 1){
 				txtDateHandle.setText(new StringBuilder()
@@ -250,59 +254,153 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 			Toast.makeText(getApplicationContext(), "dua", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btnAssign:
-			validatFromAssignTask();
+			
+			if (validatFromAssignTask()) {
+				final ProgressDialog progressDialog = new ProgressDialog(
+						AssignTaskActivity.this);
+				progressDialog.setMessage(getResources().getString(
+						R.string.waiting));
+				
+				Task task = new Task(getApplicationContext());
+				try {
+					task.assignTask(
+							getResources().getString(R.string.api_add_task),
+							Long.parseLong(Utils.getString(AssignTaskActivity.this, "user_id")), 
+							edtTitle.getText().toString().trim(), 
+							edtDes.getText().toString().trim(), 
+							txtDateHandle.getText().toString().trim(), 
+							txtDateFinish.getText().toString().trim(), 
+							""+DialogChooseHandler.idUsersHandl, 
+							txtHandler.getText().toString().trim(), 
+							""+DialogChooseUser.idUsersView, 
+							txtViewer.getText().toString().trim(), 
+							"", 
+							""+DialogChooseDepartment.idDepSelected, 
+							""+DialogChooseProject.idProjectSelected, 
+							path, 
+							new OnLoadListener() {
+								
+								@Override
+								public void onSuccess() {
+									progressDialog.dismiss();
+									Toast.makeText(
+											AssignTaskActivity.this,
+											getResources().getString(
+													R.string.success),
+											Toast.LENGTH_LONG).show();
+
+									// clear data
+									listChecked.clear();
+									listCheckedHandler.clear();
+									DialogChooseHandler.strUsersHandl = getResources()
+											.getString(R.string.handler1);
+									DialogChooseHandler.idUsersHandl = "";
+									DialogChooseUser.strUsersView = getResources()
+											.getString(R.string.viewer);
+									DialogChooseUser.idUsersView = "";
+
+									finish();
+
+								
+								}
+								
+								@Override
+								public void onStart() {
+									progressDialog.show();
+								}
+								
+								@Override
+								public void onFalse() {
+									listChecked.removeAll(listChecked);
+									progressDialog.dismiss();
+									Toast.makeText(
+											AssignTaskActivity.this,
+											getResources().getString(
+													R.string.internet_false),
+											Toast.LENGTH_LONG).show();
+									listChecked.removeAll(listChecked);
+								}
+							});
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 			break;
 		}
 	}
 	private boolean validatFromAssignTask() {
-		boolean validate = true;
-		String title = edtTitle.getText().toString().trim();
-		String description = edtDes.getText().toString().trim();
-		String date_handle = txtDateHandle.getText().toString().trim();
-		String date_finish = txtDateFinish.getText().toString().trim();
-		String handler = txtHandler.getText().toString().trim();
-		String viewer = txtViewer.getText().toString().trim();
-		String department = txtDepartment.getText().toString().trim();
+		boolean validate 	= true;
+		String title 		= edtTitle.getText().toString().trim();
+		String description 	= edtDes.getText().toString().trim();
+		String date_handle 	= txtDateHandle.getText().toString().trim();
+		String date_finish 	= txtDateFinish.getText().toString().trim();
+		String handler 		= txtHandler.getText().toString().trim();
+		String viewer 		= txtViewer.getText().toString().trim();
+		String department 	= txtDepartment.getText().toString().trim();
 		
 		if (title.equals("")) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.title_null), Toast.LENGTH_SHORT).show();
 			edtTitle.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			edtTitle.requestFocus();
 			scrollView.setScrollY((int)lnTitle.getY());
 			validate = false;
+			
 		}else if (description.equals("")) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.description_null), Toast.LENGTH_SHORT).show();
 			edtDes.requestFocus();
 			edtDes.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnDescription.getY());
 			validate = false;
+			
 		}else if (date_handle.equals(getResources().getString(R.string.date_handle))) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.date_handle_null), Toast.LENGTH_SHORT).show();
 			lnDateHandle.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnDateHandle.getY());
 			validate = false;
+			
 		}else if (date_finish.equals(getResources().getString(R.string.date_finish))) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.date_finish_null), Toast.LENGTH_SHORT).show();
 			lnDateFinish.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnDateFinish.getY());
 			validate = false;
+			
 		}else if (handler.equals(getResources().getString(R.string.handler1))) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.handler_null), Toast.LENGTH_SHORT).show();
 			lnHandler.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnHandler.getY());
 			validate = false;
+			
 		}else if (viewer.equals(getResources().getString(R.string.viewer))) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.viewer_null), Toast.LENGTH_SHORT).show();
 			lnViewer.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnViewer.getY());
 			validate = false;
+			
 		}else if (department.equals(getResources().getString(R.string.department))) {
+			
 			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.department_null), Toast.LENGTH_SHORT).show();
 			lnDepartment.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
 			scrollView.setScrollY((int)lnDepartment.getY());
 			validate = false;
+			
 		}else {
+			
 			validate = true;
+			
 		}
 		
 		return validate;
@@ -314,7 +412,10 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 			if (resultCode == RESULT_OK) {
 				Uri uri = data.getData();
 				path = uri.getPath();
-				txtFile.setText(getResources().getString(R.string.path_file) + path);
+
+				file = new File(path);
+
+				txtFile.setText(file.getName());
 			}
 			break;
 		}

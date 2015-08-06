@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
-import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.util.ChooseFileActivity;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
@@ -171,7 +170,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	// sen comment
+	// send comment
 	private void sendReportSteer() {
 		final ProgressDialog progressDialog = new ProgressDialog(
 				SteerReportTaskActivity.this);
