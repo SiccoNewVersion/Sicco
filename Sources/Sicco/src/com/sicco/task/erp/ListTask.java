@@ -104,7 +104,7 @@ public class ListTask extends Activity implements OnClickListener,
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(ListTask.this, arrTask, "ListTask");
+		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
 		listTask.setAdapter(adapter);
 
 	}

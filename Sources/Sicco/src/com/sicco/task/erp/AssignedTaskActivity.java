@@ -104,8 +104,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(AssignedTaskActivity.this, arrTask,
-				"AssignedTaskActivity");
+		adapter = new TaskAdapter(AssignedTaskActivity.this, arrTask, 1);
 		listTask.setAdapter(adapter);
 
 	}
