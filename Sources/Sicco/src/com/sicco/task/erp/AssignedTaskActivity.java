@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.util.Keyboard;
@@ -158,8 +159,12 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Task task = (Task) arg0.getAdapter().getItem(arg2);
-		viewDispatch = new ViewDispatch(AssignedTaskActivity.this,
-				task.getDinh_kem());
+		if (!task.getDinh_kem().equals("")) {
+			viewDispatch = new ViewDispatch(AssignedTaskActivity.this,
+					task.getDinh_kem());
+		} else {
+			Toast.makeText(AssignedTaskActivity.this, getResources().getString(R.string.no_attach), Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

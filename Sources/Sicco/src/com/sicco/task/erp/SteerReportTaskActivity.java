@@ -1,9 +1,9 @@
 package com.sicco.task.erp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,10 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.SendApprovalActivity;
 import com.sicco.erp.util.ChooseFileActivity;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
 import com.sicco.task.model.ReportSteerTask;
+import com.sicco.task.model.ReportSteerTask.OnLoadListener;
 
 public class SteerReportTaskActivity extends ChooseFileActivity implements
 		OnClickListener, OnItemClickListener {
@@ -46,7 +48,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 	private Button btnChooseFile;
 	private long id_task;
 	private ViewDispatch viewDispatch;
-	private String path;
+	private String path = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 					}
 
 					@Override
-					public void onFalse() {
+					public void onFailure() {
 						loading.setVisibility(View.GONE);
 						connectError.setVisibility(View.VISIBLE);
 					}
@@ -136,13 +138,19 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 
 	}
 
-	//click item
+	// click item
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		ReportSteerTask reportSteerTask = (ReportSteerTask) arg0.getAdapter()
 				.getItem(arg2);
-		viewDispatch = new ViewDispatch(SteerReportTaskActivity.this,
-				reportSteerTask.getFile());
+		if (!reportSteerTask.getFile().equals("")) {
+			viewDispatch = new ViewDispatch(SteerReportTaskActivity.this,
+					reportSteerTask.getFile());
+		} else {
+			Toast.makeText(SteerReportTaskActivity.this,
+					getResources().getString(R.string.no_attach),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	// choose file
@@ -153,17 +161,17 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			if (resultCode == RESULT_OK) {
 				Uri uri = data.getData();
 				path = uri.getPath();
-				
+
 				File file = new File(path);
-				
+
 				fileName.setText(file.getName());
 			}
 			break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
-	//sen comment
+
+	// sen comment
 	private void sendReportSteer() {
 		final ProgressDialog progressDialog = new ProgressDialog(
 				SteerReportTaskActivity.this);
@@ -171,7 +179,55 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		String content = edtContent.getText().toString().trim();
 
 		if (!content.equals("")) {
+			try {
+				reportSteerTask.sendReport(SteerReportTaskActivity.this,
+						id_task, content, path, new OnLoadListener() {
 
+							@Override
+							public void onSuccess() {
+								progressDialog.dismiss();
+								edtContent.setText("");
+								path = null;
+								fileName.setText(path);
+								Toast.makeText(
+										SteerReportTaskActivity.this,
+										getResources().getString(
+												R.string.success),
+										Toast.LENGTH_SHORT).show();
+								setListReportSteer("" + id_task);
+							}
+
+							@Override
+							public void onStart() {
+								progressDialog.setMessage(getResources()
+										.getString(R.string.msg_sending));
+								progressDialog.show();
+							}
+
+							@Override
+							public void onFailure() {
+								progressDialog.dismiss();
+								path = null;
+								fileName.setText(path);
+								Toast.makeText(
+										SteerReportTaskActivity.this,
+										getResources().getString(
+												R.string.internet_false),
+										Toast.LENGTH_LONG).show();
+
+							}
+						});
+			} catch (FileNotFoundException e) {
+				Log.d("LuanDT", "catch sendReport");
+				edtContent.setText("");
+				path = null;
+				fileName.setText(path);
+				progressDialog.dismiss();
+				Toast.makeText(SteerReportTaskActivity.this,
+						getResources().getString(R.string.error_l),
+						Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
 		} else {
 			Toast.makeText(getApplicationContext(),
 					getResources().getString(R.string.empty_content_report),

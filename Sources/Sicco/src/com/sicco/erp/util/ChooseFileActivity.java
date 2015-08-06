@@ -13,7 +13,7 @@ public class ChooseFileActivity extends Activity {
 
 	public void showFileChooser() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("*/*");
+		intent.setType("file/*");
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		try {
 			startActivityForResult(
