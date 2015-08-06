@@ -29,19 +29,20 @@ import com.sicco.task.model.Task;
 public class AssignedTaskActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	private LinearLayout searchView, connectError;
+	public static LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	private TextView emptyView;
-	private ListView listTask;
-	private ProgressBar loading;
+	public static TextView emptyView;
+	public static ListView listTask;
+	public static ProgressBar loading;
 	private Button retry;
 	private Task task;
 	private ViewDispatch viewDispatch;
-	private ArrayList<Task> arrTask;
-	private TaskAdapter adapter;
+	public static ArrayList<Task> arrTask;
+	public static TaskAdapter adapter;
 
 	private TextView title_actionbar;
+	public static boolean AssignedTaskActivity = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_assigned_task);
 
+		AssignedTaskActivity = true;
+		
 		init();
 
 	}

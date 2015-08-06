@@ -14,6 +14,8 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sicco.erp.R;
+import com.sicco.erp.model.Dispatch.OnLoadListener;
 import com.sicco.erp.util.AccentRemover;
 import com.sicco.erp.util.Utils;
 
@@ -295,6 +297,55 @@ public class Task implements Serializable {
 		}
 		return result;
 	}
+	
+	//cap nhat trang thai
+	public void changeStatusTask(Context context, long id_cv,
+			String status, OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+
+		RequestParams params = new RequestParams();
+		params.put("id_cv", id_cv);
+		params.put("status", status);
+
+		Log.d("LuanDT", "params: " + params);
+		
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(context.getResources().getString(R.string.api_update_status), params, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+				Log.d("LuanDT", "json: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						int success = object.getInt("success");
+						if (success == 1) {
+							onLoadListener.onSuccess();
+						} else {
+							onLoadListener.onFalse();
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+
+				super.onSuccess(statusCode, headers, response);
+			}
+
+		});
+	}
+
 
 	public interface OnLoadListener {
 		void onStart();

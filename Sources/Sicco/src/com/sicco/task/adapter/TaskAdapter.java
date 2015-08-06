@@ -39,10 +39,10 @@ public class TaskAdapter extends BaseAdapter {
 		
 		listStatus = new ArrayList<Status>();
 
-		listStatus.add(new Status(1, "active", context.getResources().getString(R.string.active)));
-		listStatus.add(new Status(2, "inactive", context.getResources().getString(R.string.inactive)));
-		listStatus.add(new Status(3, "complete", context.getResources().getString(R.string.complete)));
-		listStatus.add(new Status(4, "cancel", context.getResources().getString(R.string.cancel)));
+		listStatus.add(new Status(0, "active", context.getResources().getString(R.string.active)));
+		listStatus.add(new Status(1, "inactive", context.getResources().getString(R.string.inactive)));
+		listStatus.add(new Status(2, "complete", context.getResources().getString(R.string.complete)));
+		listStatus.add(new Status(3, "cancel", context.getResources().getString(R.string.cancel)));
 		
 	}
 
