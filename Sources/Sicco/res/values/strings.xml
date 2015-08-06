@@ -106,6 +106,7 @@
     <string name="no">Không</string>
     <string name="waiting">Đang xử lý...</string>
     <string name="error_l">Lỗi! Vui lòng thử lại sau ít phút</string>
+    <string name="file_error">Tệp tin bạn chọn không hợp lệ</string>
     <string name="delete_task">Xóa công việc</string>
     <string name="update_rate">Cập nhật tiến độ</string>
 

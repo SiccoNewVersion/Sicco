@@ -224,8 +224,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 				fileName.setText(path);
 				progressDialog.dismiss();
 				Toast.makeText(SteerReportTaskActivity.this,
-						getResources().getString(R.string.error_l),
-						Toast.LENGTH_SHORT).show();
+						getResources().getString(R.string.file_error),
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 		} else {
