@@ -14,22 +14,36 @@ import android.widget.BaseAdapter;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.model.Status;
+import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
+import com.sicco.task.ultil.DialogChangeStatusTask;
 
 public class TaskAdapter extends BaseAdapter {
 
 	private Context context;
 	private ArrayList<Task> data;
-	private String type;
+	private int type;
+	private boolean update_status_and_rate = false;
+	private ArrayList<Status> listStatus;
 
-	public TaskAdapter(Context context, ArrayList<Task> data, String type) {
+	public TaskAdapter(Context context, ArrayList<Task> data, int type) {
 		super();
 		this.context = context;
 		this.data = data;
 		this.type = type;
+		
+		listStatus = new ArrayList<Status>();
+
+		listStatus.add(new Status(1, "active", context.getResources().getString(R.string.active)));
+		listStatus.add(new Status(2, "inactive", context.getResources().getString(R.string.inactive)));
+		listStatus.add(new Status(3, "complete", context.getResources().getString(R.string.complete)));
+		listStatus.add(new Status(4, "cancel", context.getResources().getString(R.string.cancel)));
+		
 	}
 
 	public ArrayList<Task> getData() {
@@ -72,13 +86,43 @@ public class TaskAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
+		if (task.getTrang_thai().equals("complete")) {
+			holder.taskName.setTextColor(context.getResources().getColor(
+					R.color.red));
+			holder.handler.setTextColor(context.getResources().getColor(
+					R.color.red));
+			holder.project.setTextColor(context.getResources().getColor(
+					R.color.red));
+		} else if (task.getTrang_thai().equals("cancel")) {
+			holder.taskName.setTextColor(context.getResources().getColor(
+					R.color.yellow));
+			holder.handler.setTextColor(context.getResources().getColor(
+					R.color.yellow));
+			holder.project.setTextColor(context.getResources().getColor(
+					R.color.yellow));
+		} else if (task.getTrang_thai().equals("inactive")) {
+			holder.taskName.setTextColor(context.getResources().getColor(
+					R.color.gray));
+			holder.handler.setTextColor(context.getResources().getColor(
+					R.color.gray));
+			holder.project.setTextColor(context.getResources().getColor(
+					R.color.gray));
+		} else if (task.getTrang_thai().equals("active")) {
+			holder.taskName.setTextColor(context.getResources().getColor(
+					R.color.green));
+			holder.handler.setTextColor(context.getResources().getColor(
+					R.color.green));
+			holder.project.setTextColor(context.getResources().getColor(
+					R.color.green));
+		}
+
 		String handler = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.nguoi_thuc_hien)
 				+ "</i></u></b></font>" + "  " + task.getNguoi_thuc_hien();
 		String project = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.du_an)
 				+ "</i></u></b></font>" + "  " + task.getDu_an();
-		
+
 		holder.taskName.setText(task.getTen_cong_viec());
 		holder.handler.setText(Html.fromHtml(handler));
 		holder.project.setText(Html.fromHtml(project));
@@ -87,8 +131,18 @@ public class TaskAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+
+				final String[] nguoithuchien = task.getNguoi_thuc_hien().split(
+						",");
+				final String username = Utils.getString(context, "name");
+				for (int i = 0; i < nguoithuchien.length; i++) {
+					if (username.equals(nguoithuchien[i])) {
+						update_status_and_rate = true;
+					}
+				}
+
 				PopupMenu popupMenu = new PopupMenu(context, holder.action);
-				if (type.equals("AssignedTaskActivity")) {
+				if (type == 1) {
 					popupMenu.getMenuInflater().inflate(R.menu.assigned_task,
 							popupMenu.getMenu());
 				} else {
@@ -105,21 +159,53 @@ public class TaskAdapter extends BaseAdapter {
 							public boolean onMenuItemClick(MenuItem item) {
 								Intent intent = new Intent();
 								switch (item.getItemId()) {
-									case R.id.action_report:
-										intent.setClass(context,
-												SteerReportTaskActivity.class);
-										intent.putExtra("id_task", task.getId());
-										context.startActivity(intent);
-										break;
-									case R.id.action_update_rate:
-										break;
-									case R.id.action_change_status:
-										break;
-									case R.id.action_delete:
-										break;
-	
-									default:
-										break;
+								case R.id.action_report:
+									intent.setClass(context,
+											SteerReportTaskActivity.class);
+									intent.putExtra("id_task", task.getId());
+									context.startActivity(intent);
+									break;
+								case R.id.action_update_rate:
+									if (type == 2) {
+										if (update_status_and_rate) {
+											Toast.makeText(context,
+													"show dialog",
+													Toast.LENGTH_SHORT).show();
+										} else {
+											Toast.makeText(
+													context,
+													context.getResources()
+															.getString(
+																	R.string.info_update_rate),
+													Toast.LENGTH_SHORT).show();
+										}
+									} else {
+										Toast.makeText(context,
+												"show dialog",
+												Toast.LENGTH_SHORT).show();
+									}
+									break;
+								case R.id.action_change_status:
+									if (type == 2) {
+										if (update_status_and_rate) {
+											new DialogChangeStatusTask(context, listStatus, task);
+										} else {
+											Toast.makeText(
+													context,
+													context.getResources()
+															.getString(
+																	R.string.info_update_status),
+													Toast.LENGTH_SHORT).show();
+										}
+									} else {
+										new DialogChangeStatusTask(context, listStatus, task);
+									}
+									break;
+								case R.id.action_delete:
+									break;
+
+								default:
+									break;
 								}
 								return false;
 							}

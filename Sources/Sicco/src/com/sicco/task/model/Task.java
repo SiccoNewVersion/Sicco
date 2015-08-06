@@ -33,6 +33,7 @@ public class Task implements Serializable {
 	private String code;
 	private String id_du_an;
 	private String id_phong_ban;
+	private String trang_thai;
 	private Context context;
 
 	private ArrayList<Task> data;
@@ -45,7 +46,7 @@ public class Task implements Serializable {
 			String du_an, String tien_do, String ngay_bat_dau,
 			String ngay_ket_thuc, String nguoi_giao, String dinh_kem,
 			String phong_ban, String mo_ta, String code, String id_du_an,
-			String id_phong_ban) {
+			String id_phong_ban, String trang_thai) {
 		super();
 		this.id = id;
 		this.ten_cong_viec = ten_cong_viec;
@@ -62,6 +63,7 @@ public class Task implements Serializable {
 		this.code = code;
 		this.id_du_an = id_du_an;
 		this.id_phong_ban = id_phong_ban;
+		this.trang_thai = trang_thai;
 	}
 
 	public long getId() {
@@ -192,6 +194,14 @@ public class Task implements Serializable {
 		this.id_phong_ban = id_phong_ban;
 	}
 
+	public String getTrang_thai() {
+		return trang_thai;
+	}
+
+	public void setTrang_thai(String trang_thai) {
+		this.trang_thai = trang_thai;
+	}
+
 	// get data
 	public ArrayList<Task> getData(final Context context, String url,
 			OnLoadListener OnLoadListener) {
@@ -236,6 +246,7 @@ public class Task implements Serializable {
 							String code = row.getString("code");
 							String id_du_an = row.getString("id_du_an");
 							String id_phong_ban = row.getString("id_phong_ban");
+							String trang_thai = row.getString("trang_thai");
 
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
@@ -243,7 +254,7 @@ public class Task implements Serializable {
 									nguoi_thuc_hien, nguoi_xem, du_an, tien_do,
 									ngay_bat_dau, ngay_ket_thuc, nguoi_giao,
 									dinh_kem, phong_ban, mo_ta, code, id_du_an,
-									id_phong_ban));
+									id_phong_ban, trang_thai));
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();

@@ -85,6 +85,12 @@
     <string name="choose_file">Chọn file</string>
     <string name="dang_boi">Đăng bởi:</string>
     <string name="noi_dung">Nội dung:</string>
+    <string name="info_update_status">Bạn là người theo dõi công việc, nên không được cập nhật trạng thái công việc</string>
+    <string name="info_update_rate">Bạn là người theo dõi công việc, nên không được cập nhật tiến độ công việc</string>
+    <string name="active">Thực hiện</string>
+    <string name="inactive">Tạm dừng</string>
+    <string name="complete">Hoàn thành</string>
+    <string name="cancel">Hủy bỏ</string>
     
     <!-- menu_task -->
     <string name="handle">Gửi xử lý/chuyển tiếp</string>
