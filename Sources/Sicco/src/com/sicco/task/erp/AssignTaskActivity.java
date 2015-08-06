@@ -322,13 +322,22 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 								}
 							});
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
+					Toast.makeText(AssignTaskActivity.this,
+							getResources().getString(R.string.file_error),
+							Toast.LENGTH_LONG).show();
+					progressDialog.dismiss();
 					e.printStackTrace();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+					Toast.makeText(AssignTaskActivity.this,
+							getResources().getString(R.string.file_error),
+							Toast.LENGTH_LONG).show();
+					progressDialog.dismiss();
 					e.printStackTrace();
 				} catch (NotFoundException e) {
-					// TODO Auto-generated catch block
+					Toast.makeText(AssignTaskActivity.this,
+							getResources().getString(R.string.file_error),
+							Toast.LENGTH_LONG).show();
+					progressDialog.dismiss();
 					e.printStackTrace();
 				}
 				
@@ -423,7 +432,6 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 	}
 	@Override
 	protected void onResume() {
-		Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_SHORT).show();
 		super.onResume();
 	}
 }
