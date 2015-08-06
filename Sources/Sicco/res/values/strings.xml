@@ -65,7 +65,23 @@
 	<string name="date_handle">Ngày thực hiện</string>
 	<string name="date_finish">Ngày kết thúc</string>
     <string name="project">Dự án</string>
+    <string name="choose_project">Chọn dự án</string>
     <string name="path_file">Đường dẫn file: "</string>
+    
+    <string name="title_null">Bạn chưa nhập tiêu đề</string>
+    <string name="description_null">Bạn chưa nhập mô tả</string>
+    <string name="date_handle_null">Bạn chưa nhập chọn ngày thực hiện</string>
+    <string name="date_finish_null">Bạn chưa nhập chọn ngày kết thúc</string>
+    <string name="handler_null">Bạn chưa chọn người xử lý</string>
+    <string name="viewer_null">Bạn chưa chọn người xem</string>
+    <string name="department_null">Bạn chưa chọn phòng ban</string>
+    
+    <string name="choose_viewer">Chọn người xem</string>
+    <string name="choose_handler">Chọn người xử lý</string>
+    <string name="choose_department">Chọn phòng ban</string>
+    <string name="choose_file">Chọn tệp đính kèm</string>
+    <string name="set_date_handle">Đặt ngày thực hiện</string>
+    <string name="set_date_finish">Đặt ngày kết thúc</string>
     <!-- LuanDT -->
     <string name="approval_dispatch">Phê công văn</string>
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>

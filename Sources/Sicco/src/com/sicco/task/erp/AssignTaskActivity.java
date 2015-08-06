@@ -1,22 +1,24 @@
 package com.sicco.task.erp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +38,16 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 		OnClickListener {
 	private static int FLAG_DATE_PICKER = 1;
 	private ImageView back;
+	private ScrollView scrollView;
 	private LinearLayout 	lnDateHandle,
 							lnHandler, 
 							lnViewer, 
 							lnDepartment, 
 							lnDateFinish,
 							lnFile,
-							lnProject;
+							lnProject,
+							lnTitle,
+							lnDescription;
 	
 	private TextView 	txtDateHandle;
 	private TextView 	txtDateFinish;
@@ -87,6 +92,9 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 	private void init() {
 		back 			= (ImageView) 		findViewById(R.id.back);
 		
+		scrollView		= (ScrollView)		findViewById(R.id.scrMain);
+		lnTitle			= (LinearLayout)	findViewById(R.id.lnTitle);
+		lnDescription	= (LinearLayout)	findViewById(R.id.lndes);
 		lnDateHandle 	= (LinearLayout) 	findViewById(R.id.lnDateHandle);
 		lnDateFinish 	= (LinearLayout) 	findViewById(R.id.lnDateFinish);
 		lnHandler 		= (LinearLayout) 	findViewById(R.id.lnHandler);
@@ -138,14 +146,14 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 				R.string.api_get_all_user));
 
 		// set data
-//		final Calendar c = Calendar.getInstance();
-//		date = c.get(Calendar.DATE);
-//		months = c.get(Calendar.MONTH);
-//		years_now = c.get(Calendar.YEAR);
+		final Calendar c = Calendar.getInstance();
+		date = c.get(Calendar.DATE);
+		months = c.get(Calendar.MONTH);
+		years_now = c.get(Calendar.YEAR);
 //
-//		toDate = new StringBuilder().append(padding_str(years_now)).append("-")
-//				.append(padding_str(months + 1)).append("-")
-//				.append(padding_str(date));
+		toDate = new StringBuilder().append(padding_str(years_now)).append("-")
+				.append(padding_str(months + 1)).append("-")
+				.append(padding_str(date));
 //
 //		edtDes.setText(dispatch.getDescription());
 //		txtDateHandle.setText(dispatch.getDate());
@@ -235,16 +243,69 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 			new DialogChooseDepartment(AssignTaskActivity.this, listDep);
 			break;
 		case R.id.lnFile:
-			showFileChooser();
+			showFileChooser(); 
 			break;
 		case R.id.lnProject:
 			new DialogChooseProject(AssignTaskActivity.this, listProject);
 			Toast.makeText(getApplicationContext(), "dua", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btnAssign:
-			Toast.makeText(getApplicationContext(), "Assign", Toast.LENGTH_SHORT).show();
+			validatFromAssignTask();
 			break;
 		}
+	}
+	private boolean validatFromAssignTask() {
+		boolean validate = true;
+		String title = edtTitle.getText().toString().trim();
+		String description = edtDes.getText().toString().trim();
+		String date_handle = txtDateHandle.getText().toString().trim();
+		String date_finish = txtDateFinish.getText().toString().trim();
+		String handler = txtHandler.getText().toString().trim();
+		String viewer = txtViewer.getText().toString().trim();
+		String department = txtDepartment.getText().toString().trim();
+		
+		if (title.equals("")) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.title_null), Toast.LENGTH_SHORT).show();
+			edtTitle.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			edtTitle.requestFocus();
+			scrollView.setScrollY((int)lnTitle.getY());
+			validate = false;
+		}else if (description.equals("")) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.description_null), Toast.LENGTH_SHORT).show();
+			edtDes.requestFocus();
+			edtDes.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnDescription.getY());
+			validate = false;
+		}else if (date_handle.equals(getResources().getString(R.string.date_handle))) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.date_handle_null), Toast.LENGTH_SHORT).show();
+			lnDateHandle.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnDateHandle.getY());
+			validate = false;
+		}else if (date_finish.equals(getResources().getString(R.string.date_finish))) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.date_finish_null), Toast.LENGTH_SHORT).show();
+			lnDateFinish.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnDateFinish.getY());
+			validate = false;
+		}else if (handler.equals(getResources().getString(R.string.handler1))) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.handler_null), Toast.LENGTH_SHORT).show();
+			lnHandler.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnHandler.getY());
+			validate = false;
+		}else if (viewer.equals(getResources().getString(R.string.viewer))) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.viewer_null), Toast.LENGTH_SHORT).show();
+			lnViewer.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnViewer.getY());
+			validate = false;
+		}else if (department.equals(getResources().getString(R.string.department))) {
+			Toast.makeText(AssignTaskActivity.this, getResources().getString(R.string.department_null), Toast.LENGTH_SHORT).show();
+			lnDepartment.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake));
+			scrollView.setScrollY((int)lnDepartment.getY());
+			validate = false;
+		}else {
+			validate = true;
+		}
+		
+		return validate;
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -383,7 +383,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/department"
+                    android:text="@string/chose_dipartment"
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -406,22 +406,22 @@
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
-
-            <Button
-                android:id="@+id/btnConvert"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_btn_login_selector"
-                android:text="@string/covert"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_marginBottom="30dp" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnConvert"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_login_selector"
+        android:text="@string/covert"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>
