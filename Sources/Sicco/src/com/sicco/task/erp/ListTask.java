@@ -51,6 +51,7 @@ public class ListTask extends Activity implements OnClickListener,
 		setContentView(R.layout.activity_assigned_task);
 
 		ListTaskActivity = true;
+		AssignedTaskActivity.AssignedTaskActivity = false;
 		
 		init();
 
