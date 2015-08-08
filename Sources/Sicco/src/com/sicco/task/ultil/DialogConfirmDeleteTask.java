@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.model.Status;
+import com.sicco.task.adapter.TaskAdapter;
 import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.model.Task;
 import com.sicco.task.model.Task.OnLoadListener;
@@ -70,8 +71,8 @@ public class DialogConfirmDeleteTask implements OnClickListener {
 		txtTitle.setText(context.getResources().getString(
 				R.string.confirm_delete));
 		txtContent.setText(Html.fromHtml(context.getString(R.string.content_dialog_delete_task) + 
-				"<span style='color:#ff0000'>"+task.getTen_cong_viec() +
-				"</span>"));
+				"<font color=\"#ff0000\">"+task.getTen_cong_viec() +
+				"</font>"));
 		imgBack.setOnClickListener(this);
 		btnDelete.setOnClickListener(this);
 		btnCancel.setOnClickListener(this);
@@ -98,9 +99,7 @@ public class DialogConfirmDeleteTask implements OnClickListener {
 				
 				@Override
 				public void onSuccess() {
-					AssignedTaskActivity.adapter.setData(AssignedTaskActivity.arrTask);
-					AssignedTaskActivity.adapter.notifyDataSetChanged();
-					Log.d("NgaDV", "onsuccess");
+					AssignedTaskActivity.displayLisview();
 					progressDialog.dismiss();
 					Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_SHORT).show();
 				}

@@ -238,7 +238,6 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 					allUser, listCheckedHandler);
 			break;
 		case R.id.lnViewer:
-
 			ActionAdapter.flag = "chooseViewer";
 			new DialogChooseUser(AssignTaskActivity.this, listDep, allUser,
 					listChecked);
@@ -265,7 +264,7 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 					task.assignTask(
 							getResources().getString(R.string.api_add_task),
 							Long.parseLong(Utils.getString(AssignTaskActivity.this, "user_id")), 
-							edtTitle.getText().toString().trim(), 
+							edtTitle.getText().toString().trim(),
 							edtDes.getText().toString().trim(), 
 							txtDateHandle.getText().toString().trim(), 
 							txtDateFinish.getText().toString().trim(), 
@@ -299,8 +298,6 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 									DialogChooseUser.idUsersView = "";
 
 									finish();
-
-								
 								}
 								
 								@Override
