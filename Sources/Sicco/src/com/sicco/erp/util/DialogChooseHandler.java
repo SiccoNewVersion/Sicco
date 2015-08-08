@@ -199,8 +199,10 @@ public class DialogChooseHandler {
 					
 					if (!strUsersHandl.equals("")) {
 						if (VIEW_CURRENT == 1) {
-
+							
 							AssignTaskActivity.txtHandler.setText(strUsersHandl);
+							AssignTaskActivity.txtHandler.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
+							
 						}else if (VIEW_CURRENT == 2){
 							ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
 						}

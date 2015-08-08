@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,6 +109,7 @@ public class DialogChooseProject {
 			@Override
 			public void onClick(View arg0) {
 				if (clickItem) {
+					AssignTaskActivity.txtProject.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 					AssignTaskActivity.txtProject.setText(project.getName());
 					idProjectSelected = project.getId();
 					alertDialog.dismiss();
