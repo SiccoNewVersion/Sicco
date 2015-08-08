@@ -25,6 +25,7 @@ public class ReportSteerTask {
 	private String date;
 	private String content;
 	private String file;
+	private String taskCode;
 	private ArrayList<ReportSteerTask> data;
 
 	public ReportSteerTask(Context context) {
@@ -39,6 +40,23 @@ public class ReportSteerTask {
 		this.date = date;
 		this.content = content;
 		this.file = file;
+	}
+
+	public ReportSteerTask(long id, String handler, String content,
+			String taskCode) {
+		super();
+		this.id = id;
+		this.handler = handler;
+		this.content = content;
+		this.taskCode = taskCode;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
 	}
 
 	public long getId() {
@@ -147,11 +165,12 @@ public class ReportSteerTask {
 
 	// send report
 	public void sendReport(Context context, long id_cv, String content,
-			String pathFile, OnLoadListener OnLoadListener) throws FileNotFoundException {
+			String pathFile, OnLoadListener OnLoadListener)
+			throws FileNotFoundException {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		RequestParams params = new RequestParams();
-		
+
 		if (pathFile != null) {
 			File file = new File(pathFile);
 			params.put("dinh_kem", file);
@@ -162,7 +181,7 @@ public class ReportSteerTask {
 		params.add("id_user", Utils.getString(context, "user_id"));
 		params.put("id_cv", id_cv);
 		params.put("noi_dung", content);
-		
+
 		Log.d("LuanDT", "params: " + params);
 
 		AsyncHttpClient client = new AsyncHttpClient();
@@ -181,8 +200,6 @@ public class ReportSteerTask {
 							try {
 								JSONObject object = new JSONObject(jsonRead);
 								int success = object.getInt("success");
-								int id_binh_luan = object.getInt("id_binh_luan");
-								Log.d("LuanDT", "id_binh_luan: " + id_binh_luan);
 								if (success == 1) {
 									onLoadListener.onSuccess();
 								} else {

@@ -3,22 +3,31 @@ package com.sicco.erp.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.sicco.erp.ApprovalActivity;
 import com.sicco.erp.DealtWithActivity;
 import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
+import com.sicco.erp.util.Utils;
+import com.sicco.task.erp.ListTask;
+import com.sicco.task.erp.SteerReportTaskActivity;
+import com.sicco.task.model.ReportSteerTask;
+import com.sicco.task.model.Task;
 
 public class MyNotificationManager {
 	Context mContext;
@@ -42,11 +51,6 @@ public class MyNotificationManager {
 	String tag;
 	static int flags = Intent.FLAG_ACTIVITY_NEW_TASK
 			| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP;
-
-	public static void buildNormalNotification(Context context,
-			NotificationModel data) {
-
-	}
 
 	public void notifyType(Context context,
 			ArrayList<NotificationModel> arrayList, int notification_count) {
@@ -119,6 +123,91 @@ public class MyNotificationManager {
 			}
 		}
 	}
+	
+	public void notifyCongViec(Context context, ArrayList<Task> data) {
+		int notification_count = data.size();
+		noti = context.getResources().getString(
+				R.string.notify_new_congviec);
+		for (int i = 0; i < notification_count; i++) {
+			String ten = data.get(i).getTen_cong_viec();
+			String nguoi_xem = data.get(i).getNguoi_xem();
+			String mo_ta = data.get(i).getMo_ta();
+			String nguoi_thuc_hien = data.get(i).getNguoi_thuc_hien();
+
+			if (notification_count == 1) {
+				message = context.getResources().getString(
+						R.string.new_noti_mess)
+						+ " " + notification_count + " " + noti + " " + "\n";
+
+				String ten_cv = context.getResources().getString(
+						R.string.ten_cv);
+				String nguoi_xem_cv = context.getResources().getString(
+						R.string.nguoi_xem_cv);
+				String nguoi_thuc_hien_cv = context.getResources().getString(
+						R.string.nguoi_thuc_hien_cv);
+
+				contentText = "" + ten_cv + " " + ten + "\n" + nguoi_xem_cv
+						+ " " + nguoi_xem + "\n" + nguoi_thuc_hien_cv + " "
+						+ nguoi_thuc_hien + "\n" + mo_ta + "\n";
+
+			} else if (notification_count > 1) {
+				message = context.getResources().getString(
+						R.string.new_noti_mess)
+						+ " " + notification_count + " " + noti + " " + "\n";
+				name += "" + ten + "\n";
+				contentText = name;
+			}
+
+		}
+		notify(context, 4, 4);
+	}
+
+	public void notifyBinhLuan(Context context, ArrayList<Task> taskData,
+			ArrayList<ReportSteerTask> data) {
+		int notification_count = data.size();
+		String taskCode = "";
+		noti = context.getResources().getString(
+				R.string.notify_new_comment);
+		for (int i = 0; i < notification_count; i++) {
+			String handler = data.get(i).getHandler();
+			String content = data.get(i).getContent();
+			taskCode = data.get(i).getTaskCode();
+
+			if (notification_count == 1) {
+				String username = Utils.getString(context,
+						SessionManager.KEY_NAME);
+				String ten_cong_vec = "";
+				if (taskData.size() > 0) {
+					String in = context.getResources().getString(R.string.in);
+					ten_cong_vec = " " + in + " " 
+							+ getTaskData(context, taskData, taskCode, username);
+				}
+				message = handler
+						+ " "
+						+ context.getResources().getString(
+								R.string.notify_new_comment_msg) + ten_cong_vec;
+
+				String cv_handler = context.getResources().getString(
+						R.string.cv_handler);
+
+				contentText = "" + cv_handler + " " + handler + "\n" + content
+						+ "\n";
+
+			} else if (notification_count > 1) {
+				message = context.getResources().getString(
+						R.string.new_noti_mess)
+						+ " " + notification_count + " " + noti + " " + "\n";
+				String cv_handler_new_comment = context.getResources()
+						.getString(R.string.cv_handler_new_comment);
+
+				name += handler + "\n";
+				contentText = "" + cv_handler_new_comment + "\n"  + name;
+			}
+
+		}
+		Utils.saveInt(context, "STEER_ACTION", Integer.parseInt(taskCode));
+		notify(context, 5, 5);
+	}
 
 	public void notifyCacLoai(Context context, ArrayList<Dispatch> arrayList,
 			int notification_count) {
@@ -177,37 +266,25 @@ public class MyNotificationManager {
 	}
 
 	// ==========================================================================
+	@SuppressLint("InlinedApi")
 	@SuppressWarnings("deprecation")
 	public void notify(Context context, int notification_id, int notify_type) {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				context);
 		Intent notIntent = null;
-		String myPackage = "com.sicco.erp";
-//		String process = getAllRunningService(context);
-//		Intent LaunchIntent = context.getPackageManager()
-//				.getLaunchIntentForPackage(myPackage);
-		// LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// context.startActivity(LaunchIntent);
 		if (notify_type == 1) {
-			// if (!process.equalsIgnoreCase(myPackage)) {
-			// context.startActivity(LaunchIntent);
-			// }
 			notIntent = new Intent(context, ApprovalActivity.class);
-			notIntent.setPackage(myPackage);
 		} else if (notify_type == 2) {
-			// if (!process.equalsIgnoreCase(myPackage)) {
-			// context.startActivity(LaunchIntent);
-			// }
 			notIntent = new Intent(context, DealtWithActivity.class);
-			notIntent.setPackage(myPackage);
 		} else if (notify_type == 3) {
-			// if (!process.equalsIgnoreCase(myPackage)) {
-			// context.startActivity(LaunchIntent);
-			// }
 			notIntent = new Intent(context, OtherActivity.class);
-			notIntent.setPackage(myPackage);
+		} else if (notify_type == 4) {
+			notIntent = new Intent(context, ListTask.class);
+		} else if (notify_type == 5) {
+			notIntent = new Intent(context, SteerReportTaskActivity.class);
 		}
+
 
 		notIntent.addFlags(flags);
 		// notIntent.putExtra("com.sicco.erp", 1);
@@ -251,6 +328,33 @@ public class MyNotificationManager {
 		manager.cancel(notification_id);
 		manager.notify(notification_id, notification);
 
+	}
+	
+	NotificationDBController db;
+	Cursor cursor;
+
+	String getTaskData(Context context, ArrayList<Task> data, String taskCode,
+			String username) {
+		String ten_cong_vec = "";
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
+				null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.ID_COL + " = " + taskCode + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
+		Log.d("ToanNM", "getTaskData sql : " + sql);
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				ten_cong_vec = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.TASK_TENCONGVIEC));
+			} while (cursor.moveToNext());
+		}
+		Log.d("ToanNM", ten_cong_vec);
+		return ten_cong_vec;
 	}
 
 }

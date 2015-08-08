@@ -1,5 +1,6 @@
 package com.sicco.erp.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,23 +10,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
+import com.sicco.task.model.Task;
 
 public class NotificationDBController extends SQLiteOpenHelper {
 	
 	public static String NOTIFICATION_STATE_NEW = "new";
 	public static String NOTIFICATION_STATE_CHECKED = "checked";
 
-	private static String DB_NAME = "notification.db";
+	private static String DB_NAME = "sicco.db";
 	private static int DB_VERSION = 1;
+	@SuppressLint("SdCardPath")
 	private static String DB_PATH = "/data/data/com.sicco.erp/databases/";
 	
 	private SQLiteDatabase mDatabase;
 	private static NotificationDBController sInstance;
-	private Context mContext;
+//	private Context mContext;
 	public NotificationDBController(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		mDatabase = getWritableDatabase();
-		mContext = context;
+//		mContext = context;
 	}
 	public static NotificationDBController getInstance(Context context){
 		if(sInstance == null) {
@@ -37,6 +40,9 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	
 	public static String TABLE_NAME = "notification_tbl";
 	public static String DISPATCH_TABLE_NAME = "dispatch_tbl";
+	public static String TASK_TABLE_NAME = "task_tbl";
+	public static String REPORT_TABLE_NAME = "report_tbl";
+	
 	public static String ID_COL = "_id";
 	public static String DISPATCH_COL = "did";
 	public static String SOHIEUCONGVAN_COL = "soHieuCongVan";
@@ -56,6 +62,15 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	public static String D_STATUS_COL = "d_status";
 	public static String D_HANDLER_COL = "d_handler";
 	
+	public static String TASK_NGUOIXEM = "task_nguoixem";
+	public static String TASK_NGUOITHUCHIEN = "task_nguoithuchien";
+	public static String TASK_TENCONGVIEC = "task_tencongviec";
+	public static String TASK_CONTENT = "task_content";
+	public static String TASK_STATE = "trang_thai";
+	
+	public static String REPORT_CONTENT = "noi_dung";
+	public static String REPORT_HANDLER = "nguoi_xu_ly";
+	public static String REPORT_DATE = "date";
 	
 	
 	private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
@@ -81,15 +96,41 @@ public class NotificationDBController extends SQLiteOpenHelper {
 			+ D_STATUS_COL + " text,"
 			+ D_HANDLER_COL + " text,"
 			+ DSTATE_COL + " text);";
+	
+	private static String CREATE_TASK_TABLE = "CREATE TABLE IF NOT EXISTS "
+			+ TASK_TABLE_NAME + "("
+			+ ID_COL + " integer primary key autoincrement,"
+			+ USERNAME_COL + " text,"
+			+ TASK_TENCONGVIEC + " text,"
+			+ TASK_NGUOIXEM + " text,"
+			+ TASK_NGUOITHUCHIEN + " text,"
+			+ TASK_CONTENT + " text,"
+			+ TASK_STATE + " text,"
+			+ TRANGTHAI_COL + " text);";
+	
+	private static String CREATE_REPORT_TABLE = "CREATE TABLE IF NOT EXISTS "
+			+ REPORT_TABLE_NAME + "("
+			+ ID_COL + " integer primary key autoincrement,"
+			+ USERNAME_COL + " text,"
+			+ REPORT_HANDLER + " text,"
+			+ REPORT_DATE + " text,"
+			+ REPORT_CONTENT + " text);";
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE);
 		db.execSQL(CREATE_DISPATCH_TABLE);
+		db.execSQL(CREATE_TASK_TABLE);
+		db.execSQL(CREATE_REPORT_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		
+		arg0.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+		arg0.execSQL("DROP TABLE IF EXISTS " + DISPATCH_TABLE_NAME);
+		arg0.execSQL("DROP TABLE IF EXISTS " + TASK_TABLE_NAME);
+		arg0.execSQL("DROP TABLE IF EXISTS " + REPORT_TABLE_NAME);
+		onCreate(arg0);
 	}
 	
 	public void openDB() throws SQLException{
@@ -149,6 +190,14 @@ public class NotificationDBController extends SQLiteOpenHelper {
 		update(DISPATCH_TABLE_NAME, values, where, null);
 	}
 	
+	public void checkedTask(Task item, long id){
+		ContentValues values = new ContentValues();
+		values.put(TRANGTHAI_COL, NOTIFICATION_STATE_CHECKED);
+		
+		String where = NotificationDBController.ID_COL + " = " + id;
+		update(TASK_TABLE_NAME, values, where, null);
+	}
+	
 	public void changeStateDisPatch(Dispatch item, long id, int state, String sstate){
 		ContentValues values = new ContentValues();
 		values.put(D_TYPE_COL, state);
@@ -163,6 +212,8 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	    SQLiteDatabase sdb= this.getWritableDatabase();
 	    sdb.delete(TABLE_NAME, null, null);
 	    sdb.delete(DISPATCH_TABLE_NAME, null, null);
+	    sdb.delete(TASK_TABLE_NAME, null, null);
+//	    sdb.delete(REPORT_TABLE_NAME, null, null);
 
 	}
 	public void getSize(){

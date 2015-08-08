@@ -274,7 +274,7 @@ public class DialogChangeStatusDispatch {
 
 	void setCount(int type) {
 		if (type == 1) {
-			int count = Utils.getInt(context, GetAllNotificationService.CL_KEY);
+			int count = Utils.getInt(context, GetAllNotificationService.CL_KEY, 0);
 			if (count != 0) {
 				count--;
 			} else if (count == 0) {
@@ -285,7 +285,7 @@ public class DialogChangeStatusDispatch {
 			Utils.saveInt(context, GetAllNotificationService.CL_KEY, count);
 		} else if (type == 0) {
 			int count = Utils.getInt(context,
-					GetAllNotificationService.CVXL_KEY);
+					GetAllNotificationService.CVXL_KEY, 0);
 			if (count != 0) {
 				count--;
 			} else if (count == 0) {

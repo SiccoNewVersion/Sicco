@@ -2,11 +2,13 @@ package com.sicco.task.ultil;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.DealtWithActivity;
+import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
 import com.sicco.erp.model.Status;
@@ -27,39 +31,31 @@ import com.sicco.task.erp.ListTask;
 import com.sicco.task.model.Task;
 import com.sicco.task.model.Task.OnLoadListener;
 
-public class DialogChangeStatusTask {
+public class DialogSetProcess {
 	private Context context;
 	private StatusAdapter statusAdapter;
 	private ArrayList<Status> listStatus;
 	private TextView txtTitle;
 	private Button btnDone;
+	private Button btnRetry;
 	private ListView lvStatus;
-	private Status status;
 	private Task task;
+	private Status status;
+	
+	int type;
 
-	public DialogChangeStatusTask(Context context,
+	public DialogSetProcess(Context context,
 			ArrayList<Status> listStatus, Task task) {
 		super();
 		this.context = context;
 		this.listStatus = listStatus;
 		this.task = task;
-
 		status = new Status();
-
-		if (task.getTrang_thai().equals("active")) {
-			status.setKey(0);
-		} else if (task.getTrang_thai().equals("inactive")) {
-			status.setKey(1);
-		} else if (task.getTrang_thai().equals("complete")) {
-			status.setKey(2);
-		} else if (task.getTrang_thai().equals("cancel")) {
-			status.setKey(3);
-		}
-
-		showDialog();
+		status.setKey(Long.parseLong(task.getTien_do())/10);
 	}
 
-	private void showDialog() {
+	@SuppressLint("InflateParams")
+	public void showDialog() {
 		Rect rect = new Rect();
 		Window window = ((Activity) context).getWindow();
 		window.getDecorView().getWindowVisibleDisplayFrame(rect);
@@ -73,6 +69,7 @@ public class DialogChangeStatusTask {
 		txtTitle = (TextView) layout.findViewById(R.id.title_actionbar);
 		lvStatus = (ListView) layout.findViewById(R.id.lvStatus);
 		btnDone = (Button) layout.findViewById(R.id.done);
+		btnRetry = (Button) layout.findViewById(R.id.retry);
 
 		statusAdapter = new StatusAdapter(context, listStatus);
 		lvStatus.setAdapter(statusAdapter);
@@ -86,19 +83,15 @@ public class DialogChangeStatusTask {
 
 			}
 		});
-
-		if (task.getTrang_thai().equals("active")) {
-			lvStatus.setItemChecked((int) status.getKey(), true);
-		} else if (task.getTrang_thai().equals("inactive")) {
-			lvStatus.setItemChecked((int) status.getKey(), true);
-		} else if (task.getTrang_thai().equals("complete")) {
-			lvStatus.setItemChecked((int) status.getKey(), true);
-		} else if (task.getTrang_thai().equals("cancel")) {
-			lvStatus.setItemChecked((int) status.getKey(), true);
-		}
+		
+		int selected = (int)status.getKey();
+		Log.d("ToanNM", "task.getTien_do() : " + selected);
+		lvStatus.setItemChecked(selected,
+				true);
+		Log.d("MyDebug", "selected is : " + selected);
 
 		txtTitle.setText(context.getResources().getString(
-				R.string.change_status));
+				R.string.chose_process));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(layout);
@@ -122,10 +115,20 @@ public class DialogChangeStatusTask {
 
 				final ProgressDialog progressDialog = new ProgressDialog(
 						context);
-				progressDialog.setMessage(context.getResources().getString(
-						R.string.waiting));
-				task.changeStatusTask(context, task.getId(), status.getsKey(),
-						new Task.OnLoadListener() {
+				progressDialog.setMessage(context
+						.getResources().getString(
+								R.string.waiting));
+
+				task.changeProcess(
+						context.getResources().getString(
+								R.string.api_update_rate),
+						Long.toString(task.getId()),
+						status.getsKey(), new OnLoadListener() {
+
+							@Override
+							public void onStart() {
+								progressDialog.show();
+							}
 
 							@Override
 							public void onSuccess() {
@@ -136,7 +139,7 @@ public class DialogChangeStatusTask {
 												R.string.success),
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
-
+								
 								// update ui
 								if (AssignedTaskActivity.AssignedTaskActivity) {
 									AssignedTaskActivity.arrTask = task
@@ -217,27 +220,26 @@ public class DialogChangeStatusTask {
 												}
 											});
 								}
-
-							}
-
-							@Override
-							public void onStart() {
-								progressDialog.show();
-
 							}
 
 							@Override
 							public void onFalse() {
+
 								progressDialog.dismiss();
-								Toast.makeText(
-										context,
-										context.getResources().getString(
-												R.string.internet_false),
-										Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, context.getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
 							}
 						});
 
 			}
 		});
+		// click retry
+		btnRetry.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// Do something
+			}
+		});
 	}
+
 }

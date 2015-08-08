@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.model.ReportSteer;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.task.model.ReportSteerTask;
 
 public class ReportSteerTaskAdapter extends BaseAdapter {
 
 	private Context context;
 	private ArrayList<ReportSteerTask> data;
-
+	
 	public ReportSteerTaskAdapter(Context context,
 			ArrayList<ReportSteerTask> data) {
 		this.context = context;
@@ -77,6 +78,7 @@ public class ReportSteerTaskAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		
 		if (position % 2 == 0) {
 			convertView.setBackgroundColor(context.getResources().getColor(
 					R.color.item_color));
@@ -84,6 +86,7 @@ public class ReportSteerTaskAdapter extends BaseAdapter {
 			convertView.setBackgroundColor(context.getResources().getColor(
 					R.color.white));
 		}
+		
 		String handler = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.dang_boi)
 				+ "</i></u></b></font>" + "  " + reportSteer.getHandler();
@@ -120,4 +123,5 @@ public class ReportSteerTaskAdapter extends BaseAdapter {
 		private TextView contentReport;
 		private TextView attachments;
 	}
+	
 }

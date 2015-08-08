@@ -30,7 +30,7 @@ public class Utils {
 		pIntent = PendingIntent.getService(context, 0, intent,
 				Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 		manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-				time + 20 * 60 * 1000, pIntent);
+				time + 60 * 1000, pIntent);
 
 	}
 
@@ -96,13 +96,13 @@ public class Utils {
 		editor.commit();
 	}
 
-	public static int getInt(Context context, String key) {
+	public static int getInt(Context context, String key, int defaultValue) {
 		int ret = 0;
 		try {
 			SharedPreferences pref = context.getSharedPreferences(
 					SHARED_PREFERENCE_STRING, Context.MODE_PRIVATE);
 
-			ret = pref.getInt(key, 0);
+			ret = pref.getInt(key, defaultValue);
 		} catch (Exception e) {
 
 		}

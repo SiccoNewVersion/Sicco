@@ -49,7 +49,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	public static ArrayList<User> allUser;
 
 	// ToanNM
-	private int cvcp_count, cvxl_count, cl_count;
+	private int cvcp_count, cvxl_count, cv_count;
 	private SessionManager session;
 	private static HomeActivity homeActivity;
 
@@ -250,20 +250,24 @@ public class HomeActivity extends Activity implements OnClickListener {
 		alertDialog.show();
 	}
 
-	TextView notify_cvcp, notify_cvxl;
+	TextView notify_cvcp, notify_cvxl, notify_cv;
 
 	private void setCountNotify() {
 		cvcp_count = Utils.getInt(getApplicationContext(),
-				GetAllNotificationService.CVCP_KEY);
+				GetAllNotificationService.CVCP_KEY, 0);
 		cvxl_count = Utils.getInt(getApplicationContext(),
-				GetAllNotificationService.CVXL_KEY);
-		cl_count = Utils.getInt(getApplicationContext(),
-				GetAllNotificationService.CL_KEY);
+				GetAllNotificationService.CVXL_KEY, 0);
+		cv_count = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CV_KEY, 0);
 		notify_cvcp = (TextView) findViewById(R.id.activity_home_notify_canphe);
 		notify_cvxl = (TextView) findViewById(R.id.activity_home_notify_xuly);
+		notify_cv = (TextView) findViewById(R.id.activity_home_notify_danhsachviec);
 		checkNotifyCount(notify_cvcp, cvcp_count, 1);
 		checkNotifyCount(notify_cvxl, cvxl_count, 2);
-		// checkNotifyCount(notify_cl, cl_count, 3);
+		checkNotifyCount(notify_cv, cv_count, 3);
+		
+//		int total = cvcp_count + cvxl_count + cv_count;
+//		BadgeUtils.setBadge(getApplicationContext(), total);
 	}
 
 	public static class NotifyBR extends BroadcastReceiver {

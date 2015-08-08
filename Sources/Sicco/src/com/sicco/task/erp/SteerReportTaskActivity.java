@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.util.ChooseFileActivity;
+import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
 import com.sicco.task.model.ReportSteerTask;
@@ -58,7 +59,11 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		id_task = intent.getLongExtra("id_task", -1);
 		init();
 		setListReportSteer("" + id_task);
-
+		//
+//		int task_id = Utils.getInt(getApplicationContext(), "STEER_ACTION", 0);
+//		String taskID = "" + task_id;
+//		setListReportSteer(taskID);
+//		Log.d("MyDebug", "abc xyz :" + task_id);
 	}
 
 	private void init() {

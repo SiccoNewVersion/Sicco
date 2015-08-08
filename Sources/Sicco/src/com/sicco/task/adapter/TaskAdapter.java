@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,12 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Status;
 import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
 import com.sicco.task.ultil.DialogChangeStatusTask;
 import com.sicco.task.ultil.DialogConfirmDeleteTask;
+import com.sicco.task.ultil.DialogSetProcess;
 
 public class TaskAdapter extends BaseAdapter {
 
@@ -31,6 +35,8 @@ public class TaskAdapter extends BaseAdapter {
 	private int type;
 	private boolean update_status_and_rate = false;
 	private ArrayList<Status> listStatus;
+	NotificationDBController db;
+	Cursor cursor;
 
 	public TaskAdapter(Context context, ArrayList<Task> data, int type) {
 		super();
@@ -85,6 +91,18 @@ public class TaskAdapter extends BaseAdapter {
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
+		}
+		
+		if (type == 2) {
+			long id = task.getId();
+			String state = querryFromDB(context, id);
+			if (state
+					.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
+				view.setBackgroundColor(context.getResources().getColor(
+						R.color.item_color));
+			} else {
+				view.setBackgroundColor(Color.WHITE);
+			}
 		}
 
 		if (task.getTrang_thai().equals("complete")) {
@@ -168,11 +186,24 @@ public class TaskAdapter extends BaseAdapter {
 									context.startActivity(intent);
 									break;
 								case R.id.action_update_rate:
+									listStatus = new ArrayList<Status>();
+
+									String[] key = context
+											.getResources()
+											.getStringArray(R.array.process_key);
+									String[] value = context.getResources()
+											.getStringArray(
+													R.array.process_value);
+									int max = key.length;
+									for (int i = 0; i < max; i++) {
+										listStatus.add(new Status(i + 1,
+												key[i], value[i]));
+									}
 									if (type == 2) {
 										if (update_status_and_rate) {
-											Toast.makeText(context,
-													"show dialog",
-													Toast.LENGTH_SHORT).show();
+											DialogSetProcess dialog = new DialogSetProcess(
+													context, listStatus, task);
+											dialog.showDialog();
 										} else {
 											Toast.makeText(
 													context,
@@ -182,9 +213,9 @@ public class TaskAdapter extends BaseAdapter {
 													Toast.LENGTH_SHORT).show();
 										}
 									} else {
-										Toast.makeText(context,
-												"show dialog",
-												Toast.LENGTH_SHORT).show();
+										DialogSetProcess dialog = new DialogSetProcess(
+												context, listStatus, task);
+										dialog.showDialog();
 									}
 									break;
 								case R.id.action_change_status:
@@ -222,6 +253,25 @@ public class TaskAdapter extends BaseAdapter {
 		private TextView handler;
 		private TextView project;
 		private TextView action;
+	}
+	
+	String querryFromDB(Context context, long position) {
+		String state = "";
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.ID_COL + " = " + position;
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				state = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.TRANGTHAI_COL));
+			} while (cursor.moveToNext());
+		}
+		return state;
 	}
 
 }

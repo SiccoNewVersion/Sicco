@@ -174,7 +174,7 @@ public class SendApprovalActivity extends Activity implements OnClickListener {
 		intent.putExtra("ACTION", 0);
 		getApplicationContext().startService(intent);
 		int count = Utils.getInt(getApplicationContext(),
-				GetAllNotificationService.CVCP_KEY);
+				GetAllNotificationService.CVCP_KEY, 0);
 		count--;
 		Utils.saveInt(getApplicationContext(),
 				GetAllNotificationService.CVCP_KEY, count);

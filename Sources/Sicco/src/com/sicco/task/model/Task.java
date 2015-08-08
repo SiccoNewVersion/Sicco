@@ -45,6 +45,15 @@ public class Task implements Serializable {
 	public Task(Context context) {
 		this.context = context;
 	}
+	
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien, String nguoi_xem, String mo_ta){
+		super();
+		this.id = id;
+		this.ten_cong_viec = ten_cong_viec;
+		this.nguoi_thuc_hien = nguoi_thuc_hien;
+		this.nguoi_xem = nguoi_xem;
+		this.mo_ta = mo_ta;
+	}
 
 	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
 			String nguoi_xem, String du_an, String tien_do,
@@ -69,7 +78,7 @@ public class Task implements Serializable {
 		this.id_phong_ban = id_phong_ban;
 		this.trang_thai = trang_thai;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
@@ -277,6 +286,55 @@ public class Task implements Serializable {
 		});
 		return data;
 	}
+	
+	//changeProcess
+	public void changeProcess(String url, String id_cv,
+			String process, OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+
+		RequestParams params = new RequestParams();
+		params.add("id_cv", id_cv);
+		params.add("rate", process);
+
+		Log.d("LuanDT", "params: " + params);
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, params, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+
+				Log.d("LuanDT", "jsonRead: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						int success = object.getInt("success");
+						if (success == 1) {
+							onLoadListener.onSuccess();
+						} else {
+							onLoadListener.onFalse();
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+
+				super.onSuccess(statusCode, headers, response);
+			}
+
+		});
+	}
+	
 
 	// search
 	public ArrayList<Task> search(String k, ArrayList<Task> data) {

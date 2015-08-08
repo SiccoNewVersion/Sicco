@@ -3,9 +3,14 @@ package com.sicco.task.erp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -21,7 +26,10 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sicco.erp.R;
+import com.sicco.erp.database.NotificationDBController;
+import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.Keyboard;
+import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.TaskAdapter;
 import com.sicco.task.model.Task;
@@ -43,6 +51,9 @@ public class ListTask extends Activity implements OnClickListener,
 
 	private TextView title_actionbar;
 	public static boolean ListTaskActivity = false;
+	
+	NotificationDBController db;
+	Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +179,87 @@ public class ListTask extends Activity implements OnClickListener,
 		} else {
 			Toast.makeText(ListTask.this, getResources().getString(R.string.no_attach), Toast.LENGTH_SHORT).show();
 		}
+		
+		String state = querryFromDB(getApplicationContext(), arg2);
+		if(state.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)){
+			int count = querryFromDB(getApplicationContext());
+			setCount(count);
+		}
+		startGetAllNotificationService();
+		db.checkedTask(arrTask.get(arg2), arrTask.get(arg2).getId());
+		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
+		listTask.setAdapter(adapter);
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		 startGetAllNotificationService();
+	}
+
+	//
+	void startGetAllNotificationService() {
+		Intent intent = new Intent(getApplicationContext(),
+				GetAllNotificationService.class);
+		intent.putExtra("ACTION", 0);
+		getApplicationContext().startService(intent);
+	}
+	
+	void setCount(int count) {
+		if (count != 0) {
+			count--;
+		} else if (count == 0) {
+			cancelNotification(getApplicationContext(), 4);
+		}
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CV_KEY, count);
+		Log.d("MyDebug", "CV_Key : " + count);
+	}
+	
+	String querryFromDB(Context context, long position) {
+		String state = "";
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.ID_COL + " = " + position;
+//				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
+		cursor = db.rawQuery(sql, null);
+		if (cursor.moveToFirst()) {
+			do {
+				// int did = cursor
+				// .getInt(cursor
+				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
+				state = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(NotificationDBController.TRANGTHAI_COL));
+			} while (cursor.moveToNext());
+		}
+		return state;
+	}
+
+	int querryFromDB(Context context) {
+		int count = 0;
+		db = NotificationDBController.getInstance(context);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null,
+				null, null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.TASK_TABLE_NAME
+				+ " where "
+				+ NotificationDBController.TRANGTHAI_COL
+				+ " = \"new\"";
+		cursor = db.rawQuery(sql, null);
+		count = cursor.getCount();
+		Toast.makeText(getApplicationContext(), "ListTask : " + count , Toast.LENGTH_SHORT).show();
+		return count;
+	}
+
+	void cancelNotification(Context context, int notification_id) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager.cancel(notification_id);
 	}
 
 	@Override
