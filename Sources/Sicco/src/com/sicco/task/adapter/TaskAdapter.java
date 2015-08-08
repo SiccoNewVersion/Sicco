@@ -22,6 +22,7 @@ import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
 import com.sicco.task.ultil.DialogChangeStatusTask;
+import com.sicco.task.ultil.DialogConfirmDeleteTask;
 
 public class TaskAdapter extends BaseAdapter {
 
@@ -203,10 +204,9 @@ public class TaskAdapter extends BaseAdapter {
 									}
 									break;
 								case R.id.action_delete:
+									new DialogConfirmDeleteTask(context, task);
 									break;
 
-								default:
-									break;
 								}
 								return false;
 							}
