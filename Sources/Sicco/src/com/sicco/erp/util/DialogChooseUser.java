@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -240,6 +241,7 @@ public class DialogChooseUser {
 					}
 					if (!strUsersView.equals("")) {
 						if (DialogChooseHandler.VIEW_CURRENT == 1) {
+							AssignTaskActivity.txtViewer.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 							AssignTaskActivity.txtViewer.setText(strUsersView);
 						}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
 							ConvertDispatchActivity.txtViewer.setText(strUsersView);

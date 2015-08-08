@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -177,11 +178,13 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 			years_now 	= year;
 
 			if(FLAG_DATE_PICKER == 1){
+				txtDateHandle.setTextColor(Color.parseColor(getResources().getString(R.color.actionbar_color)));
 				txtDateHandle.setText(new StringBuilder()
 					.append(padding_str(years_now)).append("-")
 					.append(padding_str(months + 1)).append("-")
 					.append(padding_str(date)));
 			}else {
+				txtDateFinish.setTextColor(Color.parseColor(getResources().getString(R.color.actionbar_color)));
 				txtDateFinish.setText(new StringBuilder()
 				.append(padding_str(years_now)).append("-")
 				.append(padding_str(months + 1)).append("-")
@@ -416,6 +419,7 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 				file = new File(path);
 
 				txtFile.setText(file.getName());
+				txtFile.setTextColor(Color.parseColor(getResources().getString(R.color.actionbar_color)));
 			}
 			break;
 		}
