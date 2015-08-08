@@ -85,6 +85,7 @@ public class GetAllNotificationService extends Service {
 		CongVanXuLyAsync();
 		// CacLoaiAsync();
 		CongViecAsync();
+		BinhLuanAsync();
 		if (intent != null) {
 			action = intent.getIntExtra("ACTION", 0);
 		} else {
@@ -444,7 +445,7 @@ public class GetAllNotificationService extends Service {
 									+ " = \"" + username + "\"";
 							cursor = db.rawQuery(sql, null);
 
-							BinhLuanAsync();
+//							BinhLuanAsync();
 
 							if (cursor != null && cursor.getCount() > 0) {
 
@@ -479,7 +480,6 @@ public class GetAllNotificationService extends Service {
 									taskData.add(new Task(Long.parseLong(id),
 											ten_cong_viec, nguoi_thuc_hien,
 											nguoi_xem, mo_ta));
-									Log.d("ToanNM", "taskData.size :" + taskData.size());
 								}
 								
 								// int size = taskData.size();
@@ -568,6 +568,10 @@ public class GetAllNotificationService extends Service {
 	}
 
 	void BinhLuanAsync() {
+		db = NotificationDBController
+				.getInstance(getApplicationContext());
+		db.deleteReportData();
+		
 		url_get_binhluan = getResources().getString(R.string.api_get_comment);
 		reportData = new ArrayList<ReportSteerTask>();
 		RequestParams params = new RequestParams();
@@ -591,10 +595,11 @@ public class GetAllNotificationService extends Service {
 							String handler = row.getString("nguoi_binh_luan");
 							String content = row.getString("noi_dung");
 							String id_cv = row.getString("id_cv");
+							
+							date = date.substring(0, 10);
 
 							// // add to db
-							db = NotificationDBController
-									.getInstance(getApplicationContext());
+							
 							String username = Utils.getString(
 									getApplicationContext(),
 									SessionManager.KEY_NAME);

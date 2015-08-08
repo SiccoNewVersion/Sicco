@@ -49,6 +49,7 @@ public class MyNotificationManager {
 	int notify_type;
 	PendingIntent pendInt;
 	String tag;
+	String taskCode;
 	static int flags = Intent.FLAG_ACTIVITY_NEW_TASK
 			| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
@@ -165,7 +166,6 @@ public class MyNotificationManager {
 	public void notifyBinhLuan(Context context, ArrayList<Task> taskData,
 			ArrayList<ReportSteerTask> data) {
 		int notification_count = data.size();
-		String taskCode = "";
 		noti = context.getResources().getString(
 				R.string.notify_new_comment);
 		for (int i = 0; i < notification_count; i++) {
@@ -283,6 +283,7 @@ public class MyNotificationManager {
 			notIntent = new Intent(context, ListTask.class);
 		} else if (notify_type == 5) {
 			notIntent = new Intent(context, SteerReportTaskActivity.class);
+			notIntent.putExtra("id_task", Long.parseLong(taskCode));
 		}
 
 

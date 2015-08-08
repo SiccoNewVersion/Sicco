@@ -1,5 +1,9 @@
 package com.sicco.erp.database;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +11,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
@@ -214,8 +219,53 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	    sdb.delete(DISPATCH_TABLE_NAME, null, null);
 	    sdb.delete(TASK_TABLE_NAME, null, null);
 //	    sdb.delete(REPORT_TABLE_NAME, null, null);
-
+	    
 	}
-	public void getSize(){
+	
+	public void deleteReportData(){
+		String currentDate = getCurrentDate();
+	    
+	    String sql = "Delete from " + REPORT_TABLE_NAME + " where "
+				+ NotificationDBController.REPORT_DATE
+				+ " != \"" + currentDate + "\"";
+	    Log.d("MyDebug", "deleteReportData sql : " + sql);
+	    mDatabase.rawQuery(sql, null);
+	}
+	
+	String getCurrentDate(){
+		String currentDate = "";
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+			String currentDateandTime = sdf.format(new Date());
+			Date cdate=sdf.parse(currentDateandTime);
+			Calendar now2= Calendar.getInstance();
+			now2.add(Calendar.DATE, 0);
+			
+			int d = now2.get(Calendar.DATE);
+			int m = now2.get(Calendar.MONTH) + 1;
+			String month = "", date = "";
+			if(m < 10){
+				month = "0" + m;
+			} else {
+				month = "" + m;
+			}
+			if(d < 10){
+				date = "0" + d;
+			} else {
+				date = "" + d;
+			}
+			
+			int year = now2.get(Calendar.YEAR);
+			String beforedate = year +"/" + month + "/" + date;
+			Date BeforeDate1=sdf.parse(beforedate);
+			cdate.compareTo(BeforeDate1);
+			
+			currentDate = beforedate.replace("/", "-");
+			
+			Log.d("MyDebug", "secondary List : " + currentDate);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return currentDate;
 	}
 }

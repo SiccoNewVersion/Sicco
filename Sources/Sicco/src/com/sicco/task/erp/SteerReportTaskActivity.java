@@ -59,11 +59,6 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		id_task = intent.getLongExtra("id_task", -1);
 		init();
 		setListReportSteer("" + id_task);
-		//
-//		int task_id = Utils.getInt(getApplicationContext(), "STEER_ACTION", 0);
-//		String taskID = "" + task_id;
-//		setListReportSteer(taskID);
-//		Log.d("MyDebug", "abc xyz :" + task_id);
 	}
 
 	private void init() {
