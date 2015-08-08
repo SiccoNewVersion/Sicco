@@ -2,10 +2,15 @@ package com.sicco.task.erp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.database.NotificationDBController;
+import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.util.ChooseFileActivity;
 import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
@@ -194,6 +201,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 												R.string.success),
 										Toast.LENGTH_SHORT).show();
 								setListReportSteer("" + id_task);
+								
 							}
 
 							@Override
@@ -236,4 +244,5 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		}
 
 	}
+	
 }

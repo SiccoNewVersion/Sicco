@@ -268,6 +268,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 		
 //		int total = cvcp_count + cvxl_count + cv_count;
 //		BadgeUtils.setBadge(getApplicationContext(), total);
+		if(cvcp_count == 0 && cvxl_count == 0 && cv_count == 0){
+			BadgeUtils.setBadge(getApplicationContext(), 0);
+		}
 	}
 
 	public static class NotifyBR extends BroadcastReceiver {

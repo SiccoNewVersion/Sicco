@@ -219,17 +219,21 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	    sdb.delete(DISPATCH_TABLE_NAME, null, null);
 	    sdb.delete(TASK_TABLE_NAME, null, null);
 //	    sdb.delete(REPORT_TABLE_NAME, null, null);
-	    
+	    deleteReportData();
 	}
 	
 	public void deleteReportData(){
+		SQLiteDatabase sdb= this.getWritableDatabase();
 		String currentDate = getCurrentDate();
-	    
-	    String sql = "Delete from " + REPORT_TABLE_NAME + " where "
-				+ NotificationDBController.REPORT_DATE
-				+ " != \"" + currentDate + "\"";
-	    Log.d("MyDebug", "deleteReportData sql : " + sql);
-	    mDatabase.rawQuery(sql, null);
+//	    
+//	    String sql = "Delete from " + REPORT_TABLE_NAME + " where "
+//				+ NotificationDBController.REPORT_DATE
+//				+ " = \"" + currentDate + "\"";
+//	    Log.d("MyDebug", "deleteReportData sql : " + sql);
+//	    sdb.rawQuery(sql, null);
+		
+		sdb.delete(REPORT_TABLE_NAME, NotificationDBController.REPORT_DATE
+				+ " != \"" + currentDate + "\"", null);
 	}
 	
 	String getCurrentDate(){

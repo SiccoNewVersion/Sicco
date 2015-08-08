@@ -140,7 +140,6 @@
     <string name="api_get_dispatch_approval">http://office.sinco.pro.vn/api_distpatch/approval_dispatch.php</string>
     <string name="api_get_dispatch_handle">http://office.sinco.pro.vn/api_distpatch/handl_dispatch.php</string>
     <string name="api_get_dispatch_other">http://office.sinco.pro.vn/api_distpatch/other_dispatch.php</string>
-    <string name="api_get_comment">http://office.sinco.pro.vn/api_distpatch/tatcabinhluan.php</string>
     <string name="api_get_all_user">http://office.sinco.pro.vn/api_distpatch/list_users.php</string>
     <string name="api_get_deparment">http://office.sinco.pro.vn/api_distpatch/departments.php</string>
     <string name="api_get_steer_report">http://office.sinco.pro.vn/api_distpatch/get_report_steer.php</string>

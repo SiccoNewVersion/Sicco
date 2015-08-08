@@ -1,6 +1,9 @@
 package com.sicco.erp.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -26,12 +29,12 @@ import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Dispatch;
-import com.sicco.task.model.Task.OnLoadListener;
 import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Utils;
 import com.sicco.task.model.ReportSteerTask;
 import com.sicco.task.model.Task;
+import com.sicco.task.model.Task.OnLoadListener;
 
 public class GetAllNotificationService extends Service {
 	JSONObject json;
@@ -62,6 +65,9 @@ public class GetAllNotificationService extends Service {
 	int action;
 	NotifyBR notifyBR;
 	String username = "";
+	boolean inserted = false;
+	boolean insertedTask = false;
+	String cv_id = "";
 
 	// key
 	public static String CVCP_KEY = "CONGVIECCANPHE_KEY";
@@ -74,6 +80,12 @@ public class GetAllNotificationService extends Service {
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(notifyBR);
 	}
 
 	@SuppressWarnings("null")
@@ -412,6 +424,7 @@ public class GetAllNotificationService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String jsonRead = response.toString();
+				insertedTask = false;
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
@@ -445,10 +458,8 @@ public class GetAllNotificationService extends Service {
 									+ " = \"" + username + "\"";
 							cursor = db.rawQuery(sql, null);
 
-//							BinhLuanAsync();
-
 							if (cursor != null && cursor.getCount() > 0) {
-
+								
 							} else {
 								ContentValues values = new ContentValues();
 								values.put(NotificationDBController.ID_COL, id);
@@ -464,74 +475,73 @@ public class GetAllNotificationService extends Service {
 								values.put(
 										NotificationDBController.TASK_NGUOITHUCHIEN,
 										nguoi_thuc_hien);
-								values.put(
-										NotificationDBController.TASK_STATE, trang_thai);
+								values.put(NotificationDBController.TASK_STATE,
+										trang_thai);
 								values.put(
 										NotificationDBController.TRANGTHAI_COL,
 										NotificationDBController.NOTIFICATION_STATE_NEW);
 
-								
 								if (trang_thai.equalsIgnoreCase("active")) {
-									// long rowInserted =
+									insertedTask = true;
 									db.insert(
 											NotificationDBController.TASK_TABLE_NAME,
 											null, values);
-									
+
 									taskData.add(new Task(Long.parseLong(id),
 											ten_cong_viec, nguoi_thuc_hien,
 											nguoi_xem, mo_ta));
 								}
-								
-								// int size = taskData.size();
-								// origanizeCongViecNoti(taskData, size);
-								// saveCVInt(size);
-								// Log.d("MyDebug", "CongViecAsync : count : " +
-								// size);
 
 							}
 						}
-
-						boolean firstRun = Utils.getBoolean(
-								getApplicationContext(), "FIRSTRUN", true);
-						if (firstRun) {
-							Utils.saveBoolean(getApplicationContext(),
-									"FIRSTRUN", false);
+						
+						
+						if(insertedTask == true){
 							origanizeCongViecNoti(taskData, taskData.size());
 							saveCVInt(taskData.size());
-						} else {
-							// =================================================
-							// \\
-							Task task = new Task(getApplicationContext());
-							String url = getResources().getString(
-									R.string.api_get_task);
-							taskData = new ArrayList<Task>();
-							taskData = task.getData(getApplicationContext(),
-									url, new OnLoadListener() {
-
-										@Override
-										public void onSuccess() {
-											CongViec(username);
-										}
-
-										@Override
-										public void onStart() {
-
-										}
-
-										@Override
-										public void onFalse() {
-
-										}
-									});
+							Log.d("MyDebug", " chay lai service get CV");
 						}
+//						boolean firstRun = Utils.getBoolean(
+//								getApplicationContext(), "FIRSTRUN", true);
+//						if (firstRun) {
+//							Utils.saveBoolean(getApplicationContext(),
+//									"FIRSTRUN", false);
+//							origanizeCongViecNoti(taskData, taskData.size());
+//							saveCVInt(taskData.size());
+//						} else {
+//							// =================================================
+//							// \\
+//							Task task = new Task(getApplicationContext());
+//							String url = getResources().getString(
+//									R.string.api_get_task);
+//							taskData = new ArrayList<Task>();
+//							taskData = task.getData(getApplicationContext(),
+//									url, new OnLoadListener() {
+//
+//										@Override
+//										public void onSuccess() {
+//											CongViec(username);
+//										}
+//
+//										@Override
+//										public void onStart() {
+//
+//										}
+//
+//										@Override
+//										public void onFalse() {
+//
+//										}
+//									});
+//						}
 
-						if (cursor != null && cursor.getCount() > 0) {
-
-						} else {
-							initCVData(taskData, username);
-							// CongViec(username);
-							Log.d("MyDebug", "start CongViec Notification <= ");
-						}
+//						if (cursor != null && cursor.getCount() > 0) {
+//
+//						} else {
+//							initCVData(taskData, username);
+//							// CongViec(username);
+//							Log.d("MyDebug", "start CongViec Notification <= ");
+//						}
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -543,6 +553,7 @@ public class GetAllNotificationService extends Service {
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
+				insertedTask = false;
 			}
 		});
 
@@ -556,9 +567,10 @@ public class GetAllNotificationService extends Service {
 		String sql = "Select * from "
 				+ NotificationDBController.TASK_TABLE_NAME + " where "
 				+ NotificationDBController.TRANGTHAI_COL + " = \"new\""
-				+ " and " + NotificationDBController.TASK_STATE + " = \"active\""
-				+ " and " + NotificationDBController.USERNAME_COL + " = \""
-				+ username + "\"";
+				+ " and " + NotificationDBController.TASK_STATE
+				+ " = \"active\"" + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		// ================================================= \\
@@ -568,11 +580,10 @@ public class GetAllNotificationService extends Service {
 	}
 
 	void BinhLuanAsync() {
-		db = NotificationDBController
-				.getInstance(getApplicationContext());
+		db = NotificationDBController.getInstance(getApplicationContext());
 		db.deleteReportData();
-		
-		url_get_binhluan = getResources().getString(R.string.api_get_comment);
+
+		url_get_binhluan = getResources().getString(R.string.api_tatcabinhluan);
 		reportData = new ArrayList<ReportSteerTask>();
 		RequestParams params = new RequestParams();
 
@@ -595,11 +606,10 @@ public class GetAllNotificationService extends Service {
 							String handler = row.getString("nguoi_binh_luan");
 							String content = row.getString("noi_dung");
 							String id_cv = row.getString("id_cv");
-							
-							date = date.substring(0, 10);
 
-							// // add to db
-							
+							date = date.substring(0, 10);
+							// add to db
+
 							String username = Utils.getString(
 									getApplicationContext(),
 									SessionManager.KEY_NAME);
@@ -615,6 +625,7 @@ public class GetAllNotificationService extends Service {
 							if (cursor != null && cursor.getCount() > 0) {
 
 							} else {
+								inserted = true;
 								ContentValues values = new ContentValues();
 								values.put(NotificationDBController.ID_COL, id);
 								values.put(
@@ -630,22 +641,22 @@ public class GetAllNotificationService extends Service {
 										NotificationDBController.REPORT_HANDLER,
 										handler);
 
-								// long rowInserted =
 								db.insert(
 										NotificationDBController.REPORT_TABLE_NAME,
 										null, values);
 
 								reportData.add(new ReportSteerTask(Long
 										.parseLong(id), handler, content, id_cv));
-
+								// Log.d("LuanDT", "id task add to reportData: "
+								// + id_cv);
 							}
 
 						}
-						if (cursor != null && cursor.getCount() > 0) {
-
-						} else {
+						if (inserted) {
 							int size = reportData.size();
 							origanizeBinhLuanNoti(reportData, size);
+							// Log.d("MyDebug",
+							// "origanizeBinhLuanNoti abcxyzasfasfhkasf" );
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -671,9 +682,10 @@ public class GetAllNotificationService extends Service {
 		String sql = "Select * from "
 				+ NotificationDBController.TASK_TABLE_NAME + " where "
 				+ NotificationDBController.TRANGTHAI_COL + " = \"new\""
-				+ " and " + NotificationDBController.TASK_STATE + " = \"active\""
-				+ " and " + NotificationDBController.USERNAME_COL + " = \""
-				+ username + "\"";
+				+ " and " + NotificationDBController.TASK_STATE
+				+ " = \"active\"" + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -748,48 +760,6 @@ public class GetAllNotificationService extends Service {
 		saveInt(3, count);
 	}
 
-	// void initMessageData(ArrayList<NotificationModel> data, int type,
-	// String username) {
-	// db = NotificationDBController.getInstance(getApplicationContext());
-	// cursor = db.query(NotificationDBController.TABLE_NAME, null, null,
-	// null, null, null, null);
-	// String sql = "Select * from " + NotificationDBController.TABLE_NAME
-	// + " where " + NotificationDBController.TRANGTHAI_COL
-	// + " = \"new\"" + " and "
-	// + NotificationDBController.NOTIFI_TYPE_COL + " = " + type
-	// + " and " + NotificationDBController.USERNAME_COL + " = \""
-	// + username + "\"";
-	// cursor = db.rawQuery(sql, null);
-	// if (cursor.moveToFirst()) {
-	// do {
-	// int id = cursor
-	// .getInt(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.ID_COL));
-	// String soHieuCongVan = cursor
-	// .getString(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.SOHIEUCONGVAN_COL));
-	// String trichYeu = cursor
-	// .getString(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.TRICHYEU_COL));
-	// String dinhKem = cursor
-	// .getString(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.DINHKEM_COL));
-	// String ngayDenSicco = cursor
-	// .getString(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.NGAYDENSICCO_COL));
-	// String trangThai = cursor
-	// .getString(cursor
-	// .getColumnIndexOrThrow(NotificationDBController.TRANGTHAI_COL));
-	// // add to arraylist
-	// temp = new NotificationModel(id, type, soHieuCongVan, trichYeu,
-	// dinhKem, ngayDenSicco, trangThai);
-	// data.add(temp);
-	// } while (cursor.moveToNext());
-	// }
-	// origanizeNoti(data, data.size(), type);
-	//
-	// }
-
 	void saveInt(int type, int size) {
 		if (type == 1) {
 			Utils.saveInt(getApplicationContext(), CVCP_KEY, size);
@@ -818,7 +788,7 @@ public class GetAllNotificationService extends Service {
 	void origanizeNoti(ArrayList<NotificationModel> data,
 			int notification_count, int type) {
 		sereprateList(data, notification_count, type);
-		NotifyBR notifyBR = new NotifyBR();
+		notifyBR = new NotifyBR();
 		IntentFilter intentFilter = new IntentFilter("acb");
 		registerReceiver(notifyBR, intentFilter);
 		Intent i = new Intent("acb");
@@ -866,8 +836,7 @@ public class GetAllNotificationService extends Service {
 		int size = data.size();
 		if (size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
-			myNotificationManager.notifyBinhLuan(getApplicationContext(),
-					taskData, data);
+			myNotificationManager.notifyBinhLuan(getApplicationContext(), data);
 			Log.d("ToanNM", "BinhLuan Notification <= " + taskData.size());
 		}
 	}
@@ -877,6 +846,44 @@ public class GetAllNotificationService extends Service {
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(notificationServiceStr);
 		mNotificationManager.cancel(notification_id);
+	}
+
+	// getCurrentDate
+	String getCurrentDate() {
+		String currentDate = "";
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			String currentDateandTime = sdf.format(new Date());
+			Date cdate = sdf.parse(currentDateandTime);
+			Calendar now2 = Calendar.getInstance();
+			now2.add(Calendar.DATE, 0);
+
+			int d = now2.get(Calendar.DATE);
+			int m = now2.get(Calendar.MONTH) + 1;
+			String month = "", date = "";
+			if (m < 10) {
+				month = "0" + m;
+			} else {
+				month = "" + m;
+			}
+			if (d < 10) {
+				date = "0" + d;
+			} else {
+				date = "" + d;
+			}
+
+			int year = now2.get(Calendar.YEAR);
+			String beforedate = year + "/" + month + "/" + date;
+			Date BeforeDate1 = sdf.parse(beforedate);
+			cdate.compareTo(BeforeDate1);
+
+			currentDate = beforedate.replace("/", "-");
+
+			Log.d("MyDebug", "secondary List : " + currentDate);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return currentDate;
 	}
 
 }
