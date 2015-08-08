@@ -251,7 +251,6 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 			break;
 		case R.id.lnProject:
 			new DialogChooseProject(AssignTaskActivity.this, listProject);
-			Toast.makeText(getApplicationContext(), "dua", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btnAssign:
 			
@@ -313,11 +312,6 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 								public void onFalse() {
 									listChecked.removeAll(listChecked);
 									progressDialog.dismiss();
-									Toast.makeText(
-											AssignTaskActivity.this,
-											getResources().getString(
-													R.string.internet_false),
-											Toast.LENGTH_LONG).show();
 									listChecked.removeAll(listChecked);
 								}
 							});

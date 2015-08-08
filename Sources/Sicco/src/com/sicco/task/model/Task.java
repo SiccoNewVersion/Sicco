@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -393,10 +394,12 @@ public class Task implements Serializable {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						int success = object.getInt("success");
+						String error_msg = object.getString("error_msg");
 						if (success == 1) {
 							onLoadListener.onSuccess();
 						} else {
 							onLoadListener.onFalse();
+							Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -410,11 +413,55 @@ public class Task implements Serializable {
 					Throwable throwable, JSONObject errorResponse) {
 
 				onLoadListener.onFalse();
+				
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
 
 	}
+	//delete Task
+		public void deleteTaskById(String url,long task_id,OnLoadListener OnLoadListener) {
+			this.onLoadListener = OnLoadListener;
+			onLoadListener.onStart();
+			RequestParams params = new RequestParams();
+			params.put("task_id", task_id);
+			Log.d("NgaDV", ""+params);
+			
+			AsyncHttpClient client = new AsyncHttpClient();
+			client.post(url, params, new JsonHttpResponseHandler(){
+				
+				@Override
+				public void onSuccess(int statusCode, Header[] headers,
+						JSONObject response) {
+					String jsonRead = response.toString();
+
+					Log.d("NgaDV", "json: " + jsonRead);
+					if (!jsonRead.isEmpty()) {
+						try {
+							JSONObject object = new JSONObject(jsonRead);
+							int success = object.getInt("success");
+							if (success == 1) {
+								onLoadListener.onSuccess();
+							} else {
+								onLoadListener.onFalse();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+					super.onSuccess(statusCode, headers, response);
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+						Throwable throwable, JSONObject errorResponse) {
+
+					onLoadListener.onFalse();
+					super.onFailure(statusCode, headers, throwable,
+							errorResponse);
+				}
+			});
+		}
 
 	public interface OnLoadListener {
 		void onStart();
