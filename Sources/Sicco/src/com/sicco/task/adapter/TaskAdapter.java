@@ -35,6 +35,7 @@ public class TaskAdapter extends BaseAdapter {
 	private int type;
 	private boolean update_status_and_rate = false;
 	private ArrayList<Status> listStatus;
+	private ArrayList<Status> listProcess;
 	NotificationDBController db;
 	Cursor cursor;
 
@@ -186,7 +187,7 @@ public class TaskAdapter extends BaseAdapter {
 									context.startActivity(intent);
 									break;
 								case R.id.action_update_rate:
-									listStatus = new ArrayList<Status>();
+									listProcess = new ArrayList<Status>();
 
 									String[] key = context
 											.getResources()
@@ -196,13 +197,13 @@ public class TaskAdapter extends BaseAdapter {
 													R.array.process_value);
 									int max = key.length;
 									for (int i = 0; i < max; i++) {
-										listStatus.add(new Status(i + 1,
+										listProcess.add(new Status(i + 1,
 												key[i], value[i]));
 									}
 									if (type == 2) {
 										if (update_status_and_rate) {
 											DialogSetProcess dialog = new DialogSetProcess(
-													context, listStatus, task);
+													context, listProcess, task);
 											dialog.showDialog();
 										} else {
 											Toast.makeText(
@@ -214,7 +215,7 @@ public class TaskAdapter extends BaseAdapter {
 										}
 									} else {
 										DialogSetProcess dialog = new DialogSetProcess(
-												context, listStatus, task);
+												context, listProcess, task);
 										dialog.showDialog();
 									}
 									break;

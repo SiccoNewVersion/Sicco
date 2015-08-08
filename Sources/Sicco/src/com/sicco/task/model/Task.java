@@ -452,10 +452,11 @@ public class Task implements Serializable {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						int success = object.getInt("success");
-						String error_msg = object.getString("error_msg");
+						
 						if (success == 1) {
 							onLoadListener.onSuccess();
 						} else {
+							String error_msg = object.getString("error_msg");
 							onLoadListener.onFalse();
 							Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
 						}
