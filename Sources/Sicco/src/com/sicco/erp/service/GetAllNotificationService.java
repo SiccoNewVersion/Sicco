@@ -397,25 +397,27 @@ public class GetAllNotificationService extends Service {
 	}
 
 	void BinhLuanAsync() {
-		Log.d("LuanDT", "BinhLuanAsync");
 		db = NotificationDBController.getInstance(getApplicationContext());
 		db.deleteReportData();
 
 		url_get_binhluan = getResources().getString(R.string.api_tatcabinhluan);
 		reportData = new ArrayList<ReportSteerTask>();
 		RequestParams params = new RequestParams();
-
+		params.add("user_id", Utils.getString(GetAllNotificationService.this, "user_id"));
+		params.add("username", Utils.getString(GetAllNotificationService.this, "name"));
+//		Log.d("LuanDT", "params: " + params);
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url_get_binhluan, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String jsonRead = response.toString();
-
+//				Log.d("LuanDT", "jsonRead: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						JSONArray rows = object.getJSONArray("row");
+						
 						for (int i = 0; i < rows.length(); i++) {
 							JSONObject row = rows.getJSONObject(i);
 
