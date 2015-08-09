@@ -141,15 +141,17 @@ public class MyNotificationManager {
 						R.string.nguoi_xem_cv);
 				String nguoi_thuc_hien_cv = context.getResources().getString(
 						R.string.nguoi_thuc_hien_cv);
+				String mota = context.getResources().getString(
+						R.string.mota);
 
 				contentText = "" + ten_cv + " " + ten + "\n" + nguoi_xem_cv
 						+ " " + nguoi_xem + "\n" + nguoi_thuc_hien_cv + " "
-						+ nguoi_thuc_hien + "\n" + mo_ta + "\n";
+						+ nguoi_thuc_hien + "\n";
 
 			} else if (notification_count > 1) {
 				message = context.getResources().getString(
 						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+						+ " " + noti + " " + "\n";
 				name += "" + ten + "\n";
 				contentText = name;
 			}
@@ -170,14 +172,13 @@ public class MyNotificationManager {
 				String username = Utils.getString(context,
 						SessionManager.KEY_NAME);
 				String in = context.getResources().getString(R.string.in);
-				String ten_cong_vec = " " + in + " "
-						+ getTaskData(context, taskCode, username);
-				message = handler
+				String ten_cong_vec = getTaskData(context, taskCode, username);
+				message = "Sicco";
+
+				contentText = handler
 						+ " "
 						+ context.getResources().getString(
-								R.string.notify_new_comment_msg) + ten_cong_vec;
-
-				contentText = content
+								R.string.notify_new_comment_msg) + " " + in + " " + context.getResources().getString(R.string.congviec) + ": " + ten_cong_vec + ".\n" + content
 						+ "\n";
 
 			} else if (notification_count > 1) {

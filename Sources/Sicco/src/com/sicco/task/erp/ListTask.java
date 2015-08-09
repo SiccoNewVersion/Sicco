@@ -189,6 +189,7 @@ public class ListTask extends Activity implements OnClickListener,
 		db.checkedTask(arrTask.get(arg2), arrTask.get(arg2).getId());
 		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
 		listTask.setAdapter(adapter);
+		listTask.setSelection(arg2);
 	}
 	
 	@Override

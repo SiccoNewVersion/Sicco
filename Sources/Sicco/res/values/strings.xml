@@ -174,9 +174,11 @@
     <string name="notify_new_comment">bình luận mới</string>
     <string name="notify_new_comment_msg">đã bình luận</string> 
     <string name="in">trong</string>
+    <string name="congviec">công việc</string>
     <string name="ten_cv">Tên Công Việc:</string>
     <string name="nguoi_xem_cv">Người xem:</string>
     <string name="nguoi_thuc_hien_cv">Người thực hiện:</string>
+    <string name="mota">Mô tả:</string>
     <string name="cv_handler">Người xử lý:</string>
     <string name="cv_handler_new_comment">Người bình luận:</string>
     <string name="chose_process">Tiến độ Công việc</string>

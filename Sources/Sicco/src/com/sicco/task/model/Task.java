@@ -233,7 +233,7 @@ public class Task implements Serializable {
 					JSONObject response) {
 				String jsonRead = response.toString();
 
-				Log.d("LuanDT", "json: " + jsonRead);
+//				Log.d("LuanDT", "json: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);

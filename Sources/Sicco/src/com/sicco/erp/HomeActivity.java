@@ -266,8 +266,6 @@ public class HomeActivity extends Activity implements OnClickListener {
 		checkNotifyCount(notify_cvxl, cvxl_count, 2);
 		checkNotifyCount(notify_cv, cv_count, 3);
 		
-//		int total = cvcp_count + cvxl_count + cv_count;
-//		BadgeUtils.setBadge(getApplicationContext(), total);
 		if(cvcp_count == 0 && cvxl_count == 0 && cv_count == 0){
 			BadgeUtils.setBadge(getApplicationContext(), 0);
 		}
@@ -317,6 +315,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		CongVanCancelNotification(context);
 		CongViecCancelNotification(context);
 		LichBieuCancelNotification(context);
+		cancelNotification(context, 4);
+		cancelNotification(context, 5);
 	}
 
 	public static void checkDate(final Context context) {
