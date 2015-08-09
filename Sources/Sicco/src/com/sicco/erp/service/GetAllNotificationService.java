@@ -34,40 +34,38 @@ import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Utils;
 import com.sicco.task.model.ReportSteerTask;
 import com.sicco.task.model.Task;
-import com.sicco.task.model.Task.OnLoadListener;
 
 public class GetAllNotificationService extends Service {
-	JSONObject json;
-	String url_get_notification = "", url_get_congviec = "",
+	private JSONObject json;
+	private String url_get_notification = "", url_get_congviec = "",
 			url_get_binhluan = "";
-	Cursor cursor;
-	NotificationModel notification;
-	NotificationDBController db;
+	private Cursor cursor;
+	private NotificationModel notification;
+	private NotificationDBController db;
 	// ArrayList and variable to getCount
-	ArrayList<NotificationModel> congVanXuLy_list;
-	ArrayList<NotificationModel> congVanCanPhe_list;
-	ArrayList<NotificationModel> cacLoai_list;
-	NotificationModel temp;
+	private ArrayList<NotificationModel> congVanXuLy_list;
+	private ArrayList<NotificationModel> congVanCanPhe_list;
+	private ArrayList<NotificationModel> cacLoai_list;
+	private NotificationModel temp;
 
-	ArrayList<Task> taskData;
-	ArrayList<ReportSteerTask> reportData;
+	private ArrayList<Task> taskData;
+	private ArrayList<ReportSteerTask> reportData;
 	// count
 	static String CONGVIEC = "congviec", CONGVAN = "congvan",
 			LICHBIEU = "lichbieu";
 	//
 	long id;
-	String soHieuCongVan = "";
-	String trichYeu = "";
-	String dinhKem = "";
-	String ngayDenSicco = "";
-	String trangThai = "";
+	private String soHieuCongVan = "";
+	private String trichYeu = "";
+	private String dinhKem = "";
+	private String ngayDenSicco = "";
+	private String trangThai = "";
 	int total;
 	int action;
 	NotifyBR notifyBR;
 	String username = "";
 	boolean inserted = false;
 	boolean insertedTask = false;
-	// <= TOANNM UPDATE <== REMOVE insertedTask
 	String cv_id = "";
 
 	// key
@@ -94,6 +92,7 @@ public class GetAllNotificationService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// start Service
 		insertedTask = false;
+		inserted = false;
 		Log.d("LuanDT", "-------------->>>>>onStartCommand");
 
 		CongVanCanPheAsync();
@@ -102,7 +101,6 @@ public class GetAllNotificationService extends Service {
 		CongViecAsync();
 		BinhLuanAsync();
 
-		// <= TOANNM UPDATE <==
 		if (intent != null) {
 			action = intent.getIntExtra("ACTION", 1);
 		} else {
@@ -113,7 +111,6 @@ public class GetAllNotificationService extends Service {
 			}
 
 		}
-		// <= TOANNM UPDATE <==
 
 		Utils.scheduleNext(getApplicationContext());
 
@@ -202,7 +199,6 @@ public class GetAllNotificationService extends Service {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						String st = response.toString();
-						// Log.d("ToanNM", "json:" + st);
 
 						try {
 							JSONObject json = new JSONObject(st);
@@ -249,6 +245,7 @@ public class GetAllNotificationService extends Service {
 	}
 
 	void CongViecAsync() {
+		Log.d("LuanDT", "CongViecAsync");
 		url_get_congviec = getResources().getString(R.string.api_get_task);
 		taskData = new ArrayList<Task>();
 		taskData.clear();
@@ -279,7 +276,7 @@ public class GetAllNotificationService extends Service {
 							String nguoi_xem = row.getString("nguoi_xem");
 							String mo_ta = row.getString("mo_ta");
 							String trang_thai = row.getString("trang_thai");
-							// <= TOANNM UPDATE <==
+
 							if (trang_thai.equalsIgnoreCase("active")) {
 								id = row.getString("id");
 							}
@@ -334,13 +331,12 @@ public class GetAllNotificationService extends Service {
 									if (resultInsert != -1) {
 										insertedTask = true;
 										Log.d("LuanDT",
-												"-------------->>>>>inserted table cv");
+												"---->>>>>inserted table cv");
 
 										taskData.add(new Task(Long
 												.parseLong(id), ten_cong_viec,
 												nguoi_thuc_hien, nguoi_xem,
 												mo_ta));
-										Log.d("MyDebug", "Inserted data to DB");
 									}
 
 								}
@@ -357,44 +353,14 @@ public class GetAllNotificationService extends Service {
 							saveCVInt(taskData.size());
 						} else {
 							Log.d("LuanDT", "not firstRun");
-							CongViec(username);
 							if (insertedTask) {
 								Log.d("LuanDT", "insertedTask---->goi noti");
 								origanizeCongViecNoti(taskData, taskData.size());
 								saveCVInt(taskData.size());
-
-								Task task = new Task(getApplicationContext());
-								String url = getResources().getString(
-										R.string.api_get_task);
-								taskData = new ArrayList<Task>();
-								taskData = task.getData(
-										getApplicationContext(), url,
-										new OnLoadListener() {
-
-											@Override
-											public void onSuccess() {
-												CongViec(username);
-											}
-
-											@Override
-											public void onStart() {
-
-											}
-
-											@Override
-											public void onFalse() {
-
-											}
-										});
+								CongViec(username);
+								
 							}
 						}
-						// if (cursor != null && cursor.getCount() > 0) {
-						//
-						// } else {
-						// initCVData(taskData, username);
-						// Log.d("LuanDT", "initCVData-------->goi noti");
-						// }
-						// <= TOANNM UPDATE <==
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -411,7 +377,7 @@ public class GetAllNotificationService extends Service {
 
 	}
 
-	void CongViec(String username) {
+	public void CongViec(String username) {
 		int count = 0;
 		db = NotificationDBController.getInstance(getApplicationContext());
 		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
@@ -425,14 +391,13 @@ public class GetAllNotificationService extends Service {
 				+ "\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
-		// ================================================= \\
 		// origanizeNoti(cacLoai_list, count);
-//		origanizeCongViecNoti(taskData, taskData.size());
-		// <= TOANNM UPDATE <== LINE UPPER (413)
+		// origanizeCongViecNoti(taskData, taskData.size());
 		saveCVInt(count);
 	}
 
 	void BinhLuanAsync() {
+		Log.d("LuanDT", "BinhLuanAsync");
 		db = NotificationDBController.getInstance(getApplicationContext());
 		db.deleteReportData();
 
@@ -478,7 +443,6 @@ public class GetAllNotificationService extends Service {
 							if (cursor != null && cursor.getCount() > 0) {
 
 							} else {
-								inserted = true;
 								ContentValues values = new ContentValues();
 								values.put(NotificationDBController.ID_COL, id);
 								values.put(
@@ -494,22 +458,22 @@ public class GetAllNotificationService extends Service {
 										NotificationDBController.REPORT_HANDLER,
 										handler);
 
-								db.insert(
-										NotificationDBController.REPORT_TABLE_NAME,
-										null, values);
-
-								reportData.add(new ReportSteerTask(Long
-										.parseLong(id), handler, content, id_cv));
-								// Log.d("LuanDT", "id task add to reportData: "
-								// + id_cv);
+								long insertResult = db
+										.insert(NotificationDBController.REPORT_TABLE_NAME,
+												null, values);
+								if (insertResult != -1) {
+									inserted = true;
+									Log.d("LuanDT", "inserted comment ---->show noti binh luan");
+									reportData.add(new ReportSteerTask(Long
+											.parseLong(id), handler, content,
+											id_cv));
+								}
 							}
 
 						}
 						if (inserted) {
-							int size = reportData.size();
-							origanizeBinhLuanNoti(reportData, size);
-							// Log.d("MyDebug",
-							// "origanizeBinhLuanNoti abcxyzasfasfhkasf" );
+							Log.d("LuanDT", "data comment: " + reportData.size());
+							origanizeBinhLuanNoti(reportData, reportData.size());
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -562,7 +526,7 @@ public class GetAllNotificationService extends Service {
 						nguoi_thuc_hien, nguoi_xem, mo_ta));
 			} while (cursor.moveToNext());
 		}
-//		origanizeCongViecNoti(taskData, taskData.size());
+		// origanizeCongViecNoti(taskData, taskData.size());
 		saveCVInt(taskData.size());
 		Log.d("MyDebug", "CongViecAsync : count : " + taskData.size());
 
@@ -571,7 +535,7 @@ public class GetAllNotificationService extends Service {
 	void origanizeBinhLuanNoti(ArrayList<ReportSteerTask> data,
 			int notification_count) {
 		sereprateBinhLuanList(data, notification_count);
-		Log.d("ToanNM", "sereprateCongViecList");
+		Log.d("LuanDT", "origanizeBinhLuanNoti");
 	}
 
 	void origanizeCongViecNoti(ArrayList<Task> data, int notification_count) {
@@ -618,9 +582,9 @@ public class GetAllNotificationService extends Service {
 		getTotalNotification();
 	}
 
-	void saveCVInt(int size) {
+	public void saveCVInt(int size) {
 		Utils.saveInt(getApplicationContext(), CV_KEY, size);
-		getTotalNotification();// <= TOANNM UPDATE <==
+		getTotalNotification();
 	}
 
 	void getTotalNotification() {
@@ -686,7 +650,7 @@ public class GetAllNotificationService extends Service {
 		if (action == 1 && size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
 			myNotificationManager.notifyBinhLuan(getApplicationContext(), data);
-			Log.d("ToanNM", "BinhLuan Notification <= " + data.size());
+			Log.d("LuanDT", "sereprateBinhLuanList: " + data.size());
 		}
 	}
 

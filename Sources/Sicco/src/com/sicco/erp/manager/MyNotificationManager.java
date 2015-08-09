@@ -150,7 +150,7 @@ public class MyNotificationManager {
 
 			} else if (notification_count > 1) {
 				message = context.getResources().getString(
-						R.string.new_noti_mess)
+						R.string.new_noti_mess) + " " + notification_count + " "
 						+ " " + noti + " " + "\n";
 				name += "" + ten + "\n";
 				contentText = name;

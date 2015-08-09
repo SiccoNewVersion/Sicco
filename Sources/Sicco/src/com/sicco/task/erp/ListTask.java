@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,11 +23,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
+import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.service.GetAllNotificationService;
+import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
@@ -51,7 +52,7 @@ public class ListTask extends Activity implements OnClickListener,
 
 	private TextView title_actionbar;
 	public static boolean ListTaskActivity = false;
-	
+
 	NotificationDBController db;
 	Cursor cursor;
 
@@ -63,7 +64,7 @@ public class ListTask extends Activity implements OnClickListener,
 
 		ListTaskActivity = true;
 		AssignedTaskActivity.AssignedTaskActivity = false;
-		
+
 		init();
 
 	}
@@ -174,39 +175,71 @@ public class ListTask extends Activity implements OnClickListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Task task = (Task) arg0.getAdapter().getItem(arg2);
 		if (!task.getDinh_kem().equals("")) {
-			viewDispatch = new ViewDispatch(ListTask.this,
-					task.getDinh_kem());
+			viewDispatch = new ViewDispatch(ListTask.this, task.getDinh_kem());
 		} else {
-			Toast.makeText(ListTask.this, getResources().getString(R.string.no_attach), Toast.LENGTH_SHORT).show();
+			Toast.makeText(ListTask.this,
+					getResources().getString(R.string.no_attach),
+					Toast.LENGTH_SHORT).show();
 		}
-		
+
 		String state = querryFromDB(getApplicationContext(), arg2);
-		if(state.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)){
+		if (state
+				.equalsIgnoreCase(NotificationDBController.NOTIFICATION_STATE_NEW)) {
 			int count = querryFromDB(getApplicationContext());
 			setCount(count);
 		}
-		startGetAllNotificationService();
+		// startGetAllNotificationService();
 		db.checkedTask(arrTask.get(arg2), arrTask.get(arg2).getId());
 		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
 		listTask.setAdapter(adapter);
 		listTask.setSelection(arg2);
+		CongViec(Utils.getString(getApplicationContext(),
+				SessionManager.KEY_NAME));
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
-		 startGetAllNotificationService();
 	}
 
-	//
-	void startGetAllNotificationService() {
-		Intent intent = new Intent(getApplicationContext(),
-				GetAllNotificationService.class);
-		intent.putExtra("ACTION", 0);
-		getApplicationContext().startService(intent);
+	private void CongViec(String username) {
+		int count = 0;
+		db = NotificationDBController.getInstance(getApplicationContext());
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
+				null, null, null, null);
+		String sql = "Select * from "
+				+ NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.TRANGTHAI_COL + " = \"new\""
+				+ " and " + NotificationDBController.TASK_STATE
+				+ " = \"active\"" + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username
+				+ "\"";
+		cursor = db.rawQuery(sql, null);
+		count = cursor.getCount();
+		saveCVInt(count);
 	}
-	
-	void setCount(int count) {
+
+	private void saveCVInt(int size) {
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CV_KEY, size);
+		getTotalNotification();
+	}
+
+	private void getTotalNotification() {
+		int cvcp_total = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CVCP_KEY, 0);
+		int cvxl_total = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CVXL_KEY, 0);
+		int cv_total = Utils.getInt(getApplicationContext(),
+				GetAllNotificationService.CV_KEY, 0);
+		int total = cvcp_total + cvxl_total + cv_total;
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.TOTAL_KEY, total);
+		BadgeUtils.setBadge(getApplicationContext(), total);
+
+	}
+
+	private void setCount(int count) {
 		if (count != 0) {
 			count--;
 		} else if (count == 0) {
@@ -216,22 +249,18 @@ public class ListTask extends Activity implements OnClickListener,
 				GetAllNotificationService.CV_KEY, count);
 		Log.d("MyDebug", "CV_Key : " + count);
 	}
-	
-	String querryFromDB(Context context, long position) {
+
+	private String querryFromDB(Context context, long position) {
 		String state = "";
 		db = NotificationDBController.getInstance(context);
-		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null,
-				null, null, null, null, null);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
+				null, null, null, null);
 		String sql = "Select * from "
 				+ NotificationDBController.TASK_TABLE_NAME + " where "
 				+ NotificationDBController.ID_COL + " = " + position;
-//				+ " order by " + NotificationDBController.DSTATE_COL + " DESC";
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
-				// int did = cursor
-				// .getInt(cursor
-				// .getColumnIndexOrThrow(NotificationDBController.DISPATCH_COL));
 				state = cursor
 						.getString(cursor
 								.getColumnIndexOrThrow(NotificationDBController.TRANGTHAI_COL));
@@ -240,23 +269,20 @@ public class ListTask extends Activity implements OnClickListener,
 		return state;
 	}
 
-	int querryFromDB(Context context) {
+	private int querryFromDB(Context context) {
 		int count = 0;
 		db = NotificationDBController.getInstance(context);
-		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null,
-				null, null, null, null, null);
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
+				null, null, null, null);
 		String sql = "Select * from "
-				+ NotificationDBController.TASK_TABLE_NAME
-				+ " where "
-				+ NotificationDBController.TRANGTHAI_COL
-				+ " = \"new\"";
+				+ NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.TRANGTHAI_COL + " = \"new\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
-		Toast.makeText(getApplicationContext(), "ListTask : " + count , Toast.LENGTH_SHORT).show();
 		return count;
 	}
 
-	void cancelNotification(Context context, int notification_id) {
+	private void cancelNotification(Context context, int notification_id) {
 		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(notificationServiceStr);
