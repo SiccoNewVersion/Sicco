@@ -21,8 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sicco.erp.DealtWithActivity;
-import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
 import com.sicco.erp.model.Status;
@@ -41,17 +39,17 @@ public class DialogSetProcess {
 	private ListView lvStatus;
 	private Task task;
 	private Status status;
-	
+
 	int type;
 
-	public DialogSetProcess(Context context,
-			ArrayList<Status> listStatus, Task task) {
+	public DialogSetProcess(Context context, ArrayList<Status> listStatus,
+			Task task) {
 		super();
 		this.context = context;
 		this.listStatus = listStatus;
 		this.task = task;
 		status = new Status();
-		status.setKey(Long.parseLong(task.getTien_do())/10);
+		status.setKey(Long.parseLong(task.getTien_do()) / 10);
 	}
 
 	@SuppressLint("InflateParams")
@@ -83,11 +81,10 @@ public class DialogSetProcess {
 
 			}
 		});
-		
-		int selected = (int)status.getKey();
+
+		int selected = (int) status.getKey();
 		Log.d("ToanNM", "task.getTien_do() : " + selected);
-		lvStatus.setItemChecked(selected,
-				true);
+		lvStatus.setItemChecked(selected, true);
 		Log.d("MyDebug", "selected is : " + selected);
 
 		txtTitle.setText(context.getResources().getString(
@@ -115,15 +112,14 @@ public class DialogSetProcess {
 
 				final ProgressDialog progressDialog = new ProgressDialog(
 						context);
-				progressDialog.setMessage(context
-						.getResources().getString(
-								R.string.waiting));
+				progressDialog.setMessage(context.getResources().getString(
+						R.string.waiting));
 
 				task.changeProcess(
 						context.getResources().getString(
 								R.string.api_update_rate),
-						Long.toString(task.getId()),
-						status.getsKey(), new OnLoadListener() {
+						Long.toString(task.getId()), status.getsKey(),
+						new OnLoadListener() {
 
 							@Override
 							public void onStart() {
@@ -139,7 +135,7 @@ public class DialogSetProcess {
 												R.string.success),
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
-								
+
 								// update ui
 								if (AssignedTaskActivity.AssignedTaskActivity) {
 									AssignedTaskActivity.arrTask = task
@@ -226,7 +222,11 @@ public class DialogSetProcess {
 							public void onFalse() {
 
 								progressDialog.dismiss();
-								Toast.makeText(context, context.getResources().getString(R.string.internet_false), Toast.LENGTH_SHORT).show();
+								Toast.makeText(
+										context,
+										context.getResources().getString(
+												R.string.internet_false),
+										Toast.LENGTH_SHORT).show();
 							}
 						});
 

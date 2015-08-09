@@ -54,25 +54,25 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 
 		AssignedTaskActivity = true;
 		ListTask.ListTaskActivity = false;
-		
+
 		init();
 
 	}
 
 	private void init() {
 		context = AssignedTaskActivity.this;
-		searchView 		= (LinearLayout) findViewById(R.id.searchview);
-		back 			= (ImageView) 	findViewById(R.id.back);
-		search 			= (ImageView) 	findViewById(R.id.search);
-		close		 	= (ImageView) 	searchView.findViewById(R.id.close);
-		empty 			= (ImageView) 	searchView.findViewById(R.id.empty);
-		editSearch 		= (EditText) 	searchView.findViewById(R.id.edit_search);
-		emptyView 		= (TextView) 	findViewById(R.id.empty_view);
-		listTask 		= (ListView) 	findViewById(R.id.listTask);
-		loading 		= (ProgressBar) findViewById(R.id.loading);
-		retry 			= (Button) 		findViewById(R.id.retry);
-		connectError 	= (LinearLayout)findViewById(R.id.connect_error);
-		title_actionbar = (TextView) 	findViewById(R.id.title_actionbar);
+		searchView = (LinearLayout) findViewById(R.id.searchview);
+		back = (ImageView) findViewById(R.id.back);
+		search = (ImageView) findViewById(R.id.search);
+		close = (ImageView) searchView.findViewById(R.id.close);
+		empty = (ImageView) searchView.findViewById(R.id.empty);
+		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
+		listTask = (ListView) findViewById(R.id.listTask);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar
 				.setText(getResources().getString(R.string.viec_da_giao));
 		// click
@@ -84,71 +84,41 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		listTask.setOnItemClickListener(this);
 
 		displayLisview();
-//		// set adapter
-//		task = new Task(AssignedTaskActivity.this);
-//		arrTask = new ArrayList<Task>();
-//		arrTask = task.getData(AssignedTaskActivity.this, getResources()
-//				.getString(R.string.api_get_assigned_task),
-//				new Task.OnLoadListener() {
-//
-//					@Override
-//					public void onStart() {
-//						loading.setVisibility(View.VISIBLE);
-//						connectError.setVisibility(View.GONE);
-//					}
-//
-//					@Override
-//					public void onSuccess() {
-//						loading.setVisibility(View.GONE);
-//						adapter.notifyDataSetChanged();
-//						if (adapter.getCount() <= 0) {
-//							listTask.setEmptyView(emptyView);
-//						}
-//					}
-//
-//					@Override
-//					public void onFalse() {
-//						loading.setVisibility(View.GONE);
-//						connectError.setVisibility(View.VISIBLE);
-//					}
-//				});
-//		adapter = new TaskAdapter(AssignedTaskActivity.this, arrTask, 1);
-//		listTask.setAdapter(adapter);
 
 	}
-	
-	//display lisview 
+
+	// display lisview
 	public static void displayLisview() {
 		// set adapter
-				task = new Task(context);
-				arrTask = new ArrayList<Task>();
-				arrTask = task.getData(context, context
-						.getString(R.string.api_get_assigned_task),
-						new Task.OnLoadListener() {
+		task = new Task(context);
+		arrTask = new ArrayList<Task>();
+		arrTask = task.getData(context,
+				context.getString(R.string.api_get_assigned_task),
+				new Task.OnLoadListener() {
 
-							@Override
-							public void onStart() {
-								loading.setVisibility(View.VISIBLE);
-								connectError.setVisibility(View.GONE);
-							}
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
 
-							@Override
-							public void onSuccess() {
-								loading.setVisibility(View.GONE);
-								adapter.notifyDataSetChanged();
-								if (adapter.getCount() <= 0) {
-									listTask.setEmptyView(emptyView);
-								}
-							}
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						adapter.notifyDataSetChanged();
+						if (adapter.getCount() <= 0) {
+							listTask.setEmptyView(emptyView);
+						}
+					}
 
-							@Override
-							public void onFalse() {
-								loading.setVisibility(View.GONE);
-								connectError.setVisibility(View.VISIBLE);
-							}
-						});
-				adapter = new TaskAdapter(context, arrTask, 1);
-				listTask.setAdapter(adapter);
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				});
+		adapter = new TaskAdapter(context, arrTask, 1);
+		listTask.setAdapter(adapter);
 	}
 
 	@Override
@@ -204,7 +174,9 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 			viewDispatch = new ViewDispatch(AssignedTaskActivity.this,
 					task.getDinh_kem());
 		} else {
-			Toast.makeText(AssignedTaskActivity.this, getResources().getString(R.string.no_attach), Toast.LENGTH_SHORT).show();
+			Toast.makeText(AssignedTaskActivity.this,
+					getResources().getString(R.string.no_attach),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 

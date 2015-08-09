@@ -36,17 +36,13 @@ import com.sicco.task.model.ReportSteerTask;
 import com.sicco.task.model.Task;
 
 public class GetAllNotificationService extends Service {
-	private JSONObject json;
 	private String url_get_notification = "", url_get_congviec = "",
 			url_get_binhluan = "";
 	private Cursor cursor;
-	private NotificationModel notification;
 	private NotificationDBController db;
 	// ArrayList and variable to getCount
 	private ArrayList<NotificationModel> congVanXuLy_list;
 	private ArrayList<NotificationModel> congVanCanPhe_list;
-	private ArrayList<NotificationModel> cacLoai_list;
-	private NotificationModel temp;
 
 	private ArrayList<Task> taskData;
 	private ArrayList<ReportSteerTask> reportData;
@@ -55,11 +51,6 @@ public class GetAllNotificationService extends Service {
 			LICHBIEU = "lichbieu";
 	//
 	long id;
-	private String soHieuCongVan = "";
-	private String trichYeu = "";
-	private String dinhKem = "";
-	private String ngayDenSicco = "";
-	private String trangThai = "";
 	int total;
 	int action;
 	NotifyBR notifyBR;
@@ -358,7 +349,7 @@ public class GetAllNotificationService extends Service {
 								origanizeCongViecNoti(taskData, taskData.size());
 								saveCVInt(taskData.size());
 								CongViec(username);
-								
+
 							}
 						}
 					} catch (JSONException e) {
@@ -397,27 +388,30 @@ public class GetAllNotificationService extends Service {
 	}
 
 	void BinhLuanAsync() {
+		Log.d("LuanDT", "BinhLuanAsync");
 		db = NotificationDBController.getInstance(getApplicationContext());
 		db.deleteReportData();
 
 		url_get_binhluan = getResources().getString(R.string.api_tatcabinhluan);
 		reportData = new ArrayList<ReportSteerTask>();
 		RequestParams params = new RequestParams();
-		params.add("user_id", Utils.getString(GetAllNotificationService.this, "user_id"));
-		params.add("username", Utils.getString(GetAllNotificationService.this, "name"));
-//		Log.d("LuanDT", "params: " + params);
+		params.add("user_id",
+				Utils.getString(GetAllNotificationService.this, "user_id"));
+		params.add("username",
+				Utils.getString(GetAllNotificationService.this, "name"));
+		// Log.d("LuanDT", "params: " + params);
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url_get_binhluan, params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String jsonRead = response.toString();
-//				Log.d("LuanDT", "jsonRead: " + jsonRead);
+				// Log.d("LuanDT", "jsonRead: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						JSONArray rows = object.getJSONArray("row");
-						
+
 						for (int i = 0; i < rows.length(); i++) {
 							JSONObject row = rows.getJSONObject(i);
 
@@ -465,7 +459,8 @@ public class GetAllNotificationService extends Service {
 												null, values);
 								if (insertResult != -1) {
 									inserted = true;
-									Log.d("LuanDT", "inserted comment ---->show noti binh luan");
+									Log.d("LuanDT",
+											"inserted comment ---->show noti binh luan");
 									reportData.add(new ReportSteerTask(Long
 											.parseLong(id), handler, content,
 											id_cv));
@@ -474,7 +469,8 @@ public class GetAllNotificationService extends Service {
 
 						}
 						if (inserted) {
-							Log.d("LuanDT", "data comment: " + reportData.size());
+							Log.d("LuanDT",
+									"data comment: " + reportData.size());
 							origanizeBinhLuanNoti(reportData, reportData.size());
 						}
 					} catch (JSONException e) {

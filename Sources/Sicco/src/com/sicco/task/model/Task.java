@@ -45,8 +45,9 @@ public class Task implements Serializable {
 	public Task(Context context) {
 		this.context = context;
 	}
-	
-	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien, String nguoi_xem, String mo_ta){
+
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
+			String nguoi_xem, String mo_ta) {
 		super();
 		this.id = id;
 		this.ten_cong_viec = ten_cong_viec;
@@ -78,7 +79,7 @@ public class Task implements Serializable {
 		this.id_phong_ban = id_phong_ban;
 		this.trang_thai = trang_thai;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -233,7 +234,7 @@ public class Task implements Serializable {
 					JSONObject response) {
 				String jsonRead = response.toString();
 
-//				Log.d("LuanDT", "json: " + jsonRead);
+				// Log.d("LuanDT", "json: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
@@ -286,10 +287,10 @@ public class Task implements Serializable {
 		});
 		return data;
 	}
-	
-	//changeProcess
-	public void changeProcess(String url, String id_cv,
-			String process, OnLoadListener OnLoadListener) {
+
+	// changeProcess
+	public void changeProcess(String url, String id_cv, String process,
+			OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 
@@ -334,7 +335,6 @@ public class Task implements Serializable {
 
 		});
 	}
-	
 
 	// search
 	public ArrayList<Task> search(String k, ArrayList<Task> data) {
@@ -452,13 +452,14 @@ public class Task implements Serializable {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
 						int success = object.getInt("success");
-						
+
 						if (success == 1) {
 							onLoadListener.onSuccess();
 						} else {
 							String error_msg = object.getString("error_msg");
 							onLoadListener.onFalse();
-							Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
+							Toast.makeText(context, error_msg,
+									Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -472,55 +473,56 @@ public class Task implements Serializable {
 					Throwable throwable, JSONObject errorResponse) {
 
 				onLoadListener.onFalse();
-				
+
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
 
 	}
-	//delete Task
-		public void deleteTaskById(String url,long task_id,OnLoadListener OnLoadListener) {
-			this.onLoadListener = OnLoadListener;
-			onLoadListener.onStart();
-			RequestParams params = new RequestParams();
-			params.put("task_id", task_id);
-			Log.d("NgaDV", ""+params);
-			
-			AsyncHttpClient client = new AsyncHttpClient();
-			client.post(url, params, new JsonHttpResponseHandler(){
-				
-				@Override
-				public void onSuccess(int statusCode, Header[] headers,
-						JSONObject response) {
-					String jsonRead = response.toString();
 
-					Log.d("NgaDV", "json: " + jsonRead);
-					if (!jsonRead.isEmpty()) {
-						try {
-							JSONObject object = new JSONObject(jsonRead);
-							int success = object.getInt("success");
-							if (success == 1) {
-								onLoadListener.onSuccess();
-							} else {
-								onLoadListener.onFalse();
-							}
-						} catch (JSONException e) {
-							e.printStackTrace();
+	// delete Task
+	public void deleteTaskById(String url, long task_id,
+			OnLoadListener OnLoadListener) {
+		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
+		RequestParams params = new RequestParams();
+		params.put("task_id", task_id);
+		Log.d("NgaDV", "" + params);
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(url, params, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+
+				Log.d("NgaDV", "json: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						int success = object.getInt("success");
+						if (success == 1) {
+							onLoadListener.onSuccess();
+						} else {
+							onLoadListener.onFalse();
 						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-					super.onSuccess(statusCode, headers, response);
 				}
+				super.onSuccess(statusCode, headers, response);
+			}
 
-				@Override
-				public void onFailure(int statusCode, Header[] headers,
-						Throwable throwable, JSONObject errorResponse) {
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
 
-					onLoadListener.onFalse();
-					super.onFailure(statusCode, headers, throwable,
-							errorResponse);
-				}
-			});
-		}
+				onLoadListener.onFalse();
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+		});
+	}
 
 	public interface OnLoadListener {
 		void onStart();

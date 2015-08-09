@@ -18,27 +18,27 @@ import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.model.Status;
-import com.sicco.task.adapter.TaskAdapter;
 import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.model.Task;
 import com.sicco.task.model.Task.OnLoadListener;
 
 public class DialogConfirmDeleteTask implements OnClickListener {
-	private Context 			context;
-	private long 				id_task;
-	
-	private View 				layout;
-	private TextView 			txtTitle;
-	private TextView 			txtContent;
-	private Button 				btnDelete;
-	private Button 				btnCancel;
-	private ImageView 			imgBack;
-	private Status 				status;
-	private Task 				task;
+	private Context context;
+	private long id_task;
+
+	private View layout;
+	private TextView txtTitle;
+	private TextView txtContent;
+	private Button btnDelete;
+	private Button btnCancel;
+	private ImageView imgBack;
+	private Status status;
+	private Task task;
 
 	private AlertDialog.Builder builder;
-	private AlertDialog 		alertDialog;
-	private ProgressDialog      progressDialog;
+	private AlertDialog alertDialog;
+	private ProgressDialog progressDialog;
+
 	public DialogConfirmDeleteTask(Context context, Task task) {
 		super();
 		this.context = context;
@@ -47,32 +47,34 @@ public class DialogConfirmDeleteTask implements OnClickListener {
 		showDialog();
 	}
 
-	private void  init() {
-		Rect 			rect 		= 	new Rect();
-		Window 			window 		= 	((Activity) context).getWindow();
+	private void init() {
+		Rect rect = new Rect();
+		Window window = ((Activity) context).getWindow();
 		window.getDecorView().getWindowVisibleDisplayFrame(rect);
-		
+
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
-		layout = layoutInflater.inflate(
-			R.layout.dialog_confirm_delete_task, null);
-		
+		layout = layoutInflater.inflate(R.layout.dialog_confirm_delete_task,
+				null);
+
 		layout.setMinimumWidth((int) (rect.width() * 1f));
 
-		txtContent 	= (TextView)	layout.findViewById(R.id.tvContent);
-		txtTitle 	= (TextView) 	layout.findViewById(R.id.title_actionbar);
-		
-		imgBack		= (ImageView)	layout.findViewById(R.id.back);
-		
-		btnCancel	= (Button)		layout.findViewById(R.id.btnCancel);
-		btnDelete	= (Button)		layout.findViewById(R.id.btnDelete);
-		
+		txtContent = (TextView) layout.findViewById(R.id.tvContent);
+		txtTitle = (TextView) layout.findViewById(R.id.title_actionbar);
+
+		imgBack = (ImageView) layout.findViewById(R.id.back);
+
+		btnCancel = (Button) layout.findViewById(R.id.btnCancel);
+		btnDelete = (Button) layout.findViewById(R.id.btnDelete);
+
 		progressDialog = new ProgressDialog(context);
-		
+
 		txtTitle.setText(context.getResources().getString(
 				R.string.confirm_delete));
-		txtContent.setText(Html.fromHtml(context.getString(R.string.content_dialog_delete_task) + 
-				"<font color=\"#ff0000\">"+task.getTen_cong_viec() +
-				"</font>"));
+		txtContent.setText(Html.fromHtml(context
+				.getString(R.string.content_dialog_delete_task)
+				+ "<font color=\"#ff0000\">"
+				+ task.getTen_cong_viec()
+				+ "</font>"));
 		imgBack.setOnClickListener(this);
 		btnDelete.setOnClickListener(this);
 		btnCancel.setOnClickListener(this);
@@ -95,28 +97,33 @@ public class DialogConfirmDeleteTask implements OnClickListener {
 			break;
 		case R.id.btnDelete:
 			alertDialog.dismiss();
-			task.deleteTaskById(context.getString(R.string.api_xoacongviec), task.getId(), new OnLoadListener() {
-				
-				@Override
-				public void onSuccess() {
-					AssignedTaskActivity.displayLisview();
-					progressDialog.dismiss();
-					Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_SHORT).show();
-				}
-				
-				@Override
-				public void onStart() {
-					Log.d("NgaDV", "onstart");
-					progressDialog.show();
-				}
-				
-				@Override
-				public void onFalse() {
-					Log.d("NgaDV", "onfalse");
-					progressDialog.dismiss();
-					Toast.makeText(context, context.getString(R.string.error_occured), Toast.LENGTH_SHORT).show();
-				}
-			});
+			task.deleteTaskById(context.getString(R.string.api_xoacongviec),
+					task.getId(), new OnLoadListener() {
+
+						@Override
+						public void onSuccess() {
+							AssignedTaskActivity.displayLisview();
+							progressDialog.dismiss();
+							Toast.makeText(context,
+									context.getString(R.string.success),
+									Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onStart() {
+							Log.d("NgaDV", "onstart");
+							progressDialog.show();
+						}
+
+						@Override
+						public void onFalse() {
+							Log.d("NgaDV", "onfalse");
+							progressDialog.dismiss();
+							Toast.makeText(context,
+									context.getString(R.string.error_occured),
+									Toast.LENGTH_SHORT).show();
+						}
+					});
 			break;
 		case R.id.btnCancel:
 			alertDialog.dismiss();

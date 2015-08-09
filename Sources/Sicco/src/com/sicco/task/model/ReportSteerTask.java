@@ -48,8 +48,7 @@ public class ReportSteerTask {
 		this.file = file;
 	}
 
-	public ReportSteerTask(long id, String handler, String content,
-			String id_cv) {
+	public ReportSteerTask(long id, String handler, String content, String id_cv) {
 		super();
 		this.id = id;
 		this.handler = handler;
@@ -57,7 +56,7 @@ public class ReportSteerTask {
 		this.id_cv = id_cv;
 	}
 
-	public String getIdCV(){
+	public String getIdCV() {
 		return id_cv;
 	}
 
@@ -125,7 +124,7 @@ public class ReportSteerTask {
 		params.add("id_cv", id_task);
 
 		Log.d("LuanDT", "params: " + params);
-		
+
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, params, new JsonHttpResponseHandler() {
 			@Override
@@ -244,72 +243,59 @@ public class ReportSteerTask {
 	}
 
 	private OnLoadListener onLoadListener;
-	
-	
 
-	void insertToDB(Context context, int id, String content, String handler){
-		String username = Utils.getString(
-				context,
-				SessionManager.KEY_NAME);
+	void insertToDB(Context context, int id, String content, String handler) {
+		String username = Utils.getString(context, SessionManager.KEY_NAME);
 		String date = getCurrentDate();
-		NotificationDBController db = NotificationDBController.getInstance(context);
+		NotificationDBController db = NotificationDBController
+				.getInstance(context);
 
-			ContentValues values = new ContentValues();
-			values.put(NotificationDBController.ID_COL, id);
-			values.put(
-					NotificationDBController.USERNAME_COL,
-					username);
-			values.put(
-					NotificationDBController.REPORT_CONTENT,
-					content);
-			values.put(
-					NotificationDBController.REPORT_DATE,
-					date);
-			values.put(
-					NotificationDBController.REPORT_HANDLER,
-					handler);
+		ContentValues values = new ContentValues();
+		values.put(NotificationDBController.ID_COL, id);
+		values.put(NotificationDBController.USERNAME_COL, username);
+		values.put(NotificationDBController.REPORT_CONTENT, content);
+		values.put(NotificationDBController.REPORT_DATE, date);
+		values.put(NotificationDBController.REPORT_HANDLER, handler);
 
-			db.insert(
-					NotificationDBController.REPORT_TABLE_NAME,
-					null, values);
+		db.insert(NotificationDBController.REPORT_TABLE_NAME, null, values);
 
 	}
-	
-	String getCurrentDate(){
+
+	String getCurrentDate() {
 		String currentDate = "";
 		try {
-			SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			String currentDateandTime = sdf.format(new Date());
-			Date cdate=sdf.parse(currentDateandTime);
-			Calendar now2= Calendar.getInstance();
+			Date cdate = sdf.parse(currentDateandTime);
+			Calendar now2 = Calendar.getInstance();
 			now2.add(Calendar.DATE, 0);
-			
+
 			int d = now2.get(Calendar.DATE);
 			int m = now2.get(Calendar.MONTH) + 1;
 			String month = "", date = "";
-			if(m < 10){
+			if (m < 10) {
 				month = "0" + m;
 			} else {
 				month = "" + m;
 			}
-			if(d < 10){
+			if (d < 10) {
 				date = "0" + d;
 			} else {
 				date = "" + d;
 			}
-			
+
 			int year = now2.get(Calendar.YEAR);
-			String beforedate = year +"/" + month + "/" + date;
-			Date BeforeDate1=sdf.parse(beforedate);
+			String beforedate = year + "/" + month + "/" + date;
+			Date BeforeDate1 = sdf.parse(beforedate);
 			cdate.compareTo(BeforeDate1);
-			
+
 			currentDate = beforedate.replace("/", "-");
-			
+
 			Log.d("MyDebug", "secondary List : " + currentDate);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return currentDate;
 	}
-	
+
 }

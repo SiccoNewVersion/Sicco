@@ -153,11 +153,11 @@ public class HomeActivity extends Activity implements OnClickListener {
 		gaoviec.setOnClickListener(this);
 		dagiao.setOnClickListener(this);
 		danhsachviec.setOnClickListener(this);
-		
-	//		gaoviec.setVisibility(View.GONE);
-	//		dagiao.setVisibility(View.GONE);
-	//		danhsachviec.setVisibility(View.GONE);
-		
+
+		// gaoviec.setVisibility(View.GONE);
+		// dagiao.setVisibility(View.GONE);
+		// danhsachviec.setVisibility(View.GONE);
+
 		// option.setOnClickListener(this);
 		exit.setOnClickListener(this);
 	}
@@ -265,8 +265,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 		checkNotifyCount(notify_cvcp, cvcp_count, 1);
 		checkNotifyCount(notify_cvxl, cvxl_count, 2);
 		checkNotifyCount(notify_cv, cv_count, 3);
-		
-		if(cvcp_count == 0 && cvxl_count == 0 && cv_count == 0){
+
+		if (cvcp_count == 0 && cvxl_count == 0 && cv_count == 0) {
 			BadgeUtils.setBadge(getApplicationContext(), 0);
 		}
 	}
