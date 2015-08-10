@@ -41,6 +41,7 @@ import com.sicco.task.erp.AssignTaskActivity;
 import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.erp.ListTask;
 
+// Home Activity
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai, gaoviec, dagiao, danhsachviec;
 	private FrameLayout exit;
