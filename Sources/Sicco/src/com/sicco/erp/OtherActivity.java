@@ -136,9 +136,11 @@ public class OtherActivity extends Activity implements OnClickListener,
 		listStatus.add(new Status(getResources().getString(R.string.all),
 				Long.parseLong("-1")));
 		listStatus.add(new Status(getResources()
-				.getString(R.string.pause_handle), Long.parseLong("4")));
-		listStatus.add(new Status(getResources().getString(R.string.finish_handle),
-				Long.parseLong("5")));
+				.getString(R.string.chua_xu_ly), Long.parseLong("2")));
+		listStatus.add(new Status(getResources()
+				.getString(R.string.da_xu_ly), Long.parseLong("3")));
+		listStatus.add(new Status(getResources().getString(R.string.tam_dung_xu_ly),
+				Long.parseLong("4")));
 
 		spinnerStatusAdapter = new SpinnerStatusAdapter(
 				getApplicationContext(), listStatus);

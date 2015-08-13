@@ -7,10 +7,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sicco.erp.util.Utils;
 
 public class ReportSteer {
 	private Context context;
@@ -71,13 +73,17 @@ public class ReportSteer {
 	}
 	
 	//sendReport
-	public void sendReportSteer(String url,String id_user,String id_dispatch,String content,OnLoadListener OnLoadListener){
+	public void sendReportSteer(String url, String id_user, String id_dispatch, String content, String daxuly, OnLoadListener OnLoadListener){
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		RequestParams params = new RequestParams();
 		params.add("id_user", id_user);
+		params.add("username", Utils.getString(context, "name"));
 		params.add("id_dispatch", id_dispatch);
 		params.add("content", content);
+		params.add("daxuly", daxuly);
+		
+//		Log.d("LuanDT", "params: " + params);
 		
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, params, new JsonHttpResponseHandler() {

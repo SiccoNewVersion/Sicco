@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,9 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	private EditText edtContent;
 	private Dispatch dispatch;
 	private TextView emptyView;
+	private RadioButton rDaXyLy;
+	private RadioButton rTamDungXuLy;
+	private String daxuly;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,13 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		reportSteer = new ReportSteer(SteerReportActivity.this);
 		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
 		emptyView = (TextView) findViewById(R.id.empty_view);
+		rDaXyLy = (RadioButton) findViewById(R.id.rDaXuLy);
+		rTamDungXuLy = (RadioButton) findViewById(R.id.rTamDungXuLy);
+		
+		if(OtherActivity.otherActivitySelected){
+			rDaXyLy.setVisibility(View.GONE);
+			rTamDungXuLy.setVisibility(View.GONE);
+		}
 
 		// click
 		back.setOnClickListener(this);
@@ -117,6 +129,12 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 			setListReportSteer(dispatch);
 			break;
 		case R.id.imgSendReportSteer:
+			if(rDaXyLy.isChecked()){
+				daxuly = "1";
+			} else {
+				daxuly = "0";
+			}
+			Log.d("LuanDT", "daxuly: " + daxuly);
 			sendReportSteer();
 			break;
 		}
@@ -136,7 +154,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 					getResources().getString(R.string.api_send_report), Utils
 							.getString(SteerReportActivity.this,
 									SessionManager.KEY_USER_ID), Long
-							.toString(dispatch.getId()), content,
+							.toString(dispatch.getId()), content, daxuly,
 					new OnLoadListener() {
 
 						@Override

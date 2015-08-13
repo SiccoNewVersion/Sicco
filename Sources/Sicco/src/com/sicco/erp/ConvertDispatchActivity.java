@@ -79,11 +79,11 @@ public class ConvertDispatchActivity extends Activity implements
 
 	private void init() {
 		back = (ImageView) findViewById(R.id.back);
-		lnJobType = (LinearLayout) findViewById(R.id.lnJobType);
+//		lnJobType = (LinearLayout) findViewById(R.id.lnJobType);
 		lnFromDate = (LinearLayout) findViewById(R.id.lnFromDate);
-		lnStatus = (LinearLayout) findViewById(R.id.lnStatus);
-		lnProgress = (LinearLayout) findViewById(R.id.lnProgress);
-		lnLevel = (LinearLayout) findViewById(R.id.lnLevel);
+//		lnStatus = (LinearLayout) findViewById(R.id.lnStatus);
+//		lnProgress = (LinearLayout) findViewById(R.id.lnProgress);
+//		lnLevel = (LinearLayout) findViewById(R.id.lnLevel);
 		lnHandler = (LinearLayout) findViewById(R.id.lnHandler);
 		lnViewer = (LinearLayout) findViewById(R.id.lnViewer);
 		lnDepartment = (LinearLayout) findViewById(R.id.lnDepartment);
@@ -103,11 +103,11 @@ public class ConvertDispatchActivity extends Activity implements
 		// click
 		back.setOnClickListener(this);
 
-		lnJobType.setOnClickListener(this);
+//		lnJobType.setOnClickListener(this);
 		lnFromDate.setOnClickListener(this);
-		lnStatus.setOnClickListener(this);
-		lnProgress.setOnClickListener(this);
-		lnLevel.setOnClickListener(this);
+//		lnStatus.setOnClickListener(this);
+//		lnProgress.setOnClickListener(this);
+//		lnLevel.setOnClickListener(this);
 		lnHandler.setOnClickListener(this);
 		lnViewer.setOnClickListener(this);
 		lnDepartment.setOnClickListener(this);
@@ -196,31 +196,31 @@ public class ConvertDispatchActivity extends Activity implements
 			DialogChooseUser.idUsersView = "";
 			finish();
 			break;
-		case R.id.lnJobType:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
-			break;
+//		case R.id.lnJobType:
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.default_value),
+//					Toast.LENGTH_SHORT).show();
+//			break;
 		case R.id.lnFromDate:
 			Toast.makeText(getApplicationContext(),
 					getResources().getString(R.string.default_value),
 					Toast.LENGTH_SHORT).show();
 			break;
-		case R.id.lnStatus:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.lnProgress:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.lnLevel:
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.default_value),
-					Toast.LENGTH_SHORT).show();
-			break;
+//		case R.id.lnStatus:
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.default_value),
+//					Toast.LENGTH_SHORT).show();
+//			break;
+//		case R.id.lnProgress:
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.default_value),
+//					Toast.LENGTH_SHORT).show();
+//			break;
+//		case R.id.lnLevel:
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.default_value),
+//					Toast.LENGTH_SHORT).show();
+//			break;
 		case R.id.lnHandler:
 
 			new DialogChooseHandler(ConvertDispatchActivity.this, listDep,

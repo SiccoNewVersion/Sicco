@@ -78,9 +78,18 @@
 					android:hint="@string/enter_title"
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:background="@null" />
 
             </LinearLayout>
+            
+			<TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+			
             <LinearLayout
 			    android:id="@+id/lndes"
                 android:layout_width="match_parent"
@@ -103,17 +112,19 @@
 					android:hint="@string/des"
                     android:layout_marginTop="7dp"
                     android:textColor="@color/label_item"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:background="@null" />
 
             </LinearLayout>
+            
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
             
-            <LinearLayout
+            <!-- <LinearLayout
 			    android:id="@+id/lnJobType "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,14 +148,14 @@
                     android:textColor="@color/label_item"
                     android:textSize="15dp"/>
 
-            </LinearLayout>
+            </LinearLayout> 
             
             <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"/>-->
             
             <LinearLayout
 			    android:id="@+id/lnFromDate"
@@ -158,7 +169,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/from_date"
-                    
                     android:textColor="@color/label_item"
                     android:textSize="18dp" />
 
@@ -175,10 +185,11 @@
             
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
+            
             <LinearLayout
 			    android:id="@+id/lnToDate"
                 android:layout_width="match_parent"
@@ -207,11 +218,12 @@
             
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
-            <LinearLayout
+            
+            <!-- <LinearLayout
 			    android:id="@+id/lnStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -244,7 +256,7 @@
                 android:layout_height="1dp"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"/> 
             <LinearLayout
 			    android:id="@+id/lnProgress"
                 android:layout_width="match_parent"
@@ -308,7 +320,7 @@
                 android:layout_height="1dp"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"/> -->
             <LinearLayout
 			    android:id="@+id/lnHandler"
                 android:layout_width="match_parent"
@@ -337,10 +349,11 @@
             
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
+            
             <LinearLayout
 			    android:id="@+id/lnViewer"
                 android:layout_width="match_parent"
@@ -369,10 +382,11 @@
             
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
+            
             <LinearLayout
 			    android:id="@+id/lnDepartment"
                 android:layout_width="match_parent"
@@ -403,11 +417,12 @@
             
             <TextView 
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
+        
     </ScrollView>
 
     <Button

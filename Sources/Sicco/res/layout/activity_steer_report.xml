@@ -34,13 +34,13 @@
                 android:text="@string/steer_report"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+
             <ImageView
                 android:layout_width="@dimen/actionbar_size"
                 android:layout_height="@dimen/actionbar_size"
                 android:background="@drawable/drawer_selector"
                 android:clickable="false"
                 android:padding="16dp" />
-            
         </LinearLayout>
     </FrameLayout>
 
@@ -60,34 +60,62 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" 
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:orientation="vertical" >
 
             <ListView
                 android:id="@+id/listReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:background="@color/white" >
             </ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioGroup
+                    android:id="@+id/rGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    
+                    <RadioButton 
+                        android:id="@+id/rDaXuLy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/da_xu_ly"
+                        android:checked="true" />
+                    
+                    <RadioButton 
+                        android:id="@+id/rTamDungXuLy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tam_dung_xu_ly"
+                        android:layout_marginLeft="10dp" />
+                    
+                </RadioGroup>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/actionbar_color" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
-				
+                android:layout_height="80dp" >
+
                 <EditText
                     android:id="@+id/edtReportOrSteer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/bg_edt_report_steer"
                     android:ems="10"
-                    android:hint="@string/hint_input_report_steer"
-                    android:background="@drawable/bg_edt_report_steer">
+                    android:hint="@string/hint_input_report_steer" >
                 </EditText>
 
                 <ImageView
@@ -96,12 +124,10 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/bg_ic_send_selector" 
-                    android:src="@drawable/ic_send"
-                    android:padding="20dp"/>
-
+                    android:background="@drawable/bg_ic_send_selector"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_send" />
             </RelativeLayout>
-
         </LinearLayout>
 
         <ProgressBar
@@ -151,7 +177,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
         </LinearLayout>
-
     </FrameLayout>
 
 </LinearLayout>

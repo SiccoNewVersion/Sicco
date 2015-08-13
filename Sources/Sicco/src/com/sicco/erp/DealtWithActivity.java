@@ -79,7 +79,8 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
 		spnFilter = (Spinner) findViewById(R.id.spnFilter);
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setVisibility(View.GONE);
+		title_actionbar.setText(getResources().getString(R.string.cv_xu_ly));
+		spnFilter.setVisibility(View.GONE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -88,41 +89,41 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 		retry.setOnClickListener(this);
 		listDispatch.setOnItemClickListener(this);
 
-		// set adapter
-		dispatch = new Dispatch(DealtWithActivity.this);
-		arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()
-				.getString(R.string.api_get_dispatch_handle),
-				new OnLoadListener() {
-
-					@Override
-					public void onStart() {
-						loading.setVisibility(View.VISIBLE);
-						connectError.setVisibility(View.GONE);
-					}
-
-					@Override
-					public void onSuccess() {
-						loading.setVisibility(View.GONE);
-						adapter.notifyDataSetChanged();
-						if (adapter.getCount() <= 0) {
-							listDispatch.setEmptyView(emptyView);
-						}
-					}
-
-					@Override
-					public void onFalse() {
-						loading.setVisibility(View.GONE);
-						connectError.setVisibility(View.VISIBLE);
-					}
-				}, 0);
-		adapter = new ActionAdapter(DealtWithActivity.this, arrDispatch, 0);
-		listDispatch.setAdapter(adapter);
+		// // set adapter
+		// dispatch = new Dispatch(DealtWithActivity.this);
+		// arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()
+		// .getString(R.string.api_get_dispatch_handle),
+		// new OnLoadListener() {
+		//
+		// @Override
+		// public void onStart() {
+		// loading.setVisibility(View.VISIBLE);
+		// connectError.setVisibility(View.GONE);
+		// }
+		//
+		// @Override
+		// public void onSuccess() {
+		// loading.setVisibility(View.GONE);
+		// adapter.notifyDataSetChanged();
+		// if (adapter.getCount() <= 0) {
+		// listDispatch.setEmptyView(emptyView);
+		// }
+		// }
+		//
+		// @Override
+		// public void onFalse() {
+		// loading.setVisibility(View.GONE);
+		// connectError.setVisibility(View.VISIBLE);
+		// }
+		// }, 0);
+		// adapter = new ActionAdapter(DealtWithActivity.this, arrDispatch, 0);
+		// listDispatch.setAdapter(adapter);
 
 		// setFilter
 		// set spinner
 		ArrayList<Status> listStatus = new ArrayList<Status>();
-		listStatus.add(new Status(getResources().getString(R.string.all),
-				Long.parseLong("-1")));
+		listStatus.add(new Status(getResources().getString(R.string.all), Long
+				.parseLong("-1")));
 		listStatus.add(new Status(getResources()
 				.getString(R.string.need_handle), Long.parseLong("2")));
 		listStatus.add(new Status(getResources().getString(R.string.handling),
@@ -141,8 +142,9 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 				Log.d("NgaDV", "status.getKey(): " + status.getKey());
 
 				if (!arrDispatch.isEmpty()) {
-					adapter = new ActionAdapter(DealtWithActivity.this, dispatch
-							.filterDispatch(status.getKey(), arrDispatch), 0);
+					adapter = new ActionAdapter(DealtWithActivity.this,
+							dispatch.filterDispatch(status.getKey(),
+									arrDispatch), 0);
 					listDispatch.setAdapter(adapter);
 				}
 			}
@@ -276,6 +278,35 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	protected void onResume() {
 
 		HomeActivity.checkDate(this);
+		// set adapter
+		dispatch = new Dispatch(DealtWithActivity.this);
+		arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()
+				.getString(R.string.api_get_dispatch_handle),
+				new OnLoadListener() {
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						adapter.notifyDataSetChanged();
+						if (adapter.getCount() <= 0) {
+							listDispatch.setEmptyView(emptyView);
+						}
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				}, 0);
+		adapter = new ActionAdapter(DealtWithActivity.this, arrDispatch, 0);
+		listDispatch.setAdapter(adapter);
 		super.onResume();
 	}
 }

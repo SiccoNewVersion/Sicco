@@ -129,7 +129,7 @@ public class GetAllNotificationService extends Service {
 
 						try {
 							JSONObject json = new JSONObject(st);
-							total = json.getInt("so_cv_can_phe");
+							total = json.getInt("total");
 							JSONArray rows = json.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
 								JSONObject row = rows.getJSONObject(i);

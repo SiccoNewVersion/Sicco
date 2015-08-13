@@ -59,6 +59,9 @@
     <string name="handling">Đang xử lý</string>
     <string name="pause_handle">Tạm dừng xử lý</string>
     <string name="finish_handle">Kết thúc xử lý</string>
+    <string name="chua_xu_ly">Chưa xử lý</string>
+    <string name="da_xu_ly">Đã xử lý</string>
+    <string name="tam_dung_xu_ly">Tạm dừng xử lý</string>
     <string name="all">Tất cả</string>
     
     <string name="file">Tệp đính kèm</string>
@@ -114,7 +117,7 @@
     
     <!-- menu_task -->
     <string name="handle">Gửi xử lý/chuyển tiếp</string>
-    <string name="steer_report">Chỉ đạo/Báo cáo</string>
+    <string name="steer_report">Báo cáo/Xử lý</string>
     <string name="change_status">Thay đổi trạng thái</string>
     <string name="job_transfer">Chuyển công việc</string>
     <string name="done">Xong</string>

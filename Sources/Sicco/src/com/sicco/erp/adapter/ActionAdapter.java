@@ -25,7 +25,6 @@ import com.sicco.erp.model.Status;
 import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChangeStatusDispatch;
 import com.sicco.erp.util.DialogChooseUser;
-import com.sicco.erp.util.Utils;
 
 public class ActionAdapter extends BaseAdapter {
 	private Context context;
@@ -112,15 +111,16 @@ public class ActionAdapter extends BaseAdapter {
 			holder.title.setTextColor(context.getResources().getColor(R.color.red));
 			holder.description.setTextColor(context.getResources().getColor(R.color.red));
 		} else if(dispatch.getStatus().equals("3")){
-			holder.title.setTextColor(context.getResources().getColor(R.color.yellow));
-			holder.description.setTextColor(context.getResources().getColor(R.color.yellow));
+			holder.title.setTextColor(context.getResources().getColor(R.color.green));
+			holder.description.setTextColor(context.getResources().getColor(R.color.green));
 		} else if(dispatch.getStatus().equals("4")){
 			holder.title.setTextColor(context.getResources().getColor(R.color.gray));
 			holder.description.setTextColor(context.getResources().getColor(R.color.gray));
-		} else if(dispatch.getStatus().equals("5")){
-			holder.title.setTextColor(context.getResources().getColor(R.color.green));
-			holder.description.setTextColor(context.getResources().getColor(R.color.green));
-		}
+		} 
+//		else if(dispatch.getStatus().equals("5")){
+//			holder.title.setTextColor(context.getResources().getColor(R.color.yellow));
+//			holder.description.setTextColor(context.getResources().getColor(R.color.yellow));
+//		}
 
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
@@ -130,18 +130,18 @@ public class ActionAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				//popupMenu
-				final String[] nguoidoitrangthai = dispatch.getNguoithaydoitrangthai()
-						.split(",");
-				final String username = Utils.getString(context, "name");
-				boolean update_status = false;
-				for (int i = 0; i < nguoidoitrangthai.length; i++) {
-					if (username.equals(nguoidoitrangthai[i])) {
-						update_status = true;
-					}
-				}
+//				final String[] nguoidoitrangthai = dispatch.getNguoithaydoitrangthai()
+//						.split(",");
+//				final String username = Utils.getString(context, "name");
+//				boolean update_status = false;
+//				for (int i = 0; i < nguoidoitrangthai.length; i++) {
+//					if (username.equals(nguoidoitrangthai[i])) {
+//						update_status = true;
+//					}
+//				}
 				
 				PopupMenu popupMenu = new PopupMenu(context, holder.approval);
-				if(update_status){
+				if(type == 1){
 					popupMenu.getMenuInflater().inflate(R.menu.menu_task,
 							popupMenu.getMenu());
 				} else {
@@ -177,20 +177,20 @@ public class ActionAdapter extends BaseAdapter {
 									// Long.parseLong("1")));
 									listStatus.add(new Status(context
 											.getResources().getString(
-													R.string.need_handle), Long
+													R.string.chua_xu_ly), Long
 											.parseLong("2")));
 									listStatus.add(new Status(context
 											.getResources().getString(
-													R.string.handling), Long
+													R.string.da_xu_ly), Long
 											.parseLong("3")));
 									listStatus.add(new Status(context
 											.getResources().getString(
-													R.string.pause_handle),
+													R.string.tam_dung_xu_ly),
 											Long.parseLong("4")));
-									listStatus.add(new Status(context
-											.getResources().getString(
-													R.string.finish_handle),
-											Long.parseLong("5")));
+//									listStatus.add(new Status(context
+//											.getResources().getString(
+//													R.string.finish_handle),
+//											Long.parseLong("5")));
 									new DialogChangeStatusDispatch(context,
 											listStatus, dispatch, type);
 									break;
