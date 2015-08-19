@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sicco.erp.adapter.ReportSteerAdapter;
@@ -66,10 +64,10 @@ public class DetailDispatchActivity extends Activity{
 		});
 		//
 		title.setText(dispatch.getNumberDispatch());
-		shCongVan.setText(getResources().getString(R.string.sh_cong_van)+dispatch.getNumberDispatch());
-		trichYeu.setText(getResources().getString(R.string.trich_yeu)+dispatch.getDescription());
-		nguoiPheDuyet.setText(getResources().getString(R.string.nguoi_phe_duyet)+dispatch.getPheduyet());
-		nguoiXuLy.setText(getResources().getString(R.string.nguoi_xu_ly)+dispatch.getHandler());
+		shCongVan.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.sh_cong_van) + " </i></u></b></font>" + dispatch.getNumberDispatch()));
+		trichYeu.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.trich_yeu) + " </i></u></b></font>" + dispatch.getDescription()));
+		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + " </i></u></b></font>" + dispatch.getPheduyet()));
+		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + " </i></u></b></font>" + dispatch.getHandler()));
 	}
 	
 	private void setListReportSteer(Dispatch dispatch) {

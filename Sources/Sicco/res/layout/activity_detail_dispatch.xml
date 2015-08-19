@@ -55,35 +55,50 @@
 
         <TextView
             android:id="@+id/shCongVan"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="SH cong van:"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/trichYeu"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="Trich yeu:"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/nguoiPheDuyet"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="Nguoi phe duyet:"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/nguoiXuLy"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="Nguoi xu ly:"
             android:textSize="16sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="@string/bao_cao"
             android:textSize="16sp" />
 

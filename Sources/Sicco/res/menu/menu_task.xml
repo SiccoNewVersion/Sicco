@@ -17,8 +17,8 @@
         android:title="@string/job_transfer"/>
     -->
     <item
-        android:id="@+id/action_handle"
-        android:title="@string/xu_ly"/>
+        android:id="@+id/action_steer"
+        android:title="@string/steer_report"/>
     <item
         android:id="@+id/action_detail"
         android:title="@string/chi_tiet_cong_van"/>
