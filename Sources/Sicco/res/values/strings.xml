@@ -26,6 +26,12 @@
     <string name="send">Gửi</string>
     <string name="insert_text">Nhập văn bản</string>
     <string name="data_empty">Không có dữ liệu.</string>
+    <string name="nguoi_xu_ly">"Người xử lý: "</string>
+    <string name="nguoi_phe_duyet">"Người phê duyệt: "</string>
+    <string name="sh_cong_van">"SH công văn: "</string>
+    <string name="trich_yeu">"Trích yếu: "</string>
+    <string name="bao_cao">"Báo cáo: "</string>
+    <string name="chi_tiet_cong_van">Chi tiết công văn</string>
     <!-- End TuNT -->
 
 

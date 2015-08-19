@@ -16,6 +16,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.sicco.erp.ConvertDispatchActivity;
+import com.sicco.erp.DetailDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.SteerReportActivity;
 import com.sicco.erp.database.NotificationDBController;
@@ -200,7 +201,12 @@ public class ActionAdapter extends BaseAdapter {
 									intent.putExtra("dispatch", dispatch);
 									context.startActivity(intent);
 									break;
-
+								case R.id.action_detail:
+									intent.setClass(context,
+											DetailDispatchActivity.class);
+									intent.putExtra("dispatch", dispatch);
+									context.startActivity(intent);
+									break;
 								default:
 									break;
 								}
