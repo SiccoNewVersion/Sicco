@@ -230,7 +230,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="@string/chose_process"
+                    android:text="@string/task_process"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -239,24 +239,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="@string/chose_process"
+                    android:text="@string/task_process"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_attach_file"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attach_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <!-- End -->
 
-            <Button
-                android:id="@+id/attach_file"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_btn_login_selector"
-                android:text="@string/no_attach"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+
+            <!-- <Button -->
+            <!-- android:id="@+id/attach_file" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="40dp" -->
+            <!-- android:layout_marginLeft="20dp" -->
+            <!-- android:layout_marginRight="20dp" -->
+            <!-- android:layout_marginTop="10dp" -->
+            <!-- android:background="@drawable/bg_btn_login_selector" -->
+            <!-- android:text="@string/no_attach" -->
+            <!-- android:textAllCaps="false" -->
+            <!-- android:textColor="@color/white" -->
+            <!-- android:textSize="18sp" /> -->
+
         </LinearLayout>
     </ScrollView>
 
@@ -269,7 +294,7 @@
         android:handle="@+id/handle" >
 
         <Button
-            android:id="@+id/handle"
+            android:id="@id/handle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

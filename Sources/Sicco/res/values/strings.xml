@@ -207,15 +207,16 @@
     <string name="cv_handler">Người xử lý:</string>
     <string name="cv_handler_new_comment">Người bình luận:</string>
     <string name="chose_process">Tiến độ Công việc</string>
-    <string name="task_title">Tiêu đề Công việc</string>
-    <string name="task_content">Nội dung Công việc</string>
+    <string name="task_process">Tiến độ Công việc:</string>
+    <string name="task_title">Tiêu đề Công việc:</string>
+    <string name="task_content">Nội dung Công việc:</string>
     <string name="task_assigned_at">Ngày giao:</string>
     <string name="task_assigner">Người giao:</string>
     <string name="task_completed_infact">Ngày hoàn thành thực tế:</string>
     <string name="task_expired_at">Hạn cuối:</string>
     <string name="task_detail">Chi tiết Công việc</string>
     <string name="report_content">Nội dung các báo cáo</string>
-    <string name="task_attach_file">File đính kèm</string>
+    <string name="task_attach_file">Tệp đính kèm:</string>
     
     <string-array name="process_key">
         <item>0</item>

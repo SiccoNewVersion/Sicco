@@ -39,8 +39,7 @@ import android.widget.Toast;
 @SuppressWarnings("deprecation")
 public class DetailTaskActivity extends Activity implements OnClickListener, OnItemClickListener {
 	private TextView title, content, assigner, implementers, assigned_at, expired_at, completed_infact, process,
-			emptyView;
-	private Button attach_file;
+			emptyView, attach_file;
 	private ImageView back;
 	private SlidingDrawer drawer;
 	private ViewDispatch viewDispatch;
@@ -89,7 +88,7 @@ public class DetailTaskActivity extends Activity implements OnClickListener, OnI
 		expired_at = (TextView) findViewById(R.id.expired_at);
 		completed_infact = (TextView) findViewById(R.id.completed_infact);
 		process = (TextView) findViewById(R.id.process);
-		attach_file = (Button) findViewById(R.id.attach_file);
+		attach_file = (TextView) findViewById(R.id.attach_file);
 
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
