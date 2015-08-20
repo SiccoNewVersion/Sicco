@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
@@ -175,7 +176,9 @@ public class ListTask extends Activity implements OnClickListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Task task = (Task) arg0.getAdapter().getItem(arg2);
 		if (!task.getDinh_kem().equals("")) {
-			viewDispatch = new ViewDispatch(ListTask.this, task.getDinh_kem());
+//			viewDispatch = new ViewDispatch(ListTask.this, task.getDinh_kem());
+			Intent intent = new Intent(this, DetailTaskActivity.class);
+			startActivity(intent);
 		} else {
 			Toast.makeText(ListTask.this,
 					getResources().getString(R.string.no_attach),

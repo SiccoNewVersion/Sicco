@@ -73,6 +73,7 @@
     <string name="file">Tệp đính kèm</string>
 	<string name="date_handle">Ngày thực hiện</string>
 	<string name="date_finish">Ngày kết thúc</string>
+	<string name="priority">Mức ưu tiên</string>
     <string name="project">Dự án</string>
     <string name="choose_project">Chọn dự án</string>
     <string name="path_file">Đường dẫn file: "</string>
@@ -90,6 +91,7 @@
     <string name="choose_department">Chọn phòng ban</string>
     <string name="set_date_handle">Đặt ngày thực hiện</string>
     <string name="set_date_finish">Đặt ngày kết thúc</string>
+    <string name="set_priority">Đặt mức ưu tiên</string>
     <string name="confirm_delete">Xác nhận xoá</string>
     <string name="delete">Xoá</string>
     <string name="error_occured">Có lỗi xảy ra!</string>
@@ -97,6 +99,9 @@
     
     <string name="assign_task_new">Giao việc mới</string>
     <string name="detail_task">Chi tiết công việc</string>
+    <string name="low">Thấp</string>
+    <string name="medium">Trung Bình</string>
+    <string name="hight">Cao</string>
    
     <!-- End NgaDV -->
     
@@ -196,6 +201,15 @@
     <string name="cv_handler">Người xử lý:</string>
     <string name="cv_handler_new_comment">Người bình luận:</string>
     <string name="chose_process">Tiến độ Công việc</string>
+    <string name="task_title">Tiêu đề Công việc</string>
+    <string name="task_content">Nội dung Công việc</string>
+    <string name="task_assigned_at">Ngày giao:</string>
+    <string name="task_assigner">Người giao:</string>
+    <string name="task_completed_infact">Ngày hoàn thành thực tế:</string>
+    <string name="task_expired_at">Hạn cuối:</string>
+    <string name="task_detail">Chi tiết Công việc</string>
+    <string name="report_content">Nội dung các báo cáo</string>
+    <string name="task_attach_file">File đính kèm</string>
     
     <string-array name="process_key">
         <item>0</item>
