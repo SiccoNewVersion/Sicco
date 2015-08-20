@@ -36,6 +36,7 @@ public class Dispatch implements Serializable {
 	private String loaicongvan;
 	private String nguoithaydoitrangthai;
 	private String pheduyet;
+	private String nguoi_phe_duyet;
 
 	private ArrayList<Dispatch> data;
 	private ArrayList<DispatchType> dataDispatchType;
@@ -50,7 +51,7 @@ public class Dispatch implements Serializable {
 	public Dispatch(long id, String numberDispatch, String description,
 			String content, String date, String handler, String status,
 			String coQuanBanHanh, String loaicongvan,
-			String nguoithaydoitrangthai, String pheduyet) {
+			String nguoithaydoitrangthai, String pheduyet, String nguoi_phe_duyet) {
 		super();
 		this.id = id;
 		this.numberDispatch = numberDispatch;
@@ -63,6 +64,7 @@ public class Dispatch implements Serializable {
 		this.loaicongvan = loaicongvan;
 		this.nguoithaydoitrangthai = nguoithaydoitrangthai;
 		this.pheduyet = pheduyet;
+		this.nguoi_phe_duyet =  nguoi_phe_duyet;
 	}
 
 	public Dispatch(long id, String numberDispatch, String description,
@@ -172,6 +174,14 @@ public class Dispatch implements Serializable {
 	public void setCoQuanBanHanh(String coQuanBanHanh) {
 		this.coQuanBanHanh = coQuanBanHanh;
 	}
+	
+	public String getNguoi_phe_duyet() {
+		return nguoi_phe_duyet;
+	}
+
+	public void setNguoi_phe_duyet(String nguoi_phe_duyet) {
+		this.nguoi_phe_duyet = nguoi_phe_duyet;
+	}
 
 	public void changeStatusDispatch(String url, String id_dispatch,
 			String status, OnLoadListener OnLoadListener) {
@@ -259,6 +269,7 @@ public class Dispatch implements Serializable {
 							String nguoithaydoitrangthai = row
 									.getString("nguoi_thay_doi_trang_thai");
 							String pheduyet = row.getString("phe_duyet");
+							String nguoi_phe_duyet = row.getString("nguoi_phe_duyet");
 
 							content = content.replace(" ", "%20");
 
@@ -270,7 +281,7 @@ public class Dispatch implements Serializable {
 												numberDispatch, description,
 												content, date, handler, status,
 												coQuanBanHanh, type.getTitle(),
-												nguoithaydoitrangthai, pheduyet));
+												nguoithaydoitrangthai, pheduyet, nguoi_phe_duyet));
 										// Log.d("LuanDT",
 										// "----->>>loai cong van: "
 										// + type.getTitle());
@@ -280,7 +291,7 @@ public class Dispatch implements Serializable {
 								data.add(new Dispatch(id, numberDispatch,
 										description, content, date, handler,
 										status, coQuanBanHanh, "",
-										nguoithaydoitrangthai, pheduyet));
+										nguoithaydoitrangthai, pheduyet, nguoi_phe_duyet));
 							}
 
 							addToDB(context, type, id, numberDispatch, content,

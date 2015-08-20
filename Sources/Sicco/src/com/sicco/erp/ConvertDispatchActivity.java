@@ -74,6 +74,7 @@ public class ConvertDispatchActivity extends Activity implements
 		Intent intent = getIntent();
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
 		file = dispatch.getContent();
+		file = file.replace("%20", " ");
 		init();
 	}
 
