@@ -255,68 +255,68 @@ public class DetailTaskActivity extends ChooseFileActivity implements
 
 				Task task = new Task(getApplicationContext());
 				try {
-					task.assignTask(
-							getResources().getString(R.string.api_add_task),
-							Long.parseLong(Utils.getString(
-									DetailTaskActivity.this, "user_id")),
-							edtTitle.getText().toString().trim(), edtDes
-									.getText().toString().trim(), txtDateHandle
-									.getText().toString().trim(), txtDateFinish
-									.getText().toString().trim(), ""
-									+ DialogChooseHandler.idUsersHandl,
-							txtHandler.getText().toString().trim(), ""
-									+ DialogChooseUser.idUsersView, txtViewer
-									.getText().toString().trim(), "", ""
-									+ DialogChooseDepartment.idDepSelected, ""
-									+ DialogChooseProject.idProjectSelected,
-							path, new OnLoadListener() {
-
-								@Override
-								public void onSuccess() {
-									progressDialog.dismiss();
-									Toast.makeText(
-											DetailTaskActivity.this,
-											getResources().getString(
-													R.string.success),
-											Toast.LENGTH_LONG).show();
-
-									// clear data
-									listChecked.clear();
-									listCheckedHandler.clear();
-									DialogChooseHandler.strUsersHandl = getResources()
-											.getString(R.string.handler1);
-									DialogChooseHandler.idUsersHandl = "";
-									DialogChooseUser.strUsersView = getResources()
-											.getString(R.string.viewer);
-									DialogChooseUser.idUsersView = "";
-
-									finish();
-								}
-
-								@Override
-								public void onStart() {
-									progressDialog.show();
-								}
-
-								@Override
-								public void onFalse() {
-									listChecked.removeAll(listChecked);
-									progressDialog.dismiss();
-									listChecked.removeAll(listChecked);
-								}
-							});
+//					task.assignTask(
+//							getResources().getString(R.string.api_add_task),
+//							Long.parseLong(Utils.getString(
+//									DetailTaskActivity.this, "user_id")),
+//							edtTitle.getText().toString().trim(), edtDes
+//									.getText().toString().trim(), txtDateHandle
+//									.getText().toString().trim(), txtDateFinish
+//									.getText().toString().trim(), ""
+//									+ DialogChooseHandler.idUsersHandl,
+//							txtHandler.getText().toString().trim(), ""
+//									+ DialogChooseUser.idUsersView, txtViewer
+//									.getText().toString().trim(), "", ""
+//									+ DialogChooseDepartment.idDepSelected, ""
+//									+ DialogChooseProject.idProjectSelected,
+//							path, new OnLoadListener() {
+//
+//								@Override
+//								public void onSuccess() {
+//									progressDialog.dismiss();
+//									Toast.makeText(
+//											DetailTaskActivity.this,
+//											getResources().getString(
+//													R.string.success),
+//											Toast.LENGTH_LONG).show();
+//
+//									// clear data
+//									listChecked.clear();
+//									listCheckedHandler.clear();
+//									DialogChooseHandler.strUsersHandl = getResources()
+//											.getString(R.string.handler1);
+//									DialogChooseHandler.idUsersHandl = "";
+//									DialogChooseUser.strUsersView = getResources()
+//											.getString(R.string.viewer);
+//									DialogChooseUser.idUsersView = "";
+//
+//									finish();
+//								}
+//
+//								@Override
+//								public void onStart() {
+//									progressDialog.show();
+//								}
+//
+//								@Override
+//								public void onFalse() {
+//									listChecked.removeAll(listChecked);
+//									progressDialog.dismiss();
+//									listChecked.removeAll(listChecked);
+//								}
+//							});
 				} catch (NumberFormatException e) {
 					Toast.makeText(DetailTaskActivity.this,
 							getResources().getString(R.string.file_error),
 							Toast.LENGTH_LONG).show();
 					progressDialog.dismiss();
 					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					Toast.makeText(DetailTaskActivity.this,
-							getResources().getString(R.string.file_error),
-							Toast.LENGTH_LONG).show();
-					progressDialog.dismiss();
-					e.printStackTrace();
+//				} catch (FileNotFoundException e) {
+//					Toast.makeText(DetailTaskActivity.this,
+//							getResources().getString(R.string.file_error),
+//							Toast.LENGTH_LONG).show();
+//					progressDialog.dismiss();
+//					e.printStackTrace();
 				} catch (NotFoundException e) {
 					Toast.makeText(DetailTaskActivity.this,
 							getResources().getString(R.string.file_error),

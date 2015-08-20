@@ -187,6 +187,7 @@
                 android:background="@color/item_desc_color"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"/>
+            
             <LinearLayout
 			    android:id="@+id/lnHandler"
                 android:layout_width="match_parent"
@@ -344,6 +345,39 @@
 
             </LinearLayout>
 			<TextView 
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/item_desc_color"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+			<LinearLayout
+			    android:id="@+id/lnPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" 
+                android:background="@drawable/item_convert_job_selector">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_priority"
+                    android:textColor="@color/label_item"
+                    android:textSize="18dp" />
+
+                <Spinner 
+                    android:id="@+id/spnPriority"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/label_item"
+                    android:popupBackground="@color/actionbar_color"
+                    android:dropDownWidth="match_parent"/>
+              
+
+            </LinearLayout>
+            
+            <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/item_desc_color"

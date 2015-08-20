@@ -414,7 +414,7 @@ public class Task implements Serializable {
 			String des_task, String date_handle, String date_finish,
 			String str_id_handler, String str_name_handler,
 			String str_id_viewer, String str_name_viewer, String tich_hop,
-			String id_department, String id_project, String pathFile,
+			String id_department, String id_project, String pathFile,String keyPriority,
 			OnLoadListener OnLoadListener) throws FileNotFoundException {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
@@ -438,6 +438,7 @@ public class Task implements Serializable {
 			params.put("dinh_kem", "");
 		}
 		params.add("id_du_an", id_project);
+		params.add("uu_tien", keyPriority);
 
 		Log.d("NgaDV", "params: " + params);
 		AsyncHttpClient client = new AsyncHttpClient();
