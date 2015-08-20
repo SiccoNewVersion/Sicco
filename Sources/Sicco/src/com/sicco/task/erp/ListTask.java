@@ -71,40 +71,6 @@ public class ListTask extends Activity implements OnClickListener,
 
 	}
 
-	@Override
-	protected void onResume() {
-		task = new Task(ListTask.this);
-		arrTask = new ArrayList<Task>();
-		arrTask = task.getData(ListTask.this,
-				getResources().getString(R.string.api_get_cv_duoc_giao),
-				new Task.OnLoadListener() {
-
-					@Override
-					public void onStart() {
-						loading.setVisibility(View.VISIBLE);
-						connectError.setVisibility(View.GONE);
-					}
-
-					@Override
-					public void onSuccess() {
-						loading.setVisibility(View.GONE);
-						adapter.notifyDataSetChanged();
-						if (adapter.getCount() <= 0) {
-							listTask.setEmptyView(emptyView);
-						}
-					}
-
-					@Override
-					public void onFalse() {
-						loading.setVisibility(View.GONE);
-						connectError.setVisibility(View.VISIBLE);
-					}
-				});
-		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
-		listTask.setAdapter(adapter);
-		super.onResume();
-	}
-	
 	private void init() {
 		searchView = (LinearLayout) findViewById(R.id.searchview);
 		back = (ImageView) findViewById(R.id.back);
@@ -129,6 +95,37 @@ public class ListTask extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listTask.setOnItemClickListener(this);
+
+		// set adapter
+//		task = new Task(ListTask.this);
+//		arrTask = new ArrayList<Task>();
+//		arrTask = task.getData(ListTask.this,
+//				getResources().getString(R.string.api_get_cv_duoc_giao),
+//				new Task.OnLoadListener() {
+//
+//					@Override
+//					public void onStart() {
+//						loading.setVisibility(View.VISIBLE);
+//						connectError.setVisibility(View.GONE);
+//					}
+//
+//					@Override
+//					public void onSuccess() {
+//						loading.setVisibility(View.GONE);
+//						adapter.notifyDataSetChanged();
+//						if (adapter.getCount() <= 0) {
+//							listTask.setEmptyView(emptyView);
+//						}
+//					}
+//
+//					@Override
+//					public void onFalse() {
+//						loading.setVisibility(View.GONE);
+//						connectError.setVisibility(View.VISIBLE);
+//					}
+//				});
+//		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
+//		listTask.setAdapter(adapter);
 
 	}
 
