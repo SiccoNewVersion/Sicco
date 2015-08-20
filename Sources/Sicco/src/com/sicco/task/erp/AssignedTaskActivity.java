@@ -228,5 +228,10 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
+	@Override
+	protected void onResume() {
+		displayLisview();
+		super.onResume();
+	}
 
 }

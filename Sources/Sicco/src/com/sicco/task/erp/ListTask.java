@@ -53,6 +53,7 @@ public class ListTask extends Activity implements OnClickListener,
 
 	private TextView title_actionbar;
 	public static boolean ListTaskActivity = false;
+	private Button btnAssignTaskNew;
 
 	NotificationDBController db;
 	Cursor cursor;
@@ -85,6 +86,8 @@ public class ListTask extends Activity implements OnClickListener,
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar.setText(getResources().getString(
 				R.string.viec_duoc_giao));
+		btnAssignTaskNew = (Button) findViewById(R.id.btnAssignNew);
+		btnAssignTaskNew.setVisibility(View.GONE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
