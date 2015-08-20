@@ -73,7 +73,7 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 		title_actionbar 	= (TextView) 		findViewById(R.id.title_actionbar);
 		btnAssignNewTask	= (Button)			findViewById(R.id.btnAssignNew);
 		title_actionbar
-				.setText(getResources().getString(R.string.viec_da_giao));
+				.setText(getResources().getString(R.string.danh_sach_viec));
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -117,7 +117,7 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(context, arrTask, 1);
+		adapter = new TaskAdapter(context, arrTask, 2);
 		listTask.setAdapter(adapter);
 	}
 

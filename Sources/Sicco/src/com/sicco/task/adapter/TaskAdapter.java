@@ -170,7 +170,7 @@ public class TaskAdapter extends BaseAdapter {
 							popupMenu.getMenu());
 				} else {
 					popupMenu.getMenuInflater()
-							.inflate(R.menu.assigned_task_no_delete,
+							.inflate(R.menu.assigned_task1,
 									popupMenu.getMenu());
 				}
 
@@ -182,12 +182,12 @@ public class TaskAdapter extends BaseAdapter {
 							public boolean onMenuItemClick(MenuItem item) {
 								Intent intent = new Intent();
 								switch (item.getItemId()) {
-//								case R.id.action_report:
-//									intent.setClass(context,
-//											SteerReportTaskActivity.class);
-//									intent.putExtra("id_task", task.getId());
-//									context.startActivity(intent);
-//									break;
+								case R.id.action_report:
+									intent.setClass(context,
+											SteerReportTaskActivity.class);
+									intent.putExtra("id_task", task.getId());
+									context.startActivity(intent);
+									break;
 //								case R.id.action_update_rate:
 //									listProcess = new ArrayList<Status>();
 //
