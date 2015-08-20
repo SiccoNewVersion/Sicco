@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ public class DetailDispatchActivity extends Activity{
 	private ReportSteer reportSteer;
 	private ReportSteerAdapter baoCaoAdapter;
 	private ArrayList<ReportSteer> arrBaoCao;
+	private Button retry;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,11 +50,12 @@ public class DetailDispatchActivity extends Activity{
 		shCongVan  =(TextView) findViewById(R.id.shCongVan);
 		trichYeu  =(TextView) findViewById(R.id.trichYeu);
 		nguoiPheDuyet  =(TextView) findViewById(R.id.nguoiPheDuyet);
-		nguoiXuLy  =(TextView) findViewById(R.id.nguoiXuLy);
+//		nguoiXuLy  =(TextView) findViewById(R.id.nguoiXuLy);
 		baoCao = (ListView) findViewById(R.id.baoCao);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		emptyView = (TextView) findViewById(R.id.emptyView);
 		connectError = (LinearLayout) findViewById(R.id.connectError);
+		retry = (Button) findViewById(R.id.retry);
 		
 		//listener
 		back.setOnClickListener(new OnClickListener() {
@@ -62,12 +65,20 @@ public class DetailDispatchActivity extends Activity{
 				finish();
 			}
 		});
+		
+		retry.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setListReportSteer(dispatch);
+			}
+		});
 		//
 		title.setText(dispatch.getNumberDispatch());
 		shCongVan.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.sh_cong_van) + " </i></u></b></font>" + dispatch.getNumberDispatch()));
 		trichYeu.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.trich_yeu) + " </i></u></b></font>" + dispatch.getDescription()));
-		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + " </i></u></b></font>" + dispatch.getPheduyet()));
-		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + " </i></u></b></font>" + dispatch.getHandler()));
+		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + " </i></u></b></font>" + dispatch.getNguoi_phe_duyet()));
+//		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + " </i></u></b></font>" + dispatch.getHandler()));
 	}
 	
 	private void setListReportSteer(Dispatch dispatch) {

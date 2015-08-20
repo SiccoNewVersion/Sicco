@@ -139,8 +139,8 @@ public class OtherActivity extends Activity implements OnClickListener,
 				.getString(R.string.chua_xu_ly), Long.parseLong("2")));
 		listStatus.add(new Status(getResources()
 				.getString(R.string.da_xu_ly), Long.parseLong("3")));
-		listStatus.add(new Status(getResources().getString(R.string.tam_dung_xu_ly),
-				Long.parseLong("4")));
+//		listStatus.add(new Status(getResources().getString(R.string.tam_dung_xu_ly),
+//				Long.parseLong("4")));
 
 		spinnerStatusAdapter = new SpinnerStatusAdapter(
 				getApplicationContext(), listStatus);
@@ -156,7 +156,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 
 				if (!arrDispatch.isEmpty()) {
 					adapter = new ActionAdapter(OtherActivity.this, dispatch
-							.filterDispatch(status.getKey(), arrDispatch), 0);
+							.filterDispatch(status.getKey(), arrDispatch), 1);
 					listDispatch.setAdapter(adapter);
 				}
 			}

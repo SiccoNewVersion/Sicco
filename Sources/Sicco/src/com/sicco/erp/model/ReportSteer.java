@@ -83,7 +83,7 @@ public class ReportSteer {
 		params.add("content", content);
 		params.add("daxuly", daxuly);
 		
-//		Log.d("LuanDT", "params: " + params);
+		Log.d("LuanDT", "params: " + params);
 		
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url, params, new JsonHttpResponseHandler() {

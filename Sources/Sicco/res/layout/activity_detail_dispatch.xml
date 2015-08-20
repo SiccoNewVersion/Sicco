@@ -83,7 +83,8 @@
             android:text="Nguoi phe duyet:"
             android:textSize="16sp" />
 
-        <TextView
+        <!--
+             <TextView
             android:id="@+id/nguoiXuLy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,6 +93,7 @@
             android:paddingRight="10dp"
             android:text="Nguoi xu ly:"
             android:textSize="16sp" />
+        -->
 
         <TextView
             android:layout_width="match_parent"
@@ -101,6 +103,11 @@
             android:paddingRight="10dp"
             android:text="@string/bao_cao"
             android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/actionbar_color" />
 
         <FrameLayout
             android:layout_width="match_parent"

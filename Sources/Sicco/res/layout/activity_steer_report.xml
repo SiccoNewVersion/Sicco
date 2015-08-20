@@ -76,27 +76,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <RadioGroup
-                    android:id="@+id/rGroup"
-                    android:layout_width="match_parent"
+                <Button 
+                    android:id="@+id/btnChuyenTiepXuLy"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                    
-                    <RadioButton 
-                        android:id="@+id/rDaXuLy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/da_xu_ly"
-                        android:checked="true" />
-                    
-                    <RadioButton 
-                        android:id="@+id/rTamDungXuLy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tam_dung_xu_ly"
-                        android:layout_marginLeft="10dp" />
-                    
-                </RadioGroup>
+                    android:text="@string/handle"
+                    android:textSize="11sp"
+                    android:layout_weight="1" />
+                
+                <Button 
+                    android:id="@+id/btnChuyenCVThanhCongViec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/job_transfer"
+                    android:textSize="11sp"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <TextView

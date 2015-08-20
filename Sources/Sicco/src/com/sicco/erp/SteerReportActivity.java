@@ -20,11 +20,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.adapter.ReportSteerAdapter;
 import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
+import com.sicco.erp.model.User;
 import com.sicco.erp.model.ReportSteer.OnLoadListener;
+import com.sicco.erp.util.DialogChooseUser;
 import com.sicco.erp.util.Utils;
 
 public class SteerReportActivity extends Activity implements OnClickListener {
@@ -41,9 +45,14 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 	private EditText edtContent;
 	private Dispatch dispatch;
 	private TextView emptyView;
-	private RadioButton rDaXyLy;
-	private RadioButton rTamDungXuLy;
-	private String daxuly;
+	private Button btnChuyenTiepXuLy;
+	private Button btnChuyenCVThanhCongViec;
+	private String daxuly = "1";
+	private ArrayList<Department> listDep;
+	private ArrayList<User> allUser;
+	private ArrayList<User> listChecked;
+	private User user;
+	private Department department;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,17 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		dispatch = (Dispatch) intent.getSerializableExtra("dispatch");
 		init();
 		setListReportSteer(dispatch);
+		
+		listChecked = new ArrayList<User>();
+
+		department = new Department();
+		user = new User();
+		listDep = new ArrayList<Department>();
+		allUser = new ArrayList<User>();
+		listDep = department.getData(getResources().getString(
+				R.string.api_get_deparment));
+		allUser = user.getData(getResources().getString(
+				R.string.api_get_all_user));
 
 	}
 
@@ -67,18 +87,15 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 		reportSteer = new ReportSteer(SteerReportActivity.this);
 		edtContent = (EditText) findViewById(R.id.edtReportOrSteer);
 		emptyView = (TextView) findViewById(R.id.empty_view);
-		rDaXyLy = (RadioButton) findViewById(R.id.rDaXuLy);
-		rTamDungXuLy = (RadioButton) findViewById(R.id.rTamDungXuLy);
+		btnChuyenCVThanhCongViec = (Button) findViewById(R.id.btnChuyenCVThanhCongViec);
+		btnChuyenTiepXuLy = (Button) findViewById(R.id.btnChuyenTiepXuLy);
 		
-		if(OtherActivity.otherActivitySelected){
-			rDaXyLy.setVisibility(View.GONE);
-			rTamDungXuLy.setVisibility(View.GONE);
-		}
-
 		// click
 		back.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		imgSendReportSteer.setOnClickListener(this);
+		btnChuyenCVThanhCongViec.setOnClickListener(this);
+		btnChuyenTiepXuLy.setOnClickListener(this);
 		// set adapter
 
 	}
@@ -95,6 +112,7 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 
 						if (ReportSteer.CHECK_TOTAL_DATA == 0) {
 							listReport.setEmptyView(emptyView);
+							daxuly = "0";
 						}
 
 					}
@@ -129,13 +147,19 @@ public class SteerReportActivity extends Activity implements OnClickListener {
 			setListReportSteer(dispatch);
 			break;
 		case R.id.imgSendReportSteer:
-			if(rDaXyLy.isChecked()){
-				daxuly = "1";
-			} else {
-				daxuly = "0";
-			}
-			Log.d("LuanDT", "daxuly: " + daxuly);
 			sendReportSteer();
+			break;
+		case R.id.btnChuyenTiepXuLy:
+			ActionAdapter.flag = "handle";
+			new DialogChooseUser(SteerReportActivity.this, dispatch,
+					listDep, allUser, listChecked);
+			break;
+		case R.id.btnChuyenCVThanhCongViec:
+			Intent intent = new Intent();
+			intent.setClass(SteerReportActivity.this,
+					ConvertDispatchActivity.class);
+			intent.putExtra("dispatch", dispatch);
+			startActivity(intent);
 			break;
 		}
 
