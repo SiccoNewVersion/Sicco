@@ -16,18 +16,22 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.manager.SessionManager;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.service.GetAllNotificationService;
 import com.sicco.erp.util.BadgeUtils;
 import com.sicco.erp.util.Keyboard;
@@ -54,6 +58,8 @@ public class ListTask extends Activity implements OnClickListener,
 	private TextView title_actionbar;
 	public static boolean ListTaskActivity = false;
 	private Button btnAssignTaskNew;
+	private Spinner spnFilter;
+	private SpinnerStatusAdapter spinnerStatusAdapter;
 
 	NotificationDBController db;
 	Cursor cursor;
@@ -122,6 +128,8 @@ public class ListTask extends Activity implements OnClickListener,
 				R.string.viec_duoc_giao));
 		btnAssignTaskNew = (Button) findViewById(R.id.btnAssignNew);
 		btnAssignTaskNew.setVisibility(View.GONE);
+		spnFilter = (Spinner) findViewById(R.id.spnFilter);
+		spnFilter.setVisibility(View.VISIBLE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -129,7 +137,40 @@ public class ListTask extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listTask.setOnItemClickListener(this);
+		//filter
+		ArrayList<Status> listStatus = new ArrayList<Status>();
+		listStatus.add(new Status(getResources().getString(R.string.all),
+				Task.FILTER_ALL_TYPE));
+		listStatus.add(new Status(
+				getResources().getString(R.string.chua_xu_ly),
+				Task.FILTER_CXL_TYPE));
+		listStatus.add(new Status(getResources().getString(
+				R.string.dang_xu_ly_trong_han), Task.FILTER_DXLTH_TYPE));
+		listStatus.add(new Status(getResources().getString(
+				R.string.dang_xu_ly_qua_han), Task.FILTER_DXLQH_TYPE));
 
+		spinnerStatusAdapter = new SpinnerStatusAdapter(
+				getApplicationContext(), listStatus);
+		spnFilter.setAdapter(spinnerStatusAdapter);
+
+		spnFilter.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Status status = (Status) parent.getAdapter().getItem(position);
+				if (!arrTask.isEmpty()) {
+					// Log.d("TuNT", "data size: "+task.filter(arrTask,
+					// status.getKey()).size());
+					adapter.setData(task.filter(arrTask, status.getKey()));
+					adapter.notifyDataSetChanged();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
 	}
 
 	@Override
