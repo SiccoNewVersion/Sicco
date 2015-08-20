@@ -23,6 +23,7 @@ import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Status;
 import com.sicco.erp.util.Utils;
+import com.sicco.task.erp.DetailTaskActivity;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
 import com.sicco.task.ultil.DialogChangeStatusTask;
@@ -237,7 +238,10 @@ public class TaskAdapter extends BaseAdapter {
 //									}
 //									break;
 								case R.id.action_detail:
-//									Intent intent = new Intent(context,DetailDispatchActivity);
+									intent.setClass(context,
+											DetailTaskActivity.class);
+									intent.putExtra("task", task);
+									context.startActivity(intent);
 									break;
 								case R.id.action_delete:
 									new DialogConfirmDeleteTask(context, task);

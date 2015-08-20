@@ -97,7 +97,7 @@ public class ListTask extends Activity implements OnClickListener,
 		task = new Task(ListTask.this);
 		arrTask = new ArrayList<Task>();
 		arrTask = task.getData(ListTask.this,
-				getResources().getString(R.string.api_get_task),
+				getResources().getString(R.string.api_get_cv_duoc_giao),
 				new Task.OnLoadListener() {
 
 					@Override
@@ -144,7 +144,7 @@ public class ListTask extends Activity implements OnClickListener,
 			break;
 		case R.id.retry:
 			adapter.setData(task.getData(ListTask.this, getResources()
-					.getString(R.string.api_get_task),
+					.getString(R.string.api_get_cv_duoc_giao),
 					new Task.OnLoadListener() {
 
 						@Override
@@ -175,15 +175,9 @@ public class ListTask extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Task task = (Task) arg0.getAdapter().getItem(arg2);
-		if (!task.getDinh_kem().equals("")) {
-//			viewDispatch = new ViewDispatch(ListTask.this, task.getDinh_kem());
-			Intent intent = new Intent(this, DetailTaskActivity.class);
-			startActivity(intent);
-		} else {
-			Toast.makeText(ListTask.this,
-					getResources().getString(R.string.no_attach),
-					Toast.LENGTH_SHORT).show();
-		}
+		Intent intent = new Intent(this, DetailTaskActivity.class);
+		intent.putExtra("task", task);
+		startActivity(intent);
 
 		String state = querryFromDB(getApplicationContext(), arg2);
 		if (state

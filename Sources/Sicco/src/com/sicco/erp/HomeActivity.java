@@ -142,7 +142,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
 		giaoviec = (LinearLayout) findViewById(R.id.giaoviec);
-		dagiao = (LinearLayout) findViewById(R.id.dagiao);
+		dagiao = (LinearLayout) findViewById(R.id.duocgiao);
 		danhsachviec = (LinearLayout) findViewById(R.id.danhsachviec);
 		// option = (FrameLayout) findViewById(R.id.option);
 		exit = (FrameLayout) findViewById(R.id.exit);
@@ -178,11 +178,11 @@ public class HomeActivity extends Activity implements OnClickListener {
 		case R.id.giaoviec:
 			startActivity(AssignedTaskActivity.class);
 			break;
-		case R.id.dagiao:
-			startActivity(AssignedTaskActivity.class);
+		case R.id.duocgiao:
+			startActivity(ListTask.class);
 			break;
 		case R.id.danhsachviec:
-			startActivity(ListTask.class);
+			
 			break;
 		case R.id.exit:
 			session.logoutUser();

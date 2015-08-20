@@ -237,7 +237,7 @@ public class GetAllNotificationService extends Service {
 
 	void CongViecAsync() {
 		Log.d("LuanDT", "CongViecAsync");
-		url_get_congviec = getResources().getString(R.string.api_get_task);
+		url_get_congviec = getResources().getString(R.string.api_get_cv_duoc_giao);
 		taskData = new ArrayList<Task>();
 		taskData.clear();
 

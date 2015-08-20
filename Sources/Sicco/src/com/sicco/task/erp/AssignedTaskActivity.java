@@ -177,14 +177,9 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Task task = (Task) arg0.getAdapter().getItem(arg2);
-		if (!task.getDinh_kem().equals("")) {
-			viewDispatch = new ViewDispatch(AssignedTaskActivity.this,
-					task.getDinh_kem());
-		} else {
-			Toast.makeText(AssignedTaskActivity.this,
-					getResources().getString(R.string.no_attach),
-					Toast.LENGTH_SHORT).show();
-		}
+		Intent intent = new Intent(this, DetailTaskActivity.class);
+		intent.putExtra("task", task);
+		startActivity(intent);
 	}
 
 	@Override

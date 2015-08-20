@@ -30,7 +30,7 @@
     <string name="nguoi_phe_duyet">Người phê duyệt:</string>
     <string name="sh_cong_van">SH công văn:</string>
     <string name="trich_yeu">Trích yếu:</string>
-    <string name="bao_cao"><u><b>Báo cáo:</b></u></string>
+    <string name="bao_cao"><u><b>D/s xử lý:</b></u></string>
     <string name="chi_tiet_cong_van">Chi tiết công văn</string>
     <!-- End TuNT -->
 
@@ -115,7 +115,7 @@
     <string name="viec_da_giao">Việc đã giao</string>
     <string name="viec_duoc_giao">Việc được giao</string>
     <string name="giao_viec">Giao việc</string>
-    <string name="da_giao">Đã giao</string>
+    <string name="duoc_giao">Được giao</string>
     <string name="danh_sach_viec">Danh sách việc</string>
     <string name="nguoi_thuc_hien">Người thực hiên:</string>
     <string name="du_an">Dự án:</string>
@@ -173,6 +173,7 @@
     
     <string name="api_get_assigned_task">http://office.sinco.pro.vn/api_distpatch/danhsachviecdagiao.php</string>
     <string name="api_get_task">http://office.sinco.pro.vn/api_distpatch/danhsachcongviec.php</string>
+    <string name="api_get_cv_duoc_giao">http://office.sinco.pro.vn/api_distpatch/dscongviecduocgiao.php</string>
     <string name="api_get_steer_report_task">http://office.sinco.pro.vn/api_distpatch/binhluan.php</string>
     <string name="api_add_task">http://office.sinco.pro.vn/api_distpatch/giaoviec.php</string>
     <string name="api_send_comment_task">http://office.sinco.pro.vn/api_distpatch/gblcongviec.php</string>
