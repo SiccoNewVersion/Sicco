@@ -56,6 +56,12 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 		init();
 
 	}
+	
+	@Override
+	protected void onResume() {
+		displayLisview();
+		super.onResume();
+	}
 
 	private void init() {
 		context 			= OtherTaskActivity.this;
@@ -83,7 +89,6 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 		listTask.setOnItemClickListener(this);
 		btnAssignNewTask.setOnClickListener(this);
 		btnAssignNewTask.setVisibility(View.GONE);
-		displayLisview();
 
 	}
 

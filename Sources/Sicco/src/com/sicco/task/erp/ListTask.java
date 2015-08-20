@@ -71,32 +71,8 @@ public class ListTask extends Activity implements OnClickListener,
 
 	}
 
-	private void init() {
-		searchView = (LinearLayout) findViewById(R.id.searchview);
-		back = (ImageView) findViewById(R.id.back);
-		search = (ImageView) findViewById(R.id.search);
-		close = (ImageView) searchView.findViewById(R.id.close);
-		empty = (ImageView) searchView.findViewById(R.id.empty);
-		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
-		emptyView = (TextView) findViewById(R.id.empty_view);
-		listTask = (ListView) findViewById(R.id.listTask);
-		loading = (ProgressBar) findViewById(R.id.loading);
-		retry = (Button) findViewById(R.id.retry);
-		connectError = (LinearLayout) findViewById(R.id.connect_error);
-		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
-		title_actionbar.setText(getResources().getString(
-				R.string.viec_duoc_giao));
-		btnAssignTaskNew = (Button) findViewById(R.id.btnAssignNew);
-		btnAssignTaskNew.setVisibility(View.GONE);
-		// click
-		back.setOnClickListener(this);
-		search.setOnClickListener(this);
-		close.setOnClickListener(this);
-		empty.setOnClickListener(this);
-		retry.setOnClickListener(this);
-		listTask.setOnItemClickListener(this);
-
-		// set adapter
+	@Override
+	protected void onResume() {
 		task = new Task(ListTask.this);
 		arrTask = new ArrayList<Task>();
 		arrTask = task.getData(ListTask.this,
@@ -126,6 +102,33 @@ public class ListTask extends Activity implements OnClickListener,
 				});
 		adapter = new TaskAdapter(ListTask.this, arrTask, 2);
 		listTask.setAdapter(adapter);
+		super.onResume();
+	}
+	
+	private void init() {
+		searchView = (LinearLayout) findViewById(R.id.searchview);
+		back = (ImageView) findViewById(R.id.back);
+		search = (ImageView) findViewById(R.id.search);
+		close = (ImageView) searchView.findViewById(R.id.close);
+		empty = (ImageView) searchView.findViewById(R.id.empty);
+		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
+		listTask = (ListView) findViewById(R.id.listTask);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
+		title_actionbar.setText(getResources().getString(
+				R.string.viec_duoc_giao));
+		btnAssignTaskNew = (Button) findViewById(R.id.btnAssignNew);
+		btnAssignTaskNew.setVisibility(View.GONE);
+		// click
+		back.setOnClickListener(this);
+		search.setOnClickListener(this);
+		close.setOnClickListener(this);
+		empty.setOnClickListener(this);
+		retry.setOnClickListener(this);
+		listTask.setOnItemClickListener(this);
 
 	}
 

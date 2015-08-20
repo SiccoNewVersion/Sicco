@@ -138,7 +138,7 @@ public class DialogChangeStatusTask {
 								alertDialog.dismiss();
 
 								// update ui
-								if (AssignedTaskActivity.AssignedTaskActivity) {
+								/*if (AssignedTaskActivity.AssignedTaskActivity) {
 									AssignedTaskActivity.arrTask = task
 											.getData(
 													context,
@@ -216,7 +216,7 @@ public class DialogChangeStatusTask {
 															.setVisibility(View.VISIBLE);
 												}
 											});
-								}
+								}*/
 
 							}
 

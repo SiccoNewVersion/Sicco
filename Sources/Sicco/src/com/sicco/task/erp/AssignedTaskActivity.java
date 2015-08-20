@@ -98,7 +98,6 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		retry.setOnClickListener(this);
 		listTask.setOnItemClickListener(this);
 		btnAssignNewTask.setOnClickListener(this);
-		displayLisview();
 
 		ArrayList<Status> listStatus = new ArrayList<Status>();
 		listStatus.add(new Status(getResources().getString(R.string.all),

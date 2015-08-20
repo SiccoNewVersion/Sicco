@@ -137,7 +137,7 @@ public class DialogSetProcess {
 								alertDialog.dismiss();
 
 								// update ui
-								if (AssignedTaskActivity.AssignedTaskActivity) {
+								/*if (AssignedTaskActivity.AssignedTaskActivity) {
 									AssignedTaskActivity.arrTask = task
 											.getData(
 													context,
@@ -215,7 +215,7 @@ public class DialogSetProcess {
 															.setVisibility(View.VISIBLE);
 												}
 											});
-								}
+								}*/
 							}
 
 							@Override
