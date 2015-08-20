@@ -135,6 +135,7 @@ public class DialogSetProcess {
 												R.string.success),
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
+								task.setTien_do(status.getsKey());
 
 								// update ui
 								/*if (AssignedTaskActivity.AssignedTaskActivity) {

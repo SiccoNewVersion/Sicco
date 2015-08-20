@@ -137,6 +137,8 @@ public class DialogChangeStatusTask {
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
 
+								task.setTrang_thai(status.getsKey());
+								
 								// update ui
 								/*if (AssignedTaskActivity.AssignedTaskActivity) {
 									AssignedTaskActivity.arrTask = task
