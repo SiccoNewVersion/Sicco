@@ -34,6 +34,9 @@
     <string name="chi_tiet_cong_van">Chi tiết công văn</string>
     <string name="dang_xu_ly_trong_han">Đang xử lý trong hạn</string>
     <string name="dang_xu_ly_qua_han">Đang xử lý quá hạn</string>
+    <string name="hoan_thanh">Hoàn thành</string>
+    <string name="tam_dung">Tạm dừng</string>
+    <string name="da_huy">Đã hủy</string>
     <!-- End TuNT -->
 
 

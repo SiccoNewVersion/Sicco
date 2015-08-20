@@ -299,8 +299,6 @@ public class Task implements Serializable {
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
 				String jsonRead = response.toString();
-
-				// Log.d("LuanDT", "json: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
 					try {
 						JSONObject object = new JSONObject(jsonRead);
@@ -607,6 +605,9 @@ public class Task implements Serializable {
 	public static long FILTER_CXL_TYPE = 1;
 	public static long FILTER_DXLTH_TYPE  = 2;
 	public static long FILTER_DXLQH_TYPE  = 3;
+	public static long FILTER_CVHT_TYPE  = 4;
+	public static long FILTER_CVTD_TYPE  = 5;
+	public static long FILTER_CVDH_TYPE  = 6;
 	//filter
 	public ArrayList<Task> filter(ArrayList<Task> data, long type){
 		ArrayList<Task> dataFilter = new ArrayList<Task>();
@@ -629,6 +630,27 @@ public class Task implements Serializable {
 				for(int i=0; i<data.size(); i++){
 					Task task = data.get(i);
 					if(task.isCo_binh_luan() && task.isDa_qua_han())
+						dataFilter.add(task);
+				}
+			}
+			//filter cong viec
+			else if(type == FILTER_CVHT_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					if(task.getTrang_thai().equals("complete"))
+						dataFilter.add(task);
+				}
+			}else if(type == FILTER_CVTD_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					if(task.getTrang_thai().equals("inactive"))
+						dataFilter.add(task);
+				}
+			}else if(type == FILTER_CVDH_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					Log.d("TuNT", "type: "+task.getTrang_thai());
+					if(task.getTrang_thai().equals("cancel"))
 						dataFilter.add(task);
 				}
 			}
