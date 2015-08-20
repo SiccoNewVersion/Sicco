@@ -89,7 +89,8 @@ public class TaskAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.taskName = (TextView) view.findViewById(R.id.taskName);
 			holder.handler = (TextView) view.findViewById(R.id.handler);
-			holder.project = (TextView) view.findViewById(R.id.project);
+			holder.date_handle = (TextView) view.findViewById(R.id.date_handle);
+			holder.date_finish = (TextView) view.findViewById(R.id.date_finish);
 			holder.action = (TextView) view.findViewById(R.id.action);
 			view.setTag(holder);
 		} else {
@@ -113,41 +114,55 @@ public class TaskAdapter extends BaseAdapter {
 					R.color.red));
 			holder.handler.setTextColor(context.getResources().getColor(
 					R.color.red));
-			holder.project.setTextColor(context.getResources().getColor(
+			holder.date_handle.setTextColor(context.getResources().getColor(
+					R.color.red));
+			holder.date_finish.setTextColor(context.getResources().getColor(
 					R.color.red));
 		} else if (task.getTrang_thai().equals("cancel")) {
 			holder.taskName.setTextColor(context.getResources().getColor(
 					R.color.yellow));
 			holder.handler.setTextColor(context.getResources().getColor(
 					R.color.yellow));
-			holder.project.setTextColor(context.getResources().getColor(
+			holder.date_handle.setTextColor(context.getResources().getColor(
+					R.color.yellow));
+			holder.date_finish.setTextColor(context.getResources().getColor(
 					R.color.yellow));
 		} else if (task.getTrang_thai().equals("inactive")) {
 			holder.taskName.setTextColor(context.getResources().getColor(
 					R.color.gray));
 			holder.handler.setTextColor(context.getResources().getColor(
 					R.color.gray));
-			holder.project.setTextColor(context.getResources().getColor(
+			holder.date_handle.setTextColor(context.getResources().getColor(
+					R.color.gray));
+			holder.date_finish.setTextColor(context.getResources().getColor(
 					R.color.gray));
 		} else if (task.getTrang_thai().equals("active")) {
 			holder.taskName.setTextColor(context.getResources().getColor(
 					R.color.green));
 			holder.handler.setTextColor(context.getResources().getColor(
 					R.color.green));
-			holder.project.setTextColor(context.getResources().getColor(
+			holder.date_handle.setTextColor(context.getResources().getColor(
+					R.color.green));
+			holder.date_finish.setTextColor(context.getResources().getColor(
 					R.color.green));
 		}
 
+		String date_handle_no_time = task.getNgay_bat_dau().substring(0,10);
+		String date_finish_no_time = task.getNgay_ket_thuc().substring(0,10);
 		String handler = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.nguoi_thuc_hien)
 				+ "</i></u></b></font>" + "  " + task.getNguoi_thuc_hien();
-		String project = "<font weigth='bold'><b><u><i>"
-				+ context.getResources().getString(R.string.du_an)
-				+ "</i></u></b></font>" + "  " + task.getDu_an();
+		String date_handle = "<font weigth='bold'><b><u><i>"
+				+ context.getResources().getString(R.string.date_handle)
+				+ "</i></u></b></font>" + "  " + date_handle_no_time;
+		String date_finish = "<font weigth='bold'><b><u><i>"
+				+ context.getResources().getString(R.string.date_finish)
+				+ "</i></u></b></font>" + "  " + date_finish_no_time;
 
 		holder.taskName.setText(task.getTen_cong_viec());
 		holder.handler.setText(Html.fromHtml(handler));
-		holder.project.setText(Html.fromHtml(project));
+		holder.date_handle.setText(Html.fromHtml(date_handle));
+		holder.date_finish.setText(Html.fromHtml(date_finish));
 
 		holder.action.setOnClickListener(new OnClickListener() {
 
@@ -260,7 +275,8 @@ public class TaskAdapter extends BaseAdapter {
 	private class ViewHolder {
 		private TextView taskName;
 		private TextView handler;
-		private TextView project;
+		private TextView date_handle;
+		private TextView date_finish;
 		private TextView action;
 	}
 	
