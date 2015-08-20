@@ -61,6 +61,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="SH cong van:"
+            android:paddingTop="10dp"
             android:textSize="16sp" />
 
         <TextView
@@ -81,7 +82,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Nguoi phe duyet:"
-            android:textSize="16sp" />
+            android:textSize="16sp" 
+            android:paddingBottom="10dp"/>
 
         <!--
              <TextView
@@ -98,11 +100,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:textColor="@color/actionbar_color"
+            android:gravity="center"
+            android:padding="7dp"
             android:text="@string/bao_cao"
-            android:textSize="16sp" />
+            android:textAllCaps="true"
+            android:textSize="18sp" 
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="match_parent"

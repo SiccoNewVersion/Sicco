@@ -74,10 +74,10 @@ public class ReportSteerAdapter extends BaseAdapter {
 		}
 		if (position % 2 == 0) {
 			convertView.setBackgroundColor(context.getResources().getColor(
-					R.color.item_color));
+					R.color.white));
 		}else{
 			convertView.setBackgroundColor(context.getResources().getColor(
-					R.color.white));
+					R.color.item_color));
 		}
 		String handler = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.dang_boi)
