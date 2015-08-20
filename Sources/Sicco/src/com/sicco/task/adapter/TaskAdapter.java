@@ -18,6 +18,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.DetailDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Status;
@@ -180,60 +181,63 @@ public class TaskAdapter extends BaseAdapter {
 							public boolean onMenuItemClick(MenuItem item) {
 								Intent intent = new Intent();
 								switch (item.getItemId()) {
-								case R.id.action_report:
-									intent.setClass(context,
-											SteerReportTaskActivity.class);
-									intent.putExtra("id_task", task.getId());
-									context.startActivity(intent);
-									break;
-								case R.id.action_update_rate:
-									listProcess = new ArrayList<Status>();
-
-									String[] key = context
-											.getResources()
-											.getStringArray(R.array.process_key);
-									String[] value = context.getResources()
-											.getStringArray(
-													R.array.process_value);
-									int max = key.length;
-									for (int i = 0; i < max; i++) {
-										listProcess.add(new Status(i + 1,
-												key[i], value[i]));
-									}
-									if (type == 2) {
-										if (update_status_and_rate) {
-											DialogSetProcess dialog = new DialogSetProcess(
-													context, listProcess, task);
-											dialog.showDialog();
-										} else {
-											Toast.makeText(
-													context,
-													context.getResources()
-															.getString(
-																	R.string.info_update_rate),
-													Toast.LENGTH_SHORT).show();
-										}
-									} else {
-										DialogSetProcess dialog = new DialogSetProcess(
-												context, listProcess, task);
-										dialog.showDialog();
-									}
-									break;
-								case R.id.action_change_status:
-									if (type == 2) {
-										if (update_status_and_rate) {
-											new DialogChangeStatusTask(context, listStatus, task);
-										} else {
-											Toast.makeText(
-													context,
-													context.getResources()
-															.getString(
-																	R.string.info_update_status),
-													Toast.LENGTH_SHORT).show();
-										}
-									} else {
-										new DialogChangeStatusTask(context, listStatus, task);
-									}
+//								case R.id.action_report:
+//									intent.setClass(context,
+//											SteerReportTaskActivity.class);
+//									intent.putExtra("id_task", task.getId());
+//									context.startActivity(intent);
+//									break;
+//								case R.id.action_update_rate:
+//									listProcess = new ArrayList<Status>();
+//
+//									String[] key = context
+//											.getResources()
+//											.getStringArray(R.array.process_key);
+//									String[] value = context.getResources()
+//											.getStringArray(
+//													R.array.process_value);
+//									int max = key.length;
+//									for (int i = 0; i < max; i++) {
+//										listProcess.add(new Status(i + 1,
+//												key[i], value[i]));
+//									}
+//									if (type == 2) {
+//										if (update_status_and_rate) {
+//											DialogSetProcess dialog = new DialogSetProcess(
+//													context, listProcess, task);
+//											dialog.showDialog();
+//										} else {
+//											Toast.makeText(
+//													context,
+//													context.getResources()
+//															.getString(
+//																	R.string.info_update_rate),
+//													Toast.LENGTH_SHORT).show();
+//										}
+//									} else {
+//										DialogSetProcess dialog = new DialogSetProcess(
+//												context, listProcess, task);
+//										dialog.showDialog();
+//									}
+//									break;
+//								case R.id.action_change_status:
+//									if (type == 2) {
+//										if (update_status_and_rate) {
+//											new DialogChangeStatusTask(context, listStatus, task);
+//										} else {
+//											Toast.makeText(
+//													context,
+//													context.getResources()
+//															.getString(
+//																	R.string.info_update_status),
+//													Toast.LENGTH_SHORT).show();
+//										}
+//									} else {
+//										new DialogChangeStatusTask(context, listStatus, task);
+//									}
+//									break;
+								case R.id.action_detail:
+//									Intent intent = new Intent(context,DetailDispatchActivity);
 									break;
 								case R.id.action_delete:
 									new DialogConfirmDeleteTask(context, task);

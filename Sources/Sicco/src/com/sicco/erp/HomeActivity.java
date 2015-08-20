@@ -42,7 +42,7 @@ import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.erp.ListTask;
 
 public class HomeActivity extends Activity implements OnClickListener {
-	private LinearLayout canphe, xuly, cacloai, gaoviec, dagiao, danhsachviec;
+	private LinearLayout canphe, xuly, cacloai, giaoviec, dagiao, danhsachviec;
 	private FrameLayout exit;
 	private static AlertDialog alertDialog;
 	public static ArrayList<Department> listDep;
@@ -141,7 +141,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		canphe = (LinearLayout) findViewById(R.id.canphe);
 		xuly = (LinearLayout) findViewById(R.id.xuly);
 		cacloai = (LinearLayout) findViewById(R.id.cacloai);
-		gaoviec = (LinearLayout) findViewById(R.id.giaoviec);
+		giaoviec = (LinearLayout) findViewById(R.id.giaoviec);
 		dagiao = (LinearLayout) findViewById(R.id.dagiao);
 		danhsachviec = (LinearLayout) findViewById(R.id.danhsachviec);
 		// option = (FrameLayout) findViewById(R.id.option);
@@ -150,7 +150,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		canphe.setOnClickListener(this);
 		xuly.setOnClickListener(this);
 		cacloai.setOnClickListener(this);
-		gaoviec.setOnClickListener(this);
+		giaoviec.setOnClickListener(this);
 		dagiao.setOnClickListener(this);
 		danhsachviec.setOnClickListener(this);
 
@@ -176,7 +176,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 			startActivity(OtherActivity.class);
 			break;
 		case R.id.giaoviec:
-			startActivity(AssignTaskActivity.class);
+			startActivity(AssignedTaskActivity.class);
 			break;
 		case R.id.dagiao:
 			startActivity(AssignedTaskActivity.class);

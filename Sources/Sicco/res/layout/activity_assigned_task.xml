@@ -110,7 +110,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <ListView
             android:id="@+id/listTask"
@@ -176,5 +177,20 @@
             android:textSize="16sp"
             android:visibility="gone" />
     </FrameLayout>
+    
+    <Button
+        android:id="@+id/btnAssignNew"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/bg_btn_login_selector"
+        android:text="@string/assign_task_new"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>

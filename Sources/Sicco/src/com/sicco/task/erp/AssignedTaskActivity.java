@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,6 +47,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	private TextView title_actionbar;
 	public static boolean AssignedTaskActivity = false;
 
+	private Button btnAssignNewTask;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,19 +62,20 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	}
 
 	private void init() {
-		context = AssignedTaskActivity.this;
-		searchView = (LinearLayout) findViewById(R.id.searchview);
-		back = (ImageView) findViewById(R.id.back);
-		search = (ImageView) findViewById(R.id.search);
-		close = (ImageView) searchView.findViewById(R.id.close);
-		empty = (ImageView) searchView.findViewById(R.id.empty);
-		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
-		emptyView = (TextView) findViewById(R.id.empty_view);
-		listTask = (ListView) findViewById(R.id.listTask);
-		loading = (ProgressBar) findViewById(R.id.loading);
-		retry = (Button) findViewById(R.id.retry);
-		connectError = (LinearLayout) findViewById(R.id.connect_error);
-		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
+		context 			= AssignedTaskActivity.this;
+		searchView 			= (LinearLayout) 	findViewById(R.id.searchview);
+		back 				= (ImageView) 		findViewById(R.id.back);
+		search 				= (ImageView) 		findViewById(R.id.search);
+		close 				= (ImageView) 		searchView.findViewById(R.id.close);
+		empty 				= (ImageView) 		searchView.findViewById(R.id.empty);
+		editSearch 			= (EditText) 		searchView.findViewById(R.id.edit_search);
+		emptyView 			= (TextView) 		findViewById(R.id.empty_view);
+		listTask 			= (ListView) 		findViewById(R.id.listTask);
+		loading 			= (ProgressBar) 	findViewById(R.id.loading);
+		retry 				= (Button) 			findViewById(R.id.retry);
+		connectError 		= (LinearLayout) 	findViewById(R.id.connect_error);
+		title_actionbar 	= (TextView) 		findViewById(R.id.title_actionbar);
+		btnAssignNewTask	= (Button)			findViewById(R.id.btnAssignNew);
 		title_actionbar
 				.setText(getResources().getString(R.string.viec_da_giao));
 		// click
@@ -82,7 +85,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listTask.setOnItemClickListener(this);
-
+		btnAssignNewTask.setOnClickListener(this);
 		displayLisview();
 
 	}
@@ -136,6 +139,10 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.empty:
 			editSearch.setText("");
+			break;
+		case R.id.btnAssignNew:
+			Intent intent = new Intent(AssignedTaskActivity.this,AssignTaskActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.retry:
 			adapter.setData(task.getData(AssignedTaskActivity.this,
