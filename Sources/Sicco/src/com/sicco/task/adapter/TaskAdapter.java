@@ -35,11 +35,11 @@ public class TaskAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Task> data;
 	private int type;
-	private boolean update_status_and_rate = false;
-	private ArrayList<Status> listStatus;
-	private ArrayList<Status> listProcess;
+//	private ArrayList<Status> listStatus;
+//	private ArrayList<Status> listProcess;
 	NotificationDBController db;
 	Cursor cursor;
+//	boolean update_status_and_rate = false;
 
 	public TaskAdapter(Context context, ArrayList<Task> data, int type) {
 		super();
@@ -47,12 +47,12 @@ public class TaskAdapter extends BaseAdapter {
 		this.data = data;
 		this.type = type;
 		
-		listStatus = new ArrayList<Status>();
-
-		listStatus.add(new Status(0, "active", context.getResources().getString(R.string.active)));
-		listStatus.add(new Status(1, "inactive", context.getResources().getString(R.string.inactive)));
-		listStatus.add(new Status(2, "complete", context.getResources().getString(R.string.complete)));
-		listStatus.add(new Status(3, "cancel", context.getResources().getString(R.string.cancel)));
+//		listStatus = new ArrayList<Status>();
+//
+//		listStatus.add(new Status(0, "active", context.getResources().getString(R.string.active)));
+//		listStatus.add(new Status(1, "inactive", context.getResources().getString(R.string.inactive)));
+//		listStatus.add(new Status(2, "complete", context.getResources().getString(R.string.complete)));
+//		listStatus.add(new Status(3, "cancel", context.getResources().getString(R.string.cancel)));
 		
 	}
 
@@ -154,10 +154,10 @@ public class TaskAdapter extends BaseAdapter {
 				+ "</i></u></b></font>" + "  " + task.getNguoi_thuc_hien();
 		String date_handle = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.date_handle)
-				+ "</i></u></b></font>" + "  " + date_handle_no_time;
+				+ "</i></u></b></font>" + ":  " + date_handle_no_time;
 		String date_finish = "<font weigth='bold'><b><u><i>"
 				+ context.getResources().getString(R.string.date_finish)
-				+ "</i></u></b></font>" + "  " + date_finish_no_time;
+				+ "</i></u></b></font>" + ":  " + date_finish_no_time;
 
 		holder.taskName.setText(task.getTen_cong_viec());
 		holder.handler.setText(Html.fromHtml(handler));
@@ -169,15 +169,15 @@ public class TaskAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-				update_status_and_rate = false;
-				final String[] nguoithuchien = task.getNguoi_thuc_hien().split(
-						",");
-				final String username = Utils.getString(context, "name");
-				for (int i = 0; i < nguoithuchien.length; i++) {
-					if (username.equals(nguoithuchien[i])) {
-						update_status_and_rate = true;
-					}
-				}
+//				update_status_and_rate = false;
+//				final String[] nguoithuchien = task.getNguoi_thuc_hien().split(
+//						",");
+//				final String username = Utils.getString(context, "name");
+//				for (int i = 0; i < nguoithuchien.length; i++) {
+//					if (username.equals(nguoithuchien[i])) {
+//						update_status_and_rate = true;
+//					}
+//				}
 
 				PopupMenu popupMenu = new PopupMenu(context, holder.action);
 				if (type == 1) {
@@ -200,7 +200,7 @@ public class TaskAdapter extends BaseAdapter {
 								case R.id.action_report:
 									intent.setClass(context,
 											SteerReportTaskActivity.class);
-									intent.putExtra("id_task", task.getId());
+									intent.putExtra("task", task);
 									context.startActivity(intent);
 									break;
 //								case R.id.action_update_rate:

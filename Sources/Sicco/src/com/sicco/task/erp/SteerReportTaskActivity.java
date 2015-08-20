@@ -24,11 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sicco.erp.R;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.util.ChooseFileActivity;
+import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
 import com.sicco.task.model.ReportSteerTask;
+import com.sicco.task.model.Task;
 import com.sicco.task.model.ReportSteerTask.OnLoadListener;
+import com.sicco.task.ultil.DialogChangeStatusTask;
+import com.sicco.task.ultil.DialogSetProcess;
 
 public class SteerReportTaskActivity extends ChooseFileActivity implements
 		OnClickListener, OnItemClickListener {
@@ -45,9 +50,14 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 	private EditText edtContent;
 	private TextView emptyView, fileName;
 	private Button btnChooseFile;
-	private long id_task;
+	private Button btnCapNhatTienDo;
+	private Button btnThayDoiTrangThai;
+	private Task task;
 	private ViewDispatch viewDispatch;
 	private String path = null;
+	private ArrayList<Status> listStatus;
+	private ArrayList<Status> listProcess;
+	boolean update_status_and_rate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +65,29 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		setContentView(R.layout.activity_steer_report_task);
 
 		Intent intent = getIntent();
-		id_task = intent.getLongExtra("id_task", -1);
+		task = (Task) intent.getSerializableExtra("task");
 		init();
-		setListReportSteer("" + id_task);
+		setListReportSteer("" + task.getId());
+
+		listStatus = new ArrayList<Status>();
+
+		listStatus.add(new Status(0, "active", getResources().getString(
+				R.string.active)));
+		listStatus.add(new Status(1, "inactive", getResources().getString(
+				R.string.inactive)));
+		listStatus.add(new Status(2, "complete", getResources().getString(
+				R.string.complete)));
+		listStatus.add(new Status(3, "cancel", getResources().getString(
+				R.string.cancel)));
+
+		final String[] nguoithuchien = task.getNguoi_thuc_hien().split(",");
+		final String username = Utils.getString(SteerReportTaskActivity.this,
+				"name");
+		for (int i = 0; i < nguoithuchien.length; i++) {
+			if (username.equals(nguoithuchien[i])) {
+				update_status_and_rate = true;
+			}
+		}
 	}
 
 	private void init() {
@@ -72,6 +102,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		btnChooseFile = (Button) findViewById(R.id.choose_file);
 		fileName = (TextView) findViewById(R.id.file_name);
 		reportSteerTask = new ReportSteerTask(SteerReportTaskActivity.this);
+		btnThayDoiTrangThai = (Button) findViewById(R.id.btnThayDoiTrangThai);
+		btnCapNhatTienDo = (Button) findViewById(R.id.btnCapNhatTienDo);
 
 		// click
 		back.setOnClickListener(this);
@@ -79,7 +111,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		btnChooseFile.setOnClickListener(this);
 		imgSendReportSteer.setOnClickListener(this);
 		listReport.setOnItemClickListener(this);
-
+		btnThayDoiTrangThai.setOnClickListener(this);
+		btnCapNhatTienDo.setOnClickListener(this);
 	}
 
 	private void setListReportSteer(String id_task) {
@@ -124,13 +157,44 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			finish();
 			break;
 		case R.id.retry:
-			setListReportSteer("" + id_task);
+			setListReportSteer("" + task.getId());
 			break;
 		case R.id.choose_file:
 			showFileChooser();
 			break;
 		case R.id.imgSendReportSteer:
 			sendReportSteer();
+			break;
+		case R.id.btnCapNhatTienDo:
+			listProcess = new ArrayList<Status>();
+
+			String[] key = getResources().getStringArray(R.array.process_key);
+			String[] value = getResources().getStringArray(
+					R.array.process_value);
+			int max = key.length;
+			for (int i = 0; i < max; i++) {
+				listProcess.add(new Status(i + 1, key[i], value[i]));
+			}
+
+			if (update_status_and_rate) {
+				DialogSetProcess dialog = new DialogSetProcess(
+						SteerReportTaskActivity.this, listProcess, task);
+				dialog.showDialog();
+			} else {
+				Toast.makeText(SteerReportTaskActivity.this,
+						getResources().getString(R.string.info_update_rate),
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
+		case R.id.btnThayDoiTrangThai:
+			if (update_status_and_rate) {
+				new DialogChangeStatusTask(SteerReportTaskActivity.this,
+						listStatus, task);
+			} else {
+				Toast.makeText(SteerReportTaskActivity.this,
+						getResources().getString(R.string.info_update_status),
+						Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 
@@ -179,7 +243,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		if (!content.equals("")) {
 			try {
 				reportSteerTask.sendReport(SteerReportTaskActivity.this,
-						id_task, content, path, new OnLoadListener() {
+						task.getId(), content, path, new OnLoadListener() {
 
 							@Override
 							public void onSuccess() {
@@ -192,7 +256,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 										getResources().getString(
 												R.string.success),
 										Toast.LENGTH_SHORT).show();
-								setListReportSteer("" + id_task);
+								setListReportSteer("" + task.getId());
 
 							}
 
