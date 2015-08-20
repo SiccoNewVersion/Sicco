@@ -63,7 +63,6 @@
             android:id="@+id/action"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/approval_selector"
             android:gravity="center"
             android:text="@string/task"
             android:textColor="@color/white"
