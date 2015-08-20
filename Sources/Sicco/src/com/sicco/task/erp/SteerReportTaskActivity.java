@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.model.Status;
 import com.sicco.erp.util.ChooseFileActivity;
@@ -30,8 +31,8 @@ import com.sicco.erp.util.Utils;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.ReportSteerTaskAdapter;
 import com.sicco.task.model.ReportSteerTask;
-import com.sicco.task.model.Task;
 import com.sicco.task.model.ReportSteerTask.OnLoadListener;
+import com.sicco.task.model.Task;
 import com.sicco.task.ultil.DialogChangeStatusTask;
 import com.sicco.task.ultil.DialogSetProcess;
 
@@ -58,6 +59,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 	private ArrayList<Status> listStatus;
 	private ArrayList<Status> listProcess;
 	boolean update_status_and_rate = false;
+	private long id_task;
+	private String s_id_task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,29 +68,21 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		setContentView(R.layout.activity_steer_report_task);
 
 		Intent intent = getIntent();
-		task = (Task) intent.getSerializableExtra("task");
+		//get id notifi
+		id_task = intent.getLongExtra("id_task", -1);
+		
 		init();
-		setListReportSteer("" + task.getId());
-
-		listStatus = new ArrayList<Status>();
-
-		listStatus.add(new Status(0, "active", getResources().getString(
-				R.string.active)));
-		listStatus.add(new Status(1, "inactive", getResources().getString(
-				R.string.inactive)));
-		listStatus.add(new Status(2, "complete", getResources().getString(
-				R.string.complete)));
-		listStatus.add(new Status(3, "cancel", getResources().getString(
-				R.string.cancel)));
-
-		final String[] nguoithuchien = task.getNguoi_thuc_hien().split(",");
-		final String username = Utils.getString(SteerReportTaskActivity.this,
-				"name");
-		for (int i = 0; i < nguoithuchien.length; i++) {
-			if (username.equals(nguoithuchien[i])) {
-				update_status_and_rate = true;
-			}
+		
+		//set id cong viec
+		if(id_task != -1){
+			s_id_task = "" + id_task;
+			task = Task.getTaskById(SteerReportTaskActivity.this, getResources().getString(R.string.api_get_infor_task_by_id), s_id_task);
+		} else {
+			task = (Task) intent.getSerializableExtra("task");
+			s_id_task = "" + task.getId();
 		}
+		
+		setListReportSteer(s_id_task);
 	}
 
 	private void init() {
@@ -151,13 +146,23 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 
 	@Override
 	public void onClick(View v) {
+		
+		final String[] nguoithuchien = task.getNguoi_thuc_hien().split(",");
+		final String username = Utils.getString(SteerReportTaskActivity.this,
+				"name");
+		for (int i = 0; i < nguoithuchien.length; i++) {
+			if (username.equals(nguoithuchien[i])) {
+				update_status_and_rate = true;
+			}
+		}
+		
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
 			finish();
 			break;
 		case R.id.retry:
-			setListReportSteer("" + task.getId());
+			setListReportSteer(s_id_task);
 			break;
 		case R.id.choose_file:
 			showFileChooser();
@@ -166,17 +171,17 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			sendReportSteer();
 			break;
 		case R.id.btnCapNhatTienDo:
-			listProcess = new ArrayList<Status>();
-
-			String[] key = getResources().getStringArray(R.array.process_key);
-			String[] value = getResources().getStringArray(
-					R.array.process_value);
-			int max = key.length;
-			for (int i = 0; i < max; i++) {
-				listProcess.add(new Status(i + 1, key[i], value[i]));
-			}
-
 			if (update_status_and_rate) {
+				listProcess = new ArrayList<Status>();
+
+				String[] key = getResources().getStringArray(R.array.process_key);
+				String[] value = getResources().getStringArray(
+						R.array.process_value);
+				int max = key.length;
+				for (int i = 0; i < max; i++) {
+					listProcess.add(new Status(i + 1, key[i], value[i]));
+				}
+				
 				DialogSetProcess dialog = new DialogSetProcess(
 						SteerReportTaskActivity.this, listProcess, task);
 				dialog.showDialog();
@@ -188,6 +193,18 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			break;
 		case R.id.btnThayDoiTrangThai:
 			if (update_status_and_rate) {
+				
+				listStatus = new ArrayList<Status>();
+
+				listStatus.add(new Status(0, "active", getResources().getString(
+						R.string.active)));
+				listStatus.add(new Status(1, "inactive", getResources().getString(
+						R.string.inactive)));
+				listStatus.add(new Status(2, "complete", getResources().getString(
+						R.string.complete)));
+				listStatus.add(new Status(3, "cancel", getResources().getString(
+						R.string.cancel)));
+				
 				new DialogChangeStatusTask(SteerReportTaskActivity.this,
 						listStatus, task);
 			} else {
@@ -243,7 +260,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		if (!content.equals("")) {
 			try {
 				reportSteerTask.sendReport(SteerReportTaskActivity.this,
-						task.getId(), content, path, new OnLoadListener() {
+						Long.parseLong(s_id_task), content, path, new OnLoadListener() {
 
 							@Override
 							public void onSuccess() {
@@ -256,7 +273,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 										getResources().getString(
 												R.string.success),
 										Toast.LENGTH_SHORT).show();
-								setListReportSteer("" + task.getId());
+								setListReportSteer(s_id_task);
 
 							}
 
@@ -299,6 +316,12 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 					getApplicationContext(), R.anim.shake));
 		}
 
+	}
+	
+	@Override
+	protected void onResume() {
+		HomeActivity.checkDate(SteerReportTaskActivity.this);
+		super.onResume();
 	}
 
 }

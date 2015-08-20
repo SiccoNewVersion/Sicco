@@ -134,6 +134,9 @@ public class DialogSetProcess {
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
 								task.setTien_do(status.getsKey());
+								if(status.getsKey().equals("100")){
+									task.setTrang_thai("complete");
+								}
 							}
 
 							@Override

@@ -277,7 +277,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onResume() {
 
-		HomeActivity.checkDate(this);
+		HomeActivity.checkDate(DealtWithActivity.this);
 		// set adapter
 		dispatch = new Dispatch(DealtWithActivity.this);
 		arrDispatch = dispatch.getData(DealtWithActivity.this, getResources()

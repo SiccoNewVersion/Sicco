@@ -135,6 +135,9 @@ public class DialogChangeStatusTask {
 								alertDialog.dismiss();
 
 								task.setTrang_thai(status.getsKey());
+								if(status.getsKey().equals("complete")){
+									task.setTien_do("100");
+								}
 								
 							}
 

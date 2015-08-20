@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.sicco.erp.DealtWithActivity;
+import com.sicco.erp.HomeActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.database.NotificationDBController;
@@ -78,6 +80,8 @@ public class ListTask extends Activity implements OnClickListener,
 	
 	@Override
 	protected void onResume() {
+		HomeActivity.checkDate(ListTask.this);
+		
 		task = new Task(ListTask.this);
 		arrTask = new ArrayList<Task>();
 		arrTask = task.getData(ListTask.this,

@@ -363,6 +363,98 @@ public class Task implements Serializable {
 		return data;
 	}
 
+	// get task by id
+	public static Task getTaskById(final Context context, String url, String id) {
+
+		final Task task = new Task(context);
+		
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.add("task_id", id);
+
+		Log.d("LuanDT", "params: " + params);
+		client.post(url, params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				String jsonRead = response.toString();
+				Log.d("LuanDT", "jsonRead: " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						JSONArray rows = object.getJSONArray("row");
+						for (int i = 0; i < rows.length(); i++) {
+							JSONObject row = rows.getJSONObject(i);
+							String id = row.getString("id");
+							String ten_cong_viec = row
+									.getString("ten_cong_viec");
+							String nguoi_thuc_hien = row
+									.getString("nguoi_thuc_hien");
+							String nguoi_xem = row.getString("nguoi_xem");
+							String du_an = row.getString("du_an");
+							String tien_do = row.getString("tien_do");
+							String ngay_bat_dau = row.getString("ngay_bat_dau");
+							String ngay_ket_thuc = row
+									.getString("ngay_ket_thuc");
+							String nguoi_giao = row.getString("nguoi_giao");
+							String dinh_kem = row.getString("dinh_kem");
+							String phong_ban = row.getString("phong_ban");
+							String mo_ta = row.getString("mo_ta");
+							String code = row.getString("code");
+							String id_du_an = row.getString("id_du_an");
+							String id_phong_ban = row.getString("id_phong_ban");
+							String trang_thai = row.getString("trang_thai");
+							String cbl = row.getString("co_binh_luan");
+							boolean co_binh_luan = false;
+							if (cbl.equals("1"))
+								co_binh_luan = true;
+							String dqh = row.getString("da_qua_han");
+							boolean da_qua_han = false;
+							if (dqh.equals("1"))
+								da_qua_han = true;
+							String muc_uu_tien = row.getString("muc_uu_tien");
+							String ngay_httt = row.getString("ngay_httt");
+
+							dinh_kem = dinh_kem.replace(" ", "%20");
+
+							task.setId(Long.parseLong(id));
+							task.setTen_cong_viec(ten_cong_viec);
+							task.setNguoi_thuc_hien(nguoi_thuc_hien);
+							task.setNguoi_xem(nguoi_xem);
+							task.setDu_an(du_an);
+							task.setTien_do(tien_do);
+							task.setNgay_bat_dau(ngay_bat_dau);
+							task.setNgay_ket_thuc(ngay_ket_thuc);
+							task.setNguoi_giao(nguoi_giao);
+							task.setDinh_kem(dinh_kem);
+							task.setPhong_ban(phong_ban);
+							task.setMo_ta(mo_ta);
+							task.setCode(code);
+							task.setId_du_an(id_du_an);
+							task.setId_phong_ban(id_phong_ban);
+							task.setTrang_thai(trang_thai);
+							task.setCo_binh_luan(co_binh_luan);
+							task.setDa_qua_han(da_qua_han);
+							task.setMuc_uu_tien(muc_uu_tien);
+							task.setNgay_httt(ngay_httt);
+							
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+		});
+		return task;
+	}
+
 	// changeProcess
 	public void changeProcess(String url, String id_cv, String process,
 			OnLoadListener OnLoadListener) {
@@ -600,57 +692,58 @@ public class Task implements Serializable {
 			}
 		});
 	}
-	
+
 	public static long FILTER_ALL_TYPE = 0;
 	public static long FILTER_CXL_TYPE = 1;
-	public static long FILTER_DXLTH_TYPE  = 2;
-	public static long FILTER_DXLQH_TYPE  = 3;
-	public static long FILTER_CVHT_TYPE  = 4;
-	public static long FILTER_CVTD_TYPE  = 5;
-	public static long FILTER_CVDH_TYPE  = 6;
-	//filter
-	public ArrayList<Task> filter(ArrayList<Task> data, long type){
+	public static long FILTER_DXLTH_TYPE = 2;
+	public static long FILTER_DXLQH_TYPE = 3;
+	public static long FILTER_CVHT_TYPE = 4;
+	public static long FILTER_CVTD_TYPE = 5;
+	public static long FILTER_CVDH_TYPE = 6;
+
+	// filter
+	public ArrayList<Task> filter(ArrayList<Task> data, long type) {
 		ArrayList<Task> dataFilter = new ArrayList<Task>();
-		if(data != null){
-			if(type == FILTER_ALL_TYPE){
+		if (data != null) {
+			if (type == FILTER_ALL_TYPE) {
 				dataFilter = data;
-			}else if(type == FILTER_CXL_TYPE){
-				for(int i=0; i<data.size(); i++){
+			} else if (type == FILTER_CXL_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if(!task.isCo_binh_luan())
+					if (!task.isCo_binh_luan())
 						dataFilter.add(task);
 				}
-			}else if(type == FILTER_DXLTH_TYPE){
-				for(int i=0; i<data.size(); i++){
+			} else if (type == FILTER_DXLTH_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if(task.isCo_binh_luan() && !task.isDa_qua_han())
+					if (task.isCo_binh_luan() && !task.isDa_qua_han())
 						dataFilter.add(task);
 				}
-			}else if(type == FILTER_DXLQH_TYPE){
-				for(int i=0; i<data.size(); i++){
+			} else if (type == FILTER_DXLQH_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if(task.isCo_binh_luan() && task.isDa_qua_han())
+					if (task.isCo_binh_luan() && task.isDa_qua_han())
 						dataFilter.add(task);
 				}
 			}
-			//filter cong viec
-			else if(type == FILTER_CVHT_TYPE){
-				for(int i=0; i<data.size(); i++){
+			// filter cong viec
+			else if (type == FILTER_CVHT_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if(task.getTrang_thai().equals("complete"))
+					if (task.getTrang_thai().equals("complete"))
 						dataFilter.add(task);
 				}
-			}else if(type == FILTER_CVTD_TYPE){
-				for(int i=0; i<data.size(); i++){
+			} else if (type == FILTER_CVTD_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if(task.getTrang_thai().equals("inactive"))
+					if (task.getTrang_thai().equals("inactive"))
 						dataFilter.add(task);
 				}
-			}else if(type == FILTER_CVDH_TYPE){
-				for(int i=0; i<data.size(); i++){
+			} else if (type == FILTER_CVDH_TYPE) {
+				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					Log.d("TuNT", "type: "+task.getTrang_thai());
-					if(task.getTrang_thai().equals("cancel"))
+					Log.d("TuNT", "type: " + task.getTrang_thai());
+					if (task.getTrang_thai().equals("cancel"))
 						dataFilter.add(task);
 				}
 			}

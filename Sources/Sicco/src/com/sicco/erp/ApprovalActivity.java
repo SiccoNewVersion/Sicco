@@ -61,7 +61,7 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		
-		HomeActivity.checkDate(this);
+		HomeActivity.checkDate(ApprovalActivity.this);
 		
 		dispatch = new Dispatch(ApprovalActivity.this);
 		arrDispatch = dispatch.getData(ApprovalActivity.this, getResources()

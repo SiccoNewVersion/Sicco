@@ -205,11 +205,11 @@ public class GetAllNotificationService extends Service {
 								String ngayDenSicco = row.getString("ngay_den");
 								String trangThai = row.getString("status");
 
-								if (trangThai.equals("2")) {
+//								if (trangThai.equals("2")) {
 									congVanXuLy_list.add(new NotificationModel(
 											id, 2, soHieuCongVan, trichYeu,
 											dinhKem, ngayDenSicco, trangThai));
-								}
+//								}
 
 							}
 							origanizeNoti(congVanXuLy_list,
