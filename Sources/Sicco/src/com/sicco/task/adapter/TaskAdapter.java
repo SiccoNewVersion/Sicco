@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,19 +17,13 @@ import android.widget.BaseAdapter;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sicco.erp.DetailDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.database.NotificationDBController;
-import com.sicco.erp.model.Status;
-import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.DetailTaskActivity;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.Task;
-import com.sicco.task.ultil.DialogChangeStatusTask;
 import com.sicco.task.ultil.DialogConfirmDeleteTask;
-import com.sicco.task.ultil.DialogSetProcess;
 
 public class TaskAdapter extends BaseAdapter {
 
@@ -109,43 +104,43 @@ public class TaskAdapter extends BaseAdapter {
 			}
 		}
 
-		if (task.getTrang_thai().equals("complete")) {
-			holder.taskName.setTextColor(context.getResources().getColor(
-					R.color.red));
-			holder.handler.setTextColor(context.getResources().getColor(
-					R.color.red));
-			holder.date_handle.setTextColor(context.getResources().getColor(
-					R.color.red));
-			holder.date_finish.setTextColor(context.getResources().getColor(
-					R.color.red));
-		} else if (task.getTrang_thai().equals("cancel")) {
-			holder.taskName.setTextColor(context.getResources().getColor(
-					R.color.yellow));
-			holder.handler.setTextColor(context.getResources().getColor(
-					R.color.yellow));
-			holder.date_handle.setTextColor(context.getResources().getColor(
-					R.color.yellow));
-			holder.date_finish.setTextColor(context.getResources().getColor(
-					R.color.yellow));
-		} else if (task.getTrang_thai().equals("inactive")) {
-			holder.taskName.setTextColor(context.getResources().getColor(
-					R.color.gray));
-			holder.handler.setTextColor(context.getResources().getColor(
-					R.color.gray));
-			holder.date_handle.setTextColor(context.getResources().getColor(
-					R.color.gray));
-			holder.date_finish.setTextColor(context.getResources().getColor(
-					R.color.gray));
-		} else if (task.getTrang_thai().equals("active")) {
-			holder.taskName.setTextColor(context.getResources().getColor(
-					R.color.green));
-			holder.handler.setTextColor(context.getResources().getColor(
-					R.color.green));
-			holder.date_handle.setTextColor(context.getResources().getColor(
-					R.color.green));
-			holder.date_finish.setTextColor(context.getResources().getColor(
-					R.color.green));
-		}
+//		if (task.getTrang_thai().equals("complete")) {
+//			holder.taskName.setTextColor(context.getResources().getColor(
+//					R.color.red));
+//			holder.handler.setTextColor(context.getResources().getColor(
+//					R.color.red));
+//			holder.date_handle.setTextColor(context.getResources().getColor(
+//					R.color.red));
+//			holder.date_finish.setTextColor(context.getResources().getColor(
+//					R.color.red));
+//		} else if (task.getTrang_thai().equals("cancel")) {
+//			holder.taskName.setTextColor(context.getResources().getColor(
+//					R.color.yellow));
+//			holder.handler.setTextColor(context.getResources().getColor(
+//					R.color.yellow));
+//			holder.date_handle.setTextColor(context.getResources().getColor(
+//					R.color.yellow));
+//			holder.date_finish.setTextColor(context.getResources().getColor(
+//					R.color.yellow));
+//		} else if (task.getTrang_thai().equals("inactive")) {
+//			holder.taskName.setTextColor(context.getResources().getColor(
+//					R.color.gray));
+//			holder.handler.setTextColor(context.getResources().getColor(
+//					R.color.gray));
+//			holder.date_handle.setTextColor(context.getResources().getColor(
+//					R.color.gray));
+//			holder.date_finish.setTextColor(context.getResources().getColor(
+//					R.color.gray));
+//		} else if (task.getTrang_thai().equals("active")) {
+//			holder.taskName.setTextColor(context.getResources().getColor(
+//					R.color.green));
+//			holder.handler.setTextColor(context.getResources().getColor(
+//					R.color.green));
+//			holder.date_handle.setTextColor(context.getResources().getColor(
+//					R.color.green));
+//			holder.date_finish.setTextColor(context.getResources().getColor(
+//					R.color.green));
+//		}
 
 		String date_handle_no_time = task.getNgay_bat_dau().substring(0,10);
 		String date_finish_no_time = task.getNgay_ket_thuc().substring(0,10);
@@ -164,6 +159,33 @@ public class TaskAdapter extends BaseAdapter {
 		holder.date_handle.setText(Html.fromHtml(date_handle));
 		holder.date_finish.setText(Html.fromHtml(date_finish));
 
+		String colorAction = context.getResources().getString(R.color.actionbar_color);
+		if (!task.isCo_binh_luan()) {
+			colorAction = "#aa0000";
+		}
+		if (!task.isCo_binh_luan() && task.getMuc_uu_tien().equals("2")) {
+			colorAction = "#ff0000";
+		}
+		if (task.isCo_binh_luan()) {
+			colorAction = "#5E7AF8";
+		}
+		if (task.isDa_qua_han() && task.isCo_binh_luan()) {
+			colorAction = "#DF06D2";
+		}
+		if (task.getTrang_thai().equals("complete")) {
+			colorAction = "#01C853";
+		}
+		if (task.getTrang_thai().equals("inactive")) {
+			colorAction = "#868B86";
+		}
+		if (task.getTrang_thai().equals("cancel")) {
+			colorAction = "#A26637";
+		}
+		
+		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, 0});
+        drawable.setColor(Color.parseColor(colorAction));
+        drawable.setCornerRadius(context.getResources().getDimension(R.dimen.item_size));
+		holder.action.setBackgroundDrawable(drawable);
 		holder.action.setOnClickListener(new OnClickListener() {
 
 			@Override
