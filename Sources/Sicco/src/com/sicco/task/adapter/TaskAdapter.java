@@ -30,24 +30,14 @@ public class TaskAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Task> data;
 	private int type;
-//	private ArrayList<Status> listStatus;
-//	private ArrayList<Status> listProcess;
 	NotificationDBController db;
 	Cursor cursor;
-//	boolean update_status_and_rate = false;
 
 	public TaskAdapter(Context context, ArrayList<Task> data, int type) {
 		super();
 		this.context = context;
 		this.data = data;
 		this.type = type;
-		
-//		listStatus = new ArrayList<Status>();
-//
-//		listStatus.add(new Status(0, "active", context.getResources().getString(R.string.active)));
-//		listStatus.add(new Status(1, "inactive", context.getResources().getString(R.string.inactive)));
-//		listStatus.add(new Status(2, "complete", context.getResources().getString(R.string.complete)));
-//		listStatus.add(new Status(3, "cancel", context.getResources().getString(R.string.cancel)));
 		
 	}
 
@@ -104,44 +94,6 @@ public class TaskAdapter extends BaseAdapter {
 			}
 		}
 
-//		if (task.getTrang_thai().equals("complete")) {
-//			holder.taskName.setTextColor(context.getResources().getColor(
-//					R.color.red));
-//			holder.handler.setTextColor(context.getResources().getColor(
-//					R.color.red));
-//			holder.date_handle.setTextColor(context.getResources().getColor(
-//					R.color.red));
-//			holder.date_finish.setTextColor(context.getResources().getColor(
-//					R.color.red));
-//		} else if (task.getTrang_thai().equals("cancel")) {
-//			holder.taskName.setTextColor(context.getResources().getColor(
-//					R.color.yellow));
-//			holder.handler.setTextColor(context.getResources().getColor(
-//					R.color.yellow));
-//			holder.date_handle.setTextColor(context.getResources().getColor(
-//					R.color.yellow));
-//			holder.date_finish.setTextColor(context.getResources().getColor(
-//					R.color.yellow));
-//		} else if (task.getTrang_thai().equals("inactive")) {
-//			holder.taskName.setTextColor(context.getResources().getColor(
-//					R.color.gray));
-//			holder.handler.setTextColor(context.getResources().getColor(
-//					R.color.gray));
-//			holder.date_handle.setTextColor(context.getResources().getColor(
-//					R.color.gray));
-//			holder.date_finish.setTextColor(context.getResources().getColor(
-//					R.color.gray));
-//		} else if (task.getTrang_thai().equals("active")) {
-//			holder.taskName.setTextColor(context.getResources().getColor(
-//					R.color.green));
-//			holder.handler.setTextColor(context.getResources().getColor(
-//					R.color.green));
-//			holder.date_handle.setTextColor(context.getResources().getColor(
-//					R.color.green));
-//			holder.date_finish.setTextColor(context.getResources().getColor(
-//					R.color.green));
-//		}
-
 		String date_handle_no_time = task.getNgay_bat_dau().substring(0,10);
 		String date_finish_no_time = task.getNgay_ket_thuc().substring(0,10);
 		String handler = "<font weigth='bold'><b><u><i>"
@@ -191,16 +143,6 @@ public class TaskAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-//				update_status_and_rate = false;
-//				final String[] nguoithuchien = task.getNguoi_thuc_hien().split(
-//						",");
-//				final String username = Utils.getString(context, "name");
-//				for (int i = 0; i < nguoithuchien.length; i++) {
-//					if (username.equals(nguoithuchien[i])) {
-//						update_status_and_rate = true;
-//					}
-//				}
-
 				PopupMenu popupMenu = new PopupMenu(context, holder.action);
 				if (type == 1) {
 					popupMenu.getMenuInflater().inflate(R.menu.assigned_task,
@@ -225,55 +167,6 @@ public class TaskAdapter extends BaseAdapter {
 									intent.putExtra("task", task);
 									context.startActivity(intent);
 									break;
-//								case R.id.action_update_rate:
-//									listProcess = new ArrayList<Status>();
-//
-//									String[] key = context
-//											.getResources()
-//											.getStringArray(R.array.process_key);
-//									String[] value = context.getResources()
-//											.getStringArray(
-//													R.array.process_value);
-//									int max = key.length;
-//									for (int i = 0; i < max; i++) {
-//										listProcess.add(new Status(i + 1,
-//												key[i], value[i]));
-//									}
-//									if (type == 2) {
-//										if (update_status_and_rate) {
-//											DialogSetProcess dialog = new DialogSetProcess(
-//													context, listProcess, task);
-//											dialog.showDialog();
-//										} else {
-//											Toast.makeText(
-//													context,
-//													context.getResources()
-//															.getString(
-//																	R.string.info_update_rate),
-//													Toast.LENGTH_SHORT).show();
-//										}
-//									} else {
-//										DialogSetProcess dialog = new DialogSetProcess(
-//												context, listProcess, task);
-//										dialog.showDialog();
-//									}
-//									break;
-//								case R.id.action_change_status:
-//									if (type == 2) {
-//										if (update_status_and_rate) {
-//											new DialogChangeStatusTask(context, listStatus, task);
-//										} else {
-//											Toast.makeText(
-//													context,
-//													context.getResources()
-//															.getString(
-//																	R.string.info_update_status),
-//													Toast.LENGTH_SHORT).show();
-//										}
-//									} else {
-//										new DialogChangeStatusTask(context, listStatus, task);
-//									}
-//									break;
 								case R.id.action_detail:
 									intent.setClass(context,
 											DetailTaskActivity.class);

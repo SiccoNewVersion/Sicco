@@ -98,37 +98,6 @@ public class OtherActivity extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listDispatch.setOnItemClickListener(this);
-		// set adapter
-		dispatch = new Dispatch(OtherActivity.this);
-		arrDispatch = dispatch.getData(OtherActivity.this, getResources()
-				.getString(R.string.api_get_dispatch_other),
-				new OnLoadListener() {
-
-					@Override
-					public void onStart() {
-						loading.setVisibility(View.VISIBLE);
-						connectError.setVisibility(View.GONE);
-					}
-
-					@Override
-					public void onSuccess() {
-						loading.setVisibility(View.GONE);
-						adapter.notifyDataSetChanged();
-						if (adapter.getCount() <= 0) {
-							listDispatch.setEmptyView(emptyView);
-						}
-					}
-
-					@Override
-					public void onFalse() {
-						loading.setVisibility(View.GONE);
-						connectError.setVisibility(View.VISIBLE);
-					}
-				}, 1);
-
-		db = NotificationDBController.getInstance(getApplicationContext());
-		adapter = new ActionAdapter(OtherActivity.this, arrDispatch, 1);
-		listDispatch.setAdapter(adapter);
 		
 		// setFilter
 		// set spinner
@@ -376,6 +345,36 @@ public class OtherActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onResume() {
+		dispatch = new Dispatch(OtherActivity.this);
+		arrDispatch = dispatch.getData(OtherActivity.this, getResources()
+				.getString(R.string.api_get_dispatch_other),
+				new OnLoadListener() {
+
+					@Override
+					public void onStart() {
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onSuccess() {
+						loading.setVisibility(View.GONE);
+						adapter.notifyDataSetChanged();
+						if (adapter.getCount() <= 0) {
+							listDispatch.setEmptyView(emptyView);
+						}
+					}
+
+					@Override
+					public void onFalse() {
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
+				}, 1);
+
+		db = NotificationDBController.getInstance(getApplicationContext());
+		adapter = new ActionAdapter(OtherActivity.this, arrDispatch, 1);
+		listDispatch.setAdapter(adapter);
 		super.onResume();
 	}
 }

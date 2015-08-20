@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.SpinnerStatusAdapter;
@@ -126,6 +125,7 @@ public class ListTask extends Activity implements OnClickListener,
 		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
 		title_actionbar.setText(getResources().getString(
 				R.string.viec_duoc_giao));
+		title_actionbar.setVisibility(View.GONE);
 		btnAssignTaskNew = (Button) findViewById(R.id.btnAssignNew);
 		btnAssignTaskNew.setVisibility(View.GONE);
 		spnFilter = (Spinner) findViewById(R.id.spnFilter);

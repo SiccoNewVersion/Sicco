@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.database.NotificationDBController;
 import com.sicco.task.model.ReportSteerTask;
 
 public class ReportSteerTaskAdapter extends BaseAdapter {

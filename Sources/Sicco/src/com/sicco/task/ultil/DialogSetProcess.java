@@ -24,8 +24,6 @@ import android.widget.Toast;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
 import com.sicco.erp.model.Status;
-import com.sicco.task.erp.AssignedTaskActivity;
-import com.sicco.task.erp.ListTask;
 import com.sicco.task.model.Task;
 import com.sicco.task.model.Task.OnLoadListener;
 
@@ -136,87 +134,6 @@ public class DialogSetProcess {
 										Toast.LENGTH_LONG).show();
 								alertDialog.dismiss();
 								task.setTien_do(status.getsKey());
-
-								// update ui
-								/*if (AssignedTaskActivity.AssignedTaskActivity) {
-									AssignedTaskActivity.arrTask = task
-											.getData(
-													context,
-													context.getResources()
-															.getString(
-																	R.string.api_get_assigned_task),
-													new OnLoadListener() {
-
-														@Override
-														public void onStart() {
-															AssignedTaskActivity.loading
-																	.setVisibility(View.VISIBLE);
-															AssignedTaskActivity.connectError
-																	.setVisibility(View.GONE);
-														}
-
-														@Override
-														public void onSuccess() {
-															AssignedTaskActivity.loading
-																	.setVisibility(View.GONE);
-															AssignedTaskActivity.adapter
-																	.setData(AssignedTaskActivity.arrTask);
-															AssignedTaskActivity.adapter
-																	.notifyDataSetChanged();
-															if (AssignedTaskActivity.adapter
-																	.getCount() <= 0) {
-																AssignedTaskActivity.listTask
-																		.setEmptyView(AssignedTaskActivity.emptyView);
-															}
-														}
-
-														@Override
-														public void onFalse() {
-															AssignedTaskActivity.loading
-																	.setVisibility(View.GONE);
-															AssignedTaskActivity.connectError
-																	.setVisibility(View.VISIBLE);
-														}
-													});
-								} else if (ListTask.ListTaskActivity) {
-									ListTask.arrTask = task.getData(
-											context,
-											context.getResources().getString(
-													R.string.api_get_task),
-											new OnLoadListener() {
-
-												@Override
-												public void onStart() {
-													ListTask.loading
-															.setVisibility(View.VISIBLE);
-													ListTask.connectError
-															.setVisibility(View.GONE);
-												}
-
-												@Override
-												public void onSuccess() {
-													ListTask.loading
-															.setVisibility(View.GONE);
-													ListTask.adapter
-															.setData(ListTask.arrTask);
-													ListTask.adapter
-															.notifyDataSetChanged();
-													if (ListTask.adapter
-															.getCount() <= 0) {
-														ListTask.listTask
-																.setEmptyView(ListTask.emptyView);
-													}
-												}
-
-												@Override
-												public void onFalse() {
-													ListTask.loading
-															.setVisibility(View.GONE);
-													ListTask.connectError
-															.setVisibility(View.VISIBLE);
-												}
-											});
-								}*/
 							}
 
 							@Override

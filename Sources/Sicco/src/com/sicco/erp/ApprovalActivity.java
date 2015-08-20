@@ -118,36 +118,6 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 		empty.setOnClickListener(this);
 		retry.setOnClickListener(this);
 		listDispatch.setOnItemClickListener(this);
-		// set adapter
-		// dispatch = new Dispatch(ApprovalActivity.this);
-		// arrDispatch =
-		// dispatch.getData(getResources().getString(R.string.api_get_dispatch_approval),
-		// new OnLoadListener() {
-		//
-		// @Override
-		// public void onStart() {
-		// loading.setVisibility(View.VISIBLE);
-		// connectError.setVisibility(View.GONE);
-		// }
-		//
-		// @Override
-		// public void onSuccess() {
-		// loading.setVisibility(View.GONE);
-		// dispatchAdapter.notifyDataSetChanged();
-		// if(dispatchAdapter.getCount()<=0){
-		// listDispatch.setEmptyView(emptyView);
-		// }
-		// }
-		//
-		// @Override
-		// public void onFalse() {
-		// loading.setVisibility(View.GONE);
-		// connectError.setVisibility(View.VISIBLE);
-		// }
-		// });
-		// dispatchAdapter = new DispatchAdapter(ApprovalActivity.this,
-		// arrDispatch);
-		// listDispatch.setAdapter(dispatchAdapter);
 	}
 
 	@Override
@@ -203,13 +173,6 @@ public class ApprovalActivity extends Activity implements OnClickListener,
 
 		viewDispatch = new ViewDispatch(ApprovalActivity.this,
 				dispatch.getContent());
-
-		// Intent intent = new Intent(ApprovalActivity.this,
-		// ViewDispatchActivity.class);
-		// Bundle bundle = new Bundle();
-		// bundle.putSerializable("dispatch", dispatch);
-		// intent.putExtra("bundle", bundle);
-		// startActivity(intent);
 
 	}
 

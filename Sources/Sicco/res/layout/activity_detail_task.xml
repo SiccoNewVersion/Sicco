@@ -39,249 +39,76 @@
             android:layout_height="0dp"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_title"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_title"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_title"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Content -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/task_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_content"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/task_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_content"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Assigner -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/assigner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_assigner"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_assigner"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/assigner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_assigner"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Implementers -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/implementers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/nguoi_thuc_hien_cv"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/nguoi_thuc_hien_cv"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/implementers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/nguoi_thuc_hien_cv"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Task Assigned At -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/assigned_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_assigned_at"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_assigned_at"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/assigned_at"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_assigned_at"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/expired_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_expired_at"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_expired_at"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/expired_at"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_expired_at"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Completed in fact -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/completed_infact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_completed_infact"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_completed_infact"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/completed_infact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_completed_infact"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Process -->
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/process"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
+                android:padding="5dp"
+                android:text="@string/task_process"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_process"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/process"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_process"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/attach_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/task_attach_file"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/attach_file"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- End -->
-
-
-            <!-- <Button -->
-            <!-- android:id="@+id/attach_file" -->
-            <!-- android:layout_width="match_parent" -->
-            <!-- android:layout_height="40dp" -->
-            <!-- android:layout_marginLeft="20dp" -->
-            <!-- android:layout_marginRight="20dp" -->
-            <!-- android:layout_marginTop="10dp" -->
-            <!-- android:background="@drawable/bg_btn_login_selector" -->
-            <!-- android:text="@string/no_attach" -->
-            <!-- android:textAllCaps="false" -->
-            <!-- android:textColor="@color/white" -->
-            <!-- android:textSize="18sp" /> -->
-
+                android:padding="5dp"
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 
@@ -304,26 +131,12 @@
             android:textSize="16sp"
             android:textStyle="normal" />
 
-        <!-- <LinearLayout -->
-        <!-- android:id="@+id/content" -->
-        <!-- android:layout_width="match_parent" -->
-        <!-- android:layout_height="match_parent" > -->
-
-
-        <!-- <TextView -->
-        <!-- android:id="@+id/content_text" -->
-        <!-- android:layout_width="match_parent" -->
-        <!-- android:layout_height="match_parent" -->
-        <!-- android:background="@android:color/white" -->
-        <!-- android:gravity="center" -->
-        <!-- android:textColor="#3d3d3d" -->
-        <!-- android:textSize="20sp" /> -->
-        <!-- </LinearLayout> -->
 
         <FrameLayout
             android:id="@+id/sliding_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:background="@color/white" >
 
             <TextView
                 android:id="@+id/empty_view"

@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.ProjectAdapter;
 import com.sicco.erp.model.Department;

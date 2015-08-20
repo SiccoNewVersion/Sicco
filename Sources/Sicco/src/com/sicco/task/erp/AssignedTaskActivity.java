@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -23,11 +22,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
-import com.sicco.erp.adapter.ActionAdapter;
 import com.sicco.erp.adapter.SpinnerStatusAdapter;
 import com.sicco.erp.model.Status;
 import com.sicco.erp.util.Keyboard;
@@ -88,6 +84,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		btnAssignNewTask = (Button) findViewById(R.id.btnAssignNew);
 		title_actionbar
 				.setText(getResources().getString(R.string.viec_da_giao));
+		title_actionbar.setVisibility(View.GONE);
 		spnFilter = (Spinner) findViewById(R.id.spnFilter);
 		spnFilter.setVisibility(View.VISIBLE);
 		// click

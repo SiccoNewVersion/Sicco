@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sicco.erp.R;
-import com.sicco.erp.model.Status;
 import com.sicco.task.model.Priority;
 
 public class SpinnerPriorityAdapter extends BaseAdapter {

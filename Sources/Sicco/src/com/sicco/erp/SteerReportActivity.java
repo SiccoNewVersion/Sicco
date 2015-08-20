@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +24,8 @@ import com.sicco.erp.manager.SessionManager;
 import com.sicco.erp.model.Department;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.ReportSteer;
-import com.sicco.erp.model.User;
 import com.sicco.erp.model.ReportSteer.OnLoadListener;
+import com.sicco.erp.model.User;
 import com.sicco.erp.util.DialogChooseUser;
 import com.sicco.erp.util.Utils;
 

@@ -75,9 +75,9 @@ public class DetailDispatchActivity extends Activity{
 		});
 		//
 		title.setText(dispatch.getNumberDispatch());
-		shCongVan.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.sh_cong_van) + " </i></u></b></font>" + dispatch.getNumberDispatch()));
-		trichYeu.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.trich_yeu) + " </i></u></b></font>" + dispatch.getDescription()));
-		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + " </i></u></b></font>" + dispatch.getNguoi_phe_duyet()));
+		shCongVan.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.sh_cong_van) + "</i></u></b></font>" + " " + dispatch.getNumberDispatch()));
+		trichYeu.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.trich_yeu) + "</i></u></b></font>" + " " + dispatch.getDescription()));
+		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + "</i></u></b></font>" + " " + dispatch.getNguoi_phe_duyet()));
 //		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + " </i></u></b></font>" + dispatch.getHandler()));
 	}
 	
