@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.bool;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,10 @@ public class Task implements Serializable {
 	private String id_du_an;
 	private String id_phong_ban;
 	private String trang_thai;
+	private boolean co_binh_luan;
+	private boolean da_qua_han;
+	private String muc_uu_tien;
+	private String ngay_httt;
 	private Context context;
 
 	private ArrayList<Task> data;
@@ -78,6 +83,36 @@ public class Task implements Serializable {
 		this.id_du_an = id_du_an;
 		this.id_phong_ban = id_phong_ban;
 		this.trang_thai = trang_thai;
+	}
+
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
+			String nguoi_xem, String du_an, String tien_do,
+			String ngay_bat_dau, String ngay_ket_thuc, String nguoi_giao,
+			String dinh_kem, String phong_ban, String mo_ta, String code,
+			String id_du_an, String id_phong_ban, String trang_thai,
+			boolean co_binh_luan, boolean da_qua_han, String muc_uu_tien,
+			String ngay_httt) {
+		super();
+		this.id = id;
+		this.ten_cong_viec = ten_cong_viec;
+		this.nguoi_thuc_hien = nguoi_thuc_hien;
+		this.nguoi_xem = nguoi_xem;
+		this.du_an = du_an;
+		this.tien_do = tien_do;
+		this.ngay_bat_dau = ngay_bat_dau;
+		this.ngay_ket_thuc = ngay_ket_thuc;
+		this.nguoi_giao = nguoi_giao;
+		this.dinh_kem = dinh_kem;
+		this.phong_ban = phong_ban;
+		this.mo_ta = mo_ta;
+		this.code = code;
+		this.id_du_an = id_du_an;
+		this.id_phong_ban = id_phong_ban;
+		this.trang_thai = trang_thai;
+		this.co_binh_luan = co_binh_luan;
+		this.da_qua_han = da_qua_han;
+		this.muc_uu_tien = muc_uu_tien;
+		this.ngay_httt = ngay_httt;
 	}
 
 	public long getId() {
@@ -216,6 +251,38 @@ public class Task implements Serializable {
 		this.trang_thai = trang_thai;
 	}
 
+	public boolean isCo_binh_luan() {
+		return co_binh_luan;
+	}
+
+	public void setCo_binh_luan(boolean co_binh_luan) {
+		this.co_binh_luan = co_binh_luan;
+	}
+
+	public boolean isDa_qua_han() {
+		return da_qua_han;
+	}
+
+	public void setDa_qua_han(boolean da_qua_han) {
+		this.da_qua_han = da_qua_han;
+	}
+
+	public String getMuc_uu_tien() {
+		return muc_uu_tien;
+	}
+
+	public void setMuc_uu_tien(String muc_uu_tien) {
+		this.muc_uu_tien = muc_uu_tien;
+	}
+
+	public String getNgay_httt() {
+		return ngay_httt;
+	}
+
+	public void setNgay_httt(String ngay_httt) {
+		this.ngay_httt = ngay_httt;
+	}
+
 	// get data
 	public ArrayList<Task> getData(final Context context, String url,
 			OnLoadListener OnLoadListener) {
@@ -260,6 +327,16 @@ public class Task implements Serializable {
 							String id_du_an = row.getString("id_du_an");
 							String id_phong_ban = row.getString("id_phong_ban");
 							String trang_thai = row.getString("trang_thai");
+							String cbl = row.getString("co_binh_luan");
+							boolean co_binh_luan = false;
+							if (cbl.equals("1"))
+								co_binh_luan = true;
+							String dqh = row.getString("da_qua_han");
+							boolean da_qua_han = false;
+							if (dqh.equals("1"))
+								da_qua_han = true;
+							String muc_uu_tien = row.getString("muc_uu_tien");
+							String ngay_httt = row.getString("ngay_httt");
 
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
@@ -268,7 +345,8 @@ public class Task implements Serializable {
 									du_an, tien_do, ngay_bat_dau,
 									ngay_ket_thuc, nguoi_giao, dinh_kem,
 									phong_ban, mo_ta, code, id_du_an,
-									id_phong_ban, trang_thai));
+									id_phong_ban, trang_thai, co_binh_luan,
+									da_qua_han, muc_uu_tien, ngay_httt));
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -414,8 +492,9 @@ public class Task implements Serializable {
 			String des_task, String date_handle, String date_finish,
 			String str_id_handler, String str_name_handler,
 			String str_id_viewer, String str_name_viewer, String tich_hop,
-			String id_department, String id_project, String pathFile,String keyPriority,
-			OnLoadListener OnLoadListener) throws FileNotFoundException {
+			String id_department, String id_project, String pathFile,
+			String keyPriority, OnLoadListener OnLoadListener)
+			throws FileNotFoundException {
 		this.onLoadListener = OnLoadListener;
 		onLoadListener.onStart();
 		RequestParams params = new RequestParams();
@@ -523,6 +602,39 @@ public class Task implements Serializable {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
+	}
+	
+	public static long FILTER_ALL_TYPE = 0;
+	public static long FILTER_CXL_TYPE = 1;
+	public static long FILTER_DXLTH_TYPE  = 2;
+	public static long FILTER_DXLQH_TYPE  = 3;
+	//filter
+	public ArrayList<Task> filter(ArrayList<Task> data, long type){
+		ArrayList<Task> dataFilter = new ArrayList<Task>();
+		if(data != null){
+			if(type == FILTER_ALL_TYPE){
+				dataFilter = data;
+			}else if(type == FILTER_CXL_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					if(!task.isCo_binh_luan())
+						dataFilter.add(task);
+				}
+			}else if(type == FILTER_DXLTH_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					if(task.isCo_binh_luan() && !task.isDa_qua_han())
+						dataFilter.add(task);
+				}
+			}else if(type == FILTER_DXLQH_TYPE){
+				for(int i=0; i<data.size(); i++){
+					Task task = data.get(i);
+					if(task.isCo_binh_luan() && task.isDa_qua_han())
+						dataFilter.add(task);
+				}
+			}
+		}
+		return dataFilter;
 	}
 
 	public interface OnLoadListener {
