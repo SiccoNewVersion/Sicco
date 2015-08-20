@@ -8,21 +8,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sicco.erp.OtherActivity;
 import com.sicco.erp.R;
+import com.sicco.erp.adapter.ActionAdapter;
+import com.sicco.erp.adapter.SpinnerStatusAdapter;
+import com.sicco.erp.model.Status;
 import com.sicco.erp.util.Keyboard;
 import com.sicco.erp.util.ViewDispatch;
 import com.sicco.task.adapter.TaskAdapter;
@@ -48,6 +55,9 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	public static boolean AssignedTaskActivity = false;
 
 	private Button btnAssignNewTask;
+	private Spinner spnFilter;
+	private SpinnerStatusAdapter spinnerStatusAdapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,22 +72,24 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 	}
 
 	private void init() {
-		context 			= AssignedTaskActivity.this;
-		searchView 			= (LinearLayout) 	findViewById(R.id.searchview);
-		back 				= (ImageView) 		findViewById(R.id.back);
-		search 				= (ImageView) 		findViewById(R.id.search);
-		close 				= (ImageView) 		searchView.findViewById(R.id.close);
-		empty 				= (ImageView) 		searchView.findViewById(R.id.empty);
-		editSearch 			= (EditText) 		searchView.findViewById(R.id.edit_search);
-		emptyView 			= (TextView) 		findViewById(R.id.empty_view);
-		listTask 			= (ListView) 		findViewById(R.id.listTask);
-		loading 			= (ProgressBar) 	findViewById(R.id.loading);
-		retry 				= (Button) 			findViewById(R.id.retry);
-		connectError 		= (LinearLayout) 	findViewById(R.id.connect_error);
-		title_actionbar 	= (TextView) 		findViewById(R.id.title_actionbar);
-		btnAssignNewTask	= (Button)			findViewById(R.id.btnAssignNew);
+		context = AssignedTaskActivity.this;
+		searchView = (LinearLayout) findViewById(R.id.searchview);
+		back = (ImageView) findViewById(R.id.back);
+		search = (ImageView) findViewById(R.id.search);
+		close = (ImageView) searchView.findViewById(R.id.close);
+		empty = (ImageView) searchView.findViewById(R.id.empty);
+		editSearch = (EditText) searchView.findViewById(R.id.edit_search);
+		emptyView = (TextView) findViewById(R.id.empty_view);
+		listTask = (ListView) findViewById(R.id.listTask);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		retry = (Button) findViewById(R.id.retry);
+		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		title_actionbar = (TextView) findViewById(R.id.title_actionbar);
+		btnAssignNewTask = (Button) findViewById(R.id.btnAssignNew);
 		title_actionbar
 				.setText(getResources().getString(R.string.viec_da_giao));
+		spnFilter = (Spinner) findViewById(R.id.spnFilter);
+		spnFilter.setVisibility(View.VISIBLE);
 		// click
 		back.setOnClickListener(this);
 		search.setOnClickListener(this);
@@ -88,6 +100,39 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		btnAssignNewTask.setOnClickListener(this);
 		displayLisview();
 
+		ArrayList<Status> listStatus = new ArrayList<Status>();
+		listStatus.add(new Status(getResources().getString(R.string.all),
+				Task.FILTER_ALL_TYPE));
+		listStatus.add(new Status(
+				getResources().getString(R.string.chua_xu_ly),
+				Task.FILTER_CXL_TYPE));
+		listStatus.add(new Status(getResources().getString(
+				R.string.dang_xu_ly_trong_han), Task.FILTER_DXLTH_TYPE));
+		listStatus.add(new Status(getResources().getString(
+				R.string.dang_xu_ly_qua_han), Task.FILTER_DXLQH_TYPE));
+
+		spinnerStatusAdapter = new SpinnerStatusAdapter(
+				getApplicationContext(), listStatus);
+		spnFilter.setAdapter(spinnerStatusAdapter);
+
+		spnFilter.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Status status = (Status) parent.getAdapter().getItem(position);
+				if (!arrTask.isEmpty()) {
+					// Log.d("TuNT", "data size: "+task.filter(arrTask,
+					// status.getKey()).size());
+					adapter.setData(task.filter(arrTask, status.getKey()));
+					adapter.notifyDataSetChanged();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
 	}
 
 	// display lisview
@@ -141,7 +186,8 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 			editSearch.setText("");
 			break;
 		case R.id.btnAssignNew:
-			Intent intent = new Intent(AssignedTaskActivity.this,AssignTaskActivity.class);
+			Intent intent = new Intent(AssignedTaskActivity.this,
+					AssignTaskActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.retry:
@@ -228,6 +274,7 @@ public class AssignedTaskActivity extends Activity implements OnClickListener,
 		searchView.setVisibility(View.GONE);
 		editSearch.setText("");
 	}
+
 	@Override
 	protected void onResume() {
 		displayLisview();

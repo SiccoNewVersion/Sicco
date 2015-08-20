@@ -32,6 +32,8 @@
     <string name="trich_yeu">Trích yếu:</string>
     <string name="bao_cao"><u><b>D/s xử lý:</b></u></string>
     <string name="chi_tiet_cong_van">Chi tiết công văn</string>
+    <string name="dang_xu_ly_trong_han">Đang xử lý trong hạn</string>
+    <string name="dang_xu_ly_qua_han">Đang xử lý quá hạn</string>
     <!-- End TuNT -->
 
 
