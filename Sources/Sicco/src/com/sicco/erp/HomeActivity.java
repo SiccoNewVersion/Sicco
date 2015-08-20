@@ -40,6 +40,7 @@ import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.AssignTaskActivity;
 import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.erp.ListTask;
+import com.sicco.task.erp.OtherTaskActivity;
 
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai, giaoviec, dagiao, danhsachviec;
@@ -182,7 +183,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 			startActivity(ListTask.class);
 			break;
 		case R.id.danhsachviec:
-			
+			startActivity(OtherTaskActivity.class);
 			break;
 		case R.id.exit:
 			session.logoutUser();
