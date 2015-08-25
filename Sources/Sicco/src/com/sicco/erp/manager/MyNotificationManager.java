@@ -25,6 +25,7 @@ import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.ListTask;
+import com.sicco.task.erp.OtherTaskActivity;
 import com.sicco.task.erp.SteerReportTaskActivity;
 import com.sicco.task.model.ReportSteerTask;
 import com.sicco.task.model.Task;
@@ -50,11 +51,9 @@ public class MyNotificationManager {
 	PendingIntent pendInt;
 	String tag;
 	String taskCode;
-	static int flags = Intent.FLAG_ACTIVITY_NEW_TASK
-			| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP;
+	static int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
-	public void notifyType(Context context,
-			ArrayList<NotificationModel> arrayList, int notification_count) {
+	public void notifyType(Context context, ArrayList<NotificationModel> arrayList, int notification_count) {
 		// int notification_count = arrayList.size();
 		noti_count = notification_count;
 
@@ -83,9 +82,8 @@ public class MyNotificationManager {
 					tag = lichbieu;
 					notify_type = 3;
 				}
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + "\n";
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + "\n";
 				contentText = noi_dung;
 				notify(context, NOTIFICATION_ID, notify_type);
 			}
@@ -112,9 +110,8 @@ public class MyNotificationManager {
 					tag = lichbieu;
 					notify_type = 3;
 				}
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + " " + "\n";
 				contentText = name;
 				notify(context, NOTIFICATION_ID, notify_type);
 			}
@@ -131,26 +128,19 @@ public class MyNotificationManager {
 			String nguoi_thuc_hien = data.get(i).getNguoi_thuc_hien();
 
 			if (notification_count == 1) {
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + " " + "\n";
 
-				String ten_cv = context.getResources().getString(
-						R.string.ten_cv);
-				String nguoi_xem_cv = context.getResources().getString(
-						R.string.nguoi_xem_cv);
-				String nguoi_thuc_hien_cv = context.getResources().getString(
-						R.string.nguoi_thuc_hien_cv);
-				String mota = context.getResources().getString(
-						R.string.mota);
+				String ten_cv = context.getResources().getString(R.string.ten_cv);
+				String nguoi_xem_cv = context.getResources().getString(R.string.nguoi_xem_cv);
+				String nguoi_thuc_hien_cv = context.getResources().getString(R.string.nguoi_thuc_hien_cv);
+				String mota = context.getResources().getString(R.string.mota);
 
-				contentText = "" + ten_cv + " " + ten + "\n" + nguoi_xem_cv
-						+ " " + nguoi_xem + "\n" + nguoi_thuc_hien_cv + " "
-						+ nguoi_thuc_hien + "\n";
+				contentText = "" + ten_cv + " " + ten + "\n" + nguoi_xem_cv + " " + nguoi_xem + "\n"
+						+ nguoi_thuc_hien_cv + " " + nguoi_thuc_hien + "\n";
 
 			} else if (notification_count > 1) {
-				message = context.getResources().getString(
-						R.string.new_noti_mess) + " " + notification_count + " "
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
 						+ " " + noti + " " + "\n";
 				name += "" + ten + "\n";
 				contentText = name;
@@ -169,24 +159,19 @@ public class MyNotificationManager {
 			taskCode = data.get(i).getIdCV();
 
 			if (notification_count == 1) {
-				String username = Utils.getString(context,
-						SessionManager.KEY_NAME);
+				String username = Utils.getString(context, SessionManager.KEY_NAME);
 				String in = context.getResources().getString(R.string.in);
 				String ten_cong_vec = getTaskData(context, taskCode, username);
 				message = "Sicco";
 
-				contentText = handler
-						+ " "
-						+ context.getResources().getString(
-								R.string.notify_new_comment_msg) + " " + in + " " + context.getResources().getString(R.string.congviec) + ": " + ten_cong_vec + ".\n" + content
-						+ "\n";
+				contentText = handler + " " + context.getResources().getString(R.string.notify_new_comment_msg) + " "
+						+ in + " " + context.getResources().getString(R.string.congviec) + ": " + ten_cong_vec + ".\n"
+						+ content + "\n";
 
 			} else if (notification_count > 1) {
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
-				String cv_handler_new_comment = context.getResources()
-						.getString(R.string.cv_handler_new_comment);
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + " " + "\n";
+				String cv_handler_new_comment = context.getResources().getString(R.string.cv_handler_new_comment);
 
 				name += handler + "\n";
 				contentText = "" + cv_handler_new_comment + "\n" + name;
@@ -197,8 +182,7 @@ public class MyNotificationManager {
 		notify(context, 5, 5);
 	}
 
-	public void notifyCacLoai(Context context, ArrayList<Dispatch> arrayList,
-			int notification_count) {
+	public void notifyCacLoai(Context context, ArrayList<Dispatch> arrayList, int notification_count) {
 		// int notification_count = arrayList.size();
 		noti_count = notification_count;
 
@@ -210,9 +194,8 @@ public class MyNotificationManager {
 			if (notification_count == 1) {
 				noti = context.getResources().getString(R.string.lich_bieu);
 
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + "\n";
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + "\n";
 				contentText = noi_dung;
 				notify(context, 3, 3);
 			}
@@ -223,20 +206,52 @@ public class MyNotificationManager {
 				tag = lichbieu;
 				notify_type = 3;
 
-				message = context.getResources().getString(
-						R.string.new_noti_mess)
-						+ " " + notification_count + " " + noti + " " + "\n";
+				message = context.getResources().getString(R.string.new_noti_mess) + " " + notification_count + " "
+						+ noti + " " + "\n";
 				contentText = name;
 				notify(context, 3, 3);
 			}
 		}
 	}
 
+	public void notifyByState(Context context, Task task, int state) {
+		// int notification_count = arrayList.size();
+
+		// get data
+		String ten = task.getTen_cong_viec();
+		long id = task.getId();
+		String noti = "";
+		if (state == 1) {
+			noti = context.getResources().getString(R.string.inactive);
+		} else if (state == 2) {
+			noti = context.getResources().getString(R.string.complete);
+		} else if (state == 3) {
+			noti = context.getResources().getString(R.string.cancel);
+		}
+		
+		noti.toLowerCase();
+		String da = context.getResources().getString(R.string.da);
+
+		message = ten + " " + da + " " + noti;
+		
+		int notifi_id = safeLongToInt(id);
+		if(notifi_id != 0){
+			notify(context, notifi_id, 6);
+		}
+		
+	}
+	
+	private int safeLongToInt(long l) {
+	    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+	        throw new IllegalArgumentException
+	            (l + " cannot be cast to int without changing its value.");
+	    }
+	    return (int) l;
+	}
+
 	String getAllRunningService(Context context) {
-		ActivityManager am = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningServiceInfo> rs = am
-				.getRunningServices(100);
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(100);
 		String process = "";
 		for (int i = 0; i < rs.size(); i++) {
 			ActivityManager.RunningServiceInfo rsi = rs.get(i);
@@ -254,8 +269,7 @@ public class MyNotificationManager {
 	@SuppressWarnings("deprecation")
 	public void notify(Context context, int notification_id, int notify_type) {
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(
-				context);
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 		Intent notIntent = null;
 		if (notify_type == 1) {
 			notIntent = new Intent(context, ApprovalActivity.class);
@@ -268,19 +282,20 @@ public class MyNotificationManager {
 		} else if (notify_type == 5) {
 			notIntent = new Intent(context, SteerReportTaskActivity.class);
 			notIntent.putExtra("id_task", Long.parseLong(taskCode));
+		} else if (notify_type == 6) {
+			notIntent = new Intent(context, OtherTaskActivity.class);
 		}
+		
 
 		notIntent.addFlags(flags);
 		// notIntent.putExtra("com.sicco.erp", 1);
-		pendInt = PendingIntent.getActivity(context, 0, notIntent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
-		Uri alarmSound = RingtoneManager
-				.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		//
 
 		builder.setContentIntent(pendInt).setOngoing(false).setAutoCancel(true)
-		// .setPriority(Notification.PRIORITY_HIGH)
+				// .setPriority(Notification.PRIORITY_HIGH)
 				.setSound(alarmSound);
 
 		int build_version = android.os.Build.VERSION.SDK_INT;
@@ -289,7 +304,8 @@ public class MyNotificationManager {
 		}
 		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 		style.bigText(contentText);
-		// style.setSummaryText("Swipe Left or Right to dismiss this Notification.");
+		// style.setSummaryText("Swipe Left or Right to dismiss this
+		// Notification.");
 		style.build();
 
 		// ==============================
@@ -300,15 +316,13 @@ public class MyNotificationManager {
 		builder.setStyle(style);
 
 		// mo rong
-		long[] pattern = { (long) 100, (long) 100, (long) 100, (long) 100,
-				(long) 100 };
+		long[] pattern = { (long) 100, (long) 100, (long) 100, (long) 100, (long) 100 };
 		builder.setVibrate(pattern);
 		builder.setLights(0xFFFFFFFF, 500, 500);
 		Notification notification = builder.getNotification();
 		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
-		NotificationManager manager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.cancel(notification_id);
 		manager.notify(notification_id, notification);
 
@@ -320,21 +334,16 @@ public class MyNotificationManager {
 	String getTaskData(Context context, String taskCode, String username) {
 		String ten_cong_vec = "";
 		db = NotificationDBController.getInstance(context);
-		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
-				null, null, null, null);
-		String sql = "Select * from "
-				+ NotificationDBController.TASK_TABLE_NAME + " where "
-				+ NotificationDBController.ID_COL + " = \"" + taskCode
-				+ "\"" + " and "
-				+ NotificationDBController.USERNAME_COL + " = \"" + username
-				+ "\"";
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null, null, null, null, null);
+		String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.ID_COL + " = \"" + taskCode + "\"" + " and "
+				+ NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 		Log.d("ToanNM", "getTaskData sql : " + sql);
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
 				ten_cong_vec = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.TASK_TENCONGVIEC));
+						.getString(cursor.getColumnIndexOrThrow(NotificationDBController.TASK_TENCONGVIEC));
 			} while (cursor.moveToNext());
 		}
 		Log.d("ToanNM", "ten cong viec la day : " + ten_cong_vec);

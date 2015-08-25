@@ -8,24 +8,6 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.sicco.erp.database.NotificationDBController;
@@ -40,6 +22,27 @@ import com.sicco.erp.util.Utils;
 import com.sicco.task.erp.AssignedTaskActivity;
 import com.sicco.task.erp.ListTask;
 import com.sicco.task.erp.OtherTaskActivity;
+
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai, giaoviec, dagiao, danhsachviec;
@@ -185,17 +188,9 @@ public class HomeActivity extends Activity implements OnClickListener {
 			startActivity(OtherTaskActivity.class);
 			break;
 		case R.id.exit:
-			session.logoutUser();
-			NotificationDBController db = NotificationDBController
-					.getInstance(getApplicationContext());
-			db.deleteAllData();
-			Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", true);
-			ServiceStart.stopAllService(getApplicationContext());
-			Utils.stopAlarm(getApplicationContext());
-			cancelAllNotification(getApplicationContext());
-			clearNotifyCount();
-			finish();
-
+			
+			new logout().execute("");
+			
 			break;
 		}
 	}
@@ -207,6 +202,8 @@ public class HomeActivity extends Activity implements OnClickListener {
 				GetAllNotificationService.CVXL_KEY, 0);
 		Utils.saveInt(getApplicationContext(),
 				GetAllNotificationService.CL_KEY, 0);
+		Utils.saveInt(getApplicationContext(),
+				GetAllNotificationService.CV_KEY, 0);
 		Utils.saveInt(getApplicationContext(),
 				GetAllNotificationService.TOTAL_KEY, 0);
 		BadgeUtils.setBadge(getApplicationContext(), 0);
@@ -378,6 +375,29 @@ public class HomeActivity extends Activity implements OnClickListener {
 
 				});
 
+	}
+	
+	class logout extends AsyncTask<String, Void, String> {
+
+		protected void onPostExecute(Bitmap result) {
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			//
+			session.logoutUser();
+			NotificationDBController db = NotificationDBController
+					.getInstance(getApplicationContext());
+			db.deleteAllData();
+			Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", true);
+			ServiceStart.stopAllService(getApplicationContext());
+			Utils.stopAlarm(getApplicationContext());
+			cancelAllNotification(getApplicationContext());
+			clearNotifyCount();
+			finish();
+			//
+			return null;
+		}
 	}
 
 	@Override

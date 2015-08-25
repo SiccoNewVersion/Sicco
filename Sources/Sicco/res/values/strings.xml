@@ -218,6 +218,7 @@
     <string name="task_detail">Chi tiết Công việc</string>
     <string name="report_content">Nội dung các báo cáo</string>
     <string name="task_attach_file">Tệp đính kèm:</string>
+    <string name="da">đã</string>
     
     <string-array name="process_key">
         <item>0</item>

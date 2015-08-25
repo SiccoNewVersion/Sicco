@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.StatusAdapter;
+import com.sicco.erp.manager.MyNotificationManager;
 import com.sicco.erp.model.Status;
 import com.sicco.task.model.Task;
 
@@ -127,11 +128,13 @@ public class DialogChangeStatusTask {
 							@Override
 							public void onSuccess() {
 								progressDialog.dismiss();
-								Toast.makeText(
-										context,
-										context.getResources().getString(
-												R.string.success),
-										Toast.LENGTH_LONG).show();
+//								Toast.makeText(
+//										context,
+//										context.getResources().getString(
+//												R.string.success),
+//										Toast.LENGTH_LONG).show();
+								MyNotificationManager mn = new MyNotificationManager();
+								mn.notifyByState(context, task, (int)status.getKey());
 								alertDialog.dismiss();
 
 								task.setTrang_thai(status.getsKey());
