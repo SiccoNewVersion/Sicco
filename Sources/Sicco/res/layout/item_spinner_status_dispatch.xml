@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:orientation="vertical" 
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
     android:background="@drawable/drawer_selector"
     android:gravity="center">
 
