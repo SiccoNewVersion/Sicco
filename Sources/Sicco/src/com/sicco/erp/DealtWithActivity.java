@@ -39,7 +39,7 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	public static LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	public static TextView emptyView;
+	public static TextView emptyView, something, something1;
 	public static ListView listDispatch;
 	public static ProgressBar loading;
 	private Button retry;
@@ -66,6 +66,10 @@ public class DealtWithActivity extends Activity implements OnClickListener,
 	}
 
 	private void init() {
+		something = (TextView) findViewById(R.id.something);
+		something1 = (TextView) findViewById(R.id.something1);
+		something.setVisibility(View.GONE);
+		something1.setVisibility(View.GONE);
 		searchView = (LinearLayout) findViewById(R.id.searchview);
 		back = (ImageView) findViewById(R.id.back);
 		search = (ImageView) findViewById(R.id.search);

@@ -36,6 +36,7 @@
                 android:textSize="18sp" />
 			
 			<TextView
+			    android:id="@+id/something"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_weight="1" />
@@ -48,6 +49,12 @@
                 android:popupBackground="@color/actionbar_color"
 				android:layoutMode="clipBounds"
 				android:elevation="0dp" />
+            
+            <TextView
+			    android:id="@+id/something1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/actionbar_size"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/search"
