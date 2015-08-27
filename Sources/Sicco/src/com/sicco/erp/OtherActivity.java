@@ -345,6 +345,7 @@ public class OtherActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onResume() {
+		spnFilter.setSelection(0);
 		dispatch = new Dispatch(OtherActivity.this);
 		arrDispatch = dispatch.getData(OtherActivity.this, getResources()
 				.getString(R.string.api_get_dispatch_other),

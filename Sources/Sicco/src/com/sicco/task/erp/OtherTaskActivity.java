@@ -65,6 +65,7 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onResume() {
+		spnFilter.setSelection(0);
 		displayLisview();
 		super.onResume();
 	}
