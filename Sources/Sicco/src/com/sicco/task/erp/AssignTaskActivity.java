@@ -91,6 +91,7 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 		setContentView(R.layout.activity_assign_task);
 
 		DialogChooseHandler.VIEW_CURRENT = 1;
+		DialogChooseProject.VIEW_CURRENT = 1;
 
 		init();	
 	}
@@ -490,5 +491,10 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+	@Override
+	protected void onDestroy() {
+		DialogChooseHandler.VIEW_CURRENT = 0;
+		super.onDestroy();
 	}
 }

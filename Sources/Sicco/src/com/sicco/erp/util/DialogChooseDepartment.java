@@ -112,6 +112,7 @@ public class DialogChooseDepartment {
 						AssignTaskActivity.txtDepartment.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 						AssignTaskActivity.txtDepartment.setText(department.getDepartmentName());
 					}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
+						ConvertDispatchActivity.txtDepartment.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 						ConvertDispatchActivity.txtDepartment.setText(department
 							.getDepartmentName());
 					}

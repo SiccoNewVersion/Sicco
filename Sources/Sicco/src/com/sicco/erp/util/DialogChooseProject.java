@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.sicco.erp.ConvertDispatchActivity;
 import com.sicco.erp.R;
 import com.sicco.erp.adapter.ProjectAdapter;
 import com.sicco.erp.model.Department;
@@ -28,6 +29,11 @@ import com.sicco.erp.model.Project.OnLoadListener;
 import com.sicco.task.erp.AssignTaskActivity;
 
 public class DialogChooseProject {
+	/*
+	VIEW_CURRENT == 1 => AssignTaskActivity
+	VIEW_CURRENT == 2 => ConvertDispatchActivity
+ 	*/
+	public static int VIEW_CURRENT = 0;
 	private Context context;
 	private ArrayList<Project> listProject;
 	
@@ -108,8 +114,13 @@ public class DialogChooseProject {
 			@Override
 			public void onClick(View arg0) {
 				if (clickItem) {
-					AssignTaskActivity.txtProject.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
-					AssignTaskActivity.txtProject.setText(project.getName());
+					if (VIEW_CURRENT == 1) {
+						AssignTaskActivity.txtProject.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
+						AssignTaskActivity.txtProject.setText(project.getName());
+					}else if (VIEW_CURRENT == 2) {
+						ConvertDispatchActivity.txtProject.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
+						ConvertDispatchActivity.txtProject.setText(project.getName());
+					}
 					idProjectSelected = project.getId();
 					alertDialog.dismiss();
 				}else{

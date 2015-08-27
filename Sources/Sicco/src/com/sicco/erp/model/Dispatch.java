@@ -559,26 +559,40 @@ public class Dispatch implements Serializable {
 	}
 
 	// /////////////////
-	public void convertDispatch(String url, String userId, String tenCongViec,
-			String tuNgay, String denNgay, String phongBan, String nguoiXuLy,
-			String nguoiXem, String idNguoiXuLy, String idNguoiXem,
-			String mota, String file, OnRequestListener onRequestListener) {
+	public void convertDispatch(
+			String url, 
+			String userId, 
+			String tenCongViec,
+			String moTa,
+			String tuNgay, 
+			String denNgay, 
+			String idNguoiXuLy, 
+			String nguoiXuLy,
+			String idNguoiXem,
+			String nguoiXem, 
+			String phongBan, 
+			String idDuAn,
+			String uuTien,  
+			String file, 
+			OnRequestListener onRequestListener) {
 		Dispatch.this.onRequestListener = onRequestListener;
 		Dispatch.this.onRequestListener.onStart();
 		RequestParams params = new RequestParams();
 		params.add("id", userId);
 		params.add("ten_cv", tenCongViec);
+		params.add("mo_ta", moTa);
 		params.add("tu_ngay", tuNgay);
 		params.add("den_ngay", denNgay);
-		params.add("phong_ban", phongBan);
-		params.add("nguoi_xu_ly", nguoiXuLy);
-		params.add("nguoi_xem", nguoiXem);
 		params.add("id_nguoi_xu_ly", idNguoiXuLy);
+		params.add("nguoi_xu_ly", nguoiXuLy);
 		params.add("id_nguoi_xem", idNguoiXem);
-		params.add("mota", mota);
+		params.add("nguoi_xem", nguoiXem);
+		params.add("phong_ban", phongBan);
+		params.add("id_du_an", idDuAn);
+		params.add("uu_tien", uuTien);
 		params.add("file", file);
 
-		Log.d("LuanDT", "convertDispatch: " + params);
+		Log.d("NgaDV", "convertDispatch: " + params);
 		AsyncHttpClient httpClient = new AsyncHttpClient();
 		httpClient.post(url, params, new JsonHttpResponseHandler() {
 

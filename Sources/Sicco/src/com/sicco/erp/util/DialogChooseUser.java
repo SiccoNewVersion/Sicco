@@ -244,6 +244,7 @@ public class DialogChooseUser {
 							AssignTaskActivity.txtViewer.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 							AssignTaskActivity.txtViewer.setText(strUsersView);
 						}else if (DialogChooseHandler.VIEW_CURRENT == 2) {
+							ConvertDispatchActivity.txtViewer.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
 							ConvertDispatchActivity.txtViewer.setText(strUsersView);
 						}
 						

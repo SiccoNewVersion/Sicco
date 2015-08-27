@@ -205,6 +205,8 @@ public class DialogChooseHandler {
 							
 						}else if (VIEW_CURRENT == 2){
 							ConvertDispatchActivity.txtHandler.setText(strUsersHandl);
+							ConvertDispatchActivity.txtHandler.setTextColor(Color.parseColor(context.getString(R.color.actionbar_color)));
+							
 						}
 					}
 					if (listChecked.isEmpty()) {
