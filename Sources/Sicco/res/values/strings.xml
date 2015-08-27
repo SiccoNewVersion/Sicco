@@ -133,6 +133,8 @@
     <string name="noi_dung">Nội dung:</string>
     <string name="info_update_status">Bạn là người theo dõi công việc, nên không được cập nhật trạng thái công việc</string>
     <string name="info_update_rate">Bạn là người theo dõi công việc, nên không được cập nhật tiến độ công việc</string>
+    <string name="not_update_status">Công việc đã hoàn thành bạn không thể cập nhật trạng thái.</string>
+    <string name="not_update_rate">Công việc đã hoàn thành bạn không thể cập nhật tiến độ.</string>
     <string name="active">Thực hiện</string>
     <string name="inactive">Tạm dừng</string>
     <string name="complete">Hoàn thành</string>

@@ -68,20 +68,23 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		setContentView(R.layout.activity_steer_report_task);
 
 		Intent intent = getIntent();
-		//get id notifi
+		// get id notifi
 		id_task = intent.getLongExtra("id_task", -1);
-		
+
 		init();
-		
-		//set id cong viec
-		if(id_task != -1){
+
+		// set id cong viec
+		if (id_task != -1) {
 			s_id_task = "" + id_task;
-			task = Task.getTaskById(SteerReportTaskActivity.this, getResources().getString(R.string.api_get_infor_task_by_id), s_id_task);
+			task = Task
+					.getTaskById(SteerReportTaskActivity.this, getResources()
+							.getString(R.string.api_get_infor_task_by_id),
+							s_id_task);
 		} else {
 			task = (Task) intent.getSerializableExtra("task");
 			s_id_task = "" + task.getId();
 		}
-		
+
 		setListReportSteer(s_id_task);
 	}
 
@@ -146,7 +149,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 
 	@Override
 	public void onClick(View v) {
-		
+
 		final String[] nguoithuchien = task.getNguoi_thuc_hien().split(",");
 		final String username = Utils.getString(SteerReportTaskActivity.this,
 				"name");
@@ -155,7 +158,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 				update_status_and_rate = true;
 			}
 		}
-		
+
 		int id = v.getId();
 		switch (id) {
 		case R.id.back:
@@ -171,46 +174,62 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 			sendReportSteer();
 			break;
 		case R.id.btnCapNhatTienDo:
-			if (update_status_and_rate) {
-				listProcess = new ArrayList<Status>();
-
-				String[] key = getResources().getStringArray(R.array.process_key);
-				String[] value = getResources().getStringArray(
-						R.array.process_value);
-				int max = key.length;
-				for (int i = 0; i < max; i++) {
-					listProcess.add(new Status(i + 1, key[i], value[i]));
-				}
-				
-				DialogSetProcess dialog = new DialogSetProcess(
-						SteerReportTaskActivity.this, listProcess, task);
-				dialog.showDialog();
-			} else {
+			if (task.getTrang_thai().equals("complete")) {
 				Toast.makeText(SteerReportTaskActivity.this,
-						getResources().getString(R.string.info_update_rate),
+						getResources().getString(R.string.not_update_rate),
 						Toast.LENGTH_SHORT).show();
+			} else {
+				if (update_status_and_rate) {
+					listProcess = new ArrayList<Status>();
+
+					String[] key = getResources().getStringArray(
+							R.array.process_key);
+					String[] value = getResources().getStringArray(
+							R.array.process_value);
+					int max = key.length;
+					for (int i = 0; i < max; i++) {
+						listProcess.add(new Status(i + 1, key[i], value[i]));
+					}
+
+					DialogSetProcess dialog = new DialogSetProcess(
+							SteerReportTaskActivity.this, listProcess, task);
+					dialog.showDialog();
+				} else {
+					Toast.makeText(
+							SteerReportTaskActivity.this,
+							getResources().getString(R.string.info_update_rate),
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 			break;
 		case R.id.btnThayDoiTrangThai:
-			if (update_status_and_rate) {
-				
-				listStatus = new ArrayList<Status>();
-
-				listStatus.add(new Status(0, "active", getResources().getString(
-						R.string.active)));
-				listStatus.add(new Status(1, "inactive", getResources().getString(
-						R.string.inactive)));
-				listStatus.add(new Status(2, "complete", getResources().getString(
-						R.string.complete)));
-				listStatus.add(new Status(3, "cancel", getResources().getString(
-						R.string.cancel)));
-				
-				new DialogChangeStatusTask(SteerReportTaskActivity.this,
-						listStatus, task);
-			} else {
+			if (task.getTrang_thai().equals("complete")) {
 				Toast.makeText(SteerReportTaskActivity.this,
-						getResources().getString(R.string.info_update_status),
+						getResources().getString(R.string.not_update_status),
 						Toast.LENGTH_SHORT).show();
+			} else {
+				if (update_status_and_rate) {
+
+					listStatus = new ArrayList<Status>();
+
+					listStatus.add(new Status(0, "active", getResources()
+							.getString(R.string.active)));
+					listStatus.add(new Status(1, "inactive", getResources()
+							.getString(R.string.inactive)));
+					listStatus.add(new Status(2, "complete", getResources()
+							.getString(R.string.complete)));
+					listStatus.add(new Status(3, "cancel", getResources()
+							.getString(R.string.cancel)));
+
+					new DialogChangeStatusTask(SteerReportTaskActivity.this,
+							listStatus, task);
+				} else {
+					Toast.makeText(
+							SteerReportTaskActivity.this,
+							getResources().getString(
+									R.string.info_update_status),
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 			break;
 		}
@@ -260,7 +279,8 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		if (!content.equals("")) {
 			try {
 				reportSteerTask.sendReport(SteerReportTaskActivity.this,
-						Long.parseLong(s_id_task), content, path, new OnLoadListener() {
+						Long.parseLong(s_id_task), content, path,
+						new OnLoadListener() {
 
 							@Override
 							public void onSuccess() {
@@ -317,7 +337,7 @@ public class SteerReportTaskActivity extends ChooseFileActivity implements
 		}
 
 	}
-	
+
 	@Override
 	protected void onResume() {
 		HomeActivity.checkDate(SteerReportTaskActivity.this);
