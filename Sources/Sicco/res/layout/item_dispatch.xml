@@ -44,7 +44,6 @@
             android:id="@+id/approval"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/approval_selector"
             android:gravity="center"
             android:text="@string/approval"
             android:textColor="@color/white"

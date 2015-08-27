@@ -60,9 +60,10 @@
             android:background="@color/white"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="SH cong van:"
             android:paddingTop="10dp"
-            android:textSize="16sp" />
+            android:text="SH cong van:"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/trichYeu"
@@ -71,8 +72,9 @@
             android:background="@color/white"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:textColor="@android:color/black"
             android:text="Trich yeu:"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/nguoiPheDuyet"
@@ -81,32 +83,32 @@
             android:background="@color/white"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:textColor="@android:color/black"
             android:text="Nguoi phe duyet:"
-            android:textSize="16sp" 
-            android:paddingBottom="10dp"/>
+            android:textSize="18sp" />
 
-        <!--
-             <TextView
+        <TextView
             android:id="@+id/nguoiXuLy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@android:color/black"
             android:text="Nguoi xu ly:"
-            android:textSize="16sp" />
-        -->
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/actionbar_color"
             android:gravity="center"
             android:padding="7dp"
             android:text="@string/bao_cao"
             android:textAllCaps="true"
-            android:textSize="18sp" 
-            android:textStyle="bold"/>
+            android:textColor="@color/actionbar_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"

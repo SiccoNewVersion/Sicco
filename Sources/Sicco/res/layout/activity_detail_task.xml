@@ -24,7 +24,7 @@
             android:layout_height="@dimen/actionbar_size"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/viec_da_giao"
+            android:text="@string/detail_task"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </FrameLayout>

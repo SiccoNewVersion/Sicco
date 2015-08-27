@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +85,16 @@ public class ActionAdapter extends BaseAdapter {
 
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
+		
+		String colorAction = context.getResources().getString(R.color.actionbar_color);
+		if (type == 1 && dispatch.getStatus().equals("2")) {
+			colorAction = context.getResources().getString(R.color.red);
+		}
+		
+		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, 0});
+        drawable.setColor(Color.parseColor(colorAction));
+        drawable.setCornerRadius(context.getResources().getDimension(R.dimen.item_size));
+		holder.approval.setBackgroundDrawable(drawable);
 
 		holder.approval.setOnClickListener(new OnClickListener() {
 

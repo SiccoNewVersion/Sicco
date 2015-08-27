@@ -109,15 +109,27 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		content.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_content) + "</i></u></b></font>" + " " + task.getMo_ta()));
 		assigner.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_assigner) + "</i></u></b></font>" + " " + task.getNguoi_giao()));
 		implementers.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_thuc_hien_cv) + "</i></u></b></font>" + " " + task.getNguoi_thuc_hien()));
-		assigned_at.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_assigned_at) + "</i></u></b></font>" + " " + task.getNgay_bat_dau()));
-		expired_at.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_expired_at) + "</i></u></b></font>" + " " + task.getNgay_ket_thuc()));
-		completed_infact.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_completed_infact) + "</i></u></b></font>" + " " + task.getNgay_httt()));
+		assigned_at.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_assigned_at) + "</i></u></b></font>" + " " + task.getNgay_bat_dau().substring(0, 10)));
+		expired_at.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_expired_at) + "</i></u></b></font>" + " " + task.getNgay_ket_thuc().substring(0, 10)));
+		if(!task.getNgay_httt().equals("null")){
+			completed_infact.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_completed_infact) + "</i></u></b></font>" + " " + task.getNgay_httt().substring(0, 10)));
+		} else {
+			completed_infact.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_completed_infact) + "</i></u></b></font>" + " " + task.getNgay_httt()));
+		}
 		process.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_process) + "</i></u></b></font>" + " " + task.getTien_do() + "%"));
 		if(task.getDinh_kem().equals("")){
 			attach_file.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_attach_file) + "</i></u></b></font>" + " " + getResources().getString(R.string.no_attach)));
 		} else {
 			File file = new File(task.getDinh_kem());
 			attach_file.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.task_attach_file) + "</i></u></b></font>" + " " + "<font color = '#358cd1'><u><i>" + file.getName() + "</i></u></font>"));
+		}
+		
+		if(!task.getTrang_thai().equals("complete")){
+			completed_infact.setVisibility(View.GONE);
+		}
+		
+		if(task.getTrang_thai().equals("complete")){
+			process.setVisibility(View.GONE);
 		}
 
 	}

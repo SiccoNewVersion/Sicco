@@ -129,6 +129,7 @@ public class AssignTaskActivity extends ChooseFileActivity implements
 		spinnerPriorityAdapter = new SpinnerPriorityAdapter(getApplicationContext(), listPriority);
 
 		spnPriority.setAdapter(spinnerPriorityAdapter);
+		spnPriority.setSelection(1);
 		spnPriority.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

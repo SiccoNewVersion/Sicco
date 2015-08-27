@@ -28,11 +28,11 @@
     <string name="data_empty">Không có dữ liệu.</string>
     <string name="nguoi_xu_ly">Người xử lý:</string>
     <string name="nguoi_phe_duyet">Người phê duyệt:</string>
-    <string name="sh_cong_van">SH công văn:</string>
+    <string name="sh_cong_van">Số hiệu:</string>
     <string name="trich_yeu">Trích yếu:</string>
     <string name="bao_cao"><u><b>D/s báo cáo xử lý:</b></u></string>
     <string name="chi_tiet_cong_van">Chi tiết công văn</string>
-    <string name="dang_xu_ly_trong_han">Đang xử lý trong hạn</string>
+    <string name="dang_xu_ly_trong_han">Đang xử lý</string>
     <string name="dang_xu_ly_qua_han">Đang xử lý quá hạn</string>
     <string name="hoan_thanh">Hoàn thành</string>
     <string name="tam_dung">Tạm dừng</string>
@@ -93,7 +93,7 @@
     
     <string name="choose_viewer">Chọn người xem</string>
     <string name="choose_handler">Chọn người xử lý</string>
-    <string name="choose_department">Chọn phòng ban</string>
+    <string name="choose_department">Chọn phòng ban phụ trách</string>
     <string name="set_date_handle">Đặt ngày thực hiện</string>
     <string name="set_date_finish">Đặt ngày kết thúc</string>
     <string name="set_priority">Đặt mức ưu tiên</string>
@@ -111,6 +111,8 @@
     <!-- End NgaDV -->
     
     <!-- LuanDT -->
+    <string name="ngaygiao">Ngày giao</string>
+    <string name="hancuoi">Hạn cuối</string>
     <string name="approval_dispatch">Phê công văn</string>
     <string name="truong_nay_khong_duoc_de_rong">Trường này không được để rỗng.</string>
     <string name="enter_title">Nhập tiêu đề</string>
@@ -208,12 +210,12 @@
     <string name="cv_handler">Người xử lý:</string>
     <string name="cv_handler_new_comment">Người bình luận:</string>
     <string name="chose_process">Tiến độ Công việc</string>
-    <string name="task_process">Tiến độ Công việc:</string>
-    <string name="task_title">Tiêu đề Công việc:</string>
-    <string name="task_content">Nội dung Công việc:</string>
+    <string name="task_process">Tiến độ:</string>
+    <string name="task_title">Công việc:</string>
+    <string name="task_content">Nội dung:</string>
     <string name="task_assigned_at">Ngày giao:</string>
     <string name="task_assigner">Người giao:</string>
-    <string name="task_completed_infact">Ngày hoàn thành thực tế:</string>
+    <string name="task_completed_infact">Ngày hoàn thành:</string>
     <string name="task_expired_at">Hạn cuối:</string>
     <string name="task_detail">Chi tiết Công việc</string>
     <string name="report_content">Nội dung các báo cáo</string>

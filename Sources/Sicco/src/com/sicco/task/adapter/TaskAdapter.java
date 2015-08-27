@@ -100,10 +100,10 @@ public class TaskAdapter extends BaseAdapter {
 				+ context.getResources().getString(R.string.nguoi_thuc_hien)
 				+ "</i></u></b></font>" + "  " + task.getNguoi_thuc_hien();
 		String date_handle = "<font weigth='bold'><b><u><i>"
-				+ context.getResources().getString(R.string.date_handle)
+				+ context.getResources().getString(R.string.ngaygiao)
 				+ "</i></u></b></font>" + ":  " + date_handle_no_time;
 		String date_finish = "<font weigth='bold'><b><u><i>"
-				+ context.getResources().getString(R.string.date_finish)
+				+ context.getResources().getString(R.string.hancuoi)
 				+ "</i></u></b></font>" + ":  " + date_finish_no_time;
 
 		holder.taskName.setText(task.getTen_cong_viec());

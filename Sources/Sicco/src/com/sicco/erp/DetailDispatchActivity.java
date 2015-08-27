@@ -50,7 +50,7 @@ public class DetailDispatchActivity extends Activity{
 		shCongVan  =(TextView) findViewById(R.id.shCongVan);
 		trichYeu  =(TextView) findViewById(R.id.trichYeu);
 		nguoiPheDuyet  =(TextView) findViewById(R.id.nguoiPheDuyet);
-//		nguoiXuLy  =(TextView) findViewById(R.id.nguoiXuLy);
+		nguoiXuLy  =(TextView) findViewById(R.id.nguoiXuLy);
 		baoCao = (ListView) findViewById(R.id.baoCao);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		emptyView = (TextView) findViewById(R.id.emptyView);
@@ -78,7 +78,7 @@ public class DetailDispatchActivity extends Activity{
 		shCongVan.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.sh_cong_van) + "</i></u></b></font>" + " " + dispatch.getNumberDispatch()));
 		trichYeu.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.trich_yeu) + "</i></u></b></font>" + " " + dispatch.getDescription()));
 		nguoiPheDuyet.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_phe_duyet) + "</i></u></b></font>" + " " + dispatch.getNguoi_phe_duyet()));
-//		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + " </i></u></b></font>" + dispatch.getHandler()));
+		nguoiXuLy.setText(Html.fromHtml("<font><b><u><i>" + getResources().getString(R.string.nguoi_xu_ly) + "</i></u></b></font>" + " " + dispatch.getHandler()));
 	}
 	
 	private void setListReportSteer(Dispatch dispatch) {

@@ -38,9 +38,11 @@
 			
             <Spinner
                 android:id="@+id/spnFilter"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center" 
                 android:popupBackground="@color/actionbar_color"
 				android:layoutMode="clipBounds"
