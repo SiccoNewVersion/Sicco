@@ -314,6 +314,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 		LichBieuCancelNotification(context);
 		cancelNotification(context, 4);
 		cancelNotification(context, 5);
+		cancelNotification(context, 6);
 	}
 
 	public static void checkDate(final Context context) {
