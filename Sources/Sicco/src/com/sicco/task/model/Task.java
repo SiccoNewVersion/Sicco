@@ -49,6 +49,13 @@ public class Task implements Serializable {
 	public Task(Context context) {
 		this.context = context;
 	}
+	
+	public Task(long id, String ten_cong_viec, String trang_thai) {
+		super();
+		this.id = id;
+		this.ten_cong_viec = ten_cong_viec;
+		this.trang_thai = trang_thai;
+	}
 
 	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
 			String nguoi_xem, String mo_ta) {

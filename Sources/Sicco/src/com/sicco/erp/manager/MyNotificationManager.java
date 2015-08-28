@@ -228,25 +228,64 @@ public class MyNotificationManager {
 		} else if (state == 3) {
 			noti = context.getResources().getString(R.string.cancel);
 		}
-		
+
 		noti.toLowerCase();
 		String da = context.getResources().getString(R.string.da);
 
 		message = ten + " " + da + " " + noti;
-		
+
 		int notifi_id = safeLongToInt(id);
-		if(notifi_id != 0){
+		if (notifi_id != 0) {
 			notify(context, notifi_id, 6);
 		}
-		
+
 	}
-	
+
+	public void notifyState(Context context, ArrayList<Task> data) {
+		int notification_count = data.size();
+		long id = 6;
+
+		String da = context.getResources().getString(R.string.da);
+		for (int i = 0; i < notification_count; i++) {
+
+			String tencv = data.get(i).getTen_cong_viec();
+			String state = data.get(i).getTrang_thai();
+			if (state.equals("inactive")) {
+				noti = context.getResources().getString(R.string.inactive);
+			} else if (state.equals("complete")) {
+				noti = context.getResources().getString(R.string.complete);
+			} else if (state.equals("cancel")) {
+				noti = context.getResources().getString(R.string.cancel);
+			}
+			id = data.get(i).getId();
+
+			Log.d("ToanNM", " === notifyState === " + state);
+			if (notification_count == 1) {
+//				
+				String cv = context.getResources().getString(R.string.congviec_1);
+				message = cv + " " +  da + " " +  noti + ":" + "\n";
+//
+				contentText = tencv + "\n";
+//
+			} else if (notification_count > 1) {
+				String cv = context.getResources().getString(R.string.congviec);
+				message = 2 + " " + cv + " " + da + " " + noti + ":" + "\n";
+
+				contentText = tencv + "\n";
+			}
+
+		}
+		int notifi_id = safeLongToInt(id);
+		if (notifi_id != 0) {
+			notify(context, notifi_id, 6);
+		}
+	}
+
 	private int safeLongToInt(long l) {
-	    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
-	        throw new IllegalArgumentException
-	            (l + " cannot be cast to int without changing its value.");
-	    }
-	    return (int) l;
+		if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+			throw new IllegalArgumentException(l + " cannot be cast to int without changing its value.");
+		}
+		return (int) l;
 	}
 
 	String getAllRunningService(Context context) {
@@ -285,7 +324,6 @@ public class MyNotificationManager {
 		} else if (notify_type == 6) {
 			notIntent = new Intent(context, OtherTaskActivity.class);
 		}
-		
 
 		notIntent.addFlags(flags);
 		// notIntent.putExtra("com.sicco.erp", 1);

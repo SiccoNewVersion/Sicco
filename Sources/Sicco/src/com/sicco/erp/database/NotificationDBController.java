@@ -47,6 +47,7 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	public static String DISPATCH_TABLE_NAME = "dispatch_tbl";
 	public static String TASK_TABLE_NAME = "task_tbl";
 	public static String REPORT_TABLE_NAME = "report_tbl";
+	public static String STATE_TABLE = "state_tbl";
 	
 	public static String ID_COL = "_id";
 	public static String DISPATCH_COL = "did";
@@ -121,12 +122,20 @@ public class NotificationDBController extends SQLiteOpenHelper {
 			+ REPORT_DATE + " text,"
 			+ REPORT_CONTENT + " text);";
 	
+	private static String CREATE_STATE_TABLE = "CREATE TABLE IF NOT EXISTS "
+			+ STATE_TABLE + "("
+			+ ID_COL + " integer primary key autoincrement,"
+			+ USERNAME_COL + " text,"
+			+ TASK_TENCONGVIEC + " text,"
+			+ TASK_STATE + " text);";
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE);
 		db.execSQL(CREATE_DISPATCH_TABLE);
 		db.execSQL(CREATE_TASK_TABLE);
 		db.execSQL(CREATE_REPORT_TABLE);
+		db.execSQL(CREATE_STATE_TABLE);
 	}
 
 	@Override
@@ -135,6 +144,7 @@ public class NotificationDBController extends SQLiteOpenHelper {
 		arg0.execSQL("DROP TABLE IF EXISTS " + DISPATCH_TABLE_NAME);
 		arg0.execSQL("DROP TABLE IF EXISTS " + TASK_TABLE_NAME);
 		arg0.execSQL("DROP TABLE IF EXISTS " + REPORT_TABLE_NAME);
+		arg0.execSQL("DROP TABLE IF EXISTS " + STATE_TABLE);
 		onCreate(arg0);
 	}
 	
@@ -218,7 +228,7 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	    sdb.delete(TABLE_NAME, null, null);
 	    sdb.delete(DISPATCH_TABLE_NAME, null, null);
 	    sdb.delete(TASK_TABLE_NAME, null, null);
-//	    sdb.delete(REPORT_TABLE_NAME, null, null);
+	    sdb.delete(STATE_TABLE, null, null);
 	    deleteReportData();
 	}
 	

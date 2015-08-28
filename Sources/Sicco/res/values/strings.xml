@@ -184,6 +184,7 @@
     <string name="api_get_task">http://office.sinco.pro.vn/api_distpatch/danhsachcongviec.php</string>
     <string name="api_get_cv_duoc_giao">http://office.sinco.pro.vn/api_distpatch/dscongviecduocgiao.php</string>
     <string name="api_get_steer_report_task">http://office.sinco.pro.vn/api_distpatch/binhluan.php</string>
+    <string name="api_get_state">http://office.sinco.pro.vn/api_distpatch/danhsachviecdagiao2.php</string>
     <string name="api_add_task">http://office.sinco.pro.vn/api_distpatch/giaoviec.php</string>
     <string name="api_send_comment_task">http://office.sinco.pro.vn/api_distpatch/gblcongviec.php</string>
     <string name="api_update_status">http://office.sinco.pro.vn/api_distpatch/tdttcongviec.php</string>
@@ -205,6 +206,7 @@
     <string name="notify_new_comment_msg">đã bình luận</string> 
     <string name="in">trong</string>
     <string name="congviec">công việc</string>
+    <string name="congviec_1">Công việc</string>
     <string name="ten_cv">Tên Công Việc:</string>
     <string name="nguoi_xem_cv">Người xem:</string>
     <string name="nguoi_thuc_hien_cv">Người thực hiện:</string>

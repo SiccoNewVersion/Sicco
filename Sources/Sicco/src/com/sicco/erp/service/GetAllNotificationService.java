@@ -36,19 +36,17 @@ import com.sicco.task.model.ReportSteerTask;
 import com.sicco.task.model.Task;
 
 public class GetAllNotificationService extends Service {
-	private String url_get_notification = "", url_get_congviec = "",
-			url_get_binhluan = "";
+	private String url_get_notification = "", url_get_congviec = "", url_get_binhluan = "", url_get_state = "";
 	private Cursor cursor;
 	private NotificationDBController db;
 	// ArrayList and variable to getCount
 	private ArrayList<NotificationModel> congVanXuLy_list;
 	private ArrayList<NotificationModel> congVanCanPhe_list;
 
-	private ArrayList<Task> taskData;
+	private ArrayList<Task> taskData, stateData;
 	private ArrayList<ReportSteerTask> reportData;
 	// count
-	static String CONGVIEC = "congviec", CONGVAN = "congvan",
-			LICHBIEU = "lichbieu";
+	static String CONGVIEC = "congviec", CONGVAN = "congvan", LICHBIEU = "lichbieu";
 	//
 	long id;
 	int total;
@@ -90,6 +88,7 @@ public class GetAllNotificationService extends Service {
 		CongVanXuLyAsync();
 		// CacLoaiAsync();
 		CongViecAsync();
+		StateAsync();
 		BinhLuanAsync();
 
 		if (intent != null) {
@@ -110,128 +109,110 @@ public class GetAllNotificationService extends Service {
 
 	void CongVanCanPheAsync() {
 		AsyncHttpClient handler = new AsyncHttpClient();
-		url_get_notification = getResources().getString(
-				R.string.api_get_dispatch_approval);
+		url_get_notification = getResources().getString(R.string.api_get_dispatch_approval);
 
 		congVanCanPhe_list = new ArrayList<NotificationModel>();
 
 		RequestParams params = new RequestParams();
-		String username = Utils.getString(getApplicationContext(),
-				SessionManager.KEY_NAME);
+		String username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
 		params.add("username", username);
 
-		handler.post(getApplicationContext(), url_get_notification, params,
-				new JsonHttpResponseHandler() {
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							JSONObject response) {
-						String st = response.toString();
+		handler.post(getApplicationContext(), url_get_notification, params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				String st = response.toString();
 
-						try {
-							JSONObject json = new JSONObject(st);
-							total = json.getInt("total");
-							JSONArray rows = json.getJSONArray("row");
-							for (int i = 0; i < rows.length(); i++) {
-								JSONObject row = rows.getJSONObject(i);
-								// get all data
-								long id = row.getInt("id");
-								String soHieuCongVan = row.getString("so_hieu");
-								String trichYeu = row.getString("trich_yeu");
-								String dinhKem = row.getString("content");
-								String ngayDenSicco = row.getString("ngay_den");
-								String trangThai = row.getString("status");
-								String pheduyet = row.getString("phe_duyet");
+				try {
+					JSONObject json = new JSONObject(st);
+					total = json.getInt("total");
+					JSONArray rows = json.getJSONArray("row");
+					for (int i = 0; i < rows.length(); i++) {
+						JSONObject row = rows.getJSONObject(i);
+						// get all data
+						long id = row.getInt("id");
+						String soHieuCongVan = row.getString("so_hieu");
+						String trichYeu = row.getString("trich_yeu");
+						String dinhKem = row.getString("content");
+						String ngayDenSicco = row.getString("ngay_den");
+						String trangThai = row.getString("status");
+						String pheduyet = row.getString("phe_duyet");
 
-								if (pheduyet.equals("0")) {
-									congVanCanPhe_list
-											.add(new NotificationModel(id, 1,
-													soHieuCongVan, trichYeu,
-													dinhKem, ngayDenSicco,
-													trangThai));
-								}
-							}
-							origanizeNoti(congVanCanPhe_list,
-									congVanCanPhe_list.size(), 1);
-							saveInt(1, total);
-						} catch (Exception e) {
-							e.printStackTrace();
+						if (pheduyet.equals("0")) {
+							congVanCanPhe_list.add(new NotificationModel(id, 1, soHieuCongVan, trichYeu, dinhKem,
+									ngayDenSicco, trangThai));
 						}
-
-						super.onSuccess(statusCode, headers, response);
 					}
+					origanizeNoti(congVanCanPhe_list, congVanCanPhe_list.size(), 1);
+					saveInt(1, total);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							Throwable throwable, JSONObject errorResponse) {
+				super.onSuccess(statusCode, headers, response);
+			}
 
-						super.onFailure(statusCode, headers, throwable,
-								errorResponse);
-					}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 
-				});
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+		});
 
 	}
 
 	void CongVanXuLyAsync() {
 		AsyncHttpClient handler = new AsyncHttpClient();
-		url_get_notification = getResources().getString(
-				R.string.api_get_dispatch_handle);
+		url_get_notification = getResources().getString(R.string.api_get_dispatch_handle);
 
 		congVanXuLy_list = new ArrayList<NotificationModel>();
 
 		RequestParams params = new RequestParams();
-		String username = Utils.getString(getApplicationContext(),
-				SessionManager.KEY_NAME);
+		String username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
 		params.add("username", username);
 
-		handler.post(getApplicationContext(), url_get_notification, params,
-				new JsonHttpResponseHandler() {
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							JSONObject response) {
-						String st = response.toString();
+		handler.post(getApplicationContext(), url_get_notification, params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				String st = response.toString();
 
-						try {
-							JSONObject json = new JSONObject(st);
-							total = json.getInt("total");
-							JSONArray rows = json.getJSONArray("row");
-							for (int i = 0; i < rows.length(); i++) {
-								JSONObject row = rows.getJSONObject(i);
-								// get all data
-								long id = row.getInt("id");
-								String soHieuCongVan = row.getString("so_hieu");
-								String trichYeu = row.getString("trich_yeu");
-								String dinhKem = row.getString("content");
-								String ngayDenSicco = row.getString("ngay_den");
-								String trangThai = row.getString("status");
+				try {
+					JSONObject json = new JSONObject(st);
+					total = json.getInt("total");
+					JSONArray rows = json.getJSONArray("row");
+					for (int i = 0; i < rows.length(); i++) {
+						JSONObject row = rows.getJSONObject(i);
+						// get all data
+						long id = row.getInt("id");
+						String soHieuCongVan = row.getString("so_hieu");
+						String trichYeu = row.getString("trich_yeu");
+						String dinhKem = row.getString("content");
+						String ngayDenSicco = row.getString("ngay_den");
+						String trangThai = row.getString("status");
 
-//								if (trangThai.equals("2")) {
-									congVanXuLy_list.add(new NotificationModel(
-											id, 2, soHieuCongVan, trichYeu,
-											dinhKem, ngayDenSicco, trangThai));
-//								}
+						// if (trangThai.equals("2")) {
+						congVanXuLy_list.add(new NotificationModel(id, 2, soHieuCongVan, trichYeu, dinhKem,
+								ngayDenSicco, trangThai));
+						// }
 
-							}
-							origanizeNoti(congVanXuLy_list,
-									congVanXuLy_list.size(), 2);
-							saveInt(2, total);
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						super.onSuccess(statusCode, headers, response);
 					}
+					origanizeNoti(congVanXuLy_list, congVanXuLy_list.size(), 2);
+					saveInt(2, total);
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							Throwable throwable, JSONObject errorResponse) {
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-						super.onFailure(statusCode, headers, throwable,
-								errorResponse);
-					}
+				super.onSuccess(statusCode, headers, response);
+			}
 
-				});
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+		});
 
 	}
 
@@ -243,14 +224,12 @@ public class GetAllNotificationService extends Service {
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
-		params.add("user_id",
-				Utils.getString(getApplicationContext(), "user_id"));
+		params.add("user_id", Utils.getString(getApplicationContext(), "user_id"));
 		params.add("username", Utils.getString(getApplicationContext(), "name"));
 
 		client.post(url_get_congviec, params, new JsonHttpResponseHandler() {
 			@Override
-			public void onSuccess(int statusCode, Header[] headers,
-					JSONObject response) {
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				String jsonRead = response.toString();
 				if (!jsonRead.isEmpty()) {
 					try {
@@ -260,10 +239,8 @@ public class GetAllNotificationService extends Service {
 						for (int i = 0; i < rows.length(); i++) {
 							JSONObject row = rows.getJSONObject(i);
 							String id = "";
-							String ten_cong_viec = row
-									.getString("ten_cong_viec");
-							String nguoi_thuc_hien = row
-									.getString("nguoi_thuc_hien");
+							String ten_cong_viec = row.getString("ten_cong_viec");
+							String nguoi_thuc_hien = row.getString("nguoi_thuc_hien");
 							String nguoi_xem = row.getString("nguoi_xem");
 							String mo_ta = row.getString("mo_ta");
 							String trang_thai = row.getString("trang_thai");
@@ -272,74 +249,48 @@ public class GetAllNotificationService extends Service {
 								id = row.getString("id");
 							}
 							// add to db
-							db = NotificationDBController
-									.getInstance(getApplicationContext());
-							username = Utils.getString(getApplicationContext(),
-									SessionManager.KEY_NAME);
+							db = NotificationDBController.getInstance(getApplicationContext());
+							username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
 
 							if (!id.equals("")) {
-								String sql = "Select * from "
-										+ NotificationDBController.TASK_TABLE_NAME
-										+ " where "
-										+ NotificationDBController.TRANGTHAI_COL
-										+ " = \"new\"" + " and "
-										+ NotificationDBController.ID_COL
-										+ " = " + id + " and "
-										+ NotificationDBController.TASK_STATE
-										+ " = \"active\"" + " and "
-										+ NotificationDBController.USERNAME_COL
-										+ " = \"" + username + "\"";
+								String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+										+ NotificationDBController.TRANGTHAI_COL + " = \"new\"" + " and "
+										+ NotificationDBController.ID_COL + " = " + id + " and "
+										+ NotificationDBController.TASK_STATE + " = \"active\"" + " and "
+										+ NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 								cursor = db.rawQuery(sql, null);
 
 								if (cursor != null && cursor.getCount() > 0) {
 
 								} else {
 									ContentValues values = new ContentValues();
-									values.put(NotificationDBController.ID_COL,
-											id);
-									values.put(
-											NotificationDBController.USERNAME_COL,
-											username);
-									values.put(
-											NotificationDBController.TASK_TENCONGVIEC,
-											ten_cong_viec);
-									values.put(
-											NotificationDBController.TASK_NGUOIXEM,
-											nguoi_xem);
-									values.put(
-											NotificationDBController.TASK_NGUOITHUCHIEN,
-											nguoi_thuc_hien);
-									values.put(
-											NotificationDBController.TASK_STATE,
-											trang_thai);
-									values.put(
-											NotificationDBController.TRANGTHAI_COL,
+									values.put(NotificationDBController.ID_COL, id);
+									values.put(NotificationDBController.USERNAME_COL, username);
+									values.put(NotificationDBController.TASK_TENCONGVIEC, ten_cong_viec);
+									values.put(NotificationDBController.TASK_NGUOIXEM, nguoi_xem);
+									values.put(NotificationDBController.TASK_NGUOITHUCHIEN, nguoi_thuc_hien);
+									values.put(NotificationDBController.TASK_STATE, trang_thai);
+									values.put(NotificationDBController.TRANGTHAI_COL,
 											NotificationDBController.NOTIFICATION_STATE_NEW);
 
-									long resultInsert = db
-											.insert(NotificationDBController.TASK_TABLE_NAME,
-													null, values);
+									long resultInsert = db.insert(NotificationDBController.TASK_TABLE_NAME, null,
+											values);
 									if (resultInsert != -1) {
 										insertedTask = true;
-										Log.d("LuanDT",
-												"---->>>>>inserted table cv");
+										Log.d("LuanDT", "---->>>>>inserted table cv");
 
-										taskData.add(new Task(Long
-												.parseLong(id), ten_cong_viec,
-												nguoi_thuc_hien, nguoi_xem,
-												mo_ta));
+										taskData.add(new Task(Long.parseLong(id), ten_cong_viec, nguoi_thuc_hien,
+												nguoi_xem, mo_ta));
 									}
 
 								}
 							}
 						}
 
-						boolean firstRun = Utils.getBoolean(
-								getApplicationContext(), "FIRSTRUN", true);
+						boolean firstRun = Utils.getBoolean(getApplicationContext(), "FIRSTRUN", true);
 						if (firstRun) {
 							Log.d("LuanDT", "firstRun");
-							Utils.saveBoolean(getApplicationContext(),
-									"FIRSTRUN", false);
+							Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", false);
 							origanizeCongViecNoti(taskData, taskData.size());
 							saveCVInt(taskData.size());
 						} else {
@@ -360,8 +311,7 @@ public class GetAllNotificationService extends Service {
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					Throwable throwable, JSONObject errorResponse) {
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
@@ -371,15 +321,10 @@ public class GetAllNotificationService extends Service {
 	public void CongViec(String username) {
 		int count = 0;
 		db = NotificationDBController.getInstance(getApplicationContext());
-		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null,
-				null, null, null, null);
-		String sql = "Select * from "
-				+ NotificationDBController.TASK_TABLE_NAME + " where "
-				+ NotificationDBController.TRANGTHAI_COL + " = \"new\""
-				+ " and " + NotificationDBController.TASK_STATE
-				+ " = \"active\"" + " and "
-				+ NotificationDBController.USERNAME_COL + " = \"" + username
-				+ "\"";
+		cursor = db.query(NotificationDBController.TASK_TABLE_NAME, null, null, null, null, null, null);
+		String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.TRANGTHAI_COL + " = \"new\"" + " and " + NotificationDBController.TASK_STATE
+				+ " = \"active\"" + " and " + NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		// origanizeNoti(cacLoai_list, count);
@@ -395,16 +340,13 @@ public class GetAllNotificationService extends Service {
 		url_get_binhluan = getResources().getString(R.string.api_tatcabinhluan);
 		reportData = new ArrayList<ReportSteerTask>();
 		RequestParams params = new RequestParams();
-		params.add("user_id",
-				Utils.getString(GetAllNotificationService.this, "user_id"));
-		params.add("username",
-				Utils.getString(GetAllNotificationService.this, "name"));
+		params.add("user_id", Utils.getString(GetAllNotificationService.this, "user_id"));
+		params.add("username", Utils.getString(GetAllNotificationService.this, "name"));
 		// Log.d("LuanDT", "params: " + params);
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post(url_get_binhluan, params, new JsonHttpResponseHandler() {
 			@Override
-			public void onSuccess(int statusCode, Header[] headers,
-					JSONObject response) {
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				String jsonRead = response.toString();
 				// Log.d("LuanDT", "jsonRead: " + jsonRead);
 				if (!jsonRead.isEmpty()) {
@@ -424,16 +366,10 @@ public class GetAllNotificationService extends Service {
 							date = date.substring(0, 10);
 							// add to db
 
-							String username = Utils.getString(
-									getApplicationContext(),
-									SessionManager.KEY_NAME);
-							String sql = "Select * from "
-									+ NotificationDBController.REPORT_TABLE_NAME
-									+ " where "
-									+ NotificationDBController.ID_COL + " = "
-									+ id + " and "
-									+ NotificationDBController.USERNAME_COL
-									+ " = \"" + username + "\"";
+							String username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
+							String sql = "Select * from " + NotificationDBController.REPORT_TABLE_NAME + " where "
+									+ NotificationDBController.ID_COL + " = " + id + " and "
+									+ NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 							cursor = db.rawQuery(sql, null);
 
 							if (cursor != null && cursor.getCount() > 0) {
@@ -441,36 +377,22 @@ public class GetAllNotificationService extends Service {
 							} else {
 								ContentValues values = new ContentValues();
 								values.put(NotificationDBController.ID_COL, id);
-								values.put(
-										NotificationDBController.USERNAME_COL,
-										username);
-								values.put(
-										NotificationDBController.REPORT_CONTENT,
-										content);
-								values.put(
-										NotificationDBController.REPORT_DATE,
-										date);
-								values.put(
-										NotificationDBController.REPORT_HANDLER,
-										handler);
+								values.put(NotificationDBController.USERNAME_COL, username);
+								values.put(NotificationDBController.REPORT_CONTENT, content);
+								values.put(NotificationDBController.REPORT_DATE, date);
+								values.put(NotificationDBController.REPORT_HANDLER, handler);
 
-								long insertResult = db
-										.insert(NotificationDBController.REPORT_TABLE_NAME,
-												null, values);
+								long insertResult = db.insert(NotificationDBController.REPORT_TABLE_NAME, null, values);
 								if (insertResult != -1) {
 									inserted = true;
-									Log.d("LuanDT",
-											"inserted comment ---->show noti binh luan");
-									reportData.add(new ReportSteerTask(Long
-											.parseLong(id), handler, content,
-											id_cv));
+									Log.d("LuanDT", "inserted comment ---->show noti binh luan");
+									reportData.add(new ReportSteerTask(Long.parseLong(id), handler, content, id_cv));
 								}
 							}
 
 						}
 						if (inserted) {
-							Log.d("LuanDT",
-									"data comment: " + reportData.size());
+							Log.d("LuanDT", "data comment: " + reportData.size());
 							origanizeBinhLuanNoti(reportData, reportData.size());
 						}
 					} catch (JSONException e) {
@@ -481,8 +403,89 @@ public class GetAllNotificationService extends Service {
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					Throwable throwable, JSONObject errorResponse) {
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+		});
+
+	}
+
+	void StateAsync() {
+
+		url_get_state = getResources().getString(R.string.api_get_state);
+		stateData = new ArrayList<Task>();
+		stateData.clear();
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.add("user_id", Utils.getString(getApplicationContext(), "user_id"));
+		params.add("username", Utils.getString(getApplicationContext(), "name"));
+
+		Log.d("MyDebug", "StateAsync");
+
+		client.post(url_get_state, params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				String jsonRead = response.toString();
+				Log.d("MyDebug", "json ======= : " + jsonRead);
+				if (!jsonRead.isEmpty()) {
+					try {
+						JSONObject object = new JSONObject(jsonRead);
+						total = object.getInt("total");
+						JSONArray rows = object.getJSONArray("row");
+
+						for (int i = 0; i < rows.length(); i++) {
+							JSONObject row = rows.getJSONObject(i);
+							String id = row.getString("id");
+							String ten_cong_viec = row.getString("ten_cong_viec");
+							String trang_thai = row.getString("trang_thai");
+							// add to db
+							db = NotificationDBController.getInstance(getApplicationContext());
+							username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
+
+							String sql = "Select * from " + NotificationDBController.STATE_TABLE + " where "
+									+ NotificationDBController.ID_COL + " = " + id;
+							cursor = db.rawQuery(sql, null);
+
+							if (cursor != null && cursor.getCount() > 0) {
+
+							} else {
+								ContentValues values = new ContentValues();
+								values.put(NotificationDBController.ID_COL, id);
+								values.put(NotificationDBController.USERNAME_COL, username);
+								values.put(NotificationDBController.TASK_TENCONGVIEC, ten_cong_viec);
+								values.put(NotificationDBController.TASK_STATE, trang_thai);
+
+								long resultInsert = db.insert(NotificationDBController.STATE_TABLE, null, values);
+								if (resultInsert != -1) {
+									insertedTask = true;
+									Log.d("LuanDT", "---->>>>>inserted table cv");
+
+									stateData.add(new Task(Long.parseLong(id), ten_cong_viec, trang_thai));
+								}
+
+							}
+						}
+
+						boolean firstRun = Utils.getBoolean(getApplicationContext(), "FIRSTRUN", true);
+						if (firstRun) {
+							Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", false);
+							origanizeCongViecStateNoti(stateData, stateData.size());
+						} else {
+							if (insertedTask) {
+								origanizeCongViecStateNoti(stateData, stateData.size());
+
+							}
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
@@ -492,36 +495,23 @@ public class GetAllNotificationService extends Service {
 	void initCVData(ArrayList<Task> data, String username) {
 		db = NotificationDBController.getInstance(getApplicationContext());
 		taskData = new ArrayList<Task>();
-		cursor = db.query(NotificationDBController.TABLE_NAME, null, null,
-				null, null, null, null);
-		String sql = "Select * from "
-				+ NotificationDBController.TASK_TABLE_NAME + " where "
-				+ NotificationDBController.TRANGTHAI_COL + " = \"new\""
-				+ " and " + NotificationDBController.TASK_STATE
-				+ " = \"active\"" + " and "
-				+ NotificationDBController.USERNAME_COL + " = \"" + username
-				+ "\"";
+		cursor = db.query(NotificationDBController.TABLE_NAME, null, null, null, null, null, null);
+		String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.TRANGTHAI_COL + " = \"new\"" + " and " + NotificationDBController.TASK_STATE
+				+ " = \"active\"" + " and " + NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 		cursor = db.rawQuery(sql, null);
 		if (cursor.moveToFirst()) {
 			do {
-				String id = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.ID_COL));
+				String id = cursor.getString(cursor.getColumnIndexOrThrow(NotificationDBController.ID_COL));
 				String ten_cong_viec = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.TASK_TENCONGVIEC));
+						.getString(cursor.getColumnIndexOrThrow(NotificationDBController.TASK_TENCONGVIEC));
 				String nguoi_xem = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.TASK_NGUOIXEM));
+						.getString(cursor.getColumnIndexOrThrow(NotificationDBController.TASK_NGUOIXEM));
 				String nguoi_thuc_hien = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.TASK_NGUOITHUCHIEN));
-				String mo_ta = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(NotificationDBController.TASK_CONTENT));
+						.getString(cursor.getColumnIndexOrThrow(NotificationDBController.TASK_NGUOITHUCHIEN));
+				String mo_ta = cursor.getString(cursor.getColumnIndexOrThrow(NotificationDBController.TASK_CONTENT));
 				// add to arraylist
-				taskData.add(new Task(Long.parseLong(id), ten_cong_viec,
-						nguoi_thuc_hien, nguoi_xem, mo_ta));
+				taskData.add(new Task(Long.parseLong(id), ten_cong_viec, nguoi_thuc_hien, nguoi_xem, mo_ta));
 			} while (cursor.moveToNext());
 		}
 		// origanizeCongViecNoti(taskData, taskData.size());
@@ -530,8 +520,7 @@ public class GetAllNotificationService extends Service {
 
 	}
 
-	void origanizeBinhLuanNoti(ArrayList<ReportSteerTask> data,
-			int notification_count) {
+	void origanizeBinhLuanNoti(ArrayList<ReportSteerTask> data, int notification_count) {
 		sereprateBinhLuanList(data, notification_count);
 		Log.d("LuanDT", "origanizeBinhLuanNoti");
 	}
@@ -548,19 +537,19 @@ public class GetAllNotificationService extends Service {
 		getTotalNotification();
 	}
 
+	void origanizeCongViecStateNoti(ArrayList<Task> data, int notification_count) {
+		sereprateCongViecState(data, notification_count);
+	}
+
 	ArrayList<Dispatch> dData;
 
 	void cacLoai(String username) {
 		int count = 0;
 		db = NotificationDBController.getInstance(getApplicationContext());
-		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null,
-				null, null, null, null, null);
-		String sql = "Select * from "
-				+ NotificationDBController.DISPATCH_TABLE_NAME + " where "
-				+ NotificationDBController.DSTATE_COL + " = \"new\"" + " and "
-				+ NotificationDBController.D_TYPE_COL + " = " + 1 + " and "
-				+ NotificationDBController.USERNAME_COL + " = \"" + username
-				+ "\"";
+		cursor = db.query(NotificationDBController.DISPATCH_TABLE_NAME, null, null, null, null, null, null);
+		String sql = "Select * from " + NotificationDBController.DISPATCH_TABLE_NAME + " where "
+				+ NotificationDBController.DSTATE_COL + " = \"new\"" + " and " + NotificationDBController.D_TYPE_COL
+				+ " = " + 1 + " and " + NotificationDBController.USERNAME_COL + " = \"" + username + "\"";
 		cursor = db.rawQuery(sql, null);
 		count = cursor.getCount();
 		// ================================================= \\
@@ -595,8 +584,7 @@ public class GetAllNotificationService extends Service {
 
 	}
 
-	void origanizeNoti(ArrayList<NotificationModel> data,
-			int notification_count, int type) {
+	void origanizeNoti(ArrayList<NotificationModel> data, int notification_count, int type) {
 		sereprateList(data, notification_count, type);
 		notifyBR = new NotifyBR();
 		IntentFilter intentFilter = new IntentFilter("acb");
@@ -605,13 +593,11 @@ public class GetAllNotificationService extends Service {
 		sendBroadcast(i);
 	}
 
-	void sereprateList(ArrayList<NotificationModel> data,
-			int notification_count, int type) {
+	void sereprateList(ArrayList<NotificationModel> data, int notification_count, int type) {
 		int size = data.size();
 		if (action == 1 && size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
-			myNotificationManager.notifyType(getApplicationContext(), data,
-					notification_count);
+			myNotificationManager.notifyType(getApplicationContext(), data, notification_count);
 		}
 		if (size == 0) {
 			cancelNotification(getApplicationContext(), type);
@@ -623,8 +609,7 @@ public class GetAllNotificationService extends Service {
 		int size = data.size();
 		if (action == 1 && size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
-			myNotificationManager.notifyCacLoai(getApplicationContext(), data,
-					notification_count);
+			myNotificationManager.notifyCacLoai(getApplicationContext(), data, notification_count);
 		}
 		if (size == 0) {
 			cancelNotification(getApplicationContext(), 3);
@@ -642,8 +627,15 @@ public class GetAllNotificationService extends Service {
 		}
 	}
 
-	void sereprateBinhLuanList(ArrayList<ReportSteerTask> data,
-			int notification_count) {
+	void sereprateCongViecState(ArrayList<Task> data, int notification_count) {
+		int size = data.size();
+		if (action == 1 && size != 0) {
+			MyNotificationManager myNotificationManager = new MyNotificationManager();
+			myNotificationManager.notifyState(getApplicationContext(), data);
+		}
+	}
+
+	void sereprateBinhLuanList(ArrayList<ReportSteerTask> data, int notification_count) {
 		int size = data.size();
 		if (action == 1 && size != 0) {
 			MyNotificationManager myNotificationManager = new MyNotificationManager();
