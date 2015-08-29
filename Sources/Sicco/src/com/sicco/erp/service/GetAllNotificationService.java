@@ -412,6 +412,9 @@ public class GetAllNotificationService extends Service {
 
 	void StateAsync() {
 
+		db = NotificationDBController.getInstance(getApplicationContext());
+		db.deleteStateData();
+
 		url_get_state = getResources().getString(R.string.api_get_state);
 		stateData = new ArrayList<Task>();
 		stateData.clear();
@@ -438,13 +441,18 @@ public class GetAllNotificationService extends Service {
 							JSONObject row = rows.getJSONObject(i);
 							String id = row.getString("id");
 							String ten_cong_viec = row.getString("ten_cong_viec");
+							String ngay_ket_thuc = row.getString("ngay_ket_thuc");
 							String trang_thai = row.getString("trang_thai");
+							String nguoi_xem = row.getString("nguoi_xem");
+							String nguoi_thuc_hien = row.getString("nguoi_thuc_hien");
+							String mo_ta = row.getString("mo_ta");
 							// add to db
 							db = NotificationDBController.getInstance(getApplicationContext());
 							username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
 
-							String sql = "Select * from " + NotificationDBController.STATE_TABLE + " where "
-									+ NotificationDBController.ID_COL + " = " + id;
+							String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+									+ NotificationDBController.ID_COL + " = " + id + " and "
+									+ NotificationDBController.TASK_STATE + " != \"" + "active" + "\"";
 							cursor = db.rawQuery(sql, null);
 
 							if (cursor != null && cursor.getCount() > 0) {
@@ -454,14 +462,19 @@ public class GetAllNotificationService extends Service {
 								values.put(NotificationDBController.ID_COL, id);
 								values.put(NotificationDBController.USERNAME_COL, username);
 								values.put(NotificationDBController.TASK_TENCONGVIEC, ten_cong_viec);
+								values.put(NotificationDBController.REPORT_DATE, ngay_ket_thuc);
 								values.put(NotificationDBController.TASK_STATE, trang_thai);
+								values.put(NotificationDBController.TRANGTHAI_COL,
+										NotificationDBController.NOTIFICATION_STATE_NEW);
 
-								long resultInsert = db.insert(NotificationDBController.STATE_TABLE, null, values);
+								long resultInsert = db.insert(NotificationDBController.TASK_TABLE_NAME, null, values);
 								if (resultInsert != -1) {
 									insertedTask = true;
 									Log.d("LuanDT", "---->>>>>inserted table cv");
 
-									stateData.add(new Task(Long.parseLong(id), ten_cong_viec, trang_thai));
+//									stateData.add(new Task(Long.parseLong(id), ten_cong_viec, trang_thai));
+									stateData.add(new Task(Long.parseLong(id), ten_cong_viec, nguoi_thuc_hien,
+											nguoi_xem, mo_ta, trang_thai));
 								}
 
 							}

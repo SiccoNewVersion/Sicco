@@ -50,13 +50,6 @@ public class Task implements Serializable {
 		this.context = context;
 	}
 	
-	public Task(long id, String ten_cong_viec, String trang_thai) {
-		super();
-		this.id = id;
-		this.ten_cong_viec = ten_cong_viec;
-		this.trang_thai = trang_thai;
-	}
-
 	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
 			String nguoi_xem, String mo_ta) {
 		super();
@@ -65,6 +58,17 @@ public class Task implements Serializable {
 		this.nguoi_thuc_hien = nguoi_thuc_hien;
 		this.nguoi_xem = nguoi_xem;
 		this.mo_ta = mo_ta;
+	}
+
+	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
+			String nguoi_xem, String mo_ta, String trang_thai) {
+		super();
+		this.id = id;
+		this.ten_cong_viec = ten_cong_viec;
+		this.nguoi_thuc_hien = nguoi_thuc_hien;
+		this.nguoi_xem = nguoi_xem;
+		this.mo_ta = mo_ta;
+		this.trang_thai = trang_thai;
 	}
 
 	public Task(long id, String ten_cong_viec, String nguoi_thuc_hien,
