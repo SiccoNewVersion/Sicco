@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,6 +63,12 @@ public class DispatchAdapter extends BaseAdapter {
 		
 		holder.title.setText(dispatch.getNumberDispatch());
 		holder.description.setText(dispatch.getDescription());
+		
+		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, 0});
+        drawable.setColor(Color.parseColor(context.getResources().getString(R.color.actionbar_color)));
+        drawable.setCornerRadius(context.getResources().getDimension(R.dimen.item_size));
+		holder.approval.setBackgroundDrawable(drawable);
+		
 		holder.approval.setOnClickListener(new OnClickListener() {
 			
 			@Override
