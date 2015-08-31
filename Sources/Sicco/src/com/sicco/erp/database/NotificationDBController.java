@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,13 +30,14 @@ public class NotificationDBController extends SQLiteOpenHelper {
 	
 	private SQLiteDatabase mDatabase;
 	private static NotificationDBController sInstance;
-//	private Context mContext;
+	private static Context mContext;
 	public NotificationDBController(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		mDatabase = getWritableDatabase();
 //		mContext = context;
 	}
 	public static NotificationDBController getInstance(Context context){
+		mContext = context;
 		if(sInstance == null) {
 			sInstance = new NotificationDBController(context);
 		}
@@ -253,7 +255,14 @@ public class NotificationDBController extends SQLiteOpenHelper {
 				+ " != \"" + currentDate + "\"", null);
 	}
 	
-	String getCurrentDate(){
+	void cancelNotification(Context context, int id) {
+		String notificationServiceStr = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(notificationServiceStr);
+		mNotificationManager.cancel(id);
+	}
+	
+	public String getCurrentDate(){
 		String currentDate = "";
 		try {
 			SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");

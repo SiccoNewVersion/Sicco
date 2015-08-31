@@ -31,6 +31,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +44,6 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HomeActivity extends Activity implements OnClickListener {
 	private LinearLayout canphe, xuly, cacloai, giaoviec, dagiao, danhsachviec;
@@ -389,6 +390,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 			session.logoutUser();
 			NotificationDBController db = NotificationDBController
 					.getInstance(getApplicationContext());
+			getTaskID(db);
 			db.deleteAllData();
 			Utils.saveBoolean(getApplicationContext(), "FIRSTRUN", true);
 			ServiceStart.stopAllService(getApplicationContext());
@@ -398,6 +400,29 @@ public class HomeActivity extends Activity implements OnClickListener {
 			finish();
 			//
 			return null;
+		}
+	}
+	
+
+	private void getTaskID(NotificationDBController db){
+		
+		String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
+				+ NotificationDBController.TASK_STATE + " = \"" + "active" + "\"" 
+				+ " or "
+				+ NotificationDBController.TASK_STATE + " = \"" + "cancel" + "\""
+				+ " or "
+				+ NotificationDBController.TASK_STATE + " = \"" + "inactive" + "\"" ;
+		
+		Cursor cursor = db.rawQuery(sql, null);
+		Log.d("ToanNM", "getTaskID : ===== : " + sql);
+		if (cursor.moveToFirst()) {
+			do {
+				int id = cursor
+						.getInt(cursor
+								.getColumnIndexOrThrow(NotificationDBController.ID_COL));
+				Log.d("ToanNM", "state id : ==== ===== : " + id);
+				cancelNotification(getApplicationContext() ,id);
+			} while (cursor.moveToNext());
 		}
 	}
 

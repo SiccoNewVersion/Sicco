@@ -248,14 +248,17 @@ public class MyNotificationManager {
 		String da = context.getResources().getString(R.string.da);
 		for (int i = 0; i < notification_count; i++) {
 
-			String tencv = data.get(i).getTen_cong_viec();
+			String tencv = "";
 			String state = data.get(i).getTrang_thai();
 			if (state.equals("inactive")) {
 				noti = context.getResources().getString(R.string.inactive);
+				tencv = getTaskByState(data, "inactive");
 			} else if (state.equals("complete")) {
 				noti = context.getResources().getString(R.string.complete);
+				tencv = getTaskByState(data, "complete");
 			} else if (state.equals("cancel")) {
 				noti = context.getResources().getString(R.string.cancel);
+				tencv = getTaskByState(data, "cancel");
 			}
 			id = data.get(i).getId();
 
@@ -270,8 +273,7 @@ public class MyNotificationManager {
 			} else if (notification_count > 1) {
 				String cv = context.getResources().getString(R.string.congviec);
 				message = 2 + " " + cv + " " + da + " " + noti + ":" + "\n";
-
-				contentText = tencv + "\n";
+				contentText += "" + tencv + "\n";
 			}
 
 		}
@@ -279,6 +281,19 @@ public class MyNotificationManager {
 		if (notifi_id != 0) {
 			notify(context, notifi_id, 6);
 		}
+	}
+	
+	private String getTaskByState(ArrayList<Task> data, String state){
+		int max = data.size();
+		String name = "";
+		for (int i = 0; i < max; i++) {
+			String s = data.get(i).getTrang_thai();
+			if(s.equals(state)){
+				name += data.get(i).getTen_cong_viec();
+			}
+		}
+		Log.d("ToanNM", "State Notification : ===== : name : " + name);
+		return name;
 	}
 
 	private int safeLongToInt(long l) {

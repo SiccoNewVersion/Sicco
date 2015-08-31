@@ -441,17 +441,18 @@ public class GetAllNotificationService extends Service {
 							JSONObject row = rows.getJSONObject(i);
 							String id = row.getString("id");
 							String ten_cong_viec = row.getString("ten_cong_viec");
-							String ngay_ket_thuc = row.getString("ngay_ket_thuc");
 							String trang_thai = row.getString("trang_thai");
 							String nguoi_xem = row.getString("nguoi_xem");
 							String nguoi_thuc_hien = row.getString("nguoi_thuc_hien");
 							String mo_ta = row.getString("mo_ta");
+							
+							String date = db.getCurrentDate();
 							// add to db
 							db = NotificationDBController.getInstance(getApplicationContext());
 							username = Utils.getString(getApplicationContext(), SessionManager.KEY_NAME);
 
 							String sql = "Select * from " + NotificationDBController.TASK_TABLE_NAME + " where "
-									+ NotificationDBController.ID_COL + " = " + id + " and "
+//									+ NotificationDBController.ID_COL + " = " + id + " and "
 									+ NotificationDBController.TASK_STATE + " != \"" + "active" + "\"";
 							cursor = db.rawQuery(sql, null);
 
@@ -462,7 +463,7 @@ public class GetAllNotificationService extends Service {
 								values.put(NotificationDBController.ID_COL, id);
 								values.put(NotificationDBController.USERNAME_COL, username);
 								values.put(NotificationDBController.TASK_TENCONGVIEC, ten_cong_viec);
-								values.put(NotificationDBController.REPORT_DATE, ngay_ket_thuc);
+								values.put(NotificationDBController.REPORT_DATE, date);
 								values.put(NotificationDBController.TASK_STATE, trang_thai);
 								values.put(NotificationDBController.TRANGTHAI_COL,
 										NotificationDBController.NOTIFICATION_STATE_NEW);
