@@ -16,28 +16,34 @@ public class ProjectAdapter extends BaseAdapter{
 	private Context context;
 	ArrayList<Project> listProject;
 
+	public ProjectAdapter(Context context, ArrayList<Project> listProject) {
+		this.context = context;
+		this.listProject = listProject;
+	}
+	
+	public void setListProject(ArrayList<Project> listProject) {
+		this.listProject = listProject;
+	}
+	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return listProject.size();
 	}
 
 	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
+	public Project getItem(int position) {
 		return listProject.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return listProject.get(position).getId();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder ;
-		Project project = new Project();
+		final Project project = getItem(position);
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_status, parent,false);
@@ -46,26 +52,14 @@ public class ProjectAdapter extends BaseAdapter{
 		}else {
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
-		viewHolder.title.setText(listProject.get(position).getName());
+		viewHolder.title.setText(project.getName());
 		return convertView;
 	}
 
 	public ArrayList<Project> getListProject() {
 		return listProject;
 	}
-
-	public void setListProject(ArrayList<Project> listProject) {
-		this.listProject = listProject;
-	}
-
-	public ProjectAdapter(Context context, ArrayList<Project> listProject) {
-		super();
-		this.context = context;
-		this.listProject = listProject;
-	}
-
 	private class ViewHolder{
 		TextView title;
 	}
-	
 }

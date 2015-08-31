@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,8 +48,8 @@ public class DialogChooseProject {
 	private Project project;
 	private boolean clickItem;
 	public DialogChooseProject(Context context, ArrayList<Project> listProject) {
-		super();
 		this.context = context;
+		this.project = new Project();
 		this.listProject = listProject;
 		showDialog();
 	}
@@ -62,18 +63,14 @@ public class DialogChooseProject {
 		View layout = inflater.inflate(R.layout.dialog_change_status_dispatch,
 				null);
 		layout.setMinimumWidth((int) (rect.width() * 1f));
-
-		TextView title = (TextView) layout.findViewById(R.id.title_actionbar);
-		title.setText(context.getResources().getString(
-				R.string.chose_dipartment));
-
+		
 		lvProject = (ListView) layout.findViewById(R.id.lvStatus);
 		btnDone = (Button) layout.findViewById(R.id.done);
 
 		loading = (ProgressBar) layout.findViewById(R.id.loading);
 		retry = (Button) layout.findViewById(R.id.retry);
 		connectError = (LinearLayout) layout.findViewById(R.id.connect_error);
-		if (!Department.getJsonDep) {
+		if (!Project.getJsonProject) {
 			btnDone.setVisibility(View.GONE);
 			getData();
 		}
@@ -137,33 +134,38 @@ public class DialogChooseProject {
 			}
 		});
 	}
-	private ArrayList<Project> getData() {
-		listProject = project.getData(context.getString(R.string.api_get_project), new OnLoadListener() {
+	private void getData() {
+		Log.d("NgaDV", "run getData()");
+		listProject = project.getData(
+				context.getString(R.string.api_get_project), 
+				new OnLoadListener() {
 			
-			@Override
-			public void onSuccess() {
-				projectAdapter.setListProject(listProject);
-				
-				loading.setVisibility(View.GONE);
-				lvProject.setVisibility(View.VISIBLE);
-				btnDone.setVisibility(View.VISIBLE);
-				
-				projectAdapter.notifyDataSetChanged();
-			}
-
-			@Override
-			public void onStart() {
-				loading.setVisibility(View.VISIBLE);
-				connectError.setVisibility(View.GONE);
-
-			}
-
-			@Override
-			public void onFalse() {
-				loading.setVisibility(View.GONE);
-				connectError.setVisibility(View.VISIBLE);
-			}
+					@Override
+					public void onSuccess() {
+						Log.d("NgaDV", "on success ngadv");
+						projectAdapter.setListProject(listProject);
+						
+						loading.setVisibility(View.GONE);
+						lvProject.setVisibility(View.VISIBLE);
+						btnDone.setVisibility(View.VISIBLE);
+						
+						projectAdapter.notifyDataSetChanged();
+					}
+		
+					@Override
+					public void onStart() {
+						Log.d("NgaDV", "on start ngadv");
+						loading.setVisibility(View.VISIBLE);
+						connectError.setVisibility(View.GONE);
+					}
+		
+					@Override
+					public void onFalse() {
+						Log.d("NgaDV", "on False ngadv");
+						loading.setVisibility(View.GONE);
+						connectError.setVisibility(View.VISIBLE);
+					}
 		});
-		return listProject;
+//		return listProject;
 	}
 }

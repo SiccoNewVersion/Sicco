@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -78,15 +80,14 @@ public class Project implements Serializable {
 								JSONObject row = rows.getJSONObject(i);
 								listProject.add(new Project(row.getString("ten_du_an"), Long.parseLong(row.getString("id_du_an"))));
 							}
+							getJsonProject = true;
 						}
-						JSONArray row = jsonObject.getJSONArray("row");
 						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				getJsonProject = true;
 				super.onSuccess(statusCode, headers, response);
 			}
 
@@ -98,10 +99,12 @@ public class Project implements Serializable {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
+		Log.d("NgaDV", "getJsonProject = " + getJsonProject);
 		return listProject;
 	}
 	public ArrayList<Project> getData(String url,OnLoadListener OnLoadListener) {
 		this.onLoadListener = OnLoadListener;
+		onLoadListener.onStart();
 		listProject = new ArrayList<Project>();
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.post( url, null, new JsonHttpResponseHandler(){
@@ -116,7 +119,6 @@ public class Project implements Serializable {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
-				onLoadListener.onSuccess();
 				String jSon = response.toString();
 				if (!jSon.isEmpty()) {
 					try {
@@ -124,11 +126,14 @@ public class Project implements Serializable {
 						if (jsonObject.getInt("success") == 1) {
 							JSONArray rows = jsonObject.getJSONArray("row");
 							for (int i = 0; i < rows.length(); i++) {
+								onLoadListener.onSuccess();
 								JSONObject row = rows.getJSONObject(i);
 								listProject.add(new Project(row.getString("ten_du_an"), Long.parseLong(row.getString("id_du_an"))));
 							}
+						}else {
+							onLoadListener.onFalse();
 						}
-						JSONArray row = jsonObject.getJSONArray("row");
+						
 						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -139,7 +144,7 @@ public class Project implements Serializable {
 			}
 			
 		});
-		return null;
+		return listProject;
 	}
 	public interface OnLoadListener {
 		void onStart();

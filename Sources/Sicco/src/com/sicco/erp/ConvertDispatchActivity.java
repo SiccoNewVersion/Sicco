@@ -193,6 +193,7 @@ public class ConvertDispatchActivity extends Activity implements
 		allUser = new ArrayList<User>();
 		listDep = department.getData(getResources().getString(
 				R.string.api_get_deparment));
+		
 		listProject = project.getData(getResources().getString(
 						R.string.api_get_project));
 		allUser = user.getData(getResources().getString(

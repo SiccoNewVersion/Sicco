@@ -164,7 +164,7 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 						connectError.setVisibility(View.VISIBLE);
 					}
 				});
-		adapter = new TaskAdapter(context, arrTask, 2);
+		adapter = new TaskAdapter(context, arrTask, 3);
 		listTask.setAdapter(adapter);
 	}
 

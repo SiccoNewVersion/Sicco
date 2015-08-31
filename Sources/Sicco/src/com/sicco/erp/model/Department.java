@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -84,6 +86,7 @@ public class Department implements Serializable {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
 		});
+		Log.d("NgaDV", "getJsonDep = " + getJsonDep);
 		return listDep;
 	}
 	
