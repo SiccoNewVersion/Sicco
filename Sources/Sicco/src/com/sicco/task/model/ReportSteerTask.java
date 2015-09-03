@@ -185,6 +185,7 @@ public class ReportSteerTask {
 			params.put("dinh_kem", "");
 		}
 
+		params.add("username", Utils.getString(context, "name"));
 		params.add("id_user", Utils.getString(context, "user_id"));
 		params.put("id_cv", id_cv);
 		params.put("noi_dung", content);
