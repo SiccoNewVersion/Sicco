@@ -59,13 +59,7 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_detail_task);
-
-//		Intent intent = getIntent();
-//		task = (Task) intent.getSerializableExtra("task");
-//		id_task = task.getId();
-//		init();
-//		setListReportSteer("" + id_task);
-		
+	
 		Intent intent = getIntent();
 		// get id notifi
 		id_task = intent.getLongExtra("id_task", -1);
@@ -75,7 +69,6 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		// set id cong viec
 		if (id_task != -1) {
 			s_id_task = "" + id_task;
-//			init();
 			setDetailTask(s_id_task);
 			
 		} else {
@@ -84,8 +77,6 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 			init();
 			setListReportSteer(s_id_task);
 		}
-
-//		setListReportSteer(s_id_task);
 	}
 
 	private void init() {
