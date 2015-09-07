@@ -34,18 +34,18 @@ import com.sicco.task.model.Task;
 public class OtherTaskActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	public static Context context;
-	public static LinearLayout searchView, connectError;
+	private Context context;
+	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	public static TextView emptyView;
-	public static ListView listTask;
-	public static ProgressBar loading;
+	private TextView emptyView;
+	private ListView listTask;
+	private ProgressBar loading;
 	private Button retry;
-	public static Task task;
+	private Task task;
 	private ViewDispatch viewDispatch;
-	public static ArrayList<Task> arrTask;
-	public static TaskAdapter adapter;
+	private ArrayList<Task> arrTask;
+	private TaskAdapter adapter;
 
 	private TextView title_actionbar;
 
@@ -135,7 +135,7 @@ public class OtherTaskActivity extends Activity implements OnClickListener,
 	}
 
 	// display lisview
-	public static void displayLisview() {
+	public void displayLisview() {
 		// set adapter
 		task = new Task(context);
 		arrTask = new ArrayList<Task>();

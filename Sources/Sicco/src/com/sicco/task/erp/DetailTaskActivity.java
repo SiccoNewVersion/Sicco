@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
@@ -41,14 +43,16 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 	private long id_task;
 	private Task task;
 
-	private LinearLayout connectError;
+	private LinearLayout connectError, connectError1;
+	private ScrollView scroll;
 	private ListView listReport;
-	private ProgressBar loading;
-	private Button retry;
+	private ProgressBar loading, loading1;
+	private Button retry, retry1;
 
 	private ArrayList<ReportSteerTask> arrReportSteers;
 	private ReportSteerTaskAdapter adapter;
 	private ReportSteerTask reportSteerTask;
+	private String s_id_task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +60,32 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_detail_task);
 
+//		Intent intent = getIntent();
+//		task = (Task) intent.getSerializableExtra("task");
+//		id_task = task.getId();
+//		init();
+//		setListReportSteer("" + id_task);
+		
 		Intent intent = getIntent();
-		task = (Task) intent.getSerializableExtra("task");
-		id_task = task.getId();
-		init();
-		setListReportSteer("" + id_task);
+		// get id notifi
+		id_task = intent.getLongExtra("id_task", -1);
 
+		Log.d("LuanDT", "id_task: " + id_task);
+		
+		// set id cong viec
+		if (id_task != -1) {
+			s_id_task = "" + id_task;
+//			init();
+			setDetailTask(s_id_task);
+			
+		} else {
+			task = (Task) intent.getSerializableExtra("task");
+			s_id_task = "" + task.getId();
+			init();
+			setListReportSteer(s_id_task);
+		}
+
+//		setListReportSteer(s_id_task);
 	}
 
 	private void init() {
@@ -79,9 +103,16 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		process = (TextView) findViewById(R.id.process);
 		attach_file = (TextView) findViewById(R.id.attach_file);
 
+		scroll = (ScrollView) findViewById(R.id.scroll);
+		
 		loading = (ProgressBar) findViewById(R.id.loading);
 		retry = (Button) findViewById(R.id.retry);
 		connectError = (LinearLayout) findViewById(R.id.connect_error);
+		
+		loading1 = (ProgressBar) findViewById(R.id.loading1);
+		retry1 = (Button) findViewById(R.id.retry1);
+		connectError1 = (LinearLayout) findViewById(R.id.connect_error1);
+		
 		listReport = (ListView) findViewById(R.id.listReport);
 		emptyView = (TextView) findViewById(R.id.empty_view);
 
@@ -168,6 +199,48 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 		listReport.setAdapter(adapter);
 	}
 	
+	private void setDetailTask(String id_task){
+		task = new Task(DetailTaskActivity.this);
+		task = task
+				.getTaskById(DetailTaskActivity.this, getResources()
+						.getString(R.string.api_get_infor_task_by_id),
+						id_task, new Task.OnLoadListener() {
+							
+							@Override
+							public void onSuccess() {
+								loading1.setVisibility(View.GONE);
+								init();
+								scroll.setVisibility(View.VISIBLE);
+								drawer.setVisibility(View.VISIBLE);
+								setListReportSteer(s_id_task);
+								
+							}
+							
+							@Override
+							public void onStart() {
+								drawer = (SlidingDrawer) findViewById(R.id.slidingDrawer);
+								back = (ImageView) findViewById(R.id.back);
+								scroll = (ScrollView) findViewById(R.id.scroll);
+								loading1 = (ProgressBar) findViewById(R.id.loading1);
+								retry1 = (Button) findViewById(R.id.retry1);
+								connectError1 = (LinearLayout) findViewById(R.id.connect_error1);
+								retry1.setOnClickListener(DetailTaskActivity.this);
+								
+								loading1.setVisibility(View.VISIBLE);
+								connectError1.setVisibility(View.GONE);
+								scroll.setVisibility(View.GONE);
+								drawer.setVisibility(View.GONE);
+							}
+							
+							@Override
+							public void onFalse() {
+								loading1.setVisibility(View.GONE);
+								connectError1.setVisibility(View.VISIBLE);
+								
+							}
+						});
+	}
+	
 	@Override
 	public void onClick(View arg0) {
 		int id = arg0.getId();
@@ -187,6 +260,9 @@ public class DetailTaskActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.retry:
 			setListReportSteer("" + id_task);
+			break;
+		case R.id.retry1:
+			setDetailTask(s_id_task);
 			break;
 		}
 	}

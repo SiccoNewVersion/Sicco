@@ -44,17 +44,17 @@ import com.sicco.task.model.Task;
 public class ListTask extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	public static LinearLayout searchView, connectError;
+	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	public static TextView emptyView;
-	public static ListView listTask;
-	public static ProgressBar loading;
+	private TextView emptyView;
+	private ListView listTask;
+	private ProgressBar loading;
 	private Button retry;
 	private Task task;
 	private ViewDispatch viewDispatch;
-	public static ArrayList<Task> arrTask;
-	public static TaskAdapter adapter;
+	private ArrayList<Task> arrTask;
+	private TaskAdapter adapter;
 
 	private TextView title_actionbar;
 	public static boolean ListTaskActivity = false;

@@ -112,26 +112,38 @@ public class TaskAdapter extends BaseAdapter {
 		holder.date_finish.setText(Html.fromHtml(date_finish));
 
 		String colorAction = context.getResources().getString(R.color.actionbar_color);
-		if (!task.isCo_binh_luan()) {
-			colorAction = "#aa0000";
+		//mh danh sach viec
+		if(type == 3){
+			if (!task.isCo_binh_luan()) {
+				colorAction = "#aa0000";
+			}
+			if (!task.isCo_binh_luan() && task.getMuc_uu_tien().equals("2")) {
+				colorAction = "#ff0000";
+			}
+			if (task.isCo_binh_luan()) {
+				colorAction = "#5E7AF8";
+			}
+			if (task.isDa_qua_han() && task.isCo_binh_luan()) {
+				colorAction = "#DF06D2";
+			}
+			if (task.getTrang_thai().equals("complete")) {
+				colorAction = "#01C853";
+			}
+			if (task.getTrang_thai().equals("inactive")) {
+				colorAction = "#868B86";
+			}
+			if (task.getTrang_thai().equals("cancel")) {
+				colorAction = "#A26637";
+			}
 		}
-		if (!task.isCo_binh_luan() && task.getMuc_uu_tien().equals("2")) {
-			colorAction = "#ff0000";
-		}
-		if (task.isCo_binh_luan()) {
-			colorAction = "#5E7AF8";
-		}
-		if (task.isDa_qua_han() && task.isCo_binh_luan()) {
-			colorAction = "#DF06D2";
-		}
-		if (task.getTrang_thai().equals("complete")) {
-			colorAction = "#01C853";
-		}
-		if (task.getTrang_thai().equals("inactive")) {
-			colorAction = "#868B86";
-		}
-		if (task.getTrang_thai().equals("cancel")) {
-			colorAction = "#A26637";
+		
+		//mh duoc giao
+		if(type == 2){
+			if(task.getDaxuly().equals("0")){
+				colorAction = "#aa0000";
+			} else {
+				colorAction = colorAction;
+			}
 		}
 		
 		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, 0});

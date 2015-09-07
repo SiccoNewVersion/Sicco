@@ -42,6 +42,7 @@ public class Task implements Serializable {
 	private boolean da_qua_han;
 	private String muc_uu_tien;
 	private String ngay_httt;
+	private String daxuly;
 	private Context context;
 
 	private ArrayList<Task> data;
@@ -101,7 +102,7 @@ public class Task implements Serializable {
 			String dinh_kem, String phong_ban, String mo_ta, String code,
 			String id_du_an, String id_phong_ban, String trang_thai,
 			boolean co_binh_luan, boolean da_qua_han, String muc_uu_tien,
-			String ngay_httt) {
+			String ngay_httt, String daxuly) {
 		super();
 		this.id = id;
 		this.ten_cong_viec = ten_cong_viec;
@@ -123,6 +124,7 @@ public class Task implements Serializable {
 		this.da_qua_han = da_qua_han;
 		this.muc_uu_tien = muc_uu_tien;
 		this.ngay_httt = ngay_httt;
+		this.daxuly = daxuly;
 	}
 
 	public long getId() {
@@ -293,6 +295,14 @@ public class Task implements Serializable {
 		this.ngay_httt = ngay_httt;
 	}
 
+	public String getDaxuly() {
+		return daxuly;
+	}
+
+	public void setDaxuly(String daxuly) {
+		this.daxuly = daxuly;
+	}
+
 	// get data
 	public ArrayList<Task> getData(final Context context, String url,
 			OnLoadListener OnLoadListener) {
@@ -345,6 +355,7 @@ public class Task implements Serializable {
 								da_qua_han = true;
 							String muc_uu_tien = row.getString("muc_uu_tien");
 							String ngay_httt = row.getString("ngay_httt");
+							String daxuly = row.getString("daxuly");
 
 							dinh_kem = dinh_kem.replace(" ", "%20");
 
@@ -354,7 +365,7 @@ public class Task implements Serializable {
 									ngay_ket_thuc, nguoi_giao, dinh_kem,
 									phong_ban, mo_ta, code, id_du_an,
 									id_phong_ban, trang_thai, co_binh_luan,
-									da_qua_han, muc_uu_tien, ngay_httt));
+									da_qua_han, muc_uu_tien, ngay_httt, daxuly));
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -465,6 +476,102 @@ public class Task implements Serializable {
 		});
 		return task;
 	}
+	
+	// get task by id interface
+		public Task getTaskById(final Context context, String url, String id, OnLoadListener OnLoadListener) {
+
+			this.onLoadListener = OnLoadListener;
+			onLoadListener.onStart();
+			final Task task = new Task(context);
+			
+			AsyncHttpClient client = new AsyncHttpClient();
+			RequestParams params = new RequestParams();
+			params.add("task_id", id);
+
+			Log.d("LuanDT", "params: " + params);
+			client.post(url, params, new JsonHttpResponseHandler() {
+				@Override
+				public void onSuccess(int statusCode, Header[] headers,
+						JSONObject response) {
+					String jsonRead = response.toString();
+					Log.d("LuanDT", "jsonRead: " + jsonRead);
+					if (!jsonRead.isEmpty()) {
+						try {
+							JSONObject object = new JSONObject(jsonRead);
+							JSONArray rows = object.getJSONArray("row");
+							for (int i = 0; i < rows.length(); i++) {
+								JSONObject row = rows.getJSONObject(i);
+								String id = row.getString("id");
+								String ten_cong_viec = row
+										.getString("ten_cong_viec");
+								String nguoi_thuc_hien = row
+										.getString("nguoi_thuc_hien");
+								String nguoi_xem = row.getString("nguoi_xem");
+								String du_an = row.getString("du_an");
+								String tien_do = row.getString("tien_do");
+								String ngay_bat_dau = row.getString("ngay_bat_dau");
+								String ngay_ket_thuc = row
+										.getString("ngay_ket_thuc");
+								String nguoi_giao = row.getString("nguoi_giao");
+								String dinh_kem = row.getString("dinh_kem");
+								String phong_ban = row.getString("phong_ban");
+								String mo_ta = row.getString("mo_ta");
+								String code = row.getString("code");
+								String id_du_an = row.getString("id_du_an");
+								String id_phong_ban = row.getString("id_phong_ban");
+								String trang_thai = row.getString("trang_thai");
+								String cbl = row.getString("co_binh_luan");
+								boolean co_binh_luan = false;
+								if (cbl.equals("1"))
+									co_binh_luan = true;
+								String dqh = row.getString("da_qua_han");
+								boolean da_qua_han = false;
+								if (dqh.equals("1"))
+									da_qua_han = true;
+								String muc_uu_tien = row.getString("muc_uu_tien");
+								String ngay_httt = row.getString("ngay_httt");
+
+								dinh_kem = dinh_kem.replace(" ", "%20");
+
+								task.setId(Long.parseLong(id));
+								task.setTen_cong_viec(ten_cong_viec);
+								task.setNguoi_thuc_hien(nguoi_thuc_hien);
+								task.setNguoi_xem(nguoi_xem);
+								task.setDu_an(du_an);
+								task.setTien_do(tien_do);
+								task.setNgay_bat_dau(ngay_bat_dau);
+								task.setNgay_ket_thuc(ngay_ket_thuc);
+								task.setNguoi_giao(nguoi_giao);
+								task.setDinh_kem(dinh_kem);
+								task.setPhong_ban(phong_ban);
+								task.setMo_ta(mo_ta);
+								task.setCode(code);
+								task.setId_du_an(id_du_an);
+								task.setId_phong_ban(id_phong_ban);
+								task.setTrang_thai(trang_thai);
+								task.setCo_binh_luan(co_binh_luan);
+								task.setDa_qua_han(da_qua_han);
+								task.setMuc_uu_tien(muc_uu_tien);
+								task.setNgay_httt(ngay_httt);
+								
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+					onLoadListener.onSuccess();
+					super.onSuccess(statusCode, headers, response);
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+						Throwable throwable, JSONObject errorResponse) {
+					onLoadListener.onFalse();
+					super.onFailure(statusCode, headers, throwable, errorResponse);
+				}
+			});
+			return task;
+		}
 
 	// changeProcess
 	public void changeProcess(String url, String id_cv, String process,
@@ -721,19 +828,22 @@ public class Task implements Serializable {
 			} else if (type == FILTER_CXL_TYPE) {
 				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if (!task.isCo_binh_luan())
+//					if (!task.isCo_binh_luan())
+					if(task.daxuly.equals("0"))
 						dataFilter.add(task);
 				}
 			} else if (type == FILTER_DXLTH_TYPE) {
 				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if (task.isCo_binh_luan() && !task.isDa_qua_han())
+//					if (task.isCo_binh_luan() && !task.isDa_qua_han())
+					if(task.daxuly.equals("1") && !task.isDa_qua_han())
 						dataFilter.add(task);
 				}
 			} else if (type == FILTER_DXLQH_TYPE) {
 				for (int i = 0; i < data.size(); i++) {
 					Task task = data.get(i);
-					if (task.isCo_binh_luan() && task.isDa_qua_han())
+//					if (task.isCo_binh_luan() && task.isDa_qua_han())
+					if(task.daxuly.equals("1")  && task.isDa_qua_han())
 						dataFilter.add(task);
 				}
 			}

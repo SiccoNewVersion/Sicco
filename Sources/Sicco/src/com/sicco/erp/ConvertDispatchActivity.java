@@ -212,7 +212,7 @@ public class ConvertDispatchActivity extends Activity implements
 		edtTitleJob.setText(getResources().getString(R.string.action)
 				+ dispatch.getNumberDispatch());
 		edtDes.setText(dispatch.getDescription());
-		txtFromDate.setText(dispatch.getDate());
+		txtFromDate.setText(toDate);
 		txtToDate.setText(toDate);
 
 	}

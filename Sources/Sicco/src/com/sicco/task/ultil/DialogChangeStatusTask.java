@@ -2,13 +2,6 @@ package com.sicco.task.ultil;
 
 import java.util.ArrayList;
 
-import com.sicco.erp.R;
-import com.sicco.erp.adapter.StatusAdapter;
-import com.sicco.erp.database.NotificationDBController;
-import com.sicco.erp.model.Status;
-import com.sicco.erp.util.Utils;
-import com.sicco.task.model.Task;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -27,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sicco.erp.R;
+import com.sicco.erp.adapter.StatusAdapter;
+import com.sicco.erp.database.NotificationDBController;
+import com.sicco.erp.model.Status;
+import com.sicco.task.model.Task;
 
 public class DialogChangeStatusTask {
 	private Context context;

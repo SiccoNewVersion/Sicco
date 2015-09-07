@@ -29,98 +29,153 @@
             android:textSize="18sp" />
     </FrameLayout>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-        android:background="@android:color/white" >
+        android:layout_weight="1" >
+
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="55dp"
+            android:background="@android:color/white" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_title"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/task_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_content"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/assigner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_assigner"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/implementers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/nguoi_thuc_hien_cv"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/assigned_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_assigned_at"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/expired_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_expired_at"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/completed_infact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_completed_infact"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/process"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/task_process"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/attach_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/item_title_color"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/loading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical" >
+            android:id="@+id/connect_error1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <TextView
-                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/task_title"
-                android:textColor="@color/item_title_color"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="@string/connect_error"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/task_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textColor="@color/item_title_color"
-                android:text="@string/task_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="@string/internet_false"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/assigner"
+            <Button
+                android:id="@+id/retry1"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/item_title_color"
-                android:padding="5dp"
-                android:text="@string/task_assigner"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/implementers"
-                android:layout_width="wrap_content"
-                android:textColor="@color/item_title_color"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/nguoi_thuc_hien_cv"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/assigned_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/item_title_color"
-                android:padding="5dp"
-                android:text="@string/task_assigned_at"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/expired_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/task_expired_at"
-                android:textColor="@color/item_title_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/completed_infact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/task_completed_infact"
-                android:textColor="@color/item_title_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/process"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/task_process"
-                android:textColor="@color/item_title_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/attach_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/item_title_color"
-                android:padding="5dp"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_login_selector"
+                android:text="@string/retry"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
         </LinearLayout>
-    </ScrollView>
+    </FrameLayout>
 
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
@@ -140,7 +195,6 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="normal" />
-
 
         <FrameLayout
             android:id="@+id/sliding_content"

@@ -24,6 +24,7 @@ import com.sicco.erp.database.NotificationDBController;
 import com.sicco.erp.model.Dispatch;
 import com.sicco.erp.model.NotificationModel;
 import com.sicco.erp.util.Utils;
+import com.sicco.task.erp.DetailTaskActivity;
 import com.sicco.task.erp.ListTask;
 import com.sicco.task.erp.OtherTaskActivity;
 import com.sicco.task.erp.SteerReportTaskActivity;
@@ -334,7 +335,8 @@ public class MyNotificationManager {
 		} else if (notify_type == 4) {
 			notIntent = new Intent(context, ListTask.class);
 		} else if (notify_type == 5) {
-			notIntent = new Intent(context, SteerReportTaskActivity.class);
+//			notIntent = new Intent(context, SteerReportTaskActivity.class);
+			notIntent = new Intent(context, DetailTaskActivity.class);
 			notIntent.putExtra("id_task", Long.parseLong(taskCode));
 		} else if (notify_type == 6) {
 			notIntent = new Intent(context, OtherTaskActivity.class);

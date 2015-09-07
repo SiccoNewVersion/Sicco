@@ -36,15 +36,15 @@ import com.sicco.erp.util.ViewDispatch;
 public class DealtWithActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
-	public static LinearLayout searchView, connectError;
+	private LinearLayout searchView, connectError;
 	private ImageView back, search, close, empty;
 	private EditText editSearch;
-	public static TextView emptyView, something, something1;
-	public static ListView listDispatch;
-	public static ProgressBar loading;
+	private TextView emptyView, something, something1;
+	private ListView listDispatch;
+	private ProgressBar loading;
 	private Button retry;
-	public static ActionAdapter adapter;
-	public static ArrayList<Dispatch> arrDispatch;
+	private ActionAdapter adapter;
+	private ArrayList<Dispatch> arrDispatch;
 	private Dispatch dispatch;
 	private ViewDispatch viewDispatch;
 
